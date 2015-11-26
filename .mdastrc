@@ -1,0 +1,31 @@
+{
+  "plugins": {
+    "mdast-lint": {
+      "unordered-list-marker-style": "consistent",
+      "list-item-bullet-indent": false,
+      "list-item-indent": true,
+      "no-missing-blank-lines": false,
+      "no-html": false,
+      "maximum-line-length": true,
+      "no-file-name-mixed-case": false,
+      "no-multiple-toplevel-headings": true,
+      "maximum-line-length": 80,
+      "emphasis-marker": "*",
+      "no-tabs": true,
+      "blockquote-indentation": false,
+      "strong-marker": "*",
+      "table-pipes": false,
+      "table-pipe-alignment": false
+    }
+  },
+  "settings": {
+    "pedantic": true,
+    "commonmark": true,
+    "gfm": true,
+    "bullet": "*",
+    "listItemIndent": "1",
+    "strong": "*",
+    "emphasis": "*",
+    "looseTable": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "socialFeed",
+  "version": "0.0.0",
+  "authors": [
+    "ra100"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "fontawesome": "~4.3.0",
+    "sails.io.js" : "*"
+  }
+}
