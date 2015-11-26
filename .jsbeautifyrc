@@ -30,7 +30,7 @@
     "selector_separator_newline": true // Separate selectors with newline or not (e.g. "a,\nbr" or "a, br")
   },
   "js": {
-    "allowed_file_extensions": ["js", "json", "jshintrc", "jsbeautifyrc"],
+    "allowed_file_extensions": ["js", "json", "jshintrc", "jsbeautifyrc", "prettydiffrc"],
     "brace_style": "collapse", // [collapse|expand|end-expand|none] Put braces on the same line as control statements (default), or put braces on own line (Allman / ANSI style), or just put end braces on own line, or attempt to keep them where they are
     "break_chained_methods": false, // Break chained method calls across subsequent lines
     "e4x": false, // Pass E4X xml literals through untouched
@@ -39,7 +39,7 @@
     "indent_level": 0, // Initial indentation level
     "indent_size": 2, // Indentation size
     "indent_with_tabs": false, // Indent with tabs, overrides `indent_size` and `indent_char`
-    "jslint_happy": false, // If true, then jslint-stricter mode is enforced
+    "jslint_happy": true, // If true, then jslint-stricter mode is enforced
     "keep_array_indentation": true, // Preserve array indentation
     "keep_function_indentation": false, // Preserve function indentation
     "max_preserve_newlines": 0, // Maximum number of line breaks to be preserved in one chunk (0 disables)
