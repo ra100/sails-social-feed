@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--SCRIPTS-->',
 				endTag: '<!--SCRIPTS END-->',
-				fileTmpl: '<script src="%s"></script>',
+				fileTmpl: '<script src="'+pipeline.siteSubdirectory+'%s"></script>',
 				appRoot: '.tmp/public'
 			},
 			files: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--SCRIPTS-->',
 				endTag: '<!--SCRIPTS END-->',
-				fileTmpl: '<script src="%s"></script>',
+				fileTmpl: '<script src="'+pipeline.siteSubdirectory+'%s"></script>',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--SCRIPTS-->',
 				endTag: '<!--SCRIPTS END-->',
-				fileTmpl: '<script src="%s"></script>',
+				fileTmpl: '<script src="'+pipeline.siteSubdirectory+'%s"></script>',
 				appRoot: '.tmp/public'
 			},
 			files: {
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--SCRIPTS-->',
 				endTag: '<!--SCRIPTS END-->',
-				fileTmpl: '<script src="%s"></script>',
+				fileTmpl: '<script src="'+pipeline.siteSubdirectory+'%s"></script>',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--STYLES-->',
 				endTag: '<!--STYLES END-->',
-				fileTmpl: '<link rel="stylesheet" href="%s">',
+				fileTmpl: '<link rel="stylesheet" href="'+pipeline.siteSubdirectory+'%s">',
 				appRoot: '.tmp/public'
 			},
 
@@ -93,7 +93,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--STYLES-->',
 				endTag: '<!--STYLES END-->',
-				fileTmpl: '<link rel="stylesheet" href="%s">',
+				fileTmpl: '<link rel="stylesheet" href="'+pipeline.siteSubdirectory+'%s">',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--STYLES-->',
 				endTag: '<!--STYLES END-->',
-				fileTmpl: '<link rel="stylesheet" href="%s">',
+				fileTmpl: '<link rel="stylesheet" href="'+pipeline.siteSubdirectory+'%s">',
 				appRoot: '.tmp/public'
 			},
 			files: {
@@ -123,7 +123,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--STYLES-->',
 				endTag: '<!--STYLES END-->',
-				fileTmpl: '<link rel="stylesheet" href="%s">',
+				fileTmpl: '<link rel="stylesheet" href="'+pipeline.siteSubdirectory+'%s">',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -139,7 +139,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '<!--TEMPLATES-->',
 				endTag: '<!--TEMPLATES END-->',
-				fileTmpl: '<script type="text/javascript" src="%s"></script>',
+				fileTmpl: '<script type="text/javascript" src="'+pipeline.siteSubdirectory+'%s"></script>',
 				appRoot: '.tmp/public'
 			},
 			files: {
@@ -153,7 +153,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// SCRIPTS',
 				endTag: '// SCRIPTS END',
-				fileTmpl: 'script(src="%s")',
+				fileTmpl: 'script(src="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public'
 			},
 			files: {
@@ -165,7 +165,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// SCRIPTS',
 				endTag: '// SCRIPTS END',
-				fileTmpl: 'script(src="%s")',
+				fileTmpl: 'script(src="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -178,7 +178,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// SCRIPTS',
 				endTag: '// SCRIPTS END',
-				fileTmpl: 'script(src="%s")',
+				fileTmpl: 'script(src="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public'
 			},
 			files: {
@@ -190,7 +190,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// SCRIPTS',
 				endTag: '// SCRIPTS END',
-				fileTmpl: 'script(src="%s")',
+				fileTmpl: 'script(src="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -203,7 +203,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// STYLES',
 				endTag: '// STYLES END',
-				fileTmpl: 'link(rel="stylesheet", href="%s")',
+				fileTmpl: 'link(rel="stylesheet", href="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public'
 			},
 
@@ -216,7 +216,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// STYLES',
 				endTag: '// STYLES END',
-				fileTmpl: 'link(rel="stylesheet", href="%s")',
+				fileTmpl: 'link(rel="stylesheet", href="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -230,7 +230,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// STYLES',
 				endTag: '// STYLES END',
-				fileTmpl: 'link(rel="stylesheet", href="%s")',
+				fileTmpl: 'link(rel="stylesheet", href="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public'
 			},
 			files: {
@@ -242,7 +242,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// STYLES',
 				endTag: '// STYLES END',
-				fileTmpl: 'link(rel="stylesheet", href="%s")',
+				fileTmpl: 'link(rel="stylesheet", href="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public',
 				relative: true
 			},
@@ -256,7 +256,7 @@ module.exports = function(grunt) {
 			options: {
 				startTag: '// TEMPLATES',
 				endTag: '// TEMPLATES END',
-				fileTmpl: 'script(type="text/javascript", src="%s")',
+				fileTmpl: 'script(type="text/javascript", src="'+pipeline.siteSubdirectory+'%s")',
 				appRoot: '.tmp/public'
 			},
 			files: {

@@ -18,6 +18,7 @@ bower install
 npm install grunt-browserify grunt-mocha-test grunt-typescript-compile mocha --save-dev
 npm install babelify grunt-browserify --save-dev
 npm install babel-eslint eslint-plugin-react --save-dev
+npm install -g babel-cli
 ```
 
 create `start.sh`:
@@ -30,3 +31,5 @@ export PORT=1338
 
 sails lift
 ```
+
+Setup MongoDB server, creata database `social_feed`
