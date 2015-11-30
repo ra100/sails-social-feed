@@ -1,0 +1,25 @@
+# TODO
+- [x] create todo list
+- [ ] administration
+  - [ ] permissions
+  - [ ] roles
+  - [ ] authentication
+  - [ ] user model
+- [ ] database design
+  - [ ] messages
+  - [ ] feeds
+  - [ ] replies (option to reply to message)
+- [ ] data download
+  - [ ] facebook realtime API
+  - [ ] twitter realtime API
+  - [ ] youtube API
+  - [ ] instagram realtime API
+  - [ ] soundcloud API
+  - [ ] background job
+- [ ] frontend
+  - [ ] view simple message
+  - [ ] view image
+  - [ ] view video
+  - [ ] message reply
+  - [ ] view metadata (likes, retweets, comments, ...)
+  - [ ] add message via form
