@@ -16,11 +16,15 @@
     "jsx": true
   },
   "rules": {
-    // Strict mode
     "strict": [2, "never"],
-
-    // Code style
+    "semi": 2,
     "indent": [2, 2],
     "quotes": [2, "single"]
+  },
+  "ecmaFeatures": {
+    "blockBindings": true,
+    "forOf": true,
+    "jsx": true,
+    "modules": true
   }
 }
