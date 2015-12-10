@@ -8,7 +8,17 @@
 module.exports = {
 
   attributes: {
-
+    name: {
+      type: 'string',
+      unique: true
+    },
+    users: {
+      collection: 'User',
+      via: 'roles'
+    },
+    // List of permissions (actions) role has access to
+    permissions: {
+      type: 'json'
+    }
   }
 };
-

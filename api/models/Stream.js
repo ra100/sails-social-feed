@@ -8,7 +8,22 @@
 module.exports = {
 
   attributes: {
-
+    name: {
+      type: 'string'
+    },
+    messages: {
+      collection: 'Message',
+      via: 'stream'
+    },
+    originalId: {
+      type: 'string'
+    },
+    owner: {
+      model: 'User'
+    },
+    group: {
+      model: 'Group'
+    }
   }
 };
 

@@ -6,9 +6,24 @@
 */
 
 module.exports = {
+  feedTypes: [
+    'facebook_page',
+    'facebook_user',
+    'twitter_user',
+    'twitter_hashtag',
+    'youtube_profile',
+    'soundcloud_profile',
+    'instagram_profile',
+    'form'
+  ],
 
   attributes: {
-
+    name: {
+      type: 'string'
+    },
+    type: {
+      type: 'string',
+      in: this.feedTypes
+    }
   }
 };
-

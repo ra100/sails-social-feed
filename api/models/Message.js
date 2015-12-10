@@ -8,7 +8,42 @@
 module.exports = {
 
   attributes: {
-
+    stream: {
+      model: 'Stream'
+    },
+    feedType: {
+      type: 'string'
+    },
+    message: {
+      type: 'text'
+    },
+    created: {
+      type: 'datetime'
+    },
+    link: {
+      type: 'string',
+      url: true
+    },
+    picture: {
+      type: 'json'
+    },
+    metadata: {
+      type: 'json'
+      /*
+       * TODO
+       * Different for every feed type
+       *
+       * {likes, shares, comments}
+       */
+    },
+    relatedMessage: {
+      collection: 'Message',
+      via: 'relatedMessage'
+    },
+    isAnswer: {
+      type: 'boolean',
+      defaultsTo: false
+    }
   }
 };
 

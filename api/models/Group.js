@@ -8,7 +8,21 @@
 module.exports = {
 
   attributes: {
-
+    name: {
+      type: 'string',
+      unique: true
+    },
+    users: {
+      collection: 'User',
+      via: 'groups'
+    },
+    streams: {
+      collection: 'Stream',
+      via: 'group'
+    },
+    feeds: {
+      collectin: 'Feed',
+      via: 'group'
+    }
   }
 };
-

@@ -31,8 +31,8 @@ var AuthController = {
    * @param {Object} res
    */
   login: function (req, res) {
-    var strategies = sails.config.passport
-      , providers  = {};
+    var strategies = sails.config.passport,
+      providers = {};
 
     // Get a list of available providers for use in your templates.
     Object.keys(strategies).forEach(function (key) {
@@ -41,16 +41,13 @@ var AuthController = {
       }
 
       providers[key] = {
-        name: strategies[key].name
-      , slug: key
+        name: strategies[key].name,
+        slug: key
       };
     });
 
     // Render the `auth/login.ext` view
-    res.view({
-      providers : providers
-    , errors    : req.flash('error')
-    });
+    res.view({providers: providers, errors: req.flash('error')});
   },
 
   /**
@@ -69,10 +66,10 @@ var AuthController = {
    */
   logout: function (req, res) {
     req.logout();
-    
+
     // mark the user as logged out for auth purposes
     req.session.authenticated = false;
-    
+
     res.redirect('/');
   },
 
@@ -92,9 +89,7 @@ var AuthController = {
    * @param {Object} res
    */
   register: function (req, res) {
-    res.view({
-      errors: req.flash('error')
-    });
+    res.view({errors: req.flash('error')});
   },
 
   /**
@@ -124,14 +119,14 @@ var AuthController = {
    * @param {Object} res
    */
   callback: function (req, res) {
-    function tryAgain (err) {
+    function tryAgain(err) {
 
       // Only certain error messages are returned via req.flash('error', someError)
       // because we shouldn't expose internal authorization errors to the user.
       // We do return a generic error and the original request body.
       var flashError = req.flash('error')[0];
 
-      if (err && !flashError ) {
+      if (err && !flashError) {
         req.flash('error', 'Error.Passport.Generic');
       } else if (flashError) {
         req.flash('error', flashError);
@@ -144,14 +139,14 @@ var AuthController = {
       var action = req.param('action');
 
       switch (action) {
-        case 'register':
-          res.redirect('/register');
-          break;
-        case 'disconnect':
-          res.redirect('back');
-          break;
-        default:
-          res.redirect('/login');
+      case 'register':
+        res.redirect('/register');
+        break;
+      case 'disconnect':
+        res.redirect('back');
+        break;
+      default:
+        res.redirect('/login');
       }
     }
 
@@ -164,10 +159,10 @@ var AuthController = {
         if (err) {
           return tryAgain(err);
         }
-        
+
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
-        req.session.authenticated = true
-        
+        req.session.authenticated = true;
+
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
         res.redirect('/');

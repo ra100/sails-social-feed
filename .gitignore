@@ -123,3 +123,4 @@ start.sh
 assets/vendor
 assets/app/app.js
 assets/app/build
+assets/app/locales/assets
