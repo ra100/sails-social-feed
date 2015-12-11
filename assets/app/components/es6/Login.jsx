@@ -63,7 +63,7 @@ class Login extends Component {
       password: null,
       showModal: false
     };
-    this._bind('close', 'open', '_login');
+    this._bind('close', 'open', '_login', '_handleLoginChange', '_handlePasswordChange');
   }
 
   close () {
@@ -74,6 +74,14 @@ class Login extends Component {
     this.setState({showModal: true});
   }
 
+  _handleLoginChange() {
+    this.state.login = this.refs.login.getValue().trim();
+  }
+
+  _handlePasswordChange() {
+    this.state.password = this.refs.password.getValue().trim();
+  }
+
   _login () {
     console.log('login');
     console.log(this.state);
@@ -82,8 +90,8 @@ class Login extends Component {
   render () {
     const {formatMessage} = this.props.intl;
 
-    let loginButton = <Input type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} label={formatMessage(messages.fieldLogin)} ref="login"/>;
-    let passwordButton = <Input type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} label={formatMessage(messages.fieldPassword)} ref="password"/>;
+    let loginButton = <Input type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} label={formatMessage(messages.fieldLogin)} ref="login" onChange={this._handleLoginChange}/>;
+    let passwordButton = <Input type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} label={formatMessage(messages.fieldPassword)} ref="password" onChange={this._handlePasswordChange}/>;
 
     return (
       <Modal show={this.state.showModal} onHide={this.close}>
