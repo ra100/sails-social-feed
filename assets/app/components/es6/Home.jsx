@@ -1,6 +1,7 @@
-import React from 'react';
+import {Component} from 'react';
 import {Button} from 'react-bootstrap';
 import {FormattedMessage, defineMessages} from 'react-intl';
+import Navigation from './Navigation';
 
 const messages = defineMessages({
   login: {
@@ -10,10 +11,10 @@ const messages = defineMessages({
   }
 });
 
-class Home extends React.Component {
+class Home extends Component {
   render () {
     return (
-      <Button bgStyle='success'><FormattedMessage {...messages.login}/></Button>
+      <div></div>
     );
   }
 };

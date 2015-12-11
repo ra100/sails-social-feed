@@ -35,6 +35,9 @@ module.exports = function (grunt) {
         'browserify',
         'copy:dev',
       ]
+    },
+    options: {
+      livereload: true
     }
   });
 
