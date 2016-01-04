@@ -7,6 +7,7 @@ import {Router, Route, Redirect, HashHistory, HistoryLocation} from 'react-route
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import socketIOClient from 'socket.io-client';
 import {IntlProvider} from 'react-intl';
+import {$} from 'zepto-browserify';
 let io = require('sails.io.js')(socketIOClient);
 
 import App from './build/App';
@@ -14,7 +15,7 @@ import Home from './build/Home';
 import Login from './build/Login';
 
 // load csrf token
-// window._csrf = $('meta[name="csrf-token"]').attr('content');
+window._csrf = $('meta[name="csrf-token"]').attr('content');
 // let _csrf = $('meta[name="csrf-token"]').attr('content');
 
 io.connect();

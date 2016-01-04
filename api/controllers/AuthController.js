@@ -139,14 +139,14 @@ var AuthController = {
       var action = req.param('action');
 
       switch (action) {
-      case 'register':
-        res.redirect('/register');
-        break;
-      case 'disconnect':
-        res.redirect('back');
-        break;
-      default:
-        res.redirect('/login');
+        case 'register':
+          res.redirect('/register');
+          break;
+        case 'disconnect':
+          res.redirect('back');
+          break;
+        default:
+          res.redirect('/login');
       }
     }
 
@@ -166,6 +166,61 @@ var AuthController = {
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
         res.redirect('/');
+      });
+    });
+  },
+
+  /**
+   * Create a authentication callback endpoint
+   *
+   * This endpoint handles everything related to creating and verifying Pass-
+   * ports and users, both locally and from third-aprty providers.
+   *
+   * Passport exposes a login() function on req (also aliased as logIn()) that
+   * can be used to establish a login session. When the login operation
+   * completes, user will be assigned to req.user.
+   *
+   * For more information on logging in users in Passport.js, check out:
+   * http://passportjs.org/guide/login/
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  ajaxCallback: function (req, res) {
+    function returnError(err) {
+
+      // Only certain error messages are returned via req.flash('error', someError)
+      // because we shouldn't expose internal authorization errors to the user.
+      // We do return a generic error and the original request body.
+      var flashError = req.flash('error')[0];
+
+      if (err && !flashError) {
+        res.json({'status': 'error', 'message': req.__('Error.Passport.Generic'), error: 'Error.Passport.Generic'});
+      } else if (flashError) {
+        res.json({'status': 'error', 'message': req.__(flashError), 'error': flashError});
+      }
+    }
+
+    if (req.session.authenticated) {
+      return res.jsonx({'status': 'error', 'message': req.__('Error.Passport.Already.Authenticated'), error: 'Error.Passport.Already.Authenticated'});
+    }
+
+    passport.callback(req, res, function (err, user, challenges, statuses) {
+      if (err || !user) {
+        return returnError(challenges);
+      }
+
+      req.login(user, function (err) {
+        if (err) {
+          return returnError(err);
+        }
+
+        // Mark the session as authenticated to work with default Sails sessionAuth.js policy
+        req.session.authenticated = true;
+
+        // Upon successful login, send the user to the homepage were req.user
+        // will be available.
+        res.json({'status': 'ok', 'message': req.__('Status.Passport.Logged')});
       });
     });
   },

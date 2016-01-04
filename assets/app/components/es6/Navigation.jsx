@@ -29,6 +29,8 @@ class Navigation extends Component {
 
   render () {
     let login = <Login ref="loginForm"/>;
+    let loginButton = <NavItem eventKey={1} onTouchTap={this.openLogin.bind(this)}><FormattedMessage {...messages.login}/></NavItem>;
+
     let navbar = <Navbar inverse>
       <Navbar.Header>
         <Navbar.Brand>
@@ -38,7 +40,7 @@ class Navigation extends Component {
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav pullRight>
-          <NavItem eventKey={1} onTouchTap={this.openLogin.bind(this)}><FormattedMessage {...messages.login}/></NavItem>
+          {loginButton}
         </Nav>
       </Navbar.Collapse>
     </Navbar>;
