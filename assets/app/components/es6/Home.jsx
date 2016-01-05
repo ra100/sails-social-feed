@@ -14,7 +14,7 @@ const messages = defineMessages({
 class Home extends Component {
   render () {
     return (
-      <div></div>
+      <div>This is Home</div>
     );
   }
 };

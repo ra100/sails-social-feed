@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {Component, PropTypes} from 'react';
 import {Modal, Button, Input, Alert} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {$} from 'zepto-browserify';
@@ -26,7 +26,7 @@ const messages = defineMessages({
   fieldLogin: {
     id: 'login.login.field',
     description: 'Username label',
-    defaultMessage: 'Login'
+    defaultMessage: 'Username'
   },
   hintLogin: {
     id: 'login.login.hint',
@@ -42,11 +42,6 @@ const messages = defineMessages({
     id: 'login.password.hint',
     description: 'Password field placeholder',
     defaultMessage: 'Type password here'
-  },
-  loginError: {
-    id: 'login.error',
-    description: 'Login error message',
-    defaultMessage: 'Wrong login or password'
   }
 });
 
@@ -61,19 +56,11 @@ class Login extends Component {
     this.state = {
       login: null,
       password: null,
-      showModal: false,
+      showModal: true,
       alert: '',
       alertVisible: false
     };
-    this._bind('close', 'open', '_login', '_handleLoginChange', '_handlePasswordChange', '_processResponse');
-  }
-
-  close () {
-    this.setState({showModal: false});
-  }
-
-  open () {
-    this.setState({showModal: true});
+    this._bind('_login', '_handleLoginChange', '_handlePasswordChange', '_processResponse');
   }
 
   _handleLoginChange () {
@@ -88,16 +75,15 @@ class Login extends Component {
 
   _login () {
     this.setState({alertVisible: false});
-    console.log(this.state);
     if (this.state.login != null && this.state.password != null) {
       let _this = this;
-      let login = this.state.login,
-        payload = {
-          password: this.state.password,
-          _csrf: this._csrf(),
-          type: 'local',
-          identifier: login
-        };
+      let login = this.state.login;
+      let payload = {
+        password: this.state.password,
+        _csrf: this._csrf(),
+        type: 'local',
+        identifier: login
+      };
       $.ajax({
         type: 'POST',
         url: '/auth/local',
@@ -114,9 +100,8 @@ class Login extends Component {
   }
 
   _processResponse (data) {
-    console.log(this.refs);
     if (data.status == 'ok') {
-      this.close();
+      this.props.history.push('/');
     } else {
       this.setState({alert: data.message, alertVisible: true});
     }
@@ -131,29 +116,36 @@ class Login extends Component {
 
     let loginButton = <Input type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} label={formatMessage(messages.fieldLogin)} ref="login" onChange={this._handleLoginChange}/>;
     let passwordButton = <Input type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} label={formatMessage(messages.fieldPassword)} ref="password" onChange={this._handlePasswordChange}/>;
-    let lert = null;
+    let alert = null;
     if (this.state.alertVisible) {
       alert = <Alert bsStyle="danger">{this.state.alert}</Alert>;
     }
 
     return (
-      <Modal show={this.state.showModal} onHide={this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title><FormattedMessage {...messages.loginTitle}/></Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {loginButton}
-          <br/>
-          {passwordButton}
-          {alert}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.close}><FormattedMessage {...messages.buttonClose}/></Button>
-          <Button onClick={this._login} bsStyle='success'><FormattedMessage {...messages.buttonLogin}/></Button>
-        </Modal.Footer>
-      </Modal>
+      <div className="static-modal">
+        <Modal.Dialog>
+          <Modal.Header>
+            <Modal.Title><FormattedMessage {...messages.loginTitle}/></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {loginButton}
+            <br/>
+            {passwordButton}
+            {alert}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this._login} bsStyle='success'><FormattedMessage {...messages.buttonLogin}/></Button>
+          </Modal.Footer>
+        </Modal.Dialog>
+      </div>
     );
   }
 }
-
-export default injectIntl(Login);
+Login.propTypes = {
+  history: PropTypes.object.isRequired
+};
+let LoginIntl = injectIntl(Login);
+LoginIntl.propTypes = {
+  history: PropTypes.object.isRequired
+};
+export default LoginIntl;

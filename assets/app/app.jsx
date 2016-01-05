@@ -3,24 +3,26 @@ var CONST_ES6_BUILD_PATH = './build/';
 //var _  = require('lodash');
 import React from 'react';
 import {render} from 'react-dom';
-import {Router, Route, Redirect, HashHistory, HistoryLocation} from 'react-router';
+// import {Router, Route, Redirect, HashHistory, HistoryLocation} from 'react-router';
+import {createHistory, createHashHistory } from 'history';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import socketIOClient from 'socket.io-client';
 import {IntlProvider} from 'react-intl';
 import {$} from 'zepto-browserify';
-let io = require('sails.io.js')(socketIOClient);
+import socketIOClient from 'socket.io-client';
+import sailsIOClient from 'sails.io.js';
 
-import App from './build/App';
-import Home from './build/Home';
-import Login from './build/Login';
+// import App from './build/App';
+// import Home from './build/Home';
+// import Login from './build/Login';
+import Root from './build/Root';
+
 
 // load csrf token
 window._csrf = $('meta[name="csrf-token"]').attr('content');
-// let _csrf = $('meta[name="csrf-token"]').attr('content');
-
-io.connect();
-
-window.io = io;
+// prepare sails socket
+let io = sailsIOClient(socketIOClient);
+window.socket = io.sails.connect();
+// debug
 window.React = React;
 
 let language = readCookie('language');
@@ -34,25 +36,18 @@ if (language == '' || langs[language] == undefined) {
 
 injectTapEventPlugin();
 
-render(
-  <div>
-    <IntlProvider
-      locale = {language}
-      messages = {
-        langs[language].messages
-      }>
-      <Router history={HistoryLocation}>
-        <Route component={App}>
-          <Redirect from="/" to="/home" />
-          <Route path="home" component={Home}></Route>
-          <Route path="login" component={Login}></Route>
-        </Route>
-      </Router>
-    </IntlProvider>
-  </div>
-  ,
-  document.getElementById('app')
-);
+const history = createHashHistory();
+
+render(<IntlProvider locale= {language} messages= {langs[language].messages}>
+  <Root history={history}/>
+</IntlProvider>, document.getElementById('app'));
+
+// check login status
+socket.get('/users/me', function(data, jwr) {
+  if (jwr.statusCode == 403) {
+    history.push('/login');
+  }
+});
 
 /**
 * Read cookie value
@@ -60,7 +55,7 @@ render(
 * @return {string}      cookie value
 */
 function readCookie(name) {
-  name = name.replace(/([.*+?^=!:${}()|[\]\/\\])/g,/([.*+?^=!:${}()|[\]\/\\])/g,/([.*+?^=!:${}()|[\]\/\\])/g,/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+  name = name.replace(/([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
   var regex = new RegExp('(?:^|;)\\s?' + name + '=(.*?)(?:;|$)', 'i'),
     match = document.cookie.match(regex);
   return match && unescape(match[1]);

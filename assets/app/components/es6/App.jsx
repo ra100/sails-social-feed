@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {Component, PropTypes} from 'react';
 import Navigation from './Navigation';
 
 /**
@@ -6,14 +6,23 @@ import Navigation from './Navigation';
  */
 
 class App extends Component {
+
+  constructor (props) {
+    super(props);
+  }
+
   render () {
     return (
       <div>
-        <Navigation />
+        <Navigation history={this.props.history}/>
         {this.props.children}
       </div>
     );
   }
 }
+
+App.propTypes = {
+  history: PropTypes.object.isRequired
+};
 
 module.exports = App;
