@@ -27,8 +27,8 @@ const messages = defineMessages({
 
 export default class Navigation extends Component {
 
-  constructor (props) {
-    super(props);
+  constructor (props, context) {
+    super(props, context);
     this._logout = this._logout.bind(this);
   }
 
@@ -38,7 +38,7 @@ export default class Navigation extends Component {
       type: 'GET',
       url: '/logout',
       success: function (data, status, xhr) {
-        _that.props.history.push('/login');
+        _that.context.history.push('/login');
       },
       error: function (data, status, xhr) {
         let message = JSON.parse(data.response);
@@ -73,6 +73,6 @@ export default class Navigation extends Component {
   }
 }
 
-Navigation.propTypes = {
+Navigation.contextTypes = {
   history: PropTypes.object.isRequired
 };

@@ -21,8 +21,4 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  history: PropTypes.object.isRequired
-};
-
 module.exports = App;

@@ -51,8 +51,8 @@ class Login extends Component {
     methods.forEach((method) => this[method] = this[method].bind(this));
   }
 
-  constructor (props) {
-    super(props);
+  constructor (props, context) {
+    super(props, context);
     this.state = {
       login: null,
       password: null,
@@ -101,7 +101,7 @@ class Login extends Component {
 
   _processResponse (data) {
     if (data.status == 'ok') {
-      this.props.history.push('/');
+      this.context.history.push('/');
     } else {
       this.setState({alert: data.message, alertVisible: true});
     }
@@ -141,11 +141,10 @@ class Login extends Component {
     );
   }
 }
-Login.propTypes = {
+Login.contextTypes = {
   history: PropTypes.object.isRequired
 };
-let LoginIntl = injectIntl(Login);
-LoginIntl.propTypes = {
-  history: PropTypes.object.isRequired
-};
-export default LoginIntl;
+// LoginIntl.contextTypes = {
+//   history: PropTypes.object.isRequired
+// };
+export default injectIntl(Login);
