@@ -1,19 +1,13 @@
 var CONST_ES6_BUILD_PATH = './build/';
 
-//var _  = require('lodash');
 import React from 'react';
 import {render} from 'react-dom';
-// import {Router, Route, Redirect, HashHistory, HistoryLocation} from 'react-router';
 import {createHistory, createHashHistory } from 'history';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {IntlProvider} from 'react-intl';
 import {$} from 'zepto-browserify';
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
-
-// import App from './build/App';
-// import Home from './build/Home';
-// import Login from './build/Login';
 import Root from './build/Root';
 
 
@@ -38,9 +32,11 @@ injectTapEventPlugin();
 
 const history = createHashHistory();
 
-render(<IntlProvider locale= {language} messages= {langs[language].messages}>
-  <Root history={history}/>
-</IntlProvider>, document.getElementById('app'));
+render(
+  <IntlProvider locale={language} messages={langs[language].messages}>
+    <Root history={history}/>
+  </IntlProvider>,
+document.getElementById('app'));
 
 // check login status
 socket.get('/users/me', function(data, jwr) {

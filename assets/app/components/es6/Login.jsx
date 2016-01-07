@@ -1,4 +1,5 @@
 import {Component, PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Modal, Button, Input, Alert} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {$} from 'zepto-browserify';
@@ -6,6 +7,7 @@ import {$} from 'zepto-browserify';
 /**
  * File with basic App layout and routes
  */
+const ENTER = 13;
 
 const messages = defineMessages({
   loginTitle: {
@@ -60,7 +62,7 @@ class Login extends Component {
       alert: '',
       alertVisible: false
     };
-    this._bind('_login', '_handleLoginChange', '_handlePasswordChange', '_processResponse');
+    this._bind('_login', '_handleLoginChange', '_handlePasswordChange', '_handleLoginKeyDown', '_handlePasswordKeyDown', '_processResponse');
   }
 
   _handleLoginChange () {
@@ -71,6 +73,18 @@ class Login extends Component {
   _handlePasswordChange () {
     let password = this.refs.password.getValue().trim();
     this.setState({password: password});
+  }
+
+  _handleLoginKeyDown (event) {
+    if (event.keyCode == ENTER) {
+      // this.refs.password.focus();
+    }
+  }
+
+  _handlePasswordKeyDown (event) {
+    if (event.keyCode == ENTER) {
+      this._login();
+    }
   }
 
   _login () {
@@ -114,8 +128,8 @@ class Login extends Component {
   render () {
     const {formatMessage} = this.props.intl;
 
-    let loginButton = <Input type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} label={formatMessage(messages.fieldLogin)} ref="login" onChange={this._handleLoginChange}/>;
-    let passwordButton = <Input type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} label={formatMessage(messages.fieldPassword)} ref="password" onChange={this._handlePasswordChange}/>;
+    let loginButton = <Input type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} label={formatMessage(messages.fieldLogin)} ref="login" onChange={this._handleLoginChange} onKeyDown={this._handleLoginKeyDown}/>;
+    let passwordButton = <Input type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} label={formatMessage(messages.fieldPassword)} ref="password" onChange={this._handlePasswordChange} onKeyDown={this._handlePasswordKeyDown}/>;
     let alert = null;
     if (this.state.alertVisible) {
       alert = <Alert bsStyle="danger">{this.state.alert}</Alert>;
