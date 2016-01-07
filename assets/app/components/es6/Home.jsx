@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {Component, PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
 import {FormattedMessage, defineMessages} from 'react-intl';
 import Navigation from './Navigation';
@@ -12,11 +12,21 @@ const messages = defineMessages({
 });
 
 class Home extends Component {
+
+  constructor(props, context) {
+    super(props, context);
+  }
+
   render () {
+    console.log(this.context.user);
     return (
-      <div>This is Home</div>
+      <div>This is Home {this.context.user.username}</div>
     );
   }
+};
+
+Home.contextTypes = {
+  user: PropTypes.object.isRequired
 };
 
 module.exports = Home;

@@ -7,8 +7,8 @@ import Navigation from './Navigation';
 
 class App extends Component {
 
-  constructor (props) {
-    super(props);
+  constructor (props, context) {
+    super(props, context);
   }
 
   render () {

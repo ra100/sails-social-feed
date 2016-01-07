@@ -32,14 +32,14 @@ injectTapEventPlugin();
 
 const history = createHashHistory();
 
-render(
-  <IntlProvider locale={language} messages={langs[language].messages}>
-    <Root history={history}/>
-  </IntlProvider>,
-document.getElementById('app'));
-
 // check login status
 socket.get('/users/me', function(data, jwr) {
+  let user = data ? data : {};
+  render(
+    <IntlProvider locale={language} messages={langs[language].messages}>
+      <Root history={history} user={user}/>
+    </IntlProvider>,
+  document.getElementById('app'));
   if (jwr.statusCode == 403) {
     history.push('/login');
   }

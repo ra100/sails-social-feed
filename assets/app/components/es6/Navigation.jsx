@@ -22,6 +22,11 @@ const messages = defineMessages({
     id: 'logout.button.title',
     description: 'Logout button title',
     defaultMessage: 'Logout'
+  },
+  new: {
+    id: 'menu.new.title',
+    description: 'New button',
+    defaultMessage: 'New'
   }
 });
 

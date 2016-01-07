@@ -23,3 +23,4 @@
   - [ ] message reply
   - [ ] view metadata (likes, retweets, comments, ...)
   - [ ] add message via form
+- [ ] tests

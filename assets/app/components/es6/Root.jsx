@@ -13,6 +13,10 @@ class Root extends Component {
     };
   }
 
+  getChildContext() {
+    return {user: this.props.user};
+  }
+
   render () {
     const {history} = this.props;
     return (
@@ -28,7 +32,12 @@ class Root extends Component {
 }
 
 Root.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+};
+
+Root.childContextTypes = {
+  user: PropTypes.object
 };
 
 module.exports = Root;
