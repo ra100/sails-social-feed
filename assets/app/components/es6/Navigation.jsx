@@ -1,8 +1,16 @@
 import {Component, PropTypes} from 'react';
 import {LinkContainer} from 'react-router-bootstrap';
-import {Button, Navbar, Nav, NavItem} from 'react-bootstrap';
-import {FormattedMessage, defineMessages} from 'react-intl';
+import {
+  Button,
+  Navbar,
+  Nav,
+  NavItem,
+  NavDropdown,
+  MenuItem
+} from 'react-bootstrap';
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {$} from 'zepto-browserify';
+import _ from 'lodash';
 
 /**
  * App navbar
@@ -23,14 +31,19 @@ const messages = defineMessages({
     description: 'Logout button title',
     defaultMessage: 'Logout'
   },
-  new: {
-    id: 'menu.new.title',
-    description: 'New button',
-    defaultMessage: 'New'
+  create: {
+    id: 'menu.create.title',
+    description: 'Create button',
+    defaultMessage: 'Create'
+  },
+  stream: {
+    id: 'menu.stream.title',
+    description: 'Create Stream button',
+    defaultMessage: 'Stream'
   }
 });
 
-export default class Navigation extends Component {
+class Navigation extends Component {
 
   constructor (props, context) {
     super(props, context);
@@ -38,12 +51,13 @@ export default class Navigation extends Component {
   }
 
   _logout () {
-    var _that = this;
+    var _self = this;
     $.ajax({
       type: 'GET',
       url: '/logout',
       success: function (data, status, xhr) {
-        _that.context.history.push('/login');
+        _self.context.user.clearUser();
+        _self.context.history.push('/login');
       },
       error: function (data, status, xhr) {
         let message = JSON.parse(data.response);
@@ -53,9 +67,25 @@ export default class Navigation extends Component {
   }
 
   render () {
-    // let login = <Login ref="loginForm"/>;
-    // let loginButton = <NavItem eventKey={1} onTouchTap={this.openLogin.bind(this)}><FormattedMessage {...messages.login}/></NavItem>;
+    const {formatMessage} = this.props.intl;
+    const {permissions} = this.context.user;
+
     let logoutButton = <NavItem eventKey={1} onTouchTap={this._logout.bind(this)}><FormattedMessage {...messages.logout}/></NavItem>;
+
+    let createMenu = null;
+    if (permissions) {
+      if (_.indexOf(permissions.stream.own, 'c') >= 0) {
+        let createStream = <LinkContainer to={'/create/stream'}>
+          <MenuItem>
+            <FormattedMessage {...messages.stream}/>
+          </MenuItem>
+        </LinkContainer>;
+
+        createMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.create)}>
+          {createStream}
+        </NavDropdown>;
+      }
+    }
 
     let navbar = <Navbar inverse>
       <Navbar.Header>
@@ -65,11 +95,15 @@ export default class Navigation extends Component {
         <Navbar.Toggle/>
       </Navbar.Header>
       <Navbar.Collapse>
+        <Nav pullLeft>
+          {createMenu}
+        </Nav>
         <Nav pullRight>
           {logoutButton}
         </Nav>
       </Navbar.Collapse>
     </Navbar>;
+
     return (
       <div>
         {navbar}
@@ -79,5 +113,8 @@ export default class Navigation extends Component {
 }
 
 Navigation.contextTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
+
+export default injectIntl(Navigation);

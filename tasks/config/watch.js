@@ -32,7 +32,7 @@ module.exports = function (grunt) {
         'syncAssets',
         'linkAssets',
         'babelBuild',
-        'browserify',
+        'browserify:dev',
         'copy:dev',
       ]
     },

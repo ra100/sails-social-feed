@@ -18,7 +18,6 @@ class Home extends Component {
   }
 
   render () {
-    console.log(this.context.user);
     return (
       <div>This is Home {this.context.user.username}</div>
     );

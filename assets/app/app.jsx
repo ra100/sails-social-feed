@@ -8,7 +8,9 @@ import {IntlProvider} from 'react-intl';
 import {$} from 'zepto-browserify';
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
+import _ from 'lodash';
 import Root from './build/Root';
+import permissions from './permissions';
 
 
 // load csrf token
@@ -32,9 +34,27 @@ injectTapEventPlugin();
 
 const history = createHashHistory();
 
+var user = {
+  setUser: function(u) {
+    _.extend(this, u);
+  },
+  clearUser: function() {
+    delete this.username;
+    delete this.roles;
+    delete this.permissions;
+  }
+};
+
 // check login status
 socket.get('/users/me', function(data, jwr) {
-  let user = data ? data : {};
+  if (jwr.statusCode == 200) {
+    user.setUser(data);
+    user.permissions = {};
+    _.forEach(user.roles, function(v, k) {
+      let perm = permissions[v.name];
+      user.permissions = _.merge(user.permissions, perm);
+    });
+  }
   render(
     <IntlProvider locale={language} messages={langs[language].messages}>
       <Root history={history} user={user}/>

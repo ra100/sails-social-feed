@@ -9,12 +9,13 @@ class Root extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      history: props.history
+      history: props.history,
+      user: props.user
     };
   }
 
-  getChildContext() {
-    return {user: this.props.user};
+  getChildContext () {
+    return {user: this.state.user};
   }
 
   render () {

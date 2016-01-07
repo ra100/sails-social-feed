@@ -3,6 +3,8 @@ import {findDOMNode} from 'react-dom';
 import {Modal, Button, Input, Alert} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {$} from 'zepto-browserify';
+import _ from 'lodash';
+import permissions from '../permissions';
 
 /**
  * File with basic App layout and routes
@@ -114,8 +116,21 @@ class Login extends Component {
   }
 
   _processResponse (data) {
+    let _self = this;
     if (data.status == 'ok') {
-      this.context.history.push('/');
+      socket.get('/users/me', function (data, jwr) {
+        let user = {};
+        if (jwr.statusCode == 200) {
+          user = data;
+          user.permissions = {};
+          _.forEach(user.roles, function (v, k) {
+            let perm = permissions[v.name];
+            user.permissions = _.merge(user.permissions, perm);
+          });
+          _self.context.user.setUser(user);
+          _self.context.history.push('/');
+        }
+      });
     } else {
       this.setState({alert: data.message, alertVisible: true});
     }
@@ -156,9 +171,8 @@ class Login extends Component {
   }
 }
 Login.contextTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
-// LoginIntl.contextTypes = {
-//   history: PropTypes.object.isRequired
-// };
+
 export default injectIntl(Login);

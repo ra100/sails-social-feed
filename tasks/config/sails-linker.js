@@ -24,9 +24,9 @@ module.exports = function (grunt) {
         appRoot: '.tmp/public'
       },
       files: {
-        '.tmp/public/**/*.html': ['.tmp/public/browserify/debug.' + version + '.js'],
-        'views/**/*.html': ['.tmp/public/browserify/debug.' + version + '.js'],
-        'views/**/*.ejs': ['.tmp/public/browserify/debug.' + version + '.js']
+        '.tmp/public/**/*.html': ['.tmp/public/browserify/vendor.js', '.tmp/public/browserify/debug.' + version + '.js'],
+        'views/**/*.html': ['.tmp/public/browserify/vendor.js', '.tmp/public/browserify/debug.' + version + '.js'],
+        'views/**/*.ejs': ['.tmp/public/browserify/vendor.js', '.tmp/public/browserify/debug.' + version + '.js']
       }
     },
 
@@ -39,9 +39,9 @@ module.exports = function (grunt) {
         relative: true
       },
       files: {
-        '.tmp/public/**/*.html': ['.tmp/public/browserify/debug.' + version + '.js'],
-        'views/**/*.html': ['.tmp/public/browserify/debug.' + version + '.js'],
-        'views/**/*.ejs': ['.tmp/public/browserify/debug.' + version + '.js']
+        '.tmp/public/**/*.html': ['.tmp/public/browserify/vendor.js', '.tmp/public/browserify/debug.' + version + '.js'],
+        'views/**/*.html': ['.tmp/public/browserify/vendor.js', '.tmp/public/browserify/debug.' + version + '.js'],
+        'views/**/*.ejs': ['.tmp/public/browserify/vendor.js', '.tmp/public/browserify/debug.' + version + '.js']
       }
     },
 

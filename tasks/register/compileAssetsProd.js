@@ -1,13 +1,15 @@
 module.exports = function (grunt) {
-  grunt.registerTask('compileAssets', [
+  grunt.registerTask('compileAssetsProd', [
     'clean:dev',
     //'jst:dev',-->This task is quitte flaky. Only works if I explicitely re-install grunt-contrib-jst
-    'sass:dev',
-    'copy:dev',
+    'sass',
     'babelBuild',
     'browserify:vendor',
-    'browserify:dev',
+    'browserify:prod',
     'typescript',
     'coffee:dev',
+    'concat',
+    'uglify',
+    'cssmin',
   ]);
 };
