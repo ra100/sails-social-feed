@@ -24,6 +24,7 @@ module.exports = {
     group: {
       model: 'Group'
     }
+    // TODO settings (active/inactive, refresh rate, show/hide, published)
   }
 };
 

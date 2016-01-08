@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react';
+import {Component} from 'react';
+import {Grid} from 'react-bootstrap';
 import Navigation from './Navigation';
 
 /**
@@ -15,7 +16,9 @@ class App extends Component {
     return (
       <div>
         <Navigation history={this.props.history}/>
-        {this.props.children}
+        <Grid>
+          {this.props.children}
+        </Grid>
       </div>
     );
   }

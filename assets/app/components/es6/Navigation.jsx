@@ -40,6 +40,11 @@ const messages = defineMessages({
     id: 'menu.stream.title',
     description: 'Create Stream button',
     defaultMessage: 'Stream'
+  },
+  feed: {
+    id: 'menu.feed.title',
+    description: 'Create Feed button',
+    defaultMessage: 'Feed'
   }
 });
 
@@ -81,8 +86,18 @@ class Navigation extends Component {
           </MenuItem>
         </LinkContainer>;
 
+        let createFeed = null;
+        if (_.indexOf(permissions.feed.own, 'c') >= 0) {
+          createFeed = <LinkContainer to={'/create/feed'}>
+            <MenuItem>
+              <FormattedMessage {...messages.feed}/>
+            </MenuItem>
+          </LinkContainer>;
+        };
+
         createMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.create)}>
           {createStream}
+          {createFeed}
         </NavDropdown>;
       }
     }

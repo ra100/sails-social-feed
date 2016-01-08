@@ -3,6 +3,7 @@ import {Component, PropTypes} from 'react';
 import App from './App';
 import Home from './Home';
 import Login from './Login';
+import StreamCreate from './StreamCreate';
 
 class Root extends Component {
 
@@ -24,9 +25,10 @@ class Root extends Component {
       <Router history={history}>
         <Route component={App}>
           <Redirect from="/" to="/home"/>
-          <Route path="home" component={Home}></Route>
+          <Route path="/home" component={Home}></Route>
+          <Route path="/create/stream" component={StreamCreate}></Route>
         </Route>
-        <Route path="login" component={Login}></Route>
+        <Route path="/login" component={Login}></Route>
       </Router>
     );
   }

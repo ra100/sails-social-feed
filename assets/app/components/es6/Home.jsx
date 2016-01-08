@@ -19,7 +19,7 @@ class Home extends Component {
 
   render () {
     return (
-      <div>This is Home {this.context.user.username}</div>
+      <div>Welcome {this.context.user.username}!</div>
     );
   }
 };
