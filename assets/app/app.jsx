@@ -17,7 +17,7 @@ import permissions from './permissions';
 window._csrf = $('meta[name="csrf-token"]').attr('content');
 // prepare sails socket
 let io = sailsIOClient(socketIOClient);
-window.socket = io.sails.connect();
+window.socket = io.socket;
 // debug
 window.React = React;
 
