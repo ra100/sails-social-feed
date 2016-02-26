@@ -57,7 +57,7 @@ socket.get('/users/me', function(data, jwr) {
   }
   render(
     <IntlProvider locale={language} messages={langs[language].messages}>
-      <Root history={history} user={user}/>
+      <Root history={history} user={user} socket={io.socket}/>
     </IntlProvider>,
   document.getElementById('app'));
   if (jwr.statusCode == 403) {

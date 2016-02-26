@@ -7,19 +7,20 @@ import StreamCreate from './StreamCreate';
 
 class Root extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       history: props.history,
-      user: props.user
+      user: props.user,
+      socket: props.socket
     };
   }
 
-  getChildContext () {
-    return {user: this.state.user};
+  getChildContext() {
+    return {user: this.state.user, socket: this.state.socket,};
   }
 
-  render () {
+  render() {
     const {history} = this.props;
     return (
       <Router history={history}>
@@ -36,11 +37,13 @@ class Root extends Component {
 
 Root.propTypes = {
   history: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired
 };
 
 Root.childContextTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  socket: PropTypes.object
 };
 
 module.exports = Root;

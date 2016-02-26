@@ -6,6 +6,7 @@
  */
 
 module.exports = {
-	
+  definition: function (req, res) {
+    res.json(sails.models.stream.definition);
+  }
 };
-

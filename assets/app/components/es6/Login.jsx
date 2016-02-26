@@ -1,7 +1,7 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes,} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Modal, Button, Input, Alert} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
+import {Modal, Button, Input, Alert,} from 'react-bootstrap';
+import {FormattedMessage, defineMessages, injectIntl,} from 'react-intl';
 import {$} from 'zepto-browserify';
 import _ from 'lodash';
 import permissions from '../permissions';
@@ -15,81 +15,81 @@ const messages = defineMessages({
   loginTitle: {
     id: 'login.modal.title',
     description: 'Title of login popup',
-    defaultMessage: 'Login'
+    defaultMessage: 'Login',
   },
   buttonLogin: {
     id: 'login.button.title',
     description: 'Login button title',
-    defaultMessage: 'Login'
+    defaultMessage: 'Login',
   },
   buttonClose: {
     id: 'close.button.title',
     description: 'Close button title',
-    defaultMessage: 'Close'
+    defaultMessage: 'Close',
   },
   fieldLogin: {
     id: 'login.login.field',
     description: 'Username label',
-    defaultMessage: 'Username'
+    defaultMessage: 'Username',
   },
   hintLogin: {
     id: 'login.login.hint',
     description: 'Hint message for username',
-    defaultMessage: 'Enter username or email'
+    defaultMessage: 'Enter username or email',
   },
   fieldPassword: {
     id: 'login.password.field',
     description: 'Password label',
-    defaultMessage: 'Password'
+    defaultMessage: 'Password',
   },
   hintPassword: {
     id: 'login.password.hint',
     description: 'Password field placeholder',
-    defaultMessage: 'Type password here'
-  }
+    defaultMessage: 'Type password here',
+  },
 });
 
 class Login extends Component {
 
-  _bind (...methods) {
+  _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
   }
 
-  constructor (props, context) {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       login: null,
       password: null,
       showModal: true,
       alert: '',
-      alertVisible: false
+      alertVisible: false,
     };
     this._bind('_login', '_handleLoginChange', '_handlePasswordChange', '_handleLoginKeyDown', '_handlePasswordKeyDown', '_processResponse');
   }
 
-  _handleLoginChange () {
+  _handleLoginChange() {
     let login = this.refs.login.getValue().trim();
     this.setState({login: login});
   }
 
-  _handlePasswordChange () {
+  _handlePasswordChange() {
     let password = this.refs.password.getValue().trim();
     this.setState({password: password});
   }
 
-  _handleLoginKeyDown (event) {
+  _handleLoginKeyDown(event) {
     if (event.keyCode == ENTER) {
       // this.refs.password.focus();
     }
   }
 
-  _handlePasswordKeyDown (event) {
+  _handlePasswordKeyDown(event) {
     if (event.keyCode == ENTER) {
       this._login();
     }
   }
 
-  _login () {
+  _login() {
     this.setState({alertVisible: false});
     if (this.state.login != null && this.state.password != null) {
       let _this = this;
@@ -98,7 +98,7 @@ class Login extends Component {
         password: this.state.password,
         _csrf: this._csrf(),
         type: 'local',
-        identifier: login
+        identifier: login,
       };
       $.ajax({
         type: 'POST',
@@ -110,12 +110,12 @@ class Login extends Component {
         error: function (data, status, xhr) {
           let message = JSON.parse(data.response);
           console.log(message);
-        }
+        },
       });
     }
   }
 
-  _processResponse (data) {
+  _processResponse(data) {
     let _self = this;
     if (data.status == 'ok') {
       socket.get('/users/me', function (data, jwr) {
@@ -132,15 +132,15 @@ class Login extends Component {
         }
       });
     } else {
-      this.setState({alert: data.message, alertVisible: true});
+      this.setState({alert: data.message, alertVisible: true,});
     }
   }
 
-  _csrf () {
+  _csrf() {
     return window._csrf;
   }
 
-  render () {
+  render() {
     const {formatMessage} = this.props.intl;
 
     let loginButton = <Input type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} label={formatMessage(messages.fieldLogin)} ref="login" onChange={this._handleLoginChange} onKeyDown={this._handleLoginKeyDown}/>;
@@ -170,9 +170,10 @@ class Login extends Component {
     );
   }
 }
+
 Login.contextTypes = {
   history: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 export default injectIntl(Login);
