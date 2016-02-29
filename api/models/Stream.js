@@ -9,14 +9,16 @@ module.exports = {
 
   attributes: {
     name: {
-      type: 'string'
+      type: 'string',
+      required: true
     },
     messages: {
       collection: 'Message',
       via: 'stream'
     },
-    originalId: {
-      type: 'string'
+    uniqueName: {
+      type: 'string',
+      required: true
     },
     owner: {
       model: 'User'
@@ -24,7 +26,6 @@ module.exports = {
     group: {
       model: 'Group'
     },
-    // TODO settings (active/inactive, refresh rate, show/hide, published, schedule)
 
     /**
      * State - active, sleep, inactive

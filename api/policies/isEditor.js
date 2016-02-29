@@ -7,6 +7,7 @@
  */
 module.exports = function(req, res, next) {
   var uid = req.user.id;
+  
   console.log(uid);
   return next();
 
