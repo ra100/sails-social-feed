@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes,} from 'react';
 import {LinkContainer} from 'react-router-bootstrap';
 import {
   Button,
@@ -6,9 +6,9 @@ import {
   Nav,
   NavItem,
   NavDropdown,
-  MenuItem
+  MenuItem,
 } from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
+import {FormattedMessage, defineMessages, injectIntl,} from 'react-intl';
 import {$} from 'zepto-browserify';
 import _ from 'lodash';
 
@@ -16,46 +16,46 @@ import _ from 'lodash';
  * App navbar
  */
 const messages = defineMessages({
-  // login: {
-  //   id: 'login.button.title',
-  //   description: 'Name on login button',
-  //   defaultMessage: 'Login'
-  // },
+  login: {
+    id: 'login.button.title',
+    description: 'Name on login button',
+    defaultMessage: 'Login',
+  },
   appTitle: {
     id: 'app.title',
     description: 'Name of the application',
-    defaultMessage: 'SocialFeed'
+    defaultMessage: 'SocialFeed',
   },
   logout: {
     id: 'logout.button.title',
     description: 'Logout button title',
-    defaultMessage: 'Logout'
+    defaultMessage: 'Logout',
   },
   create: {
     id: 'menu.create.title',
     description: 'Create button',
-    defaultMessage: 'Create'
+    defaultMessage: 'Create',
   },
   stream: {
     id: 'menu.stream.title',
     description: 'Create Stream button',
-    defaultMessage: 'Stream'
+    defaultMessage: 'Stream',
   },
   feed: {
     id: 'menu.feed.title',
     description: 'Create Feed button',
-    defaultMessage: 'Feed'
-  }
+    defaultMessage: 'Feed',
+  },
 });
 
 class Navigation extends Component {
 
-  constructor (props, context) {
+  constructor(props, context) {
     super(props, context);
     this._logout = this._logout.bind(this);
   }
 
-  _logout () {
+  _logout() {
     var _self = this;
     $.ajax({
       type: 'GET',
@@ -67,15 +67,21 @@ class Navigation extends Component {
       error: function (data, status, xhr) {
         let message = JSON.parse(data.response);
         console.log(message);
-      }
+      },
     });
   }
 
-  render () {
+  render() {
     const {formatMessage} = this.props.intl;
     const {permissions} = this.context.user;
 
     let logoutButton = <NavItem eventKey={1} onTouchTap={this._logout.bind(this)}><FormattedMessage {...messages.logout}/></NavItem>;
+
+    if (this.context.user.username == undefined) {
+      logoutButton = <LinkContainer to={'/login'}>
+        <NavItem><FormattedMessage {...messages.login}/></NavItem>
+      </LinkContainer>;
+    }
 
     let createMenu = null;
     if (permissions) {
@@ -129,7 +135,7 @@ class Navigation extends Component {
 
 Navigation.contextTypes = {
   history: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 export default injectIntl(Navigation);
