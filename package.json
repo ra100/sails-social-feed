@@ -72,6 +72,7 @@
     "grunt-react": "^0.12.3",
     "grunt-shell": "^1.1.2",
     "grunt-typescript-compile": "^0.2.0",
+    "minifyify": "^7.3.2",
     "mocha": "^2.3.4"
   }
 }
