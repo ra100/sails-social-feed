@@ -21,7 +21,7 @@ module.exports = {
       via: 'group'
     },
     feeds: {
-      collectin: 'Feed',
+      collection: 'Feed',
       via: 'group'
     }
   }
