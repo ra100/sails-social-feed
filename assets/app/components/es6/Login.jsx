@@ -67,13 +67,13 @@ class Login extends Component {
     this._bind('_login', '_handleLoginChange', '_handlePasswordChange', '_handleLoginKeyDown', '_handlePasswordKeyDown', '_processResponse');
   }
 
-  _handleLoginChange() {
-    let login = this.refs.login.getValue().trim();
+  _handleLoginChange(event) {
+    let login = event.target.value;
     this.setState({login: login});
   }
 
-  _handlePasswordChange() {
-    let password = this.refs.password.getValue().trim();
+  _handlePasswordChange(event) {
+    let password = event.target.value;
     this.setState({password: password});
   }
 
