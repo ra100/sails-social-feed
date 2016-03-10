@@ -24,6 +24,7 @@ module.exports = function (grunt) {
         basedir: pipeline.appRootDir,
         watch: true,
         external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'zepto-browserify', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap'],
+        transform: ['reactify'],
         browserifyOptions: {
           fast: true,
           debug: true
@@ -34,14 +35,22 @@ module.exports = function (grunt) {
       src: [],
       dest: '.tmp/public/browserify/vendor.js',
       options: {
-        alias: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'zepto-browserify', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap']
+        alias: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'zepto-browserify', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap'],
+        plugin: [
+          'minifyify'
+        ],
+        browserifyOptions: {
+          fast: false,
+          debug: true,
+          pack: true
+        }
       }
     },
     prod: {
       options: {
         // transform: [require('grunt-react').browserify],
         basedir: pipeline.appRootDir,
-        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'zepto-browserify'],
+        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'zepto-browserify', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap'],
         browserifyOptions: {
           fast: false,
           debug: false

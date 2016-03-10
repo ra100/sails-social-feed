@@ -23,6 +23,12 @@ module.exports = function (grunt) {
           cwd: './assets',
           src: ['**/*.!(coffee|less|scss)'],
           dest: '.tmp/public'
+        },
+        {
+          expand: true,
+          cwd: './assets/vendor/bootstrap/fonts',
+          src: ['*'],
+          dest: '.tmp/public/fonts/bootstrap'
         }
       ]
     },
