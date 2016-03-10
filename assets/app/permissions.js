@@ -19,12 +19,17 @@ module.exports = {
       all: ['c', 'r', 'u', 'd'],
       group: ['c', 'r', 'u', 'd'],
       own: ['c', 'r', 'u', 'd']
+    },
+    group: {
+      all: ['c', 'r', 'u', 'd'],
+      group: ['c', 'r', 'u', 'd'],
+      own: ['c', 'r', 'u', 'd']
     }
   },
   editor: {
     user: {
       all: [],
-      groupt: ['r'],
+      group: ['r'],
       own: ['u', 'r']
     },
     stream: {
@@ -41,6 +46,11 @@ module.exports = {
       all: ['c'],
       group: ['c', 'r', 'u', 'd'],
       own: ['c', 'r', 'u', 'd']
+    },
+    message: {
+      all: [],
+      group: ['r'],
+      own: ['r']
     }
   }
 };
