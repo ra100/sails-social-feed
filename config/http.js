@@ -21,7 +21,8 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-  // middleware: {
+  middleware: {
+    compress: require('compression')(),
 
   /***************************************************************************
   *                                                                          *
@@ -58,20 +59,7 @@ module.exports.http = {
     //     console.log("Requested :: ", req.method, req.url);
     //     return next();
     // }
-
-
-  /***************************************************************************
-  *                                                                          *
-  * The body parser that will handle incoming multipart HTTP requests. By    *
-  * default as of v0.10, Sails uses                                          *
-  * [skipper](http://github.com/balderdashy/skipper). See                    *
-  * http://www.senchalabs.org/connect/multipart.html for other options.      *
-  *                                                                          *
-  ***************************************************************************/
-
-    // bodyParser: require('skipper')
-
-  // },
+  },
 
   /***************************************************************************
   *                                                                          *
