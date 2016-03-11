@@ -46,6 +46,11 @@ const messages = defineMessages({
     description: 'Create Feed button',
     defaultMessage: 'Feed',
   },
+  group: {
+    id: 'menu.group.title',
+    description: 'Create Group button',
+    defaultMessage: 'Group',
+  },
 });
 
 class Navigation extends Component {
@@ -101,9 +106,20 @@ class Navigation extends Component {
           </LinkContainer>;
         };
 
+        let createGroup = null;
+        if (_.indexOf(permissions.group.all, 'c') >= 0) {
+          createGroup = <LinkContainer to={'/create/group'}>
+            <MenuItem>
+              <FormattedMessage {...messages.group}/>
+            </MenuItem>
+          </LinkContainer>;
+        };
+
         createMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.create)}>
           {createStream}
           {createFeed}
+          <MenuItem divider />
+          {createGroup}
         </NavDropdown>;
       }
     }

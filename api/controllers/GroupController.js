@@ -6,6 +6,8 @@
  */
 
 module.exports = {
-	
+  cancreate: function(req, res) {
+    res.json({status: 'ok'});
+  }
 };
 

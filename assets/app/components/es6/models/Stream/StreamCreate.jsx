@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes,} from 'react';
 import {
   Col,
   Row,
@@ -6,63 +6,63 @@ import {
   Button,
   Input,
   PageHeader,
-  ButtonToolbar
+  ButtonToolbar,
 } from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './Forbidden';
+import {FormattedMessage, defineMessages, injectIntl,} from 'react-intl';
+import Forbidden from './../../Forbidden';
 import _ from 'lodash';
 
 const messages = defineMessages({
   streamTitle: {
     id: 'stream.new.title',
     description: 'Title of Create stream page',
-    defaultMessage: 'Create New Stream'
+    defaultMessage: 'Create New Stream',
   },
   streamFieldNamePlaceholder: {
     id: 'stream.field.name.placeholder',
     description: 'Stream Name placeholder',
-    defaultMessage: 'Stream Name'
+    defaultMessage: 'Stream Name',
   },
   streamFieldNameLabel: {
     id: 'stream.field.label.name',
     description: 'Stream Name label',
-    defaultMessage: 'Name'
+    defaultMessage: 'Name',
   },
   streamFieldStateLabel: {
     id: 'stream.field.state.label',
     description: 'Stream State label',
-    defaultMessage: 'State'
+    defaultMessage: 'State',
   },
   streamStateOptionactive: {
     id: 'stream.field.state.option.active',
     description: 'Stream State Active',
-    defaultMessage: 'Active'
+    defaultMessage: 'Active',
   },
   streamStateOptionsleep: {
     id: 'stream.field.state.option.sleep',
     description: 'Stream State Sleep',
-    defaultMessage: 'Sleep'
+    defaultMessage: 'Sleep',
   },
   streamStateOptioninactive: {
     id: 'stream.field.state.option.inactive',
     description: 'Stream State Inactive',
-    defaultMessage: 'Inactive'
+    defaultMessage: 'Inactive',
   },
   streamFieldRefreshLabel: {
     id: 'stream.field.refresh.label',
     description: 'Stream Refresh label',
-    defaultMessage: 'Refresh'
+    defaultMessage: 'Refresh',
   },
   cancelButton: {
     id: 'button.cancel',
     description: 'Cancel button text',
-    defaultMessage: 'Cancel'
+    defaultMessage: 'Cancel',
   },
   createButton: {
     id: 'button.create',
     description: 'Create button text',
-    defaultMessage: 'Create'
-  }
+    defaultMessage: 'Create',
+  },
 });
 
 class StreamCreate extends Component {
@@ -80,12 +80,13 @@ class StreamCreate extends Component {
         },
         refresh: {
           enum: []
-        },
+        }
       },
       state: '',
       refresh: 0,
       name: '',
-      allow: true,
+      nameBsStyle: null,
+      allow: true
     };
     this._bind('_save', '_init', '_cancel', '_handleStateChange', '_handleRefreshChange', '_handleNameChange');
     this._init();
@@ -93,7 +94,7 @@ class StreamCreate extends Component {
 
   _init() {
     let _self = this;
-    let socket = this.context.socket;
+    let {socket} = this.context;
     socket.get('/streams/cancreate', function (data) {
       if (data.status === 'ok') {
         _self.setState({allow: true});
@@ -103,14 +104,18 @@ class StreamCreate extends Component {
     });
     socket.get('/streams/definition', function (data) {
       if (data.state !== undefined) {
-        _self.setState({definition: data, state: data.state.defaultsTo, refresh: data.refresh.defaultsTo});
+        _self.setState({definition: data, state: data.state.defaultsTo, refresh: data.refresh.defaultsTo,});
       }
     });
   }
 
   _save() {
-    console.log(this.state);
-    let socket = this.context.socket;
+    let {socket} = this.context;
+    if (this.state.name.length == 0) {
+      this.setState({nameBsStyle: 'error'});
+    } else {
+      this.setState({nameBsStyle: 'success'});
+    }
   }
 
   _cancel() {
@@ -131,9 +136,19 @@ class StreamCreate extends Component {
 
   render() {
     const {formatMessage} = this.props.intl;
-    const {socket} = this.context;
 
-    let fieldName = <Input type="text" label={formatMessage(messages.streamFieldNameLabel)} placeholder={formatMessage(messages.streamFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.name} onChange={this._handleNameChange}></Input>;
+    if (!this.state.allow) {
+      return (
+        <Row>
+          <PageHeader>
+            <FormattedMessage {...messages.streamTitle}/>
+          </PageHeader>
+          <Forbidden/>
+        </Row>
+      );
+    }
+
+    let fieldName = <Input type="text" label={formatMessage(messages.streamFieldNameLabel)} placeholder={formatMessage(messages.streamFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.nameBsStyle}></Input>;
 
     let fieldState = <Input type="select" label={formatMessage(messages.streamFieldStateLabel)} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.state} onChange={this._handleStateChange}>
       {_.map(this.state.definition.state.enum, function (val) {
@@ -152,17 +167,6 @@ class StreamCreate extends Component {
     let cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>;
 
     let create = <Button bsStyle="success" onTouchTap={this._save}><FormattedMessage {...messages.createButton}/></Button>;
-
-    if (!this.state.allow) {
-      return (
-        <Row>
-          <PageHeader>
-            <FormattedMessage {...messages.streamTitle}/>
-          </PageHeader>
-          {< Forbidden />}
-        </Row>
-      );
-    }
 
     return (
       <Row>
@@ -188,7 +192,7 @@ class StreamCreate extends Component {
 StreamCreate.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  socket: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired
 };
 
 export default injectIntl(StreamCreate);

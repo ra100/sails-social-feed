@@ -40,18 +40,23 @@ module.exports.policies = {
   ],
 
   '/login': true,
-  '/register': true,
+  '/register': ['passport', 'sessionAuth', 'isAdmin'],
 
   AuthController: {
     '*': ['passport']
   },
 
   UserController: {
-    'create': true
+    'create': ['passport', 'sessionAuth', 'isAdmin']
   },
 
   StreamController: {
     'cancreate': ['passport', 'sessionAuth', 'isEditor']
+  },
+
+  GroupController: {
+    'create': ['passport', 'sessionAuth', 'isAdmin'],
+    'view': ['passport', 'sessionAuth']
   }
 
   /***************************************************************************
