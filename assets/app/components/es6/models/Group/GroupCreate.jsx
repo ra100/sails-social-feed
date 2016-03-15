@@ -19,6 +19,11 @@ const messages = defineMessages({
     description: 'Title of Create group page',
     defaultMessage: 'Create New Group'
   },
+  groupEditTitle: {
+    id: 'group.edit.title',
+    description: 'Title of Edit group page',
+    defaultMessage: 'Edit Group'
+  },
   groupFieldNamePlaceholder: {
     id: 'group.field.name.placeholder',
     description: 'Group Name placeholder',
@@ -55,20 +60,22 @@ class GroupCreate extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      name: {
-        value: '',
-        bsStyle: null
+      bsStyle: {
+        name: null
+      },
+      group: {
+        name: null
       },
       edit: false,
       error: null,
       allow: true
     };
-    this._bind('_save', '_cancel', '_handleNameChange', '_validateAll', '_evaluateSaveResponse', 'handleCanCreate', 'handleCanModify');
+    this._bind('_save', '_cancel', '_update', '_handleNameChange', '_validateAll', '_evaluateSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad');
   }
 
   componentDidMount() {
-    let {socket} = this.context;
     this._isMounted = true;
+    let {socket} = this.context;
     if (this.props.params.groupId >= 0) {
       socket.get('/groups/canmodify/' + this.props.params.groupId, this.handleCanModify);
     } else {
@@ -97,21 +104,41 @@ class GroupCreate extends Component {
     }
     if (res.statusCode == 200) {
       this.setState({allow: true, edit: true});
+      let {socket} = this.context;
+      socket.get('/groups/' + this.props.params.groupId, this.handleLoad);
     } else {
       this.setState({allow: false});
     }
   }
 
+  handleLoad(data, res) {
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      this.setState({status: res.statusCode, group: data, error: null});
+    } else {
+      this.setState({status: res.statusCode, error: res.body, group: null});
+    }
+  }
+
   _save() {
     let {socket} = this.context;
-    let _self = this;
     if (this._validateAll()) {
       socket.post('/groups/create', {
-        name: this.state.name.value,
+        name: this.state.group.name,
         _csrf: _csrf
-      }, function (data) {
-        _self._evaluateSaveResponse(data);
-      });
+      }, this._evaluateSaveResponse);
+    }
+  }
+
+  _update() {
+    let {socket} = this.context;
+    if (this._validateAll()) {
+      socket.post('/groups/update/' + this.props.params.groupId , {
+        name: this.state.group.name,
+        _csrf: _csrf
+      }, this._evaluateSaveResponse);
     }
   }
 
@@ -123,34 +150,30 @@ class GroupCreate extends Component {
     if (data.code == 'E_VALIDATION') {
       this.setState({
         error: data.details,
-        name: {
-          value: this.state.name.value,
-          bsStyle: 'error'
+        bsStyle: {
+          name: 'error'
         }
       });
     } else if (data.id != undefined) {
       this.setState({error: null});
       let id = data.id;
-      //TODO redirect to group view
-
+      this.props.history.push('/group/' + id);
     }
   }
 
   _validateAll() {
     let passed = true;
-    if (this.state.name.value.length == 0) {
+    if (this.state.group.name.length == 0) {
       this.setState({
-        name: {
-          value: this.state.name.value,
-          bsStyle: 'error'
+        bsStyle: {
+          name: 'error'
         }
       });
       passed = false;
     } else {
       this.setState({
-        name: {
-          value: this.state.name.value,
-          bsStyle: 'success'
+        bsStyle: {
+          name: 'success'
         }
       });
     }
@@ -160,9 +183,8 @@ class GroupCreate extends Component {
 
   _handleNameChange(event) {
     this.setState({
-      name: {
-        value: event.target.value,
-        bsStyle: this.state.name.bsStyle
+      group: {
+        name: event.target.value
       }
     });
   }
@@ -181,17 +203,25 @@ class GroupCreate extends Component {
       </Alert>;
     }
 
-    let fieldName = <Input type="text" label={formatMessage(messages.groupFieldNameLabel)} placeholder={formatMessage(messages.groupFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.name.value} onChange={this._handleNameChange} ref="name" bsStyle={this.state.name.bsStyle}></Input>;
+    let fieldName = <Input type="text" label={formatMessage(messages.groupFieldNameLabel)} placeholder={formatMessage(messages.groupFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.group.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle.name}></Input>;
+
+    let create = null;
+    let save = null;
+    let title = null;
+
+    if (this.state.edit) {
+      save = <Button bsStyle="success" onTouchTap={this._update}><FormattedMessage {...messages.saveButton}/></Button>;
+      title = <FormattedMessage {...messages.groupEditTitle}/>;
+    } else {
+      create = <Button bsStyle="success" onTouchTap={this._save}><FormattedMessage {...messages.createButton}/></Button>;
+      title = <FormattedMessage {...messages.groupTitle}/>;
+    }
 
     let cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>;
 
-    let create = <Button bsStyle="success" onTouchTap={this._save}><FormattedMessage {...messages.createButton}/></Button>;
-
     return (
       <Row>
-        <PageHeader>
-          <FormattedMessage {...messages.groupTitle}/>
-        </PageHeader>
+        <PageHeader>{title}</PageHeader>
         <Col xs={12}>
           {errorMessage}
           <form className="form-horizontal">
@@ -199,6 +229,7 @@ class GroupCreate extends Component {
           </form>
           <ButtonToolbar className="pull-right">
             {create}
+            {save}
             {cancel}
           </ButtonToolbar>
         </Col>
