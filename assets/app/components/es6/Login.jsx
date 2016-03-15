@@ -109,7 +109,6 @@ class Login extends Component {
         },
         error: function (data, status, xhr) {
           let message = JSON.parse(data.response);
-          console.log(message);
         },
       });
     }

@@ -1,4 +1,4 @@
-import {Component, PropTypes,} from 'react';
+import {Component, PropTypes} from 'react';
 import {LinkContainer} from 'react-router-bootstrap';
 import {
   Button,
@@ -6,9 +6,9 @@ import {
   Nav,
   NavItem,
   NavDropdown,
-  MenuItem,
+  MenuItem
 } from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl,} from 'react-intl';
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {$} from 'zepto-browserify';
 import _ from 'lodash';
 
@@ -19,38 +19,48 @@ const messages = defineMessages({
   login: {
     id: 'login.button.title',
     description: 'Name on login button',
-    defaultMessage: 'Login',
+    defaultMessage: 'Login'
   },
   appTitle: {
     id: 'app.title',
     description: 'Name of the application',
-    defaultMessage: 'SocialFeed',
+    defaultMessage: 'SocialFeed'
   },
   logout: {
     id: 'logout.button.title',
     description: 'Logout button title',
-    defaultMessage: 'Logout',
+    defaultMessage: 'Logout'
   },
   create: {
     id: 'menu.create.title',
     description: 'Create button',
-    defaultMessage: 'Create',
+    defaultMessage: 'Create'
   },
   stream: {
     id: 'menu.stream.title',
     description: 'Create Stream button',
-    defaultMessage: 'Stream',
+    defaultMessage: 'Stream'
   },
   feed: {
     id: 'menu.feed.title',
     description: 'Create Feed button',
-    defaultMessage: 'Feed',
+    defaultMessage: 'Feed'
   },
   group: {
     id: 'menu.group.title',
     description: 'Create Group button',
-    defaultMessage: 'Group',
+    defaultMessage: 'Group'
   },
+  view: {
+    id: 'menu.view.title',
+    description: 'View button',
+    defaultMessage: 'View'
+  },
+  groups: {
+    id: 'menu.groups.title',
+    description: 'View Groups button',
+    defaultMessage: 'Groups'
+  }
 });
 
 class Navigation extends Component {
@@ -72,7 +82,7 @@ class Navigation extends Component {
       error: function (data, status, xhr) {
         let message = JSON.parse(data.response);
         console.log(message);
-      },
+      }
     });
   }
 
@@ -89,6 +99,7 @@ class Navigation extends Component {
     }
 
     let createMenu = null;
+    let viewMenu = null;
     if (permissions) {
       if (_.indexOf(permissions.stream.own, 'c') >= 0) {
         let createStream = <LinkContainer to={'/create/stream'}>
@@ -118,8 +129,20 @@ class Navigation extends Component {
         createMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.create)}>
           {createStream}
           {createFeed}
-          <MenuItem divider />
-          {createGroup}
+          <MenuItem divider/> {createGroup}
+        </NavDropdown>;
+
+        let viewGroups = null;
+        if (_.indexOf(permissions.group.all, 'r') >= 0) {
+          viewGroups = <LinkContainer to={'/groups'}>
+            <MenuItem>
+              <FormattedMessage {...messages.groups}/>
+            </MenuItem>
+          </LinkContainer>;
+        };
+
+        viewMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.view)}>
+          {viewGroups}
         </NavDropdown>;
       }
     }
@@ -134,6 +157,7 @@ class Navigation extends Component {
       <Navbar.Collapse>
         <Nav pullLeft>
           {createMenu}
+          {viewMenu}
         </Nav>
         <Nav pullRight>
           {logoutButton}
@@ -151,7 +175,7 @@ class Navigation extends Component {
 
 Navigation.contextTypes = {
   history: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default injectIntl(Navigation);

@@ -1,0 +1,5 @@
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^module.exports = {$/;"	method	line:8
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:11
+module.exports.policies.*	/home/ra100/Devel/sails-social-feed/config/policies.js	/^module.exports.policies = {$/;"	property	line:19

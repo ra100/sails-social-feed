@@ -56,7 +56,9 @@ module.exports.policies = {
 
   GroupController: {
     'create': ['passport', 'sessionAuth', 'isAdmin'],
-    'view': ['passport', 'sessionAuth']
+    'view': ['passport', 'sessionAuth'],
+    'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
+    'canmodify': ['passport', 'sessionAuth', 'isAdmin'],
   }
 
   /***************************************************************************

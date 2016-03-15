@@ -1,4 +1,4 @@
-import {Component, PropTypes,} from 'react';
+import {Component, PropTypes} from 'react';
 import {
   Col,
   Row,
@@ -9,7 +9,7 @@ import {
   ButtonToolbar,
   Alert
 } from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl,} from 'react-intl';
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
 import _ from 'lodash';
 
@@ -17,28 +17,33 @@ const messages = defineMessages({
   groupTitle: {
     id: 'group.new.title',
     description: 'Title of Create group page',
-    defaultMessage: 'Create New Group',
+    defaultMessage: 'Create New Group'
   },
   groupFieldNamePlaceholder: {
     id: 'group.field.name.placeholder',
     description: 'Group Name placeholder',
-    defaultMessage: 'Group Name',
+    defaultMessage: 'Group Name'
   },
   groupFieldNameLabel: {
     id: 'group.field.label.name',
     description: 'Group Name label',
-    defaultMessage: 'Group',
+    defaultMessage: 'Group'
   },
   cancelButton: {
     id: 'button.cancel',
     description: 'Cancel button text',
-    defaultMessage: 'Cancel',
+    defaultMessage: 'Cancel'
   },
   createButton: {
     id: 'button.create',
     description: 'Create button text',
-    defaultMessage: 'Create',
+    defaultMessage: 'Create'
   },
+  saveButton: {
+    id: 'button.save',
+    description: 'Save button text',
+    defaultMessage: 'Save'
+  }
 });
 
 class GroupCreate extends Component {
@@ -52,25 +57,49 @@ class GroupCreate extends Component {
     this.state = {
       name: {
         value: '',
-        bsStyle: null,
+        bsStyle: null
       },
+      edit: false,
       error: null,
       allow: true
     };
-    this._bind('_save', '_init', '_cancel', '_handleNameChange', '_validateAll', '_evaluateSaveResponse');
-    this._init();
+    this._bind('_save', '_cancel', '_handleNameChange', '_validateAll', '_evaluateSaveResponse', 'handleCanCreate', 'handleCanModify');
   }
 
-  _init() {
-    let _self = this;
+  componentDidMount() {
     let {socket} = this.context;
-    socket.get('/groups/cancreate', function (data) {
-      if (data.status === 'ok') {
-        _self.setState({allow: true});
-      } else {
-        _self.setState({allow: false});
-      }
-    });
+    this._isMounted = true;
+    if (this.props.params.groupId >= 0) {
+      socket.get('/groups/canmodify/' + this.props.params.groupId, this.handleCanModify);
+    } else {
+      socket.get('/groups/cancreate', this.handleCanCreate);
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  handleCanCreate(data, res) {
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      this.setState({allow: true});
+    } else {
+      this.setState({allow: false});
+    }
+  }
+
+  handleCanModify(data, res) {
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      this.setState({allow: true, edit: true});
+    } else {
+      this.setState({allow: false});
+    }
   }
 
   _save() {
@@ -79,7 +108,7 @@ class GroupCreate extends Component {
     if (this._validateAll()) {
       socket.post('/groups/create', {
         name: this.state.name.value,
-        _csrf: _csrf,
+        _csrf: _csrf
       }, function (data) {
         _self._evaluateSaveResponse(data);
       });
@@ -142,14 +171,7 @@ class GroupCreate extends Component {
     const {formatMessage} = this.props.intl;
 
     if (!this.state.allow) {
-      return (
-        <Row>
-          <PageHeader>
-            <FormattedMessage {...messages.groupTitle}/>
-          </PageHeader>
-          <Forbidden/>
-        </Row>
-      );
+      return (<Forbidden title={formatMessage(messages.groupTitle)}/>);
     }
 
     let errorMessage = null;
@@ -188,7 +210,11 @@ class GroupCreate extends Component {
 GroupCreate.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  socket: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired
+};
+
+GroupCreate.propTypes = {
+  groupId: PropTypes.number
 };
 
 export default injectIntl(GroupCreate);

@@ -1,29 +1,25 @@
 import {Component, PropTypes} from 'react';
-import {
-  Col,
-  Row,
-  Grid,
-  Button,
-  Input,
-  PageHeader,
-  ButtonToolbar,
-  Alert
-} from 'react-bootstrap';
+import {Col, Row, Grid, PageHeader, Table} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
 import NotFound from './../../NotFound';
-import Error from './../../Error';
+import GroupRow from './GroupRow';
 import _ from 'lodash';
 
 const messages = defineMessages({
   permissionDenied: {
     id: 'error.forbidden.title',
-    description: 'Page title for permission denied',
+    description: 'Page title for pernission denied',
     defaultMessage: 'Permission denied'
+  },
+  groupsTitle: {
+    id: 'groups.all.title',
+    description: 'Page title for groups overview',
+    defaultMessage: 'Groups'
   }
 });
 
-class GroupView extends Component {
+class Groups extends Component {
 
   _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
@@ -32,17 +28,20 @@ class GroupView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      group: null,
+      groups: null,
       status: 0,
-      error: null
+      error: null,
+      page: 0,
+      perPage: 30
     };
     this._bind('handleResponse');
   }
 
   componentDidMount() {
-    let {socket} = this.context;
     this._isMounted = true;
-    socket.get('/groups/' + this.props.params.groupId, this.handleResponse);
+    let {socket} = this.context;
+    let url = '/groups?skip=' + this.state.page * this.state.perPage;
+    socket.get(url, this.handleResponse);
   }
 
   componentWillUnmount() {
@@ -54,9 +53,9 @@ class GroupView extends Component {
       return;
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, group: null});
+      this.setState({status: res.statusCode, error: res.body, groups: null});
     } else {
-      this.setState({status: res.statusCode, group: data, error: null});
+      this.setState({status: res.statusCode, groups: data, error: null});
     }
   }
 
@@ -73,13 +72,27 @@ class GroupView extends Component {
         break;
 
       case 200:
-        if (this.state.group !== null) {
+        if (this.state.groups !== null) {
           return (
             <Row>
               <PageHeader>
-                {this.state.group.name}
+                <FormattedMessage {...messages.groupsTitle}/>
               </PageHeader>
-              <Col xs={12}></Col>
+              <Col xs={12}>
+                <Table striped bordered condensed hover>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.groups.map(function (group, i) {
+                      return <GroupRow group={group} key={i}/>;
+                    })}
+                  </tbody>
+                </Table>
+              </Col>
             </Row>
           );
         }
@@ -97,10 +110,10 @@ class GroupView extends Component {
   }
 }
 
-GroupView.contextTypes = {
+Groups.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
 };
 
-export default injectIntl(GroupView);
+export default injectIntl(Groups);

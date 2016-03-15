@@ -6,6 +6,7 @@ import Login from './Login';
 import StreamCreate from './models/Stream/StreamCreate';
 import GroupCreate from './models/Group/GroupCreate';
 import GroupView from './models/Group/GroupView';
+import Groups from './models/Group/Groups';
 
 class Root extends Component {
 
@@ -19,7 +20,7 @@ class Root extends Component {
   }
 
   getChildContext() {
-    return {user: this.state.user, socket: this.state.socket,};
+    return {user: this.state.user, socket: this.state.socket};
   }
 
   render() {
@@ -34,6 +35,10 @@ class Root extends Component {
             <Route path="group" component={GroupCreate}></Route>
           </Route>
           <Route path="/group/:groupId" component={GroupView}></Route>
+        <Route path="/group/:groupId/edit" component={GroupCreate}></Route>
+          <Route path="/view">
+            <Route path="/groups" component={Groups}></Route>
+          </Route>
         </Route>
         <Route path="/login" component={Login}></Route>
       </Router>
