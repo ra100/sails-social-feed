@@ -5,14 +5,14 @@ module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/Gro
 module.exports.policies.*	/home/ra100/Devel/sails-social-feed/config/policies.js	/^module.exports.policies = {$/;"	property	line:19
 exports	/home/ra100/Devel/sails-social-feed/tasks/config/copy.js	/^module.exports = function (grunt) {$/;"	function	line:16
 module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/copy.js	/^\/**$/;"	function	line:0
+exports	/home/ra100/Devel/sails-social-feed/tasks/config/sass.js	/^module.exports = function (grunt) {$/;"	function	line:11
+module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/sass.js	/^\/**$/;"	function	line:0
 name	/home/ra100/Devel/sails-social-feed/bower.json	/^  "name": "socialFeed",$/;"	function	line:2
 version	/home/ra100/Devel/sails-social-feed/bower.json	/^  "version": "0.0.0",$/;"	function	line:3
 authors	/home/ra100/Devel/sails-social-feed/bower.json	/^  "authors": [$/;"	function	line:4
 moduleType	/home/ra100/Devel/sails-social-feed/bower.json	/^  "moduleType": [$/;"	function	line:7
 license	/home/ra100/Devel/sails-social-feed/bower.json	/^  "license": "MIT",$/;"	function	line:10
 dependencies	/home/ra100/Devel/sails-social-feed/bower.json	/^  "dependencies": {$/;"	function	line:11
-fontawesome	/home/ra100/Devel/sails-social-feed/bower.json	/^    "fontawesome": "~4.3.0",$/;"	function	line:12
-sails.io.js	/home/ra100/Devel/sails-social-feed/bower.json	/^    "sails.io.js": "*",$/;"	function	line:13
-bootstrap-sass	/home/ra100/Devel/sails-social-feed/bower.json	/^    "bootstrap-sass": "~3.3.6"$/;"	function	line:14
-exports	/home/ra100/Devel/sails-social-feed/tasks/config/sass.js	/^module.exports = function (grunt) {$/;"	function	line:11
-module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/sass.js	/^\/**$/;"	function	line:0
+sails.io.js	/home/ra100/Devel/sails-social-feed/bower.json	/^    "sails.io.js": "*",$/;"	function	line:12
+bootstrap-sass	/home/ra100/Devel/sails-social-feed/bower.json	/^    "bootstrap-sass": "~3.3.6",$/;"	function	line:13
+bootstrap-sass-material	/home/ra100/Devel/sails-social-feed/bower.json	/^    "bootstrap-sass-material": "*"$/;"	function	line:14
