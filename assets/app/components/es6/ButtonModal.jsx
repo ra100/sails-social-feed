@@ -32,12 +32,12 @@ class ButtonModal extends Component {
     let bsSize = null;
     let button = <Button bsStyle={this.props.bsStyle} onClick={this.open}>{this.props.title}</Button>;
     if (this.props.bsSize != null) {
-      button = <Button bsStyle={this.props.bsStyle} bsSize={this.props.bsSize} onClick={this.open}>{this.props.title}</Button>
+      button = <Button bsStyle={this.props.bsStyle} bsSize={this.props.bsSize} onClick={this.open}>{this.props.title}</Button>;
     };
     return (
       <span>
         {button}
-        <Modal show={this.state.show} onHide={this.hide}>
+        <Modal show={this.state.show} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.modalTitle}</Modal.Title>
           </Modal.Header>

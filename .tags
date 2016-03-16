@@ -93,3 +93,4 @@ grunt-shell	/home/ra100/Devel/sails-social-feed/package.json	/^    "grunt-shell"
 grunt-typescript-compile	/home/ra100/Devel/sails-social-feed/package.json	/^    "grunt-typescript-compile": "^0.2.0",$/;"	function	line:78
 minifyify	/home/ra100/Devel/sails-social-feed/package.json	/^    "minifyify": "^7.3.2",$/;"	function	line:79
 mocha	/home/ra100/Devel/sails-social-feed/package.json	/^    "mocha": "^2.3.4"$/;"	function	line:80
+module.exports.routes./	/home/ra100/Devel/sails-social-feed/config/routes.js	/^module.exports.routes = {$/;"	property	line:23
