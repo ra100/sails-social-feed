@@ -20,7 +20,10 @@ module.exports = function (grunt) {
           dest: '.tmp/public/styles/',
           ext: '.css'
         }
-      ]
+      ],
+      options: {
+        loadPath: 'assets/vendor/bootstrap-sass/assets/stylesheets'
+      }
     }
   });
 

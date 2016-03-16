@@ -26,7 +26,7 @@ module.exports = function (grunt) {
         },
         {
           expand: true,
-          cwd: './assets/vendor/bootstrap/fonts',
+          cwd: './assets/vendor/bootstrap-sass/assets/fonts/bootstrap',
           src: ['*'],
           dest: '.tmp/public/fonts/bootstrap'
         }
