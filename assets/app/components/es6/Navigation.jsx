@@ -9,7 +9,6 @@ import {
   MenuItem
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import {$} from 'zepto-browserify';
 import _ from 'lodash';
 
 /**

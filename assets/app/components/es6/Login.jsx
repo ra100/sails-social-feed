@@ -2,7 +2,7 @@ import {Component, PropTypes,} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Modal, Button, Input, Alert} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import {$} from 'zepto-browserify';
+import 'jquery-browserify';
 import _ from 'lodash';
 import permissions from '../permissions';
 

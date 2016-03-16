@@ -2,16 +2,22 @@ var CONST_ES6_BUILD_PATH = './build/';
 
 import React from 'react';
 import {render} from 'react-dom';
-import {createHistory, createHashHistory } from 'history';
+import {createHistory, createHashHistory} from 'history';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {IntlProvider} from 'react-intl';
-import {$} from 'zepto-browserify';
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
 import _ from 'lodash';
 import Root from './build/Root';
 import permissions from './permissions';
+import 'jquery-browserify';
+import 'arrive';
+import 'bootstrap_material_design';
+import 'ripples';
 
+$(function () {
+  $.material.init();
+});
 
 // load csrf token
 window._csrf = $('meta[name="csrf-token"]').attr('content');
@@ -35,10 +41,10 @@ injectTapEventPlugin();
 const history = createHashHistory();
 
 var user = {
-  setUser: function(u) {
+  setUser: function (u) {
     _.extend(this, u);
   },
-  clearUser: function() {
+  clearUser: function () {
     delete this.username;
     delete this.roles;
     delete this.permissions;
@@ -46,20 +52,19 @@ var user = {
 };
 
 // check login status
-socket.get('/users/me', function(data, jwr) {
+socket.get('/users/me', function (data, jwr) {
   if (jwr.statusCode == 200) {
     user.setUser(data);
     user.permissions = {};
-    _.forEach(user.roles, function(v, k) {
+    _.forEach(user.roles, function (v, k) {
       let perm = permissions[v.name];
       user.permissions = _.merge(user.permissions, perm);
     });
   }
   render(
     <IntlProvider locale={language} messages={langs[language].messages}>
-      <Root history={history} user={user} socket={io.socket}/>
-    </IntlProvider>,
-  document.getElementById('app'));
+    <Root history={history} user={user} socket={io.socket}/>
+  </IntlProvider>, document.getElementById('app'));
   if (jwr.statusCode == 403) {
     history.push('/login');
   }

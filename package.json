@@ -4,8 +4,13 @@
   "version": "0.0.1",
   "description": "a Sails application",
   "keywords": [],
+  "browser": {
+    "bootstrap_material_design": "./assets/vendor/bootstrap-material-design/dist/js/material.min.js",
+    "ripples": "./assets/vendor/bootstrap-material-design/dist/js/ripples.min.js"
+  },
   "dependencies": {
     "anchor": "^0.11.0",
+    "arrive": "^2.3.1",
     "bcryptjs": "^2.3.0",
     "ejs": "^0.8.8",
     "grunt": "0.4.2",
