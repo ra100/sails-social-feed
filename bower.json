@@ -11,6 +11,6 @@
   "dependencies": {
     "sails.io.js": "*",
     "bootstrap-sass": "~3.3.6",
-    "bootstrap-sass-material": "*"
+    "bootstrap-material-design": "*"
   }
 }
