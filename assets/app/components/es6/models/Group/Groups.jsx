@@ -16,6 +16,16 @@ const messages = defineMessages({
     id: 'groups.all.title',
     description: 'Page title for groups overview',
     defaultMessage: 'Groups'
+  },
+  name: {
+    id: 'groups.name',
+    description: 'Table header name',
+    defaultMessage: 'name'
+  },
+  action: {
+    id: 'groups.action',
+    description: 'Table header action',
+    defaultMessage: 'action'
   }
 });
 
@@ -79,11 +89,11 @@ class Groups extends Component {
                 <FormattedMessage {...messages.groupsTitle}/>
               </PageHeader>
               <Col xs={12}>
-                <Table striped bordered condensed hover>
+                <Table striped hover>
                   <thead>
                     <tr>
-                      <th>name</th>
-                      <th></th>
+                      <th><FormattedMessage {...messages.name}/></th>
+                      <th><FormattedMessage {...messages.action}/></th>
                     </tr>
                   </thead>
                   <tbody>
