@@ -47,7 +47,9 @@ module.exports.policies = {
   },
 
   UserController: {
-    'create': ['passport', 'sessionAuth', 'isAdmin']
+    'view': ['passport', 'sessionAuth'],
+    'create': ['passport', 'sessionAuth', 'isAdmin'],
+    'destroy': ['passport', 'sessionAuth', 'isAdmin']
   },
 
   StreamController: {
@@ -55,10 +57,12 @@ module.exports.policies = {
   },
 
   GroupController: {
-    'create': ['passport', 'sessionAuth', 'isAdmin'],
     'view': ['passport', 'sessionAuth'],
+    'create': ['passport', 'sessionAuth', 'isAdmin'],
+    'destroy': ['passport', 'sessionAuth', 'isAdmin'],
     'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
     'canmodify': ['passport', 'sessionAuth', 'isAdmin'],
+    'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
   }
 
   /***************************************************************************

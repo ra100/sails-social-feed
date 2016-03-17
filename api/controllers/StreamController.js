@@ -7,9 +7,9 @@
 
 module.exports = {
   definition: function (req, res) {
-    res.json(sails.models.stream.definition);
+    res.ok(sails.models.stream.definition);
   },
   cancreate: function(req, res) {
-    res.json({status: 'ok'});
+    res.ok({status: 'ok'});
   }
 };

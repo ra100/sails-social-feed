@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         // transform: [require('grunt-react').browserify],
         basedir: pipeline.appRootDir,
         watch: true,
-        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples'],
+        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples', 'react-notify-toast'],
         transform: ['reactify'],
         browserifyOptions: {
           fast: true,
@@ -35,7 +35,7 @@ module.exports = function (grunt) {
       src: [],
       dest: '.tmp/public/browserify/vendor.js',
       options: {
-        alias: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples'],
+        alias: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples', 'react-notify-toast'],
         plugin: [
           'minifyify'
         ],
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
       options: {
         // transform: [require('grunt-react').browserify],
         basedir: pipeline.appRootDir,
-        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'zepto-browserify', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap'],
+        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples', 'react-notify-toast'],
         browserifyOptions: {
           fast: false,
           debug: false

@@ -30,7 +30,7 @@ module.exports = {
       via: 'owner'
     },
     feeds: {
-      collectin: 'Feed',
+      collection: 'Feed',
       via: 'owner'
     }
   }

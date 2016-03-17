@@ -59,6 +59,11 @@ const messages = defineMessages({
     id: 'menu.groups.title',
     description: 'View Groups button',
     defaultMessage: 'Groups'
+  },
+  users: {
+    id: 'menu.users.title',
+    description: 'View Users button',
+    defaultMessage: 'Users'
   }
 });
 
@@ -140,7 +145,17 @@ class Navigation extends Component {
           </LinkContainer>;
         };
 
+        let viewUsers = null;
+        if (_.indexOf(permissions.user.all, 'r') >= 0) {
+          viewUsers = <LinkContainer to={'/users'}>
+            <MenuItem>
+              <FormattedMessage {...messages.users}/>
+            </MenuItem>
+          </LinkContainer>;
+        };
+
         viewMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.view)}>
+          {viewUsers}
           {viewGroups}
         </NavDropdown>;
       }

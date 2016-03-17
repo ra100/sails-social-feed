@@ -1,5 +1,5 @@
 import {Component, PropTypes} from 'react';
-import {Alert} from 'react-bootstrap';
+import {Alert, Row, PageHeader} from 'react-bootstrap';
 import {FormattedMessage, defineMessages} from 'react-intl';
 
 const messages = defineMessages({

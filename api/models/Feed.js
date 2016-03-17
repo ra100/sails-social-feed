@@ -22,11 +22,16 @@ module.exports = {
       type: 'string'
     },
     type: {
-      type: 'string',
-      in: this.feedTypes
+      type: 'string', in: this.feedTypes
     },
     group: {
       model: 'Group'
     },
+    owner: {
+      model: 'User'
+    },
+    stream: {
+      model: 'Stream'
+    }
   }
 };

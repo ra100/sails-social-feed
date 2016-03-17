@@ -2,24 +2,32 @@ import {Component, PropTypes} from 'react';
 import {
   Col,
   Row,
-  Grid,
   Button,
-  Input,
   PageHeader,
-  ButtonToolbar,
-  Alert
+  Alert,
+  Label
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
 import NotFound from './../../NotFound';
 import Error from './../../Error';
 import Loading from './../../Loading';
-import EditToolbar from './../../EditToolbar';
 import _ from 'lodash';
 
-const messages = defineMessages({});
+const messages = defineMessages({
+  email: {
+    id: 'users.email',
+    description: 'Table header email',
+    defaultMessage: 'Email'
+  },
+  role: {
+    id: 'users.role',
+    description: 'Table header role',
+    defaultMessage: 'Role'
+  }
+});
 
-class GroupView extends Component {
+class UserView extends Component {
 
   _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
@@ -28,48 +36,24 @@ class GroupView extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      group: null,
+      user: null,
       status: 0,
       error: null
     };
-    this._bind('_remove', '_edit', 'handleDestroyResponse', 'handleResponse');
+    this._bind('handleResponse');
   }
 
   componentDidMount() {
-    let {socket} = this.context;
     this._isMounted = true;
-    socket.get('/groups/' + this.props.params.groupId, this.handleResponse);
+    let {socket} = this.context;
+    let query = {
+      populate: 'roles,passports,streams,feeds,groups'
+    };
+    socket.get('/users/' + this.props.params.userId, query, this.handleResponse);
   }
 
   componentWillUnmount() {
     this._isMounted = false;
-  }
-
-  _remove() {
-    let {socket} = this.context;
-    if (!this.state.deleted) {
-      socket.post('/groups/destroy/' + this.props.group.id, {
-        _csrf: _csrf
-      }, this.handleDestroyResponse);
-    }
-  }
-
-  _edit() {
-    this.props.history.push('/group/' + this.state.group.id + '/edit');
-  }
-
-  handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl;
-    if (!this._isMounted) {
-      return;
-    }
-    if (res.statusCode == 200) {
-      this.setState({deleted: true});
-      notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.props.history.goBack();
-    } else {
-      notify.show(res.body, 'error');
-    }
   }
 
   handleResponse(data, res) {
@@ -77,9 +61,9 @@ class GroupView extends Component {
       return;
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, group: null});
+      this.setState({status: res.statusCode, error: res.body, user: null});
     } else {
-      this.setState({status: res.statusCode, group: data, error: null});
+      this.setState({status: res.statusCode, error: null, user: data});
     }
   }
 
@@ -96,15 +80,23 @@ class GroupView extends Component {
         break;
 
       case 200:
-        if (this.state.group !== null) {
-          let {group} = this.state;
+        if (this.state.user !== null) {
+          let {user} = this.state;
           return (
             <Row>
               <PageHeader>
-                {group.name}
+                {user.username}
               </PageHeader>
-              <Col xs={12}></Col>
-            <EditToolbar edit={this._edit} remove={this._remove}/>
+              <Col xs={3}><FormattedMessage {...messages.email}/></Col>
+              <Col xs={9}>
+                <strong>{user.email}</strong>
+              </Col>
+              <Col xs={3}><FormattedMessage {...messages.role}/></Col>
+              <Col xs={9}>
+                {user.roles.map(function (role, i) {
+                  return <Label key={i}>{role.name}</Label>;
+                })}
+              </Col>
             </Row>
           );
         }
@@ -120,10 +112,10 @@ class GroupView extends Component {
   }
 }
 
-GroupView.contextTypes = {
+UserView.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
 };
 
-export default injectIntl(GroupView);
+export default injectIntl(UserView);

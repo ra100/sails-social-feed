@@ -26,6 +26,10 @@ module.exports = {
     group: {
       model: 'Group'
     },
+    feeds: {
+      collection: 'Feed',
+      via: 'stream'
+    },
 
     /**
      * State - active, sleep, inactive
@@ -36,7 +40,9 @@ module.exports = {
      */
     state: {
       type: 'text',
-      enum: ['active', 'sleep', 'inactive'],
+      enum: [
+        'active', 'sleep', 'inactive'
+      ],
       defaultsTo: 'inactive'
     },
 
@@ -45,7 +51,9 @@ module.exports = {
      */
     refresh: {
       type: 'integer',
-      enum: [60,300,900,1800],
+      enum: [
+        60, 300, 900, 1800
+      ],
       defaultsTo: 300
     },
 

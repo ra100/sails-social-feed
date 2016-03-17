@@ -1,54 +1,48 @@
 import {Component, PropTypes} from 'react';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import {Button} from 'react-bootstrap';
+import {Button, Label} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
-import {notify} from 'react-notify-toast';
 import ButtonModal from './../../ButtonModal';
 
 const messages = defineMessages({
   edit: {
     id: 'button.edit',
-    description: 'Edit group button',
+    description: 'Edit user button',
     defaultMessage: 'Edit'
   },
   delete: {
     id: 'button.delete',
-    description: 'Delete group button',
+    description: 'Delete user button',
     defaultMessage: 'Delete'
   },
   deleteMessage: {
     id: 'modal.delete.message',
-    description: 'Delete group modal message',
-    defaultMessage: 'Do you really want to delete this group?'
+    description: 'Delete user modal message',
+    defaultMessage: 'Do you really want to delete this user?'
   },
   deleteTitle: {
     id: 'modal.delete.title',
-    description: 'Delete group title',
+    description: 'Delete user title',
     defaultMessage: 'Warning'
   },
   modalConfirm: {
     id: 'modal.delete.confirm',
-    description: 'Delete group modal confirm button',
+    description: 'Delete user modal confirm button',
     defaultMessage: 'Delete'
   },
   modalCancel: {
     id: 'modal.delete.cancel',
-    description: 'Delete group modal cancel button',
+    description: 'Delete user modal cancel button',
     defaultMessage: 'Cancel'
   },
   deleted: {
-    id: 'group.deleted.row',
-    description: 'Info that groups has beed deleted',
-    defaultMessage: 'This group has beed deleted.'
-  },
-  deletedSuccess: {
-    id: 'group.deleted.notify',
-    description: 'Info that groups has beed deleted',
-    defaultMessage: 'Group has beed deleted.'
+    id: 'user.deleted',
+    description: 'Info that users has beed deleted',
+    defaultMessage: 'This user has beed deleted.'
   }
 });
 
-class GroupRow extends Component {
+class UserRow extends Component {
 
   _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
@@ -73,44 +67,48 @@ class GroupRow extends Component {
   _delete() {
     let {socket} = this.context;
     if (!this.state.deleted) {
-      socket.post('/groups/destroy/' + this.props.group.id, {
+      socket.post('/users/destroy/' + this.props.user.id, {
         _csrf: _csrf
       }, this.handleDestroyResponse);
     }
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl;
     if (!this._isMounted) {
       return;
     }
     if (res.statusCode == 200) {
       this.setState({deleted: true});
-      notify.show(formatMessage(messages.deletedSuccess), 'success');
-    } else {
-      notify.show(res.body, 'error');
     }
   }
 
   render() {
     const {formatMessage} = this.props.intl;
-    let {group} = this.props;
+    let {user} = this.props;
     if (this.state.deleted) {
       return (
-        <tr key={group.id}>
+        <tr key={user.id}>
           <td colSpan="2" bsStyle="danger"><FormattedMessage {...messages.deleted}/></td>
         </tr>
       );
     }
     return (
-      <tr key={group.id}>
+      <tr key={user.id}>
         <td>
-          <LinkContainer to={'/group/' + group.id}>
-            <Button bsStyle="link">{group.name}</Button>
+          <LinkContainer to={'/user/' + user.id}>
+            <Button bsStyle="link">{user.username}</Button>
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={'/group/' + group.id + '/edit'}>
+          {user.email}
+        </td>
+        <td>
+          {user.roles.map(function(role, i) {
+            return <Label key={i}>{role.name}</Label>;
+          })}
+        </td>
+        <td>
+          <LinkContainer to={'/user/' + user.id + '/edit'}>
             <Button bsStyle="success">
               <FormattedMessage {...messages.edit}/>
             </Button>
@@ -122,14 +120,14 @@ class GroupRow extends Component {
   }
 }
 
-GroupRow.contextTypes = {
+UserRow.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
 };
 
-GroupRow.propTypes = {
-  group: PropTypes.object.isRequired
+UserRow.propTypes = {
+  user: PropTypes.object.isRequired
 };
 
-export default injectIntl(GroupRow);
+export default injectIntl(UserRow);

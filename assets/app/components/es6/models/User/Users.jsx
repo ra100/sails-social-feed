@@ -4,28 +4,38 @@ import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
 import NotFound from './../../NotFound';
 import Loading from './../../Loading';
-import GroupRow from './GroupRow';
+import UserRow from './UserRow';
 import _ from 'lodash';
 
 const messages = defineMessages({
-  groupsTitle: {
-    id: 'groups.all.title',
-    description: 'Page title for groups overview',
-    defaultMessage: 'Groups'
+  usersTitle: {
+    id: 'users.all.title',
+    description: 'Page title for users overview',
+    defaultMessage: 'Users'
   },
   name: {
-    id: 'groups.name',
+    id: 'users.name',
     description: 'Table header name',
-    defaultMessage: 'Name'
+    defaultMessage: 'Username'
+  },
+  email: {
+    id: 'users.email',
+    description: 'Table header email',
+    defaultMessage: 'Email'
+  },
+  role: {
+    id: 'users.role',
+    description: 'Table header role',
+    defaultMessage: 'Role'
   },
   action: {
-    id: 'groups.action',
+    id: 'users.action',
     description: 'Table header action',
     defaultMessage: 'Action'
   }
 });
 
-class Groups extends Component {
+class Users extends Component {
 
   _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
@@ -34,7 +44,7 @@ class Groups extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      groups: null,
+      users: null,
       status: 0,
       error: null,
       page: 0,
@@ -57,9 +67,9 @@ class Groups extends Component {
       return;
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, groups: null});
+      this.setState({status: res.statusCode, error: res.body, users: null});
     } else {
-      this.setState({status: res.statusCode, groups: data, error: null});
+      this.setState({status: res.statusCode, error: null, users: data});
     }
   }
 
@@ -70,9 +80,9 @@ class Groups extends Component {
     let {socket} = this.context;
     let query = {
       skip: this.state.page * this.state.perPage,
-      populate: 'none'
+      populate: 'roles'
     };
-    socket.get('/groups', query, this.handleResponse);
+    socket.get('/users', query, this.handleResponse);
   }
 
   render() {
@@ -88,23 +98,25 @@ class Groups extends Component {
         break;
 
       case 200:
-        if (this.state.groups !== null) {
+        if (this.state.users !== null) {
           return (
             <Row>
               <PageHeader>
-                <FormattedMessage {...messages.groupsTitle}/>
+                <FormattedMessage {...messages.usersTitle}/>
               </PageHeader>
               <Col xs={12}>
                 <Table striped hover condensed responsive>
                   <thead>
                     <tr>
                       <th><FormattedMessage {...messages.name}/></th>
+                      <th><FormattedMessage {...messages.email}/></th>
+                      <th><FormattedMessage {...messages.role}/></th>
                       <th><FormattedMessage {...messages.action}/></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.groups.map(function (group, i) {
-                      return <GroupRow group={group} key={i}/>;
+                    {this.state.users.map(function (user, i) {
+                      return <UserRow user={user} key={i}/>;
                     })}
                   </tbody>
                 </Table>
@@ -124,10 +136,10 @@ class Groups extends Component {
   }
 }
 
-Groups.contextTypes = {
+Users.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
 };
 
-export default injectIntl(Groups);
+export default injectIntl(Users);

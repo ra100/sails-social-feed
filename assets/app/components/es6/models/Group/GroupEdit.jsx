@@ -11,6 +11,8 @@ import {
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
+import EditToolbar from './../../EditToolbar';
+import {notify} from 'react-notify-toast';
 import _ from 'lodash';
 
 const messages = defineMessages({
@@ -34,24 +36,14 @@ const messages = defineMessages({
     description: 'Group Name label',
     defaultMessage: 'Group'
   },
-  cancelButton: {
-    id: 'button.cancel',
-    description: 'Cancel button text',
-    defaultMessage: 'Cancel'
-  },
-  createButton: {
-    id: 'button.create',
-    description: 'Create button text',
-    defaultMessage: 'Create'
-  },
-  saveButton: {
-    id: 'button.save',
-    description: 'Save button text',
-    defaultMessage: 'Save'
+  saved: {
+    id: 'group.saved.notify',
+    description: 'Saved group notification',
+    defaultMessage: 'Group has been saved'
   }
 });
 
-class GroupCreate extends Component {
+class GroupEdit extends Component {
 
   _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
@@ -70,7 +62,7 @@ class GroupCreate extends Component {
       error: null,
       allow: true
     };
-    this._bind('_save', '_cancel', '_update', '_handleNameChange', '_validateAll', '_evaluateSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_validateAll', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad');
   }
 
   componentDidMount() {
@@ -128,25 +120,45 @@ class GroupCreate extends Component {
       socket.post('/groups/create', {
         name: this.state.group.name,
         _csrf: _csrf
-      }, this._evaluateSaveResponse);
+      }, this.handleSaveResponse);
     }
   }
 
   _update() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      socket.post('/groups/update/' + this.props.params.groupId , {
+      socket.post('/groups/update/' + this.props.params.groupId, {
         name: this.state.group.name,
         _csrf: _csrf
-      }, this._evaluateSaveResponse);
+      }, this.handleSaveResponse);
     }
   }
 
-  _cancel() {
-    this.props.history.goBack();
+  _remove() {
+    let {socket} = this.context;
+    if (!this.state.deleted) {
+      socket.post('/groups/destroy/' + this.props.group.id, {
+        _csrf: _csrf
+      }, this.handleDestroyResponse);
+    }
   }
 
-  _evaluateSaveResponse(data) {
+  handleDestroyResponse(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      this.setState({deleted: true});
+      notify.show(formatMessage(messages.deletedSuccess), 'success');
+      this.props.history.goBack();
+    } else {
+      notify.show(res.body, 'error');
+    }
+  }
+
+  handleSaveResponse(data) {
+    const {formatMessage} = this.props.intl;
     if (data.code == 'E_VALIDATION') {
       this.setState({
         error: data.details,
@@ -155,6 +167,7 @@ class GroupCreate extends Component {
         }
       });
     } else if (data.id != undefined) {
+      notify.show(formatMessage(messages.saved), 'success');
       this.setState({error: null});
       let id = data.id;
       this.props.history.push('/group/' + id);
@@ -193,7 +206,7 @@ class GroupCreate extends Component {
     const {formatMessage} = this.props.intl;
 
     if (!this.state.allow) {
-      return (<Forbidden title={formatMessage(messages.groupTitle)}/>);
+      return (<Forbidden/>);
     }
 
     let errorMessage = null;
@@ -206,18 +219,18 @@ class GroupCreate extends Component {
     let fieldName = <Input type="text" label={formatMessage(messages.groupFieldNameLabel)} placeholder={formatMessage(messages.groupFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.group.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle.name}></Input>;
 
     let create = null;
-    let save = null;
+    let update = null;
+    let remove = null;
     let title = null;
 
     if (this.state.edit) {
-      save = <Button bsStyle="success" onTouchTap={this._update}><FormattedMessage {...messages.saveButton}/></Button>;
+      update = this._update;
+      remove = this._remove;
       title = <FormattedMessage {...messages.groupEditTitle}/>;
     } else {
-      create = <Button bsStyle="success" onTouchTap={this._save}><FormattedMessage {...messages.createButton}/></Button>;
+      create = this._save;
       title = <FormattedMessage {...messages.groupTitle}/>;
     }
-
-    let cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>;
 
     return (
       <Row>
@@ -227,25 +240,21 @@ class GroupCreate extends Component {
           <form className="form-horizontal">
             {fieldName}
           </form>
-          <ButtonToolbar className="pull-right">
-            {create}
-            {save}
-            {cancel}
-          </ButtonToolbar>
+          <EditToolbar create={create} update={update} remove={remove}/>
         </Col>
       </Row>
     );
   }
 }
 
-GroupCreate.contextTypes = {
+GroupEdit.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
 };
 
-GroupCreate.propTypes = {
+GroupEdit.propTypes = {
   groupId: PropTypes.number
 };
 
-export default injectIntl(GroupCreate);
+export default injectIntl(GroupEdit);

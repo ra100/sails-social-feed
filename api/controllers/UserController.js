@@ -12,11 +12,28 @@ module.exports = {
    */
   create: function (req, res, next) {
     sails.services.passport.protocols.local.register(req.body, function (err, user) {
-      if (err)
+      if (err) {
         return res.negotiate(err);
-
+      }
       res.ok(user);
     });
+  },
+
+  /**
+   * @override
+   */
+  destroy: function (req, res, next) {
+    var uid = req.params.id;
+    if (uid == 1) {
+      return res.forbidden();
+    } else {
+      User.destroy({id: uid}).exec(function (err) {
+        if (err) {
+          return res.negotiate(err);
+        }
+        return res.ok();
+      });
+    }
   },
 
   me: function (req, res) {
