@@ -1,3 +1,6 @@
+/**
+ * socialFeed service, to provide functions used in different parts of code
+ */
 module.exports = {
   isAdmin: function (uid, req, next) {
     User.find({id: uid}).populate('roles', {name: 'admin'}).exec(function (e, r) {
