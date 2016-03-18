@@ -4,7 +4,7 @@
     "transform-react-jsx",
     ["react-intl", {
       "messagesDir": "./assets/app/locales/",
-      "enforceDescriptions": true
+      "enforceDescriptions": false
   }]
   ]
 }

@@ -223,11 +223,15 @@ class UserEdit extends Component {
   _update() {
     let {socket} = this.context;
     if (this._validateAll()) {
+      let roles = null;
+      if (this.context.user.permissions.user.all.u) {
+        roles = getSelected(this.state.roles);
+      }
       socket.post('/users/update/' + this.props.params.userId, {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,
-        roles: getSelected(this.state.roles),
+        roles: roles,
         _csrf: _csrf
       }, this.handleSaveResponse);
     }
@@ -260,7 +264,13 @@ class UserEdit extends Component {
     const {formatMessage} = this.props.intl;
     if (res.statusCode == 500) {
       notify.show('Error 500', 'error');
+      return;
     }
+    if (res.statusCode == 403) {
+      notify.show(res.body, 'error');
+      return;
+    }
+
     if (data.code == 'E_VALIDATION') {
       this.setState({error: data.details});
     } else if (data.id != undefined) {

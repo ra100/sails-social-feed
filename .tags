@@ -119,10 +119,6 @@ canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.
 module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  },$/;"	method	line:11
 candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  candestroy: function (req, res) {$/;"	function	line:15
 module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  },$/;"	method	line:14
-exports	/home/ra100/Devel/sails-social-feed/api/policies/isAdmin.js	/^module.exports = function(req, res, next) {$/;"	function	line:8
-module.exports	/home/ra100/Devel/sails-social-feed/api/policies/isAdmin.js	/^\/**$/;"	function	line:0
-exports	/home/ra100/Devel/sails-social-feed/api/policies/editSelf.js	/^module.exports = function(req, res, next) {$/;"	function	line:8
-module.exports	/home/ra100/Devel/sails-social-feed/api/policies/editSelf.js	/^\/**$/;"	function	line:0
 module.exports.policies.*	/home/ra100/Devel/sails-social-feed/config/policies.js	/^module.exports.policies = {$/;"	property	line:19
 module.exports.csrf.grantTokenViaAjax	/home/ra100/Devel/sails-social-feed/config/csrf.js	/^module.exports.csrf = {$/;"	property	line:61
 module.exports.csrf.origin	/home/ra100/Devel/sails-social-feed/config/csrf.js	/^  grantTokenViaAjax: true,$/;"	property	line:62
@@ -133,6 +129,13 @@ module.exports.autoreload.usePolling	/home/ra100/Devel/sails-social-feed/config/
 module.exports.autoreload.dirs	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^  usePolling: false,$/;"	property	line:3
 exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^module.exports = function (grunt) {$/;"	function	line:13
 module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^\/**$/;"	function	line:0
+module.exports.admin	/home/ra100/Devel/sails-social-feed/assets/app/permissions.js	/^module.exports = {$/;"	property	line:1
+isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isAdmin: function (uid, req, next) {$/;"	function	line:2
+module.exports.isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^module.exports = {$/;"	method	line:1
+exports	/home/ra100/Devel/sails-social-feed/api/policies/isAdmin.js	/^module.exports = function(req, res, next) {$/;"	function	line:8
+module.exports	/home/ra100/Devel/sails-social-feed/api/policies/isAdmin.js	/^\/**$/;"	function	line:0
+exports	/home/ra100/Devel/sails-social-feed/api/policies/editSelf.js	/^module.exports = function (req, res, next) {$/;"	function	line:8
+module.exports	/home/ra100/Devel/sails-social-feed/api/policies/editSelf.js	/^\/**$/;"	function	line:0
 cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
 module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^module.exports = {$/;"	method	line:8
 canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
@@ -143,8 +146,7 @@ create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^ 
 module.exports.create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:17
 update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  update: function (req, res, next) {$/;"	function	line:35
 module.exports.update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:30
-destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  destroy: function (req, res, next) {$/;"	function	line:78
-module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:73
-me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  me: function (req, res) {$/;"	function	line:92
-module.exports.me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:90
-module.exports.admin	/home/ra100/Devel/sails-social-feed/assets/app/permissions.js	/^module.exports = {$/;"	property	line:1
+destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  destroy: function (req, res, next) {$/;"	function	line:84
+module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:79
+me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  me: function (req, res) {$/;"	function	line:98
+module.exports.me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:96

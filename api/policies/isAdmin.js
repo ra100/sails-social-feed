@@ -8,11 +8,10 @@
 module.exports = function(req, res, next) {
 
   var uid = req.user.id;
-  User.find({id: uid}).populate('roles', {name: 'admin'}).exec(function(e,r) {
-    if (r[0].roles.length > 0) {
-      next();
-    } else {
-      return res.forbidden(req.__('Error.Not.Admin'));
+  socialFeed.isAdmin(uid, req, function(err, user) {
+    if (err) {
+      return res.forbidden(err);
     }
+    next();
   });
 };

@@ -50,25 +50,31 @@ module.exports = {
       updated.roles = roles;
     }
 
-    User.update({
-      id: uid
-    }, updated).exec(function (err, user) {
-      if (err) {
-        return res.serverError(err);
+    socialFeed.isAdmin(req.user.id, req, function (err, u) {
+      if (err && updated.roles) {
+        return res.forbidden(err);
       }
-      if (password != undefined && password.length > 6) {
-        Passport.update({
-          user: uid,
-          protocol: 'local'
-        }, {password: password}).exec(function (err, passport) {
-          if (err) {
-            return res.serverError(err);
-          }
+
+      User.update({
+        id: uid
+      }, updated).exec(function (err, user) {
+        if (err) {
+          return res.negotiate(err);
+        }
+        if (password != undefined && password.length > 6) {
+          Passport.update({
+            user: uid,
+            protocol: 'local'
+          }, {password: password}).exec(function (err, passport) {
+            if (err) {
+              return res.serverError(err);
+            }
+            res.ok(user[0]);
+          });
+        } else {
           res.ok(user[0]);
-        });
-      } else {
-        res.ok(user[0]);
-      }
+        }
+      });
     });
   },
 
