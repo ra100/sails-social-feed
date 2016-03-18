@@ -6,16 +6,65 @@
  */
 
 module.exports = {
+  cancreate: function (req, res) {
+    res.ok({status: 'ok'});
+  },
+  canmodify: function (req, res) {
+    res.ok({status: 'ok'});
+  },
+  candestroy: function (req, res) {
+    res.ok({status: 'ok'});
+  },
 
   /**
    * @override
    */
   create: function (req, res, next) {
-    sails.services.passport.protocols.local.register(req.body, function (err, user) {
+    sails.services.passport.protocols.local.register(req, res, function (err, user) {
       if (err) {
-        return res.negotiate(err);
+        return res.serverError(err);
       }
-      res.ok(user);
+      sails.log.verbose(user);
+      return res.ok(user);
+    });
+  },
+
+  /**
+   * @override
+   */
+  update: function (req, res, next) {
+    var uid = req.params.id,
+      username = req.param('username'),
+      password = req.param('password'),
+      email = req.param('email');
+
+    updated = {};
+    if (username != undefined && username.length > 0) {
+      updated.username = username;
+    }
+    if (email != undefined && email.length > 0) {
+      updated.email = email;
+    }
+
+    User.update({
+      id: uid
+    }, updated).exec(function (err, user) {
+      if (err) {
+        return res.serverError(err);
+      }
+      if (password != undefined && password.length > 6) {
+        Passport.update({
+          user: uid,
+          protocol: 'local'
+        }, {password: password}).exec(function (err, passport) {
+          if (err) {
+            return res.serverError(err);
+          }
+          res.ok(user[0]);
+        });
+      } else {
+        res.ok(user[0]);
+      }
     });
   },
 

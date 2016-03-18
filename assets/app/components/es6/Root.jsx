@@ -36,6 +36,7 @@ class Root extends Component {
           <Route path="/create">
             <Route path="stream" component={StreamCreate}></Route>
             <Route path="group" component={GroupEdit}></Route>
+            <Route path="user" component={UserEdit}></Route>
           </Route>
           <Route path="/group/:groupId" component={GroupView}></Route>
           <Route path="/group/:groupId/edit" component={GroupEdit}></Route>

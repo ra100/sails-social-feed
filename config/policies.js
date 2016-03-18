@@ -49,7 +49,11 @@ module.exports.policies = {
   UserController: {
     'view': ['passport', 'sessionAuth'],
     'create': ['passport', 'sessionAuth', 'isAdmin'],
-    'destroy': ['passport', 'sessionAuth', 'isAdmin']
+    'update': ['passport', 'sessionAuth', 'editSelf'],
+    'destroy': ['passport', 'sessionAuth', 'isAdmin'],
+    'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
+    'canmodify': ['passport', 'sessionAuth', 'editSelf'],
+    'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
   },
 
   StreamController: {

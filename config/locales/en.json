@@ -3,5 +3,6 @@
 	"Error.Passport.Username.NotFound": "Error.Passport.Username.NotFound",
 	"Error.Passport.Password.Wrong": "Error.Passport.Password.Wrong",
 	"Status.Passport.Logged": "Status.Passport.Logged",
-	"Error.Passport.Already.Authenticated": "Error.Passport.Already.Authenticated"
+	"Error.Passport.Already.Authenticated": "Error.Passport.Already.Authenticated",
+	"Error.Not.Admin": "Error.Not.Admin"
 }

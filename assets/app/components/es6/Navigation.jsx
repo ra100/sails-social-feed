@@ -50,6 +50,11 @@ const messages = defineMessages({
     description: 'Create Group button',
     defaultMessage: 'Group'
   },
+  user: {
+    id: 'menu.user.title',
+    description: 'Create User button',
+    defaultMessage: 'User'
+  },
   view: {
     id: 'menu.view.title',
     description: 'View button',
@@ -130,10 +135,20 @@ class Navigation extends Component {
           </LinkContainer>;
         };
 
+        let createUser = null;
+        if (_.indexOf(permissions.user.all, 'c') >= 0) {
+          createUser = <LinkContainer to={'/create/user'}>
+            <MenuItem>
+              <FormattedMessage {...messages.user}/>
+            </MenuItem>
+          </LinkContainer>;
+        };
+
         createMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.create)}>
           {createStream}
           {createFeed}
           <MenuItem divider/> {createGroup}
+          {createUser}
         </NavDropdown>;
 
         let viewGroups = null;

@@ -24,6 +24,12 @@ window._csrf = $('meta[name="csrf-token"]').attr('content');
 // prepare sails socket
 let io = sailsIOClient(socketIOClient);
 window.socket = io.socket;
+// _csrf token refresh
+socket.on('connect', function() {
+  $.get('/csrfToken').success(function(data) {
+    _csrf = data._csrf;
+  });
+});
 // debug
 window.React = React;
 

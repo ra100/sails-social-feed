@@ -6,6 +6,14 @@
  */
 
 module.exports = {
-	
+  cancreate: function (req, res) {
+    res.ok({status: 'ok'});
+  },
+  canmodify: function (req, res) {
+    res.ok({status: 'ok'});
+  },
+  candestroy: function (req, res) {
+    res.ok({status: 'ok'});
+  },
 };
 

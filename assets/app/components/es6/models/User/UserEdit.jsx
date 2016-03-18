@@ -11,6 +11,8 @@ import {
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
+import EditToolbar from './../../EditToolbar';
+import {notify} from 'react-notify-toast';
 import _ from 'lodash';
 
 const messages = defineMessages({
@@ -27,27 +29,37 @@ const messages = defineMessages({
   userFieldNamePlaceholder: {
     id: 'user.field.name.placeholder',
     description: 'User Name placeholder',
-    defaultMessage: 'User Name'
+    defaultMessage: 'UserName'
   },
   userFieldNameLabel: {
-    id: 'user.field.label.name',
+    id: 'user.field.name.label',
     description: 'User Name label',
-    defaultMessage: 'User'
+    defaultMessage: 'Username'
   },
-  cancelButton: {
-    id: 'button.cancel',
-    description: 'Cancel button text',
-    defaultMessage: 'Cancel'
+  userFieldEmailPlaceholder: {
+    id: 'user.field.email.placeholder',
+    description: 'User Email placeholder',
+    defaultMessage: 'name@email.com'
   },
-  createButton: {
-    id: 'button.create',
-    description: 'Create button text',
-    defaultMessage: 'Create'
+  userFieldEmailLabel: {
+    id: 'user.field.email.label',
+    description: 'User Email label',
+    defaultMessage: 'Email'
   },
-  saveButton: {
-    id: 'button.save',
-    description: 'Save button text',
-    defaultMessage: 'Save'
+  userFieldPasswordPlaceholder: {
+    id: 'user.field.password.placeholder',
+    description: 'User Name placeholder',
+    defaultMessage: '******'
+  },
+  userFieldPasswordLabel: {
+    id: 'user.field.password.label',
+    description: 'User Name label',
+    defaultMessage: 'Password'
+  },
+  saved: {
+    id: 'user.saved.notify',
+    description: 'Saved user notification',
+    defaultMessage: 'User has been saved'
   }
 });
 
@@ -60,17 +72,24 @@ class UserEdit extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      bsStyle: {
-        name: null
-      },
-      user: {
-        name: null
-      },
+      bsStyle_username: null,
+      bsStyle_groups: null,
+      bsStyle_roles: null,
+      bsStyle_password: null,
+      bsStyle_email: null,
+
+      username: null,
+      groups: null,
+      roles: null,
+      password: null,
+      email: null,
+
+      user: null,
       edit: false,
       error: null,
       allow: true
     };
-    this._bind('_save', '_cancel', '_update', '_handleNameChange', '_validateAll', '_evaluateSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad');
   }
 
   componentDidMount() {
@@ -116,7 +135,16 @@ class UserEdit extends Component {
       return;
     }
     if (res.statusCode == 200) {
-      this.setState({status: res.statusCode, user: data, error: null});
+      this.setState({
+        status: res.statusCode,
+        user: data,
+        username: data.username,
+        email: data.email,
+        roles: [],
+        groups: [],
+        error: null,
+        edit: true
+      });
     } else {
       this.setState({status: res.statusCode, error: res.body, user: null});
     }
@@ -126,35 +154,58 @@ class UserEdit extends Component {
     let {socket} = this.context;
     if (this._validateAll()) {
       socket.post('/users/create', {
-        name: this.state.user.name,
+        username: this.state.username,
+        password: this.state.password,
+        email: this.state.email,
         _csrf: _csrf
-      }, this._evaluateSaveResponse);
+      }, this.handleSaveResponse);
     }
   }
 
   _update() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      socket.post('/users/update/' + this.props.params.userId , {
-        name: this.state.user.name,
+      socket.post('/users/update/' + this.props.params.userId, {
+        username: this.state.username,
+        password: this.state.password,
+        email: this.state.email,
         _csrf: _csrf
-      }, this._evaluateSaveResponse);
+      }, this.handleSaveResponse);
     }
   }
 
-  _cancel() {
-    this.props.history.goBack();
+  _remove() {
+    let {socket} = this.context;
+    if (!this.state.deleted) {
+      socket.post('/users/destroy/' + this.props.user.id, {
+        _csrf: _csrf
+      }, this.handleDestroyResponse);
+    }
   }
 
-  _evaluateSaveResponse(data) {
+  handleDestroyResponse(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      this.setState({deleted: true});
+      notify.show(formatMessage(messages.deletedSuccess), 'success');
+      this.props.history.goBack();
+    } else {
+      notify.show(res.body, 'error');
+    }
+  }
+
+  handleSaveResponse(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (res.statusCode == 500) {
+      notify.show('Error 500', 'error');
+    }
     if (data.code == 'E_VALIDATION') {
-      this.setState({
-        error: data.details,
-        bsStyle: {
-          name: 'error'
-        }
-      });
+      this.setState({error: data.details});
     } else if (data.id != undefined) {
+      notify.show(formatMessage(messages.saved), 'success');
       this.setState({error: null});
       let id = data.id;
       this.props.history.push('/user/' + id);
@@ -163,30 +214,38 @@ class UserEdit extends Component {
 
   _validateAll() {
     let passed = true;
-    if (this.state.user.name.length == 0) {
-      this.setState({
-        bsStyle: {
-          name: 'error'
-        }
-      });
+    if (this.state.username.length == 0) {
+      this.setState({bsStyle_username: 'error'});
       passed = false;
     } else {
-      this.setState({
-        bsStyle: {
-          name: 'success'
-        }
-      });
+      this.setState({bsStyle_username: 'success'});
+    }
+    if ((!this.state.edit && this.state.password == null) && this.state.password.length < 6) {
+      this.setState({bsStyle_password: 'error'});
+      passed = false;
+    } else {
+      this.setState({bsStyle_password: 'success'});
+    }
+    if (this.state.email.length < 3) {
+      this.setState({bsStyle_email: 'error'});
+      passed = false;
+    } else {
+      this.setState({bsStyle_email: 'success'});
     }
 
     return passed;
   }
 
   _handleNameChange(event) {
-    this.setState({
-      user: {
-        name: event.target.value
-      }
-    });
+    this.setState({username: event.target.value});
+  }
+
+  _handlePasswordChange(event) {
+    this.setState({password: event.target.value});
+  }
+
+  _handleEmailChange(event) {
+    this.setState({email: event.target.value});
   }
 
   render() {
@@ -203,21 +262,25 @@ class UserEdit extends Component {
       </Alert>;
     }
 
-    let fieldName = <Input type="text" label={formatMessage(messages.userFieldNameLabel)} placeholder={formatMessage(messages.userFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.user.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle.name}></Input>;
+    let fieldName = <Input type="text" label={formatMessage(messages.userFieldNameLabel)} placeholder={formatMessage(messages.userFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.username} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle_username}></Input>;
+
+    let fieldPassword = <Input type="password" label={formatMessage(messages.userFieldPasswordLabel)} placeholder={formatMessage(messages.userFieldPasswordPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.password} onChange={this._handlePasswordChange} ref="password" bsStyle={this.state.bsStyle_password}></Input>;
+
+    let fieldEmail = <Input type="email" label={formatMessage(messages.userFieldEmailLabel)} placeholder={formatMessage(messages.userFieldEmailPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.email} onChange={this._handleEmailChange} ref="email" bsStyle={this.state.bsStyle_email}></Input>;
 
     let create = null;
-    let save = null;
+    let update = null;
+    let remove = null;
     let title = null;
 
     if (this.state.edit) {
-      save = <Button bsStyle="success" onTouchTap={this._update}><FormattedMessage {...messages.saveButton}/></Button>;
+      update = this._update;
+      remove = this._remove;
       title = <FormattedMessage {...messages.userEditTitle}/>;
     } else {
-      create = <Button bsStyle="success" onTouchTap={this._save}><FormattedMessage {...messages.createButton}/></Button>;
+      create = this._save;
       title = <FormattedMessage {...messages.userTitle}/>;
     }
-
-    let cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>;
 
     return (
       <Row>
@@ -226,12 +289,10 @@ class UserEdit extends Component {
           {errorMessage}
           <form className="form-horizontal">
             {fieldName}
+            {fieldPassword}
+            {fieldEmail}
           </form>
-          <ButtonToolbar className="pull-right">
-            {create}
-            {save}
-            {cancel}
-          </ButtonToolbar>
+          <EditToolbar create={create} update={update} remove={remove}/>
         </Col>
       </Row>
     );

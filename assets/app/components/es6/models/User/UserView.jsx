@@ -12,6 +12,7 @@ import Forbidden from './../../Forbidden';
 import NotFound from './../../NotFound';
 import Error from './../../Error';
 import Loading from './../../Loading';
+import EditToolbar from './../../EditToolbar';
 import _ from 'lodash';
 
 const messages = defineMessages({
@@ -40,7 +41,7 @@ class UserView extends Component {
       status: 0,
       error: null
     };
-    this._bind('handleResponse');
+    this._bind('_edit', 'handleResponse');
   }
 
   componentDidMount() {
@@ -65,6 +66,10 @@ class UserView extends Component {
     } else {
       this.setState({status: res.statusCode, error: null, user: data});
     }
+  }
+
+  _edit() {
+    this.props.history.push('/user/' + this.state.user.id + '/edit');
   }
 
   render() {
@@ -97,6 +102,7 @@ class UserView extends Component {
                   return <Label key={i}>{role.name}</Label>;
                 })}
               </Col>
+              <EditToolbar edit={this._edit}/>
             </Row>
           );
         }
