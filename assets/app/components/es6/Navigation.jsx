@@ -110,7 +110,7 @@ class Navigation extends Component {
     let createMenu = null;
     let viewMenu = null;
     if (permissions) {
-      if (_.indexOf(permissions.stream.own, 'c') >= 0) {
+      if (permissions.stream.own.c) {
         let createStream = <LinkContainer to={'/create/stream'}>
           <MenuItem>
             <FormattedMessage {...messages.stream}/>
@@ -118,7 +118,7 @@ class Navigation extends Component {
         </LinkContainer>;
 
         let createFeed = null;
-        if (_.indexOf(permissions.feed.own, 'c') >= 0) {
+        if (permissions.feed.own.c) {
           createFeed = <LinkContainer to={'/create/feed'}>
             <MenuItem>
               <FormattedMessage {...messages.feed}/>
@@ -127,7 +127,7 @@ class Navigation extends Component {
         };
 
         let createGroup = null;
-        if (_.indexOf(permissions.group.all, 'c') >= 0) {
+        if (permissions.group.all.c) {
           createGroup = <LinkContainer to={'/create/group'}>
             <MenuItem>
               <FormattedMessage {...messages.group}/>
@@ -136,7 +136,7 @@ class Navigation extends Component {
         };
 
         let createUser = null;
-        if (_.indexOf(permissions.user.all, 'c') >= 0) {
+        if (permissions.user.all.c) {
           createUser = <LinkContainer to={'/create/user'}>
             <MenuItem>
               <FormattedMessage {...messages.user}/>
@@ -152,7 +152,7 @@ class Navigation extends Component {
         </NavDropdown>;
 
         let viewGroups = null;
-        if (_.indexOf(permissions.group.all, 'r') >= 0) {
+        if (permissions.group.all.r) {
           viewGroups = <LinkContainer to={'/groups'}>
             <MenuItem>
               <FormattedMessage {...messages.groups}/>
@@ -161,7 +161,7 @@ class Navigation extends Component {
         };
 
         let viewUsers = null;
-        if (_.indexOf(permissions.user.all, 'r') >= 0) {
+        if (permissions.user.all.r) {
           viewUsers = <LinkContainer to={'/users'}>
             <MenuItem>
               <FormattedMessage {...messages.users}/>

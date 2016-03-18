@@ -1,56 +1,235 @@
 module.exports = {
   admin: {
     user: {
-      all: ['c', 'r', 'u', 'd'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['u', 'r']
+      all: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        u: true,
+        r: true
+      }
     },
     stream: {
-      all: ['c', 'r', 'u', 'd'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['c', 'r', 'u', 'd']
+      all: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      }
     },
     feed: {
-      all: ['c', 'r', 'u', 'd'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['c', 'r', 'u', 'd']
+      all: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      }
     },
     message: {
-      all: ['c', 'r', 'u', 'd'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['c', 'r', 'u', 'd']
+      all: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      }
     },
     group: {
-      all: ['c', 'r', 'u', 'd'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['c', 'r', 'u', 'd']
+      all: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      }
     }
   },
   editor: {
     user: {
-      all: [],
-      group: ['r'],
-      own: ['u', 'r']
+      all: {
+        r: true
+      },
+      group: {
+        r: true
+      },
+      own: {
+        u: true,
+        r: true
+      }
     },
     stream: {
-      all: ['c'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['c', 'r', 'u', 'd']
+      all: {
+        c: true,
+        r: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      }
     },
     feed: {
-      all: ['c'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['c', 'r', 'u', 'd']
+      all: {
+        c: true,
+        r: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      }
     },
     message: {
-      all: ['c'],
-      group: ['c', 'r', 'u', 'd'],
-      own: ['c', 'r', 'u', 'd']
+      all: {
+        c: true,
+        r: true
+      },
+      group: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      },
+      own: {
+        c: true,
+        r: true,
+        u: true,
+        d: true
+      }
+    },
+    group: {
+      all: {
+        r: true
+      },
+      group: {
+        r: true
+      },
+      own: {
+        r: true
+      }
+    }
+  },
+  user: {
+    user: {
+      all: {},
+      group: {
+        r: true
+      },
+      own: {
+        u: true,
+        r: true
+      }
+    },
+    stream: {
+      all: {
+        r: true
+      },
+      group: {
+        r: true
+      },
+      own: {
+        r: true
+      }
+    },
+    feed: {
+      all: {
+        c: true
+      },
+      group: {
+        r: true
+      },
+      own: {
+        r: true
+      }
     },
     message: {
-      all: [],
-      group: ['r'],
-      own: ['r']
+      all: {
+        r: true
+      },
+      group: {
+        r: true
+      },
+      own: {
+        r: true
+      }
+    },
+    message: {
+      all: {},
+      group: {
+        r: true
+      },
+      own: {
+        r: true
+      }
     }
   }
 };

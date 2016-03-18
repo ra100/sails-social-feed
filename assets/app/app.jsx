@@ -64,7 +64,7 @@ socket.get('/users/me', function (data, jwr) {
     user.permissions = {};
     _.forEach(user.roles, function (v, k) {
       let perm = permissions[v.name];
-      user.permissions = _.merge(user.permissions, perm);
+      user.permissions = $.extend(true, user.permissions, perm);
     });
   }
   render(

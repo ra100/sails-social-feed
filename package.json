@@ -39,6 +39,7 @@
     "rc": "^1.1.6",
     "react": "^0.14.5",
     "react-bootstrap": "^0.28.1",
+    "react-bootstrap-multiselect": "^1.0.2",
     "react-dom": "^0.14.7",
     "react-intl": "^2.0.0-pr-3",
     "react-intl-es6": "^1.0.0",

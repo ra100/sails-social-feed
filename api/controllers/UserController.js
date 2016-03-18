@@ -33,10 +33,11 @@ module.exports = {
    * @override
    */
   update: function (req, res, next) {
-    var uid = req.params.id,
+    var uid = req.param('id'),
       username = req.param('username'),
       password = req.param('password'),
-      email = req.param('email');
+      email = req.param('email'),
+      roles = req.param('roles');
 
     updated = {};
     if (username != undefined && username.length > 0) {
@@ -44,6 +45,9 @@ module.exports = {
     }
     if (email != undefined && email.length > 0) {
       updated.email = email;
+    }
+    if (roles != undefined && roles.length > 0) {
+      updated.roles = roles;
     }
 
     User.update({

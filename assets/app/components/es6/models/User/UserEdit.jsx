@@ -13,6 +13,7 @@ import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
 import EditToolbar from './../../EditToolbar';
 import {notify} from 'react-notify-toast';
+import Multiselect from 'react-bootstrap-multiselect';
 import _ from 'lodash';
 
 const messages = defineMessages({
@@ -56,12 +57,28 @@ const messages = defineMessages({
     description: 'User Name label',
     defaultMessage: 'Password'
   },
+  userFieldRolesLabel: {
+    id: 'user.field.roles.label',
+    description: 'User Role label',
+    defaultMessage: 'Roles'
+  },
   saved: {
     id: 'user.saved.notify',
     description: 'Saved user notification',
     defaultMessage: 'User has been saved'
   }
 });
+
+const getSelected = function (data) {
+  let i;
+  let selected = [];
+  for (i in data) {
+    if (data[i].selected) {
+      selected.push(data[i].value);
+    }
+  }
+  return selected;
+};
 
 class UserEdit extends Component {
 
@@ -89,12 +106,15 @@ class UserEdit extends Component {
       error: null,
       allow: true
     };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles');
   }
 
   componentDidMount() {
     this._isMounted = true;
     let {socket} = this.context;
+    socket.get('/roles', {
+      populate: 'none'
+    }, this.handleRoles);
     if (this.props.params.userId >= 0) {
       socket.get('/users/canmodify/' + this.props.params.userId, this.handleCanModify);
     } else {
@@ -135,19 +155,56 @@ class UserEdit extends Component {
       return;
     }
     if (res.statusCode == 200) {
+      let i;
+      let roles = [];
+      if (this.state.roles == null) {
+        for (i in data.roles) {
+          roles.push({value: data.roles[i].id, label: data.roles[i].name, selected: true});
+        }
+      } else {
+        roles = this.state.roles;
+        for (i in data.roles) {
+          let j;
+          for (j in roles) {
+            if (roles[j].value == data.roles[i].id) {
+              roles[j].selected = true;
+            };
+          }
+        }
+      }
       this.setState({
         status: res.statusCode,
         user: data,
         username: data.username,
         email: data.email,
-        roles: [],
+        roles: roles,
         groups: [],
         error: null,
         edit: true
       });
+      this.refs.roles.syncData();
     } else {
       this.setState({status: res.statusCode, error: res.body, user: null});
     }
+  }
+
+  handleRoles(data, res) {
+    if (!this._isMounted || res.statusCode !== 200) {
+      return;
+    }
+    let selected = getSelected(this.state.roles);
+    let roles = [];
+    let i;
+    for (i in data) {
+      let role = data[i];
+      roles.push({
+        value: role.id,
+        label: role.name,
+        selected: (_.indexOf(selected, role.id) > -1)
+      });
+    }
+    this.setState({roles: roles});
+    this.refs.roles.syncData();
   }
 
   _save() {
@@ -157,6 +214,7 @@ class UserEdit extends Component {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,
+        roles: getSelected(this.state.roles),
         _csrf: _csrf
       }, this.handleSaveResponse);
     }
@@ -169,6 +227,7 @@ class UserEdit extends Component {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,
+        roles: getSelected(this.state.roles),
         _csrf: _csrf
       }, this.handleSaveResponse);
     }
@@ -214,23 +273,30 @@ class UserEdit extends Component {
 
   _validateAll() {
     let passed = true;
-    if (this.state.username.length == 0) {
+    if (!this.state.username || this.state.username.length == 0) {
       this.setState({bsStyle_username: 'error'});
       passed = false;
     } else {
       this.setState({bsStyle_username: 'success'});
     }
-    if ((!this.state.edit && this.state.password == null) && this.state.password.length < 6) {
+    if ((!this.state.edit && this.state.password == null) || (this.state.password != null && this.state.password.length < 6)) {
       this.setState({bsStyle_password: 'error'});
       passed = false;
     } else {
       this.setState({bsStyle_password: 'success'});
     }
-    if (this.state.email.length < 3) {
+    if (!this.state.email || this.state.email.length < 3) {
       this.setState({bsStyle_email: 'error'});
       passed = false;
     } else {
       this.setState({bsStyle_email: 'success'});
+    }
+    let s = getSelected(this.state.roles);
+    if (s.length == 0) {
+      this.setState({bsStyle_roles: 'has-error'});
+      passed = false;
+    } else {
+      this.setState({bsStyle_roles: null});
     }
 
     return passed;
@@ -246,6 +312,20 @@ class UserEdit extends Component {
 
   _handleEmailChange(event) {
     this.setState({email: event.target.value});
+  }
+
+  _handleRolesChange(event) {
+    let val = event.context.value;
+    let sel = event.context.selected;
+    let i;
+    let roles = [];
+    for (i in this.state.roles) {
+      roles[i] = this.state.roles[i];
+      if (roles[i].value == val) {
+        roles[i].selected = sel;
+      }
+    }
+    this.setState({roles: roles});
   }
 
   render() {
@@ -267,6 +347,16 @@ class UserEdit extends Component {
     let fieldPassword = <Input type="password" label={formatMessage(messages.userFieldPasswordLabel)} placeholder={formatMessage(messages.userFieldPasswordPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.password} onChange={this._handlePasswordChange} ref="password" bsStyle={this.state.bsStyle_password}></Input>;
 
     let fieldEmail = <Input type="email" label={formatMessage(messages.userFieldEmailLabel)} placeholder={formatMessage(messages.userFieldEmailPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.email} onChange={this._handleEmailChange} ref="email" bsStyle={this.state.bsStyle_email}></Input>;
+
+    let rolesClass = 'form-group has-feedback ' + this.state.bsStyle_roles;
+    let fieldRoles = <div className={rolesClass}>
+      <label className="control-label col-xs-12 col-sm-2">
+        <FormattedMessage {...messages.userFieldRolesLabel}/>
+      </label>
+      <div className="col-xs-12 col-sm-5">
+        <Multiselect onChange={this._handleRolesChange} data={this.state.roles} multiple ref="roles"/>
+      </div>
+    </div>;
 
     let create = null;
     let update = null;
@@ -291,6 +381,7 @@ class UserEdit extends Component {
             {fieldName}
             {fieldPassword}
             {fieldEmail}
+            {fieldRoles}
           </form>
           <EditToolbar create={create} update={update} remove={remove}/>
         </Col>

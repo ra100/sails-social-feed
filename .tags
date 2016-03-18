@@ -95,8 +95,6 @@ grunt-shell	/home/ra100/Devel/sails-social-feed/package.json	/^    "grunt-shell"
 grunt-typescript-compile	/home/ra100/Devel/sails-social-feed/package.json	/^    "grunt-typescript-compile": "^0.2.0",$/;"	function	line:78
 minifyify	/home/ra100/Devel/sails-social-feed/package.json	/^    "minifyify": "^7.3.2",$/;"	function	line:79
 mocha	/home/ra100/Devel/sails-social-feed/package.json	/^    "mocha": "^2.3.4"$/;"	function	line:80
-exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^module.exports = function (grunt) {$/;"	function	line:13
-module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^\/**$/;"	function	line:0
 module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Stream.js	/^module.exports = {$/;"	property	line:8
 module.exports.feedTypes	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^module.exports = {$/;"	property	line:8
 module.exports.schema	/home/ra100/Devel/sails-social-feed/api/models/User.js	/^module.exports = {$/;"	property	line:1
@@ -130,6 +128,11 @@ module.exports.csrf.grantTokenViaAjax	/home/ra100/Devel/sails-social-feed/config
 module.exports.csrf.origin	/home/ra100/Devel/sails-social-feed/config/csrf.js	/^  grantTokenViaAjax: true,$/;"	property	line:62
 module.exports.models	/home/ra100/Devel/sails-social-feed/config/env/production.js	/^module.exports = {$/;"	property	line:13
 module.exports.log	/home/ra100/Devel/sails-social-feed/config/env/development.js	/^module.exports = {$/;"	property	line:13
+module.exports.autoreload.active	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^module.exports.autoreload = {$/;"	property	line:1
+module.exports.autoreload.usePolling	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^  active: true,$/;"	property	line:2
+module.exports.autoreload.dirs	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^  usePolling: false,$/;"	property	line:3
+exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^module.exports = function (grunt) {$/;"	function	line:13
+module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^\/**$/;"	function	line:0
 cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
 module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^module.exports = {$/;"	method	line:8
 canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
@@ -140,10 +143,8 @@ create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^ 
 module.exports.create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:17
 update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  update: function (req, res, next) {$/;"	function	line:35
 module.exports.update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:30
-destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  destroy: function (req, res, next) {$/;"	function	line:74
-module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:69
-me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  me: function (req, res) {$/;"	function	line:88
-module.exports.me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:86
-module.exports.autoreload.active	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^module.exports.autoreload = {$/;"	property	line:1
-module.exports.autoreload.usePolling	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^  active: true,$/;"	property	line:2
-module.exports.autoreload.dirs	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^  usePolling: false,$/;"	property	line:3
+destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  destroy: function (req, res, next) {$/;"	function	line:78
+module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:73
+me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  me: function (req, res) {$/;"	function	line:92
+module.exports.me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:90
+module.exports.admin	/home/ra100/Devel/sails-social-feed/assets/app/permissions.js	/^module.exports = {$/;"	property	line:1

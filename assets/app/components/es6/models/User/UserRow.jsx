@@ -3,6 +3,7 @@ import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {Button, Label} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import ButtonModal from './../../ButtonModal';
+import {notify} from 'react-notify-toast';
 
 const messages = defineMessages({
   edit: {
@@ -79,6 +80,8 @@ class UserRow extends Component {
     }
     if (res.statusCode == 200) {
       this.setState({deleted: true});
+    } else {
+      notify.show(res.body, 'error');
     }
   }
 
