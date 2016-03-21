@@ -37,7 +37,8 @@ module.exports = {
       username = req.param('username'),
       password = req.param('password'),
       email = req.param('email'),
-      roles = req.param('roles');
+      roles = req.param('roles'),
+      groups = req.param('groups');
 
     updated = {};
     if (username != undefined && username.length > 0) {
@@ -48,6 +49,9 @@ module.exports = {
     }
     if (roles != undefined && roles.length > 0) {
       updated.roles = roles;
+    }
+    if (groups != undefined && groups.length > 0) {
+      updated.groups = groups;
     }
 
     socialFeed.isAdmin(req.user.id, req, function (err, u) {
@@ -97,9 +101,9 @@ module.exports = {
 
   me: function (req, res) {
     var user = req.user;
-    User.findOne({id: user.id}).populate('roles').exec(function (e, r) {
+    User.findOne({id: user.id}).populate('roles').populate('groups').exec(function (e, r) {
       user = r;
-      return res.jsonx({username: user.username, roles: user.roles});
+      return res.jsonx({username: user.username, roles: user.roles, id: user.id});
     });
   }
 };

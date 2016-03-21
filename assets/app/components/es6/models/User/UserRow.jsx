@@ -95,6 +95,13 @@ class UserRow extends Component {
         </tr>
       );
     }
+    
+    let groups = null;
+    if (user.groups) {
+      groups = user.groups.map(function (group, i) {
+        return <Label key={i}>{group.name}</Label>;
+      });
+    };
     return (
       <tr key={user.id}>
         <td>
@@ -106,9 +113,12 @@ class UserRow extends Component {
           {user.email}
         </td>
         <td>
-          {user.roles.map(function(role, i) {
+          {user.roles.map(function (role, i) {
             return <Label key={i}>{role.name}</Label>;
           })}
+        </td>
+        <td>
+          {groups}
         </td>
         <td>
           <LinkContainer to={'/user/' + user.id + '/edit'}>

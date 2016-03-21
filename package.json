@@ -30,6 +30,7 @@
     "include-all": "^0.1.6",
     "intl-messageformat": "^1.2.0",
     "intl-relativeformat": "^1.2.0",
+    "jsonlint-lines": "^1.7.1",
     "kerberos": "0.0.17",
     "lodash": "^4.5.1",
     "passport": "^0.3.2",

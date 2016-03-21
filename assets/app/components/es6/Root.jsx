@@ -3,7 +3,7 @@ import {Component, PropTypes} from 'react';
 import App from './App';
 import Home from './Home';
 import Login from './Login';
-import StreamCreate from './models/Stream/StreamCreate';
+import StreamEdit from './models/Stream/StreamEdit';
 import GroupEdit from './models/Group/GroupEdit';
 import GroupView from './models/Group/GroupView';
 import Groups from './models/Group/Groups';
@@ -34,7 +34,7 @@ class Root extends Component {
           <Redirect from="/" to="/home"/>
           <Route path="/home" component={Home}></Route>
           <Route path="/create">
-            <Route path="stream" component={StreamCreate}></Route>
+            <Route path="stream" component={StreamEdit}></Route>
             <Route path="group" component={GroupEdit}></Route>
             <Route path="user" component={UserEdit}></Route>
           </Route>

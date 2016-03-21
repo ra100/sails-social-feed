@@ -37,7 +37,7 @@ module.exports = function (grunt) {
       options: {
         alias: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples', 'react-notify-toast', 'react-bootstrap-multiselect'],
         plugin: [
-          'minifyify'
+          // 'minifyify'
         ],
         browserifyOptions: {
           fast: false,

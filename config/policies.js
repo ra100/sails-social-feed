@@ -57,7 +57,10 @@ module.exports.policies = {
   },
 
   StreamController: {
-    'cancreate': ['passport', 'sessionAuth', 'isEditor']
+    'cancreate': ['passport', 'sessionAuth', 'isEditor'],
+    'canmodify': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'create': ['passport', 'sessionAuth', 'isEditor'],
+    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner']
   },
 
   GroupController: {

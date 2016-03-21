@@ -9,27 +9,32 @@ import _ from 'lodash';
 
 const messages = defineMessages({
   usersTitle: {
-    id: 'users.all.title',
+    id: 'user.all.title',
     description: 'Page title for users overview',
     defaultMessage: 'Users'
   },
   name: {
-    id: 'users.name',
+    id: 'user.field.name.label',
     description: 'Table header name',
     defaultMessage: 'Username'
   },
   email: {
-    id: 'users.email',
+    id: 'user.field.email.label',
     description: 'Table header email',
     defaultMessage: 'Email'
   },
-  role: {
-    id: 'users.role',
+  roles: {
+    id: 'user.field.roles.label',
     description: 'Table header role',
-    defaultMessage: 'Role'
+    defaultMessage: 'Roles'
+  },
+  groups: {
+    id: 'user.field.groups.label',
+    description: 'Groups label',
+    defaultMessage: 'Groups'
   },
   action: {
-    id: 'users.action',
+    id: 'user.action',
     description: 'Table header action',
     defaultMessage: 'Action'
   }
@@ -80,7 +85,7 @@ class Users extends Component {
     let {socket} = this.context;
     let query = {
       skip: this.state.page * this.state.perPage,
-      populate: 'roles'
+      populate: 'roles,groups'
     };
     socket.get('/users', query, this.handleResponse);
   }
@@ -110,7 +115,8 @@ class Users extends Component {
                     <tr>
                       <th><FormattedMessage {...messages.name}/></th>
                       <th><FormattedMessage {...messages.email}/></th>
-                      <th><FormattedMessage {...messages.role}/></th>
+                      <th><FormattedMessage {...messages.roles}/></th>
+                      <th><FormattedMessage {...messages.groups}/></th>
                       <th><FormattedMessage {...messages.action}/></th>
                     </tr>
                   </thead>

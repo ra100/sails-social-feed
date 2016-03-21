@@ -16,16 +16,21 @@ import EditToolbar from './../../EditToolbar';
 import _ from 'lodash';
 
 const messages = defineMessages({
-  email: {
-    id: 'users.email',
-    description: 'Table header email',
+  userFieldEmailLabel: {
+    id: 'user.field.email.label',
+    description: 'User Email label',
     defaultMessage: 'Email'
   },
-  role: {
-    id: 'users.role',
-    description: 'Table header role',
-    defaultMessage: 'Role'
-  }
+  userFieldRolesLabel: {
+    id: 'user.field.roles.label',
+    description: 'User Role label',
+    defaultMessage: 'Roles'
+  },
+  userFieldGroupsLabel: {
+    id: 'user.field.groups.label',
+    description: 'Groups label',
+    defaultMessage: 'Groups'
+  },
 });
 
 class UserView extends Component {
@@ -92,14 +97,20 @@ class UserView extends Component {
               <PageHeader>
                 {user.username}
               </PageHeader>
-              <Col xs={3}><FormattedMessage {...messages.email}/></Col>
+              <Col xs={3}><FormattedMessage {...messages.userFieldEmailLabel}/></Col>
               <Col xs={9}>
                 <strong>{user.email}</strong>
               </Col>
-              <Col xs={3}><FormattedMessage {...messages.role}/></Col>
+              <Col xs={3}><FormattedMessage {...messages.userFieldRolesLabel}/></Col>
               <Col xs={9}>
                 {user.roles.map(function (role, i) {
                   return <Label key={i}>{role.name}</Label>;
+                })}
+              </Col>
+              <Col xs={3}><FormattedMessage {...messages.userFieldGroupsLabel}/></Col>
+              <Col xs={9}>
+                {user.groups.map(function (group, i) {
+                  return <Label key={i}>{group.name}</Label>;
                 })}
               </Col>
               <EditToolbar edit={this._edit}/>

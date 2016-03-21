@@ -62,6 +62,11 @@ const messages = defineMessages({
     description: 'User Role label',
     defaultMessage: 'Roles'
   },
+  userFieldGroupsLabel: {
+    id: 'user.field.groups.label',
+    description: 'Groups label',
+    defaultMessage: 'Groups'
+  },
   saved: {
     id: 'user.saved.notify',
     description: 'Saved user notification',
@@ -106,7 +111,7 @@ class UserEdit extends Component {
       error: null,
       allow: true
     };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups');
   }
 
   componentDidMount() {
@@ -115,6 +120,10 @@ class UserEdit extends Component {
     socket.get('/roles', {
       populate: 'none'
     }, this.handleRoles);
+    socket.get('/groups', {
+      populate: 'none',
+      sort: 'name'
+    }, this.handleGroups);
     if (this.props.params.userId >= 0) {
       socket.get('/users/canmodify/' + this.props.params.userId, this.handleCanModify);
     } else {
@@ -157,6 +166,7 @@ class UserEdit extends Component {
     if (res.statusCode == 200) {
       let i;
       let roles = [];
+      let groups = [];
       if (this.state.roles == null) {
         for (i in data.roles) {
           roles.push({value: data.roles[i].id, label: data.roles[i].name, selected: true});
@@ -172,17 +182,33 @@ class UserEdit extends Component {
           }
         }
       }
+      if (this.state.groups == null) {
+        for (i in data.groups) {
+          groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
+        }
+      } else {
+        groups = this.state.groups;
+        for (i in data.groups) {
+          let j;
+          for (j in groups) {
+            if (groups[j].value == data.groups[i].id) {
+              groups[j].selected = true;
+            };
+          }
+        }
+      }
       this.setState({
         status: res.statusCode,
         user: data,
         username: data.username,
         email: data.email,
         roles: roles,
-        groups: [],
+        groups: groups,
         error: null,
         edit: true
       });
       this.refs.roles.syncData();
+      this.refs.groups.syncData();
     } else {
       this.setState({status: res.statusCode, error: res.body, user: null});
     }
@@ -207,6 +233,25 @@ class UserEdit extends Component {
     this.refs.roles.syncData();
   }
 
+  handleGroups(data, res) {
+    if (!this._isMounted || res.statusCode !== 200) {
+      return;
+    }
+    let selected = getSelected(this.state.groups);
+    let groups = [];
+    let i;
+    for (i in data) {
+      let group = data[i];
+      groups.push({
+        value: group.id,
+        label: group.name,
+        selected: (_.indexOf(selected, group.id) > -1)
+      });
+    }
+    this.setState({groups: groups});
+    this.refs.groups.syncData();
+  }
+
   _save() {
     let {socket} = this.context;
     if (this._validateAll()) {
@@ -215,6 +260,7 @@ class UserEdit extends Component {
         password: this.state.password,
         email: this.state.email,
         roles: getSelected(this.state.roles),
+        groups: getSelected(this.state.groups),
         _csrf: _csrf
       }, this.handleSaveResponse);
     }
@@ -227,11 +273,16 @@ class UserEdit extends Component {
       if (this.context.user.permissions.user.all.u) {
         roles = getSelected(this.state.roles);
       }
+      let groups = null;
+      if (this.context.user.permissions.user.all.u) {
+        groups = getSelected(this.state.groups);
+      }
       socket.post('/users/update/' + this.props.params.userId, {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,
         roles: roles,
+        groups: groups,
         _csrf: _csrf
       }, this.handleSaveResponse);
     }
@@ -338,6 +389,20 @@ class UserEdit extends Component {
     this.setState({roles: roles});
   }
 
+  _handleGroupsChange(event) {
+    let val = event.context.value;
+    let sel = event.context.selected;
+    let i;
+    let groups = [];
+    for (i in this.state.groups) {
+      groups[i] = this.state.groups[i];
+      if (groups[i].value == val) {
+        groups[i].selected = sel;
+      }
+    }
+    this.setState({groups: groups});
+  }
+
   render() {
     const {formatMessage} = this.props.intl;
 
@@ -368,6 +433,16 @@ class UserEdit extends Component {
       </div>
     </div>;
 
+    let groupsClass = 'form-group has-feedback ' + this.state.bsStyle_groups;
+    let fieldGroups = <div className={groupsClass}>
+      <label className="control-label col-xs-12 col-sm-2">
+        <FormattedMessage {...messages.userFieldGroupsLabel}/>
+      </label>
+      <div className="col-xs-12 col-sm-5">
+        <Multiselect onChange={this._handleGroupsChange} data={this.state.groups} multiple ref="groups"/>
+      </div>
+    </div>;
+
     let create = null;
     let update = null;
     let remove = null;
@@ -392,6 +467,7 @@ class UserEdit extends Component {
             {fieldPassword}
             {fieldEmail}
             {fieldRoles}
+            {fieldGroups}
           </form>
           <EditToolbar create={create} update={update} remove={remove}/>
         </Col>
