@@ -4,7 +4,7 @@ module.exports = function (grunt) {
     //'jst:dev',-->This task is quitte flaky. Only works if I explicitely re-install grunt-contrib-jst
     'sass',
     'babelBuild',
-    'browserify:vendor',
+    'browserify:vendorProd',
     'browserify:prod',
     'typescript',
     'coffee:dev',

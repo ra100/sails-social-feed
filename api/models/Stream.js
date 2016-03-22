@@ -18,7 +18,8 @@ module.exports = {
     },
     uniqueName: {
       type: 'string',
-      required: true
+      required: true,
+      unique: true
     },
     owner: {
       model: 'User'

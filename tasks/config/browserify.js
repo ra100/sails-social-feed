@@ -69,7 +69,74 @@ module.exports = function (grunt) {
         }
       }
     },
-    vendor: {
+    vendorDev: {
+      src: [],
+      dest: '.tmp/public/browserify/vendor.js',
+      options: {
+        alias: [
+          'react',
+          'react-dom',
+          'react-tap-event-plugin',
+          'react-intl',
+          'react-bootstrap',
+          'react-bootstrap-multiselect',
+          'react-router',
+          'react-router-bootstrap',
+          'react-notify-toast',
+          'socket.io-client',
+          'sails.io.js',
+          'lodash',
+          'history',
+          'arrive',
+          'jquery-browserify',
+          'bootstrap_material_design',
+          'ripples'
+        ],
+        browserifyOptions: {
+          fast: true,
+          debug: true,
+          pack: false
+        }
+      }
+    },
+    prod: {
+      options: {
+        basedir: pipeline.appRootDir,
+        external: [
+          'react',
+          'react-dom',
+          'react-tap-event-plugin',
+          'react-intl',
+          'react-bootstrap',
+          'react-bootstrap-multiselect',
+          'react-router',
+          'react-router-bootstrap',
+          'react-notify-toast',
+          'socket.io-client',
+          'sails.io.js',
+          'lodash',
+          'history',
+          'arrive',
+          'jquery-browserify',
+          'bootstrap_material_design',
+          'ripples'
+        ],
+        plugin: [
+          [
+            'minifyify', {
+              'map': null
+            }
+          ]
+        ],
+        browserifyOptions: {
+          fast: false,
+          debug: false
+        }
+      },
+      src: pipeline.browserifyMainFile,
+      dest: '.tmp/public/min/production.' + version + '.js'
+    },
+    vendorProd: {
       src: [],
       dest: '.tmp/public/browserify/vendor.js',
       options: {
@@ -104,48 +171,10 @@ module.exports = function (grunt) {
         browserifyOptions: {
           fast: false,
           debug: false,
-          pack: false
+          pack: true
         }
       }
     },
-    prod: {
-      options: {
-        basedir: pipeline.appRootDir,
-        external: [
-          'react',
-          'react-intl',
-          'react-bootstrap',
-          'react-dom',
-          'socket.io-client',
-          'sails.io.js',
-          'lodash',
-          'react-tap-event-plugin',
-          'history',
-          'react-router',
-          'react-router-bootstrap',
-          'bootstrap',
-          'arrive',
-          'jquery-browserify',
-          'bootstrap_material_design',
-          'ripples',
-          'react-notify-toast',
-          'react-bootstrap-multiselect'
-        ],
-        plugin: [
-          [
-            'minifyify', {
-              'map': null
-            }
-          ]
-        ],
-        browserifyOptions: {
-          fast: false,
-          debug: false
-        }
-      },
-      src: pipeline.browserifyMainFile,
-      dest: '.tmp/public/min/production.' + version + '.js'
-    }
   });
 
   grunt.loadNpmTasks('grunt-browserify');
