@@ -20,11 +20,49 @@ module.exports = function (grunt) {
       src: pipeline.browserifyMainFile,
       dest: '.tmp/public/browserify/debug.' + version + '.js',
       options: {
-        // transform: [require('grunt-react').browserify],
         basedir: pipeline.appRootDir,
         watch: true,
-        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples', 'react-notify-toast', 'react-bootstrap-multiselect'],
-        transform: ['reactify'],
+        external: [
+          'react',
+          'react-dom',
+          'react-tap-event-plugin',
+          'react-intl',
+          'react-bootstrap',
+          'react-bootstrap-multiselect',
+          'react-router',
+          'react-router-bootstrap',
+          'react-notify-toast',
+          'socket.io-client',
+          'sails.io.js',
+          'lodash',
+          'history',
+          'arrive',
+          'jquery-browserify',
+          'bootstrap_material_design',
+          'ripples'
+        ],
+        plugin: [
+          ['browserify-resolutions', [
+            'react',
+            'react-dom',
+            'react-tap-event-plugin',
+            'react-intl',
+            'react-bootstrap',
+            'react-bootstrap-multiselect',
+            'react-router',
+            'react-router-bootstrap',
+            'react-notify-toast',
+            'socket.io-client',
+            'sails.io.js',
+            'lodash',
+            'history',
+            'arrive',
+            'jquery-browserify',
+            'bootstrap_material_design',
+            'ripples'
+          ]],
+          'dedupify'
+        ],
         browserifyOptions: {
           fast: true,
           debug: true
@@ -35,22 +73,71 @@ module.exports = function (grunt) {
       src: [],
       dest: '.tmp/public/browserify/vendor.js',
       options: {
-        alias: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples', 'react-notify-toast', 'react-bootstrap-multiselect'],
+        alias: [
+          'react',
+          'react-dom',
+          'react-tap-event-plugin',
+          'react-intl',
+          'react-bootstrap',
+          'react-bootstrap-multiselect',
+          'react-router',
+          'react-router-bootstrap',
+          'react-notify-toast',
+          'socket.io-client',
+          'sails.io.js',
+          'lodash',
+          'history',
+          'arrive',
+          'jquery-browserify',
+          'bootstrap_material_design',
+          'ripples'
+        ],
         plugin: [
-          // 'minifyify'
+          [
+            'minifyify', {
+              'map': null
+            }
+          ],
+          ['browserify-resolutions', ['*']],
+          'dedupify'
         ],
         browserifyOptions: {
           fast: false,
-          debug: true,
-          pack: true
+          debug: false,
+          pack: false
         }
       }
     },
     prod: {
       options: {
-        // transform: [require('grunt-react').browserify],
         basedir: pipeline.appRootDir,
-        external: ['react', 'react-intl', 'react-bootstrap', 'react-dom', 'socket.io-client', 'sails.io.js', 'lodash', 'react-tap-event-plugin', 'history', 'react-router', 'react-router-bootstrap', 'bootstrap', 'arrive', 'jquery-browserify', 'bootstrap_material_design', 'ripples', 'react-notify-toast', 'react-bootstrap-multiselect'],
+        external: [
+          'react',
+          'react-intl',
+          'react-bootstrap',
+          'react-dom',
+          'socket.io-client',
+          'sails.io.js',
+          'lodash',
+          'react-tap-event-plugin',
+          'history',
+          'react-router',
+          'react-router-bootstrap',
+          'bootstrap',
+          'arrive',
+          'jquery-browserify',
+          'bootstrap_material_design',
+          'ripples',
+          'react-notify-toast',
+          'react-bootstrap-multiselect'
+        ],
+        plugin: [
+          [
+            'minifyify', {
+              'map': null
+            }
+          ]
+        ],
         browserifyOptions: {
           fast: false,
           debug: false

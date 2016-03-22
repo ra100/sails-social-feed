@@ -201,7 +201,20 @@ module.exports.isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialF
 isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isOwner: function (data, req, next) {$/;"	function	line:25
 module.exports.isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:23
 switch	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^    switch (type) {$/;"	function	line:30
-exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^module.exports = function (grunt) {$/;"	function	line:13
-module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^\/**$/;"	function	line:0
 exports	/home/ra100/Devel/sails-social-feed/api/policies/isEditor.js	/^module.exports = function (req, res, next) {$/;"	function	line:8
 module.exports	/home/ra100/Devel/sails-social-feed/api/policies/isEditor.js	/^\/**$/;"	function	line:0
+exports	/home/ra100/Devel/sails-social-feed/tasks/config/babel.js	/^module.exports = function (grunt) {$/;"	function	line:1
+module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/babel.js	/^module.exports = function (grunt) {$/;"	function	line:0
+fs	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var fs = require('fs');$/;"	variable	line:1
+path	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var path = require('path');$/;"	variable	line:2
+browserifyMainFile	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var browserifyMainFile = '.\/assets\/app\/app.js';$/;"	variable	line:17
+appRootDir	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var appRootDir = browserifyMainFile.substring(0, browserifyMainFile.lastIndexOf('\/'));$/;"	variable	line:18
+es6To5SrcJSDir	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var es6To5SrcJSDir     = appRootDir+'\/components\/es6';$/;"	variable	line:21
+es6To5BuildPath	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var es6To5BuildPath    = appRootDir+'\/build\/';$/;"	variable	line:22
+typescriptDirectory	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var typescriptDirectory = appRootDir+'\/components\/ts\/';$/;"	variable	line:23
+packagesToInstall	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var packagesToInstall  = ['grunt-shell', 'grunt-react', 'grunt-browserify', 'grunt-babel', 'react-bootstrap', 'react', 'babel'];$/;"	variable	line:24
+cssFilesToInject	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var cssFilesToInject = [$/;"	variable	line:29
+jsFilesToInject	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var jsFilesToInject = [$/;"	variable	line:36
+templateFilesToInject	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var templateFilesToInject = [$/;"	variable	line:55
+exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^module.exports = function (grunt) {$/;"	function	line:13
+module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^\/**$/;"	function	line:0
