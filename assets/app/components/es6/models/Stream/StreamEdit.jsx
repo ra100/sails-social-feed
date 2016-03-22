@@ -1,5 +1,6 @@
 import {Component, PropTypes} from 'react';
 import {
+  Alert,
   Col,
   Row,
   Grid,
@@ -28,9 +29,19 @@ const messages = defineMessages({
     defaultMessage: 'Stream Name'
   },
   streamFieldNameLabel: {
-    id: 'stream.field.label.name',
+    id: 'stream.field.name.label',
     description: 'Stream Name label',
     defaultMessage: 'Name'
+  },
+  streamFieldUniqueNamePlaceholder: {
+    id: 'stream.field.uniquename.placeholder',
+    description: 'Stream Unique Name placeholder',
+    defaultMessage: 'unique_name'
+  },
+  streamFieldUniqueNameLabel: {
+    id: 'stream.field.uniquename.label',
+    description: 'Stream Uniqie Name label',
+    defaultMessage: 'Uniqie Name'
   },
   streamFieldStateLabel: {
     id: 'stream.field.state.label',
@@ -76,6 +87,11 @@ const messages = defineMessages({
     id: 'button.create',
     description: 'Create button text',
     defaultMessage: 'Create'
+  },
+  saved: {
+    id: 'stream.saved.notify',
+    description: 'Saved user notification',
+    defaultMessage: 'Stream has been saved'
   }
 });
 
@@ -110,10 +126,12 @@ class StreamCreate extends Component {
       state: '',
       refresh: 0,
       name: '',
+      uniquename: '',
       groups: null,
       owner: null,
 
       bsStyle_name: null,
+      bsStyle_uniquename: null,
       bsStyle_groups: null,
       bsStyle_owner: null,
 
@@ -121,7 +139,7 @@ class StreamCreate extends Component {
       edit: false,
       allow: true
     };
-    this._bind('_save', '_remove', '_update', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers');
+    this._bind('_save', '_remove', '_update', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', '_handleUniqueNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers', 'handleSaveResponse');
   }
 
   componentDidMount() {
@@ -240,6 +258,36 @@ class StreamCreate extends Component {
       this.setState({nameBsStyle: 'error'});
     } else {
       this.setState({nameBsStyle: 'success'});
+      socket.post('/streams/create', {
+        name: this.state.name,
+        uniqueName: this.state.uniquename,
+        state: this.state.state,
+        refresh: this.state.refresh,
+        roles: getSelected(this.state.roles),
+        owner: getSelected(this.state.owner)[0],
+        _csrf: _csrf
+      }, this.handleSaveResponse);
+    }
+  }
+
+  handleSaveResponse(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (res.statusCode == 500) {
+      notify.show('Error 500', 'error');
+      return;
+    }
+    if (res.statusCode == 403) {
+      notify.show(res.body, 'error');
+      return;
+    }
+
+    if (data.code == 'E_VALIDATION') {
+      this.setState({error: data.details});
+    } else if (data.id != undefined) {
+      notify.show(formatMessage(messages.saved), 'success');
+      this.setState({error: null});
+      let id = data.id;
+      this.props.history.push('/stream/' + id);
     }
   }
 
@@ -256,7 +304,15 @@ class StreamCreate extends Component {
   }
 
   _handleNameChange(event) {
-    this.setState({name: event.target.value});
+    let s = event.target.value.split(' ').join('_').toLowerCase();
+    this.setState({
+      name: event.target.value,
+      uniquename: s
+    });
+  }
+
+  _handleUniqueNameChange(event) {
+    this.setState({uniquename: event.target.value});
   }
 
   render() {
@@ -266,7 +322,16 @@ class StreamCreate extends Component {
       return (<Forbidden/>);
     }
 
+    let errorMessage = null;
+    if (this.state.error != null) {
+      errorMessage = <Alert bsStyle="danger">
+        <p>{this.state.error}</p>
+      </Alert>;
+    }
+
     let fieldName = <Input type="text" label={formatMessage(messages.streamFieldNameLabel)} placeholder={formatMessage(messages.streamFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle_name}></Input>;
+
+    let fieldUniqueName = <Input type="text" label={formatMessage(messages.streamFieldUniqueNameLabel)} placeholder={formatMessage(messages.streamFieldUniqueNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.uniquename} onChange={this._handleUniqueNameChange} ref="name" bsStyle={this.state.bsStyle_uniquename}></Input>;
 
     let fieldState = <Input type="select" label={formatMessage(messages.streamFieldStateLabel)} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.state} onChange={this._handleStateChange}>
       {_.map(this.state.definition.state.enum, function (val) {
@@ -322,8 +387,10 @@ class StreamCreate extends Component {
           {title}
         </PageHeader>
         <Col xs={12}>
+          {errorMessage}
           <form className="form-horizontal">
             {fieldName}
+            {fieldUniqueName}
             {fieldState}
             {fieldRefresh}
             {fieldGroups}
