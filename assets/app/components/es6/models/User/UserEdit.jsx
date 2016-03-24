@@ -269,29 +269,26 @@ class UserEdit extends Component {
   _update() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      let roles = null;
-      if (this.context.user.permissions.user.all.u) {
-        roles = getSelected(this.state.roles);
-      }
-      let groups = null;
-      if (this.context.user.permissions.user.all.u) {
-        groups = getSelected(this.state.groups);
-      }
-      socket.post('/users/update/' + this.props.params.userId, {
+      let payload =  {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,
-        roles: roles,
-        groups: groups,
         _csrf: _csrf
-      }, this.handleSaveResponse);
+      };
+      if (this.context.user.permissions.user.all.u) {
+        payload.roles = getSelected(this.state.roles);
+      }
+      if (this.context.user.permissions.user.all.u) {
+        payload.groups = getSelected(this.state.groups);
+      }
+      socket.post('/users/update/' + this.props.params.userId, payload, this.handleSaveResponse);
     }
   }
 
   _remove() {
     let {socket} = this.context;
     if (!this.state.deleted) {
-      socket.post('/users/destroy/' + this.props.user.id, {
+      socket.post('/users/destroy/' + this.props.params.userId, {
         _csrf: _csrf
       }, this.handleDestroyResponse);
     }

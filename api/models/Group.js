@@ -19,7 +19,7 @@ module.exports = {
     },
     streams: {
       collection: 'Stream',
-      via: 'group'
+      via: 'groups'
     },
     feeds: {
       collection: 'Feed',

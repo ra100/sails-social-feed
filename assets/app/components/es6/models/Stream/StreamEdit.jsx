@@ -23,6 +23,11 @@ const messages = defineMessages({
     description: 'Title of Create stream page',
     defaultMessage: 'Create New Stream'
   },
+  streamEditTitle: {
+    id: 'stream.edit.title',
+    description: 'Title of Edit stream page',
+    defaultMessage: 'Edit stream'
+  },
   streamFieldNamePlaceholder: {
     id: 'stream.field.name.placeholder',
     description: 'Stream Name placeholder',
@@ -139,7 +144,7 @@ class StreamCreate extends Component {
       edit: false,
       allow: true
     };
-    this._bind('_save', '_remove', '_update', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', '_handleUniqueNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers', 'handleSaveResponse');
+    this._bind('_save', '_remove', '_update', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleUniqueNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify');
   }
 
   componentDidMount() {
@@ -165,8 +170,8 @@ class StreamCreate extends Component {
       }, this.handleGroups);
     }
     socket.get('/streams/definition', this.handleDefinition);
-    if (this.props.params.userId >= 0) {
-      socket.get('/streams/canmodify' + this.props.params.streamId, this.handleCanModify);
+    if (this.props.params.streamId >= 0) {
+      socket.get('/streams/canmodify/' + this.props.params.streamId, this.handleCanModify);
     } else {
       socket.get('/streams/cancreate', this.handleCanCreate);
     }
@@ -194,9 +199,65 @@ class StreamCreate extends Component {
     if (res.statusCode == 200) {
       this.setState({allow: true, edit: true});
       let {socket} = this.context;
-      socket.get('/groups/' + this.props.params.userId, this.handleLoad);
+      let query = {
+        populate: 'owner,groups'
+      };
+      socket.get('/streams/' + this.props.params.streamId, query, this.handleLoad);
     } else {
       this.setState({allow: false});
+    }
+  }
+
+  handleLoad(data, res) {
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      let i;
+      let owner = [];
+      let groups = [];
+      if (this.state.owner == null && data.owner) {
+        owner.push({value: data.owner.id, label: data.owner.name, selected: true});
+      } else {
+        owner = this.state.owner;
+        let j;
+        for (j in owner) {
+          if (owner[j].value == data.owner.id) {
+            owner[j].selected = true;
+          };
+        }
+      }
+      if (this.state.groups == null) {
+        for (i in data.groups) {
+          groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
+        }
+      } else {
+        groups = this.state.groups;
+        for (i in data.groups) {
+          let j;
+          for (j in groups) {
+            if (groups[j].value == data.groups[i].id) {
+              groups[j].selected = true;
+            };
+          }
+        }
+      }
+      this.setState({
+        status: res.statusCode,
+        user: data,
+        state: data.state,
+        refresh: data.refresh,
+        name: data.name,
+        uniquename: data.uniqueName,
+        owner: owner,
+        groups: groups,
+        error: null,
+        edit: true
+      });
+      this.refs.owner.syncData();
+      this.refs.groups.syncData();
+    } else {
+      this.setState({status: res.statusCode, error: res.body, stream: null});
     }
   }
 
@@ -228,7 +289,9 @@ class StreamCreate extends Component {
       });
     }
     this.setState({groups: groups});
-    this.refs.groups.syncData();
+    if (this.refs.groups) {
+      this.refs.groups.syncData();
+    }
   }
 
   handleUsers(data, res) {
@@ -236,6 +299,9 @@ class StreamCreate extends Component {
       return;
     }
     let selected = getSelected(this.state.owner);
+    if (selected.length == 0) {
+      selected.push(this.context.user.id);
+    }
     let users = [];
     let i;
     for (i in data) {
@@ -249,25 +315,64 @@ class StreamCreate extends Component {
     let u = _.union(this.state.owner, users);
     u = _.uniqBy(u, 'value');
     this.setState({owner: u});
-    this.refs.owner.syncData();
+    if (this.refs.owner) {
+      this.refs.owner.syncData();
+    }
   }
 
   _save() {
     let {socket} = this.context;
-    if (this.state.name.length == 0) {
-      this.setState({nameBsStyle: 'error'});
-    } else {
-      this.setState({nameBsStyle: 'success'});
+    if (this._validateAll()) {
       socket.post('/streams/create', {
         name: this.state.name,
         uniqueName: this.state.uniquename,
         state: this.state.state,
         refresh: this.state.refresh,
-        roles: getSelected(this.state.roles),
+        groups: getSelected(this.state.groups),
         owner: getSelected(this.state.owner)[0],
         _csrf: _csrf
       }, this.handleSaveResponse);
     }
+  }
+
+  _update() {
+    let {socket} = this.context;
+    if (this._validateAll()) {
+      let payload = {
+        name: this.state.name,
+        uniqueName: this.state.uniquename,
+        state: this.state.state,
+        refresh: this.state.refresh,
+        _csrf: _csrf
+      };
+      if (this.context.user.permissions.stream.group.u) {
+        payload.owner = getSelected(this.state.owner)[0];
+      }
+      if (this.context.user.permissions.stream.group.u) {
+        payload.groups = getSelected(this.state.groups);
+      }
+      socket.post('/streams/update/' + this.props.params.streamId, payload, this.handleSaveResponse);
+    }
+  }
+  
+  _remove() {
+    let {socket} = this.context;
+    if (!this.state.deleted) {
+      socket.post('/streams/destroy/' + this.props.params.streamId, {
+        _csrf: _csrf
+      }, this.handleDestroyResponse);
+    }
+  }
+
+  _validateAll() {
+    let ok = true;
+    if (this.state.name.length == 0) {
+      this.setState({nameBsStyle: 'error'});
+      ok = false;
+    } else {
+      this.setState({nameBsStyle: 'success'});
+    }
+    return ok;
   }
 
   handleSaveResponse(data, res) {
@@ -291,8 +396,6 @@ class StreamCreate extends Component {
     }
   }
 
-  _update() {}
-
   _remove() {}
 
   _handleStateChange(event) {
@@ -305,14 +408,41 @@ class StreamCreate extends Component {
 
   _handleNameChange(event) {
     let s = event.target.value.split(' ').join('_').toLowerCase();
-    this.setState({
-      name: event.target.value,
-      uniquename: s
-    });
+    this.setState({name: event.target.value, uniquename: s});
   }
 
   _handleUniqueNameChange(event) {
     this.setState({uniquename: event.target.value});
+  }
+
+  _handleGroupsChange(event) {
+    let val = event.context.value;
+    let sel = event.context.selected;
+    let i;
+    let groups = [];
+    for (i in this.state.groups) {
+      groups[i] = this.state.groups[i];
+      if (groups[i].value == val) {
+        groups[i].selected = sel;
+      }
+    }
+    this.setState({groups: groups});
+  }
+
+  _handleOwnerChange(event) {
+    let val = event.context.value;
+    let sel = event.context.selected;
+    let i;
+    let owner = [];
+    for (i in this.state.owner) {
+      owner[i] = this.state.owner[i];
+      if (owner[i].value == val) {
+        owner[i].selected = sel;
+      } else {
+        owner[i].selected = false;
+      }
+    }
+    this.setState({owner: owner});
   }
 
   render() {
@@ -363,7 +493,7 @@ class StreamCreate extends Component {
         <FormattedMessage {...messages.streamFieldOwnerLabel}/>
       </label>
       <div className="col-xs-12 col-sm-5">
-        <Multiselect onChange={this._handleGroupsChange} data={this.state.owner} ref="owner"/>
+        <Multiselect onChange={this._handleOwnerChange} data={this.state.owner} ref="owner"/>
       </div>
     </div>;
 

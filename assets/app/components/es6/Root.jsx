@@ -4,6 +4,7 @@ import App from './App';
 import Home from './Home';
 import Login from './Login';
 import StreamEdit from './models/Stream/StreamEdit';
+import StreamView from './models/Stream/StreamView';
 import GroupEdit from './models/Group/GroupEdit';
 import GroupView from './models/Group/GroupView';
 import Groups from './models/Group/Groups';
@@ -38,6 +39,8 @@ class Root extends Component {
             <Route path="group" component={GroupEdit}></Route>
             <Route path="user" component={UserEdit}></Route>
           </Route>
+          <Route path="/stream/:streamId" component={StreamView}></Route>
+          <Route path="/stream/:streamId/edit" component={StreamEdit}></Route>
           <Route path="/group/:groupId" component={GroupView}></Route>
           <Route path="/group/:groupId/edit" component={GroupEdit}></Route>
           <Route path="/user/:userId" component={UserView}></Route>

@@ -20,7 +20,6 @@ candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.j
 module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:14
 destroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  destroy: function (req, res, next) {$/;"	function	line:22
 module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:17
-module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Stream.js	/^module.exports = {$/;"	property	line:8
 module.exports.feedTypes	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^module.exports = {$/;"	property	line:8
 module.exports.schema	/home/ra100/Devel/sails-social-feed/api/models/User.js	/^module.exports = {$/;"	property	line:1
 module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/User.js	/^  schema: true,$/;"	property	line:3
@@ -218,3 +217,5 @@ jsFilesToInject	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var jsFi
 templateFilesToInject	/home/ra100/Devel/sails-social-feed/tasks/pipeline.js	/^var templateFilesToInject = [$/;"	variable	line:55
 exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^module.exports = function (grunt) {$/;"	function	line:13
 module.exports	/home/ra100/Devel/sails-social-feed/tasks/config/browserify.js	/^\/**$/;"	function	line:0
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Stream.js	/^module.exports = {$/;"	property	line:8
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Group.js	/^module.exports = {$/;"	property	line:8

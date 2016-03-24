@@ -24,8 +24,9 @@ module.exports = {
     owner: {
       model: 'User'
     },
-    group: {
-      model: 'Group'
+    groups: {
+      collection: 'Group',
+      via: 'streams'
     },
     feeds: {
       collection: 'Feed',
