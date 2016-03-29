@@ -71,13 +71,17 @@ class EditToolbar extends Component {
     let edit = null,
       create = null,
       update = null,
-      remove = null;
+      remove = null,
+      cancel = null;
 
-    let cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>;
+    if (this.props.cancel != false) {
+      cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>;
+    }
 
     if (this.props.update) {
       update = <Button bsStyle="success" onTouchTap={this.props.update}><FormattedMessage {...messages.saveButton}/></Button>;
     }
+
     if (this.props.create) {
       create = <Button bsStyle="success" onTouchTap={this.props.create}><FormattedMessage {...messages.createButton}/></Button>;
     }
@@ -112,14 +116,16 @@ EditToolbar.propTypes = {
   edit: PropTypes.func,
   create: PropTypes.func,
   update: PropTypes.func,
-  remove: PropTypes.func
+  remove: PropTypes.func,
+  cancel: PropTypes.bool
 };
 
 EditToolbar.defaultTypes = {
   edit: null,
   create: null,
   update: null,
-  remove: null
+  remove: null,
+  cancel: true
 };
 
 export default injectIntl(EditToolbar);

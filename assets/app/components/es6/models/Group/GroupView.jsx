@@ -55,7 +55,7 @@ class GroupView extends Component {
   }
 
   _edit() {
-    this.props.history.push('/group/' + this.state.group.id + '/edit');
+    this.context.history.push('/group/' + this.state.group.id + '/edit');
   }
 
   handleDestroyResponse(data, res) {

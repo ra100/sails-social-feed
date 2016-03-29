@@ -12,14 +12,12 @@
     "__DEV__": true,
     "__SERVER__": true
   },
-  "ecmaFeatures": {
-    "jsx": true
-  },
   "rules": {
     "strict": [2, "never"],
     "semi": 2,
     "indent": [2, 2, {"SwitchCase": 1}],
-    "quotes": [2, "single"]
+    "quotes": [2, "single"],
+    "no-labels": 1
   },
   "ecmaFeatures": {
     "blockBindings": true,

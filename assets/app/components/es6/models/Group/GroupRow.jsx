@@ -3,7 +3,7 @@ import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {Button} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import {notify} from 'react-notify-toast';
-import ButtonModal from './../../ButtonModal';
+import EditToolbar from './../../EditToolbar';
 
 const messages = defineMessages({
   edit: {
@@ -59,7 +59,7 @@ class GroupRow extends Component {
     this.state = {
       deleted: false
     };
-    this._bind('_delete', 'handleDestroyResponse');
+    this._bind('_remove', '_edit', 'handleDestroyResponse');
   }
 
   componentDidMount() {
@@ -70,13 +70,17 @@ class GroupRow extends Component {
     this._isMounted = false;
   }
 
-  _delete() {
+  _remove() {
     let {socket} = this.context;
     if (!this.state.deleted) {
       socket.post('/groups/destroy/' + this.props.group.id, {
         _csrf: _csrf
       }, this.handleDestroyResponse);
     }
+  }
+
+  _edit() {
+    this.context.history.push('/group/' + this.props.group.id + '/edit');
   }
 
   handleDestroyResponse(data, res) {
@@ -110,12 +114,7 @@ class GroupRow extends Component {
           </LinkContainer>
         </td>
         <td>
-          <LinkContainer to={'/group/' + group.id + '/edit'}>
-            <Button bsStyle="success">
-              <FormattedMessage {...messages.edit}/>
-            </Button>
-          </LinkContainer>
-          <ButtonModal title={formatMessage(messages.delete)} modalTitle={formatMessage(messages.deleteTitle)} message={formatMessage(messages.deleteMessage)} confirm={formatMessage(messages.modalConfirm)} cancel={formatMessage(messages.modalCancel)} bsStyle="danger" confirmAction={this._delete}/>
+          <EditToolbar edit={this._edit} remove={this._remove} cancel={false}/>
         </td>
       </tr>
     );

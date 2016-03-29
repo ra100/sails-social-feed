@@ -3,11 +3,12 @@ import {Component, PropTypes} from 'react';
 import App from './App';
 import Home from './Home';
 import Login from './Login';
+import Streams from './models/Stream/Streams';
 import StreamEdit from './models/Stream/StreamEdit';
 import StreamView from './models/Stream/StreamView';
+import Groups from './models/Group/Groups';
 import GroupEdit from './models/Group/GroupEdit';
 import GroupView from './models/Group/GroupView';
-import Groups from './models/Group/Groups';
 import Users from './models/User/Users';
 import UserEdit from './models/User/UserEdit';
 import UserView from './models/User/UserView';
@@ -39,13 +40,20 @@ class Root extends Component {
             <Route path="group" component={GroupEdit}></Route>
             <Route path="user" component={UserEdit}></Route>
           </Route>
-          <Route path="/stream/:streamId" component={StreamView}></Route>
-          <Route path="/stream/:streamId/edit" component={StreamEdit}></Route>
-          <Route path="/group/:groupId" component={GroupView}></Route>
-          <Route path="/group/:groupId/edit" component={GroupEdit}></Route>
-          <Route path="/user/:userId" component={UserView}></Route>
-          <Route path="/user/:userId/edit" component={UserEdit}></Route>
+          <Route path="/stream">
+            <Route path=":streamId" component={StreamView}></Route>
+            <Route path=":streamId/edit" component={StreamEdit}></Route>
+          </Route>
+          <Route path="/group">
+            <Route path=":groupId" component={GroupView}></Route>
+            <Route path=":groupId/edit" component={GroupEdit}></Route>
+          </Route>
+          <Route path="/user">
+            <Route path=":userId" component={UserView}></Route>
+            <Route path=":userId/edit" component={UserEdit}></Route>
+          </Route>
           <Route path="/view">
+            <Route path="/streams" component={Streams}></Route>
             <Route path="/users" component={Users}></Route>
             <Route path="/groups" component={Groups}></Route>
           </Route>

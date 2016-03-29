@@ -18,4 +18,17 @@ module.exports = {
   candestroy: function (req, res) {
     res.ok({status: 'ok'});
   },
+
+  /**
+   * @override
+   */
+  destroy: function (req, res, next) {
+    var sid = req.params.id;
+    Stream.destroy({id: sid}).exec(function (err) {
+      if (err) {
+        return res.negotiate(err);
+      }
+      return res.ok();
+    });
+  }
 };

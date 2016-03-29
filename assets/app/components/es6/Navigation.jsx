@@ -60,6 +60,11 @@ const messages = defineMessages({
     description: 'View button',
     defaultMessage: 'View'
   },
+  streams: {
+    id: 'menu.streams.title',
+    description: 'View Streams button',
+    defaultMessage: 'Streams'
+  },
   groups: {
     id: 'menu.groups.title',
     description: 'View Groups button',
@@ -151,6 +156,15 @@ class Navigation extends Component {
           {createUser}
         </NavDropdown>;
 
+        let viewStreams = null;
+        if (permissions.stream.all.r) {
+          viewStreams = <LinkContainer to={'/streams'}>
+            <MenuItem>
+              <FormattedMessage {...messages.streams}/>
+            </MenuItem>
+          </LinkContainer>;
+        };
+
         let viewGroups = null;
         if (permissions.group.all.r) {
           viewGroups = <LinkContainer to={'/groups'}>
@@ -170,6 +184,7 @@ class Navigation extends Component {
         };
 
         viewMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.view)}>
+          {viewStreams}
           {viewUsers}
           {viewGroups}
         </NavDropdown>;

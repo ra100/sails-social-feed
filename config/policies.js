@@ -60,7 +60,9 @@ module.exports.policies = {
     'cancreate': ['passport', 'sessionAuth', 'isEditor'],
     'canmodify': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'create': ['passport', 'sessionAuth', 'isEditor'],
-    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner']
+    'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner']
   },
 
   GroupController: {
