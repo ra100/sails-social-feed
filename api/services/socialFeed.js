@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 /**
  * socialFeed service, to provide functions used in different parts of code
  */
@@ -26,20 +28,24 @@ module.exports = {
     var uid = data.uid;
     var type = data.type;
     var id = data.id;
-    var q = null;
-    switch (type) {
-      case 'stream':
-        q = Stream;
-        break;
-      case 'feed':
-        q = Feed;
-        break;
-    }
-    q.findOne({id: id}).populate('owner').populate('group').exec(function (err, obj) {
+    sails.models[type].findOne({id: id}).populate('owner').populate('groups').exec(function (err, obj) {
+      if (err) {
+        return next(req.__('Error.Unexpected'), obj);
+      }
       if (obj.owner.id == uid) {
         return next(null, obj);
       }
-
+      User.findOne({id: uid}).populate('groups').exec(function(err, user){
+        if (err) {
+          return next(req.__('Error.Unexpected'), obj);
+        }
+        var intersection = _.intersectionBy(obj.groups, user.groups, 'id');
+        if (intersection.length > 0) {
+          return next(null, obj);
+        } else {
+          return next(req.__('Error.Not.InGroup'), obj);
+        }
+      });
     });
   }
 };

@@ -7,10 +7,17 @@
  */
 module.exports = function(req, res, next) {
   var uid = req.user.id;
-  socialFeed.isAdmin(uid, req, function(err, user) {
+  var type = req.options.controller;
+  var id = req.param('id');
+  socialFeed.isOwner({type: type, uid: uid, id: id}, req, function(err, user) {
     if (err) {
-      return res.forbidden(err);
+      socialFeed.isAdmin(uid, req, function (err, user) {
+        if (err) {
+          return res.forbidden(err);
+        }
+        return next();
+      });
     }
-    next();
+    return next();
   });
 };

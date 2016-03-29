@@ -24,7 +24,7 @@ module.exports = {
     type: {
       type: 'string', in: this.feedTypes
     },
-    group: {
+    groups: {
       model: 'Group'
     },
     owner: {

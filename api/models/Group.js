@@ -23,7 +23,7 @@ module.exports = {
     },
     feeds: {
       collection: 'Feed',
-      via: 'group'
+      via: 'groups'
     }
   }
 };
