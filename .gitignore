@@ -120,6 +120,9 @@ nbproject
 .node_history
 testResults.txt
 
+.tags
+.tags1
+
 start.sh
 assets/vendor
 assets/app/app.js
