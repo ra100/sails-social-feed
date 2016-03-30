@@ -32,6 +32,10 @@ module.exports = {
     },
     stream: {
       model: 'Stream'
-    }
+    },
+    messages: {
+      collection: 'Message',
+      via: 'feed'
+    },
   }
 };

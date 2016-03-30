@@ -224,24 +224,30 @@ class StreamCreate extends Component {
         for (j in owner) {
           if (owner[j].value == data.owner.id) {
             owner[j].selected = true;
-          };
-        }
-      }
-      if (this.state.groups == null) {
-        for (i in data.groups) {
-          groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
-        }
-      } else {
-        groups = this.state.groups;
-        for (i in data.groups) {
-          let j;
-          for (j in groups) {
-            if (groups[j].value == data.groups[i].id) {
-              groups[j].selected = true;
-            };
+          } else {
+            owner[j].selected = false;
           }
         }
       }
+      // if (this.state.groups == null) {
+      
+      for (i in data.groups) {
+        groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
+      }
+      if (this.state.groups) {
+        groups = _.unionBy(this.state.groups, groups, 'value');
+      }
+    // } else {
+      // groups = this.state.groups;
+      for (i in data.groups) {
+        let j;
+        for (j in groups) {
+          if (groups[j].value == data.groups[i].id) {
+            groups[j].selected = true;
+          };
+        }
+      }
+      // }
       this.setState({
         status: res.statusCode,
         user: data,
@@ -354,7 +360,7 @@ class StreamCreate extends Component {
       socket.post('/streams/update/' + this.props.params.streamId, payload, this.handleSaveResponse);
     }
   }
-  
+
   _remove() {
     let {socket} = this.context;
     if (!this.state.deleted) {
