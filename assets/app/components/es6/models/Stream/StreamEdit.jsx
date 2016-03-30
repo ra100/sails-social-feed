@@ -229,16 +229,13 @@ class StreamCreate extends Component {
           }
         }
       }
-      // if (this.state.groups == null) {
-      
+
       for (i in data.groups) {
         groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
       }
       if (this.state.groups) {
         groups = _.unionBy(this.state.groups, groups, 'value');
       }
-    // } else {
-      // groups = this.state.groups;
       for (i in data.groups) {
         let j;
         for (j in groups) {
@@ -247,7 +244,7 @@ class StreamCreate extends Component {
           };
         }
       }
-      // }
+
       this.setState({
         status: res.statusCode,
         user: data,
