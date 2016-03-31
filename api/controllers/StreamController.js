@@ -19,6 +19,18 @@ module.exports = {
     res.ok({status: 'ok'});
   },
 
+  public: function (req, res) {
+    Stream.findOne({where: {id: req.param('id'), published: true}, select: ['id', 'name', 'feeds']}).then(function (stream) {
+      if (!stream) {
+        res.json(404, {error: req.__('Error.Stream.Not.Found')});
+      } else {
+        res.json(stream);
+      }
+    }).catch(function (err) {
+      res.serverError(err);
+    });
+  },
+
   /**
    * @override
    */

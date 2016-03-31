@@ -63,7 +63,8 @@ module.exports.policies = {
     'create': ['passport', 'sessionAuth', 'isEditor'],
     'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner']
+    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'public': []
   },
 
   FeedController: {

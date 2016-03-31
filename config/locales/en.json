@@ -6,5 +6,6 @@
 	"Error.Passport.Already.Authenticated": "Error.Passport.Already.Authenticated",
 	"Error.Not.Admin": "Error.Not.Admin",
 	"Error.Not.Editor": "Error.Not.Editor",
-	"Error.Not.InGroup": "Error.Not.InGroup"
+	"Error.Not.InGroup": "Error.Not.InGroup",
+	"Error.Stream.Not.Found": "Error.Stream.Not.Found"
 }

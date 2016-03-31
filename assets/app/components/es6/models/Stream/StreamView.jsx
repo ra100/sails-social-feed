@@ -53,6 +53,11 @@ const messages = defineMessages({
     description: 'Messages label',
     defaultMessage: 'Messages'
   },
+  streamFieldPublishedLabel: {
+    id: 'stream.field.published.label',
+    description: 'Stream Published label',
+    defaultMessage: 'Published'
+  },
   feedFieldNameLabel: {
     id: 'feed.field.name.label',
     description: 'Feed Name label',
@@ -185,6 +190,10 @@ class StreamView extends Component {
         if (this.state.stream !== null) {
           let {stream} = this.state;
           let feeds = this.renderFeeds();
+          let pub = <i className="material-icons">check_box_outline_blank</i>;
+          if (stream.published) {
+            pub = <i className="material-icons">check_box</i>;
+          }
           return (
             <Row>
               <PageHeader>
@@ -207,6 +216,11 @@ class StreamView extends Component {
                 <strong>{stream.state}</strong>
               </Col>
 
+              <Col xs={3}><FormattedMessage {...messages.streamFieldPublishedLabel}/></Col>
+              <Col xs={9}>
+                {pub}
+              </Col>
+
               <Col xs={3}><FormattedMessage {...messages.streamFieldOwnerLabel}/></Col>
               <Col xs={9}>
                 <strong>{stream.owner.username}</strong>
@@ -218,6 +232,7 @@ class StreamView extends Component {
                   return <Label key={i}>{group.name}</Label>;
                 })}
               </Col>
+
               <EditToolbar edit={this._edit}/>
               <Col xs={12}>
                 <h3><FormattedMessage {...messages.streamFieldFeedsLabel}/></h3>

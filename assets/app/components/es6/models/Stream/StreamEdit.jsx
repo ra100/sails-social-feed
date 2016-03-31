@@ -53,6 +53,11 @@ const messages = defineMessages({
     description: 'Stream State label',
     defaultMessage: 'State'
   },
+  streamFieldPublishedLabel: {
+    id: 'stream.field.published.label',
+    description: 'Stream Published label',
+    defaultMessage: 'Published'
+  },
   streamStateOptionactive: {
     id: 'stream.field.state.option.active',
     description: 'Stream State Active',
@@ -137,6 +142,7 @@ class StreamCreate extends Component {
       refresh: 0,
       name: '',
       uniquename: '',
+      published: false,
       groups: null,
       owner: null,
 
@@ -149,7 +155,7 @@ class StreamCreate extends Component {
       edit: false,
       allow: true
     };
-    this._bind('_save', '_remove', '_update', 'load', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleUniqueNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse');
+    this._bind('_save', '_remove', '_update', 'load', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handlePublishedChange', '_handleUniqueNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse');
   }
 
   componentDidMount() {
@@ -194,7 +200,7 @@ class StreamCreate extends Component {
       this.setState({allow: false});
     }
   }
-  
+
   load(nextProps) {
     if (!this._isMounted) {
       return;
@@ -273,6 +279,7 @@ class StreamCreate extends Component {
         user: data,
         state: data.state,
         refresh: data.refresh,
+        published: data.published,
         name: data.name,
         uniquename: data.uniqueName,
         owner: owner,
@@ -354,6 +361,7 @@ class StreamCreate extends Component {
         uniqueName: this.state.uniquename,
         state: this.state.state,
         refresh: this.state.refresh,
+        published: this.state.published,
         groups: getSelected(this.state.groups),
         owner: getSelected(this.state.owner)[0],
         _csrf: _csrf
@@ -368,6 +376,7 @@ class StreamCreate extends Component {
         name: this.state.name,
         uniqueName: this.state.uniquename,
         state: this.state.state,
+        published: this.state.published,
         refresh: this.state.refresh,
         _csrf: _csrf
       };
@@ -442,6 +451,10 @@ class StreamCreate extends Component {
 
   _handleRefreshChange(event) {
     this.setState({refresh: event.target.value});
+  }
+
+  _handlePublishedChange(event) {
+    this.setState({published: this.refs.published.refs.input.checked});
   }
 
   _handleNameChange(event) {
@@ -535,6 +548,11 @@ class StreamCreate extends Component {
       </div>
     </div>;
 
+    let fieldPublished = <div className="form-grou">
+      <label className="control-label col-xs-12 col-sm-2">
+        <FormattedMessage {...messages.streamFieldPublishedLabel}/>
+      </label><Input type="checkbox" label={formatMessage(messages.streamFieldPublishedLabel)} onChange={this._handlePublishedChange} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" checked={this.state.published} ref='published'/></div>;
+
     let create = null;
     let update = null;
     let remove = null;
@@ -560,6 +578,7 @@ class StreamCreate extends Component {
             {fieldName}
             {fieldUniqueName}
             {fieldState}
+            {fieldPublished}
             {fieldRefresh}
             {fieldGroups}
             {fieldOwner}
