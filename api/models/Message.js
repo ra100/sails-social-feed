@@ -15,7 +15,7 @@ module.exports = {
       type: 'string'
     },
     feed: {
-      mode: 'Feed'
+      model: 'Feed'
     },
     message: {
       type: 'text'
