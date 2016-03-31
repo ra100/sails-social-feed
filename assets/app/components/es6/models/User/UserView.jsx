@@ -46,23 +46,41 @@ class UserView extends Component {
       status: 0,
       error: null
     };
-    this._bind('_edit', 'handleResponse');
+    this._bind('_edit', 'handleLoad', 'load');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    let {socket} = this.context;
-    let query = {
-      populate: 'roles,passports,streams,feeds,groups'
-    };
-    socket.get('/users/' + this.props.params.userId, query, this.handleResponse);
+    this.load();
   }
-
+  
   componentWillUnmount() {
     this._isMounted = false;
   }
 
-  handleResponse(data, res) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.userId !== this.props.params.userId) {
+      this.setState({user: null, status: 0, error: null});
+      this.load(nextProps);
+    }
+  }
+
+  load(nextProps) {
+    if (!this._isMounted) {
+      return;
+    }
+    let {socket} = this.context;
+    let query = {
+      populate: 'roles,passports,streams,feeds,groups'
+    };
+    let userId = this.props.params.userId;
+    if (nextProps) {
+      userId = nextProps.params.userId;
+    }
+    socket.get('/users/' + userId, query, this.handleLoad);
+  }
+
+  handleLoad(data, res) {
     if (!this._isMounted) {
       return;
     }

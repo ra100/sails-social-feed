@@ -56,23 +56,41 @@ class StreamView extends Component {
       status: 0,
       error: null
     };
-    this._bind('_edit', 'handleResponse');
+    this._bind('_edit', 'handleLoad', 'load');
   }
 
   componentDidMount() {
     this._isMounted = true;
+    this.load();
+  }
+
+  load(nextProps) {
+    if (!this._isMounted) {
+      return;
+    }
     let {socket} = this.context;
     let query = {
       populate: 'feeds,groups,owner'
     };
-    socket.get('/streams/' + this.props.params.streamId, query, this.handleResponse);
+    let streamId = this.props.params.streamId;
+    if (nextProps) {
+      streamId = nextProps.params.streamId;
+    }
+    socket.get('/streams/' + streamId, query, this.handleLoad);
   }
 
   componentWillUnmount() {
     this._isMounted = false;
   }
 
-  handleResponse(data, res) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.streamId !== this.props.params.streamId) {
+      this.setState({stream: null, status: 0, error: null});
+      this.load(nextProps);
+    }
+  }
+
+  handleLoad(data, res) {
     if (!this._isMounted) {
       return;
     }

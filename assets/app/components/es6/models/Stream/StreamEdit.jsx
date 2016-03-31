@@ -97,6 +97,11 @@ const messages = defineMessages({
     id: 'stream.saved.notify',
     description: 'Saved user notification',
     defaultMessage: 'Stream has been saved'
+  },
+  deletedSuccess: {
+    id: 'stream.deleted.notify',
+    description: 'Info that groups has beed deleted',
+    defaultMessage: 'Group has beed deleted.'
   }
 });
 
@@ -144,41 +149,23 @@ class StreamCreate extends Component {
       edit: false,
       allow: true
     };
-    this._bind('_save', '_remove', '_update', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleUniqueNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify');
+    this._bind('_save', '_remove', '_update', 'load', '_handleStateChange', '_handleRefreshChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleUniqueNameChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    let {socket} = this.context;
-    let roles = this.context.user.roles;
-    let isAdmin = function () {
-      let i;
-      for (i in roles) {
-        if (roles[i].name == 'admin') {
-          return true;
-        };
-      };
-      return false;
-    };
-    if (isAdmin()) {
-      socket.get('/groups', {
-        sort: 'name'
-      }, this.handleGroups);
-    } else {
-      socket.get('/users/' + this.context.user.id + '/groups', {
-        sort: 'name'
-      }, this.handleGroups);
-    }
-    socket.get('/streams/definition', this.handleDefinition);
-    if (this.props.params.streamId >= 0) {
-      socket.get('/streams/canmodify/' + this.props.params.streamId, this.handleCanModify);
-    } else {
-      socket.get('/streams/cancreate', this.handleCanCreate);
-    }
+    this.load();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.streamId !== this.props.params.streamId) {
+      this.setState({stream: null, status: 0, error: null});
+      this.load(nextProps);
+    }
   }
 
   handleCanCreate(data, res) {
@@ -205,6 +192,42 @@ class StreamCreate extends Component {
       socket.get('/streams/' + this.props.params.streamId, query, this.handleLoad);
     } else {
       this.setState({allow: false});
+    }
+  }
+  
+  load(nextProps) {
+    if (!this._isMounted) {
+      return;
+    }
+    let {socket} = this.context;
+    let roles = this.context.user.roles;
+    let streamId = this.props.params.streamId;
+    if (nextProps) {
+      streamId = nextProps.params.streamId;
+    }
+    let isAdmin = function () {
+      let i;
+      for (i in roles) {
+        if (roles[i].name == 'admin') {
+          return true;
+        };
+      };
+      return false;
+    };
+    if (isAdmin()) {
+      socket.get('/groups', {
+        sort: 'name'
+      }, this.handleGroups);
+    } else {
+      socket.get('/users/' + this.context.user.id + '/groups', {
+        sort: 'name'
+      }, this.handleGroups);
+    }
+    socket.get('/streams/definition', this.handleDefinition);
+    if (streamId >= 0) {
+      socket.get('/streams/canmodify/' + streamId, this.handleCanModify);
+    } else {
+      socket.get('/streams/cancreate', this.handleCanCreate);
     }
   }
 
@@ -326,7 +349,7 @@ class StreamCreate extends Component {
   _save() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      socket.post('/streams/create', {
+      socket.post('/streams', {
         name: this.state.name,
         uniqueName: this.state.uniquename,
         state: this.state.state,
@@ -354,14 +377,14 @@ class StreamCreate extends Component {
       if (this.context.user.permissions.stream.group.u) {
         payload.groups = getSelected(this.state.groups);
       }
-      socket.post('/streams/update/' + this.props.params.streamId, payload, this.handleSaveResponse);
+      socket.put('/streams/' + this.props.params.streamId, payload, this.handleSaveResponse);
     }
   }
 
   _remove() {
     let {socket} = this.context;
     if (!this.state.deleted) {
-      socket.post('/streams/destroy/' + this.props.params.streamId, {
+      socket.delete('/streams/' + this.props.params.streamId, {
         _csrf: _csrf
       }, this.handleDestroyResponse);
     }
@@ -370,12 +393,26 @@ class StreamCreate extends Component {
   _validateAll() {
     let ok = true;
     if (this.state.name.length == 0) {
-      this.setState({nameBsStyle: 'error'});
+      this.setState({bsStyle_name: 'error'});
       ok = false;
     } else {
-      this.setState({nameBsStyle: 'success'});
+      this.setState({bsStyle_name: 'success'});
     }
     return ok;
+  }
+
+  handleDestroyResponse(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      this.setState({deleted: true});
+      notify.show(formatMessage(messages.deletedSuccess), 'success');
+      this.props.history.goBack();
+    } else {
+      notify.show(res.body, 'error');
+    }
   }
 
   handleSaveResponse(data, res) {
@@ -398,8 +435,6 @@ class StreamCreate extends Component {
       this.props.history.push('/stream/' + id);
     }
   }
-
-  _remove() {}
 
   _handleStateChange(event) {
     this.setState({state: event.target.value});

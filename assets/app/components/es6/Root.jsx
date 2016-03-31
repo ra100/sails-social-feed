@@ -6,6 +6,7 @@ import Login from './Login';
 import Streams from './models/Stream/Streams';
 import StreamEdit from './models/Stream/StreamEdit';
 import StreamView from './models/Stream/StreamView';
+import FeedEdit from './models/Feed/FeedEdit';
 import Groups from './models/Group/Groups';
 import GroupEdit from './models/Group/GroupEdit';
 import GroupView from './models/Group/GroupView';
@@ -37,12 +38,17 @@ class Root extends Component {
           <Route path="/home" component={Home}></Route>
           <Route path="/create">
             <Route path="stream" component={StreamEdit}></Route>
+            <Route path="feed" component={FeedEdit}></Route>
             <Route path="group" component={GroupEdit}></Route>
             <Route path="user" component={UserEdit}></Route>
           </Route>
           <Route path="/stream">
             <Route path=":streamId" component={StreamView}></Route>
             <Route path=":streamId/edit" component={StreamEdit}></Route>
+          </Route>
+          <Route path="/feed">
+            <Route path=":feedId" component={FeedEdit}></Route>
+            <Route path=":feedId/edit" component={FeedEdit}></Route>
           </Route>
           <Route path="/group">
             <Route path=":groupId" component={GroupView}></Route>

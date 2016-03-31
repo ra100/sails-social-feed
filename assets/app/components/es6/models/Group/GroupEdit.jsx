@@ -40,6 +40,11 @@ const messages = defineMessages({
     id: 'group.saved.notify',
     description: 'Saved group notification',
     defaultMessage: 'Group has been saved'
+  },
+  deletedSuccess: {
+    id: 'group.deleted.notify',
+    description: 'Info that groups has beed deleted',
+    defaultMessage: 'Group has beed deleted.'
   }
 });
 
@@ -62,21 +67,23 @@ class GroupEdit extends Component {
       error: null,
       allow: true
     };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_validateAll', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad');
+    this._bind('_save', '_update', '_remove', 'load', '_handleNameChange', '_validateAll', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleDestroyResponse');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    let {socket} = this.context;
-    if (this.props.params.groupId >= 0) {
-      socket.get('/groups/canmodify/' + this.props.params.groupId, this.handleCanModify);
-    } else {
-      socket.get('/groups/cancreate', this.handleCanCreate);
-    }
+    this.load();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.groupId !== this.props.params.groupId) {
+      this.setState({group: null, status: 0, error: null});
+      this.load(nextProps);
+    }
   }
 
   handleCanCreate(data, res) {
@@ -103,6 +110,22 @@ class GroupEdit extends Component {
     }
   }
 
+  load(nextProps) {
+    if (!this._isMounted) {
+      return;
+    }
+    let {socket} = this.context;
+    let groupId = this.props.params.groupId;
+    if (nextProps) {
+      groupId = nextProps.params.groupId;
+    }
+    if (groupId >= 0) {
+      socket.get('/groups/canmodify/' + groupId, this.handleCanModify);
+    } else {
+      socket.get('/groups/cancreate', this.handleCanCreate);
+    }
+  }
+
   handleLoad(data, res) {
     if (!this._isMounted) {
       return;
@@ -117,7 +140,7 @@ class GroupEdit extends Component {
   _save() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      socket.post('/groups/create', {
+      socket.post('/groups', {
         name: this.state.group.name,
         _csrf: _csrf
       }, this.handleSaveResponse);
@@ -127,7 +150,7 @@ class GroupEdit extends Component {
   _update() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      socket.post('/groups/update/' + this.props.params.groupId, {
+      socket.put('/groups/' + this.props.params.groupId, {
         name: this.state.group.name,
         _csrf: _csrf
       }, this.handleSaveResponse);
@@ -137,7 +160,7 @@ class GroupEdit extends Component {
   _remove() {
     let {socket} = this.context;
     if (!this.state.deleted) {
-      socket.post('/groups/destroy/' + this.props.group.id, {
+      socket.delete('/groups/' + this.props.group.id, {
         _csrf: _csrf
       }, this.handleDestroyResponse);
     }

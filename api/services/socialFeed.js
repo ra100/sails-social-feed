@@ -32,6 +32,9 @@ module.exports = {
       if (err) {
         return next(req.__('Error.Unexpected'), obj);
       }
+      if (!obj) {
+        return next(null, null);
+      }
       if (obj.owner.id == uid) {
         return next(null, obj);
       }

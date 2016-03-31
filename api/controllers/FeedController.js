@@ -6,6 +6,9 @@
  */
 
 module.exports = {
+  definition: function (req, res) {
+    res.ok(sails.models.feed.definition);
+  },
   cancreate: function (req, res) {
     res.ok({status: 'ok'});
   },
@@ -14,6 +17,6 @@ module.exports = {
   },
   candestroy: function (req, res) {
     res.ok({status: 'ok'});
-  },
+  }
 };
 

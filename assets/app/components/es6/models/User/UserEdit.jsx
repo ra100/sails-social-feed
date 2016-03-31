@@ -71,6 +71,11 @@ const messages = defineMessages({
     id: 'user.saved.notify',
     description: 'Saved user notification',
     defaultMessage: 'User has been saved'
+  },
+  deletedSuccess: {
+    id: 'user.deleted.notify',
+    description: 'Info that groups has beed deleted',
+    defaultMessage: 'Group has beed deleted.'
   }
 });
 
@@ -111,28 +116,23 @@ class UserEdit extends Component {
       error: null,
       allow: true
     };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    let {socket} = this.context;
-    socket.get('/roles', {
-      populate: 'none'
-    }, this.handleRoles);
-    socket.get('/groups', {
-      populate: 'none',
-      sort: 'name'
-    }, this.handleGroups);
-    if (this.props.params.userId >= 0) {
-      socket.get('/users/canmodify/' + this.props.params.userId, this.handleCanModify);
-    } else {
-      socket.get('/users/cancreate', this.handleCanCreate);
-    }
+    this.load();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.userId !== this.props.params.userId) {
+      this.setState({user: null, status: 0, error: null});
+      this.load(nextProps);
+    }
   }
 
   handleCanCreate(data, res) {
@@ -156,6 +156,26 @@ class UserEdit extends Component {
       socket.get('/users/' + this.props.params.userId, this.handleLoad);
     } else {
       this.setState({allow: false});
+    }
+  }
+
+  load(nextProps) {
+    let {socket} = this.context;
+    let userId = this.props.params.userId;
+    if (nextProps) {
+      userId = nextProps.params.userId;
+    }
+    socket.get('/roles', {
+      populate: 'none'
+    }, this.handleRoles);
+    socket.get('/groups', {
+      populate: 'none',
+      sort: 'name'
+    }, this.handleGroups);
+    if (userId >= 0) {
+      socket.get('/users/canmodify/' + userId, this.handleCanModify);
+    } else {
+      socket.get('/users/cancreate', this.handleCanCreate);
     }
   }
 
@@ -269,7 +289,7 @@ class UserEdit extends Component {
   _update() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      let payload =  {
+      let payload = {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,

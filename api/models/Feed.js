@@ -6,26 +6,29 @@
 */
 
 module.exports = {
-  feedTypes: [
-    'facebook_page',
-    'facebook_user',
-    'twitter_user',
-    'twitter_hashtag',
-    'youtube_profile',
-    'soundcloud_profile',
-    'instagram_profile',
-    'form'
-  ],
-
   attributes: {
     name: {
       type: 'string'
     },
     type: {
-      type: 'string', in: this.feedTypes
+      type: 'string',
+      enum: [
+        'facebook_page',
+        'facebook_user',
+        'twitter_user',
+        'twitter_hashtag',
+        'youtube_profile',
+        'soundcloud_profile',
+        'instagram_profile',
+        'form'
+      ]
+    },
+    config: {
+      type: 'string'
     },
     groups: {
-      model: 'Group'
+      collection: 'Group',
+      via: 'feeds'
     },
     owner: {
       model: 'User'
@@ -37,5 +40,18 @@ module.exports = {
       collection: 'Message',
       via: 'feed'
     },
+    auth: {
+      type: 'json'
+    }
+  },
+
+  beforeCreate: function (values, next) {
+    delete values._csrf;
+    next();
+  },
+
+  beforeUpdate: function (values, next) {
+    delete values._csrf;
+    next();
   }
 };

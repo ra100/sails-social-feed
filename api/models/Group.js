@@ -25,5 +25,15 @@ module.exports = {
       collection: 'Feed',
       via: 'groups'
     }
+  },
+
+  beforeCreate: function (values, next) {
+    delete values._csrf;
+    next();
+  },
+
+  beforeUpdate: function (values, next) {
+    delete values._csrf;
+    next();
   }
 };

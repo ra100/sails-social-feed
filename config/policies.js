@@ -57,6 +57,17 @@ module.exports.policies = {
   },
 
   StreamController: {
+    'definition': ['passport', 'sessionAuth', 'isEditor'],
+    'cancreate': ['passport', 'sessionAuth', 'isEditor'],
+    'canmodify': ['passport', 'sessionAuth', 'isOwner'],
+    'create': ['passport', 'sessionAuth', 'isEditor'],
+    'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner']
+  },
+
+  FeedController: {
+    'definition': ['passport', 'sessionAuth', 'isEditor'],
     'cancreate': ['passport', 'sessionAuth', 'isEditor'],
     'canmodify': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'create': ['passport', 'sessionAuth', 'isEditor'],

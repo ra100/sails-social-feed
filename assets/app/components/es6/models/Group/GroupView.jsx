@@ -32,17 +32,35 @@ class GroupView extends Component {
       status: 0,
       error: null
     };
-    this._bind('_remove', '_edit', 'handleDestroyResponse', 'handleResponse');
+    this._bind('_remove', '_edit', 'handleDestroyResponse', 'handleLoad', 'load');
   }
 
   componentDidMount() {
-    let {socket} = this.context;
     this._isMounted = true;
-    socket.get('/groups/' + this.props.params.groupId, this.handleResponse);
+    this.load();
+  }
+      
+  load(nextProps) {
+    if (!this._isMounted) {
+      return;
+    }
+    let {socket} = this.context;
+    let groupId = this.props.params.groupId;
+    if (nextProps) {
+      groupId = nextProps.params.groupId;
+    }
+    socket.get('/groups/' + groupId, this.handleLoad);
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.groupId !== this.props.params.groupId) {
+      this.setState({group: null, status: 0, error: null});
+      this.load(nextProps);
+    }
   }
 
   _remove() {
@@ -72,7 +90,7 @@ class GroupView extends Component {
     }
   }
 
-  handleResponse(data, res) {
+  handleLoad(data, res) {
     if (!this._isMounted) {
       return;
     }
