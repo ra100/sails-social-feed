@@ -1,9 +1,9 @@
 /**
-* Message.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * Message.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
 
@@ -16,14 +16,17 @@ module.exports = {
       type: 'string'
     },
     feed: {
-      model: 'Feed',
-      required: true
+      model: 'Feed'
     },
     message: {
       type: 'text',
       required: true
     },
     published: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+    reviewed: {
       type: 'boolean',
       defaultsTo: false
     },
@@ -39,12 +42,12 @@ module.exports = {
     },
     metadata: {
       type: 'json'
-      /*
-       * TODO
-       * Different for every feed type
-       *
-       * {likes, shares, comments}
-       */
+        /*
+         * TODO
+         * Different for every feed type
+         *
+         * {likes, shares, comments}
+         */
     },
     relatedMessage: {
       collection: 'Message',
@@ -67,6 +70,14 @@ module.exports = {
       Feed.findOne(values.feed).populate('stream').then(function (feed) {
         values.stream = feed.stream.id;
         values.feedType = feed.type;
+        values.published = feed.stream.display;
+        next();
+      }).catch(function (err) {
+        next(err);
+      });
+    } else if (values.stream) {
+      Steram.findOne(values.stream).then(function (stream) {
+        values.feedType = 'admin';
         values.published = feed.stream.display;
         next();
       }).catch(function (err) {

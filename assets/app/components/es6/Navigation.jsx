@@ -113,7 +113,9 @@ class Navigation extends Component {
     }
 
     let createMenu = null;
-    let viewMenu = null;
+    let viewStreams = null;
+    let viewGroups = null;
+    let viewUsers = null;
     if (permissions) {
       if (permissions.stream.own.c) {
         let createStream = <LinkContainer to={'/create/stream'}>
@@ -156,7 +158,6 @@ class Navigation extends Component {
           {createUser}
         </NavDropdown>;
 
-        let viewStreams = null;
         if (permissions.stream.all.r) {
           viewStreams = <LinkContainer to={'/streams'}>
             <MenuItem>
@@ -165,7 +166,6 @@ class Navigation extends Component {
           </LinkContainer>;
         };
 
-        let viewGroups = null;
         if (permissions.group.all.r) {
           viewGroups = <LinkContainer to={'/groups'}>
             <MenuItem>
@@ -174,7 +174,6 @@ class Navigation extends Component {
           </LinkContainer>;
         };
 
-        let viewUsers = null;
         if (permissions.user.all.r) {
           viewUsers = <LinkContainer to={'/users'}>
             <MenuItem>
@@ -182,12 +181,6 @@ class Navigation extends Component {
             </MenuItem>
           </LinkContainer>;
         };
-
-        viewMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.view)}>
-          {viewStreams}
-          {viewUsers}
-          {viewGroups}
-        </NavDropdown>;
       }
     }
 
@@ -201,7 +194,9 @@ class Navigation extends Component {
       <Navbar.Collapse>
         <Nav pullLeft>
           {createMenu}
-          {viewMenu}
+          {viewStreams}
+          {viewUsers}
+          {viewGroups}
         </Nav>
         <Nav pullRight>
           {logoutButton}

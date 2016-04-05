@@ -20,7 +20,8 @@ module.exports = {
         'youtube_profile',
         'soundcloud_profile',
         'instagram_profile',
-        'form'
+        'form',
+        'admin'
       ]
     },
     config: {

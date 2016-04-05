@@ -15,6 +15,7 @@ import Error from './../../Error';
 import Loading from './../../Loading';
 import EditToolbar from './../../EditToolbar';
 import FeedRow from './../Feed/FeedRow';
+import MessageNewModal from './../Message/MessageNewModal';
 import _ from 'lodash';
 
 const messages = defineMessages({
@@ -87,6 +88,11 @@ const messages = defineMessages({
     id: 'streams.action',
     description: 'Table header action',
     defaultMessage: 'Action'
+  },
+  addButton: {
+    id: 'message.add.button',
+    description: 'Add new message button',
+    defaultMessage: 'New Message'
   }
 });
 
@@ -101,9 +107,11 @@ class StreamView extends Component {
     this.state = {
       stream: null,
       status: 0,
-      error: null
+      error: null,
+      newMessageShow: false,
+      replyId: ''
     };
-    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds');
+    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage');
   }
 
   componentDidMount() {
@@ -152,6 +160,14 @@ class StreamView extends Component {
     this.props.history.push('/stream/' + this.state.stream.id + '/edit');
   }
 
+  addMessage(reply){
+    if (reply) {
+      this.setState({newMessageShow: true, replyId: reply});
+    } else {
+      this.setState({newMessageShow: true});
+    }
+  }
+
   renderFeeds() {
     return (
       <Col xs={12}>
@@ -194,6 +210,8 @@ class StreamView extends Component {
           if (stream.published) {
             pub = <i className="material-icons">check_box</i>;
           }
+          let newMessageButton = <Button bsStyle="primary" onTouchTap={this.addMessage}>
+            <i className="material-icons">add_circle</i> <FormattedMessage {...messages.addButton}/></Button>;
           return (
             <Row>
               <PageHeader>
@@ -240,6 +258,8 @@ class StreamView extends Component {
               {feeds}
               <Col xs={12}>
                 <h3><FormattedMessage {...messages.streamFieldMessagesLabel}/></h3>
+                {newMessageButton}
+                <MessageNewModal ref="newModal" streamId={toString(this.props.params.streamId)} show={this.state.newMessageShow} parentId={toString(this.state.replyId)}/>
               </Col>
             </Row>
           );
