@@ -33,6 +33,11 @@ const messages = defineMessages({
     id: 'message.error.wrong.stream.id',
     description: 'If no stream id is provided before save',
     defaultMessage: 'Wrong stream ID'
+  },
+  saved: {
+    id: 'message.saved.message',
+    description: 'Saved notification',
+    defaultMessage: 'Message has been saved'
   }
 });
 
@@ -49,7 +54,7 @@ class MessageNewModal extends Component {
       message: '',
       bsStyle_message: null
     };
-    this._bind('open', 'close', 'save', '_handleMessageChange');
+    this._bind('open', 'close', 'save', '_handleMessageChange', 'handleSaveResponse');
   }
 
   componentDidMount() {
@@ -76,12 +81,46 @@ class MessageNewModal extends Component {
   }
 
   save() {
-    if (this.props.streamId == null) {
+    if (this.props.streamId == null || this.props.streamId == undefined) {
       notify.show(this.props.intl.formatMessage(messages.wrongStreamId), 'error');
       this.close();
       return;
     }
-    this.close();
+    if (this.state.message.length == 0) {
+      this.setState({bsStyle_message: 'error'});
+      return;
+    }
+    let payload = {
+      message: this.state.message,
+      stream: this.props.streamId,
+      isAnswer: false,
+      _csrf: _csrf
+    };
+    if (this.props.parentId > 0) {
+      payload.isAnswer = true;
+      payload.relatedMessage = this.props.parentId;
+    }
+    socket.post('/messages', payload, this.handleSaveResponse);
+    this.setState({bsStyle_message: null});
+  }
+
+  handleSaveResponse(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (res.statusCode == 500) {
+      notify.show('Error 500', 'error');
+      return;
+    }
+    if (res.statusCode == 403) {
+      notify.show(res.body, 'error');
+      return;
+    }
+
+    if (data.code == 'E_VALIDATION') {
+      notify.show(data.details, 'error');
+    } else if (data.id != undefined) {
+      notify.show(formatMessage(messages.saved), 'success');
+      this.close();
+    }
   }
 
   _handleMessageChange(event) {

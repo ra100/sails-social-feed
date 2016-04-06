@@ -160,12 +160,10 @@ class StreamView extends Component {
     this.props.history.push('/stream/' + this.state.stream.id + '/edit');
   }
 
-  addMessage(reply){
-    if (reply) {
-      this.setState({newMessageShow: true, replyId: reply});
-    } else {
-      this.setState({newMessageShow: true});
-    }
+  addMessage(event){
+    console.log(event);
+    let rlp = '';
+    this.setState({newMessageShow: true, replyId: rlp});
   }
 
   renderFeeds() {
@@ -259,7 +257,7 @@ class StreamView extends Component {
               <Col xs={12}>
                 <h3><FormattedMessage {...messages.streamFieldMessagesLabel}/></h3>
                 {newMessageButton}
-                <MessageNewModal ref="newModal" streamId={toString(this.props.params.streamId)} show={this.state.newMessageShow} parentId={toString(this.state.replyId)}/>
+                <MessageNewModal ref="newModal" streamId={this.props.params.streamId} show={this.state.newMessageShow} parentId={this.state.replyId}/>
               </Col>
             </Row>
           );

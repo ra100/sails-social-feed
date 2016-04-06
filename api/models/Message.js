@@ -76,9 +76,9 @@ module.exports = {
         next(err);
       });
     } else if (values.stream) {
-      Steram.findOne(values.stream).then(function (stream) {
+      Stream.findOne(values.stream).then(function (stream) {
         values.feedType = 'admin';
-        values.published = feed.stream.display;
+        values.published = stream.display;
         next();
       }).catch(function (err) {
         next(err);
