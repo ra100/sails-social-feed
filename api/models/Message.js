@@ -63,6 +63,9 @@ module.exports = {
    * Automatically fill some values
    */
   beforeValidate: function (values, next) {
+    if (values.id) {
+      return next();
+    }
     if (!values.created) {
       values.created = new Date();
     }
@@ -92,8 +95,11 @@ module.exports = {
    * Send publishAdd message to sockets, when new message is published
    */
   afterCreate: function (values, next) {
+    sails.log.verbose(values);
     if (values.published) {
       delete values._csrf;
+      Stream.publishAdd(values.stream, 'messages', values);
+    } else {
       Stream.publishAdd(values.stream, 'messages', values);
     }
     next();
@@ -105,7 +111,13 @@ module.exports = {
   beforeUpdate: function (values, next) {
     if (values.published !== undefined && !values.published) {
       delete values._csrf;
-      Stream.publishRemove(values.stream, 'messages', values.id);
+      if (values.stream) {
+        Stream.publishRemove(values.stream, 'messages', values.id);
+      } else {
+        Message.findOne(values.id).exec(function (err, message) {
+          Stream.publishRemove(message.stream, 'messages', message.id);
+        });
+      }
     }
     next();
   },
@@ -115,10 +127,12 @@ module.exports = {
    * when message has been changed and is publushed
    */
   afterUpdate: function (values, next) {
-    if (values.published) {
-      delete values._csrf;
-      Stream.publishAdd(values.stream, 'messages', values);
-    }
+    // if (values.published) {
+    delete values._csrf;
+    Message.findOne(values.id).exec(function (err, message) {
+      Stream.publishAdd(message.stream, 'messages', message);
+    });
+    // }
     next();
   }
 };

@@ -74,6 +74,9 @@ class MessageNewModal extends Component {
 
   close() {
     this.setState({show: false});
+    if (this.props.onHide) {
+      this.props.onHide();
+    }
   }
 
   open() {
@@ -119,6 +122,7 @@ class MessageNewModal extends Component {
       notify.show(data.details, 'error');
     } else if (data.id != undefined) {
       notify.show(formatMessage(messages.saved), 'success');
+      this.setState({message: ''});
       this.close();
     }
   }

@@ -16,6 +16,7 @@ import Loading from './../../Loading';
 import EditToolbar from './../../EditToolbar';
 import FeedRow from './../Feed/FeedRow';
 import MessageNewModal from './../Message/MessageNewModal';
+import MessageRow from './../Message/MessageRow';
 import _ from 'lodash';
 
 const messages = defineMessages({
@@ -93,6 +94,31 @@ const messages = defineMessages({
     id: 'message.add.button',
     description: 'Add new message button',
     defaultMessage: 'New Message'
+  },
+  messageFieldPublishedLabel: {
+    id: 'message.field.published.label',
+    description: 'Published label',
+    defaultMessage: 'Published'
+  },
+  messageFieldReviewedLabel: {
+    id: 'message.field.reviewed.label',
+    description: 'Reviewed label',
+    defaultMessage: 'Reviewed'
+  },
+  messageFieldCreatedLabel: {
+    id: 'message.field.created.label',
+    description: 'Created label',
+    defaultMessage: 'Date'
+  },
+  messageFieldMessageLabel: {
+    id: 'message.field.message.label',
+    description: 'Message label',
+    defaultMessage: 'Message'
+  },
+  messageFieldTypeLabel: {
+    id: 'message.field.type.label',
+    description: 'Message feed type label',
+    defaultMessage: 'Type'
   }
 });
 
@@ -106,17 +132,21 @@ class StreamView extends Component {
     super(props, context);
     this.state = {
       stream: null,
+      messages: [],
       status: 0,
       error: null,
       newMessageShow: false,
-      replyId: ''
+      replyId: '',
+      page: 0,
+      items_per_page: 10,
+      streamId: 0
     };
-    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage');
+    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage', 'handleMessagesLoad', 'processSocketStream', 'processMessage', 'hideMessageModal');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.load();
+    this.setState({streamId: this.props.params.streamId}, this.load);
   }
 
   load(nextProps) {
@@ -127,11 +157,22 @@ class StreamView extends Component {
     let query = {
       populate: 'feeds,groups,owner'
     };
-    let streamId = this.props.params.streamId;
-    if (nextProps) {
-      streamId = nextProps.params.streamId;
+    socket.get('/streams/' + this.state.streamId, query, this.handleLoad);
+    this.loadMessages();
+    socket.on('stream', this.processSocketStream);
+  }
+
+  loadMessages() {
+    if (!this._isMounted) {
+      return;
     }
-    socket.get('/streams/' + streamId, query, this.handleLoad);
+    let {socket} = this.context;
+    let messages_query = {
+      sort: 'created DESC',
+      limit: this.state.items_per_page,
+      skip: this.state.page
+    };
+    socket.get('/streams/' + this.state.streamId + '/messages', messages_query, this.handleMessagesLoad);
   }
 
   componentWillUnmount() {
@@ -140,8 +181,7 @@ class StreamView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.streamId !== this.props.params.streamId) {
-      this.setState({stream: null, status: 0, error: null});
-      this.load(nextProps);
+      this.setState({stream: null, status: 0, error: null, streamId: nextProps.params.streamId}, this.load);
     }
   }
 
@@ -156,14 +196,64 @@ class StreamView extends Component {
     }
   }
 
+  handleMessagesLoad(data, res) {
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.error) {
+      this.setState({status: res.statusCode, error: res.body, messages: null});
+    } else {
+      this.setState({status: res.statusCode, error: null, messages: data});
+    }
+  }
+
   _edit() {
     this.props.history.push('/stream/' + this.state.stream.id + '/edit');
   }
 
-  addMessage(event){
-    console.log(event);
-    let rlp = '';
-    this.setState({newMessageShow: true, replyId: rlp});
+  hideMessageModal() {
+    this.setState({newMessageShow: false});
+  }
+
+  addMessage(event) {
+    let rpl = '';
+    this.setState({newMessageShow: true, replyId: rpl});
+  }
+
+  processSocketStream(event) {
+    switch (event.verb) {
+      case 'addedTo':
+        if (event.added) {
+          this.processMessage(event.added);
+        } else {
+          this.context.socket.get('/messages/' + event.addedId, {
+            populate: ''
+          }, this.processMessage);
+        }
+        break;
+      case 'removedFrom':
+      default:
+        // console.log(event);
+        break;
+    }
+  }
+
+  processMessage(data, res) {
+    let m = data;
+    let ms = this.state.messages;
+    let i = _.findIndex(ms, function (o) {
+      return o.id == m.id;
+    });
+    if (i >= 0) {
+      ms[i] = m;
+    } else {
+      if (ms[0].created < m.created) {
+        let tmp = _.reverse(ms);
+        tmp.push(m);
+        ms = _.take(_.reverse(tmp), 20);
+      }
+    }
+    this.setState({messages: ms});
   }
 
   renderFeeds() {
@@ -208,8 +298,9 @@ class StreamView extends Component {
           if (stream.published) {
             pub = <i className="material-icons">check_box</i>;
           }
-          let newMessageButton = <Button bsStyle="primary" onTouchTap={this.addMessage}>
-            <i className="material-icons">add_circle</i> <FormattedMessage {...messages.addButton}/></Button>;
+          let newMessageButton = <Button bsStyle="primary" onTouchTap={this.addMessage} value={123}>
+            <i className="material-icons">add_circle</i>
+            <FormattedMessage {...messages.addButton}/></Button>;
           return (
             <Row>
               <PageHeader>
@@ -257,7 +348,25 @@ class StreamView extends Component {
               <Col xs={12}>
                 <h3><FormattedMessage {...messages.streamFieldMessagesLabel}/></h3>
                 {newMessageButton}
-                <MessageNewModal ref="newModal" streamId={this.props.params.streamId} show={this.state.newMessageShow} parentId={this.state.replyId}/>
+                <MessageNewModal ref="newModal" streamId={this.props.params.streamId} show={this.state.newMessageShow} onHide={this.hideMessageModal} parentId={this.state.replyId}/>
+              </Col>
+              <Col xs={12}>
+                <Table striped hover responsive>
+                  <thead>
+                    <tr>
+                      <th><FormattedMessage {...messages.messageFieldPublishedLabel}/></th>
+                      <th><FormattedMessage {...messages.messageFieldReviewedLabel}/></th>
+                      <th><FormattedMessage {...messages.messageFieldCreatedLabel}/></th>
+                      <th><FormattedMessage {...messages.messageFieldMessageLabel}/></th>
+                      <th><FormattedMessage {...messages.messageFieldTypeLabel}/></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.messages.map(function (message, i) {
+                      return <MessageRow message={message} key={message.id}/>;
+                    })}
+                  </tbody>
+                </Table>
               </Col>
             </Row>
           );

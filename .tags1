@@ -4,3 +4,17 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  definition: function (req, res) {$/;"	function	line:9
+module.exports.definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^module.exports = {$/;"	method	line:8
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  cancreate: function (req, res) {$/;"	function	line:12
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:11
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  canmodify: function (req, res) {$/;"	function	line:15
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:14
+candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  candestroy: function (req, res) {$/;"	function	line:18
+module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:17
+messageCount	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  messageCount: function (req, res) {$/;"	function	line:22
+module.exports.messageCount	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:20
+public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  public: function (req, res) {$/;"	function	line:31
+module.exports.public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:29
+destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  destroy: function (req, res, next) {$/;"	function	line:46
+module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:41

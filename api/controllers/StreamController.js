@@ -19,6 +19,15 @@ module.exports = {
     res.ok({status: 'ok'});
   },
 
+  messageCount: function (req, res) {
+    var id = req.param('id');
+    Message.count({where: {stream: id}}).then(function(count) {
+      res.json({id: id, count: count});
+    }).catch(function (err) {
+      res.serverError(err);
+    });
+  },
+
   public: function (req, res) {
     Stream.findOne({where: {id: req.param('id'), published: true}, select: ['id', 'name', 'feeds']}).then(function (stream) {
       if (!stream) {

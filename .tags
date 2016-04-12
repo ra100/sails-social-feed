@@ -34,6 +34,14 @@ sendOK	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^module.exports 
 module.exports	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^\/**$/;"	function	line:0
 sendOK	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^module.exports = function sendOK (data, options) {$/;"	function	line:14
 couldNotGuessView	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^  else return res.guessView({ data: data }, function couldNotGuessView () {$/;"	function	line:44
+definition	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  definition: function (req, res) {$/;"	function	line:9
+module.exports.definition	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^module.exports = {$/;"	method	line:8
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  cancreate: function (req, res) {$/;"	function	line:12
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:11
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  canmodify: function (req, res) {$/;"	function	line:15
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:14
+candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  candestroy: function (req, res) {$/;"	function	line:18
+module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:17
 login	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^  login: function (req, res) {$/;"	function	line:33
 AuthController.login	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^var AuthController = {$/;"	method	line:8
 logout	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^  logout: function (req, res) {$/;"	function	line:67
@@ -118,6 +126,19 @@ module.exports	/home/ra100/Devel/sails-social-feed/api/services/protocols/cas.js
 module.exports.local	/home/ra100/Devel/sails-social-feed/api/services/protocols/index.js	/^module.exports = {$/;"	property	line:14
 authorize	/home/ra100/Devel/sails-social-feed/api/services/protocols/bearer.js	/^exports.authorize = function(token, done) {$/;"	function	line:11
 exports.authorize	/home/ra100/Devel/sails-social-feed/api/services/protocols/bearer.js	/^\/*$/;"	function	line:0
+_	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^var _ = require('lodash');$/;"	variable	line:1
+isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isAdmin: function (uid, req, next) {$/;"	function	line:7
+module.exports.isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^module.exports = {$/;"	method	line:6
+isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isEditor: function (uid, req, next) {$/;"	function	line:17
+module.exports.isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:15
+isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isOwner: function (data, req, next) {$/;"	function	line:27
+module.exports.isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:25
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^module.exports = {$/;"	property	line:8
+beforeCreate	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^  beforeCreate: function (values, next) {$/;"	function	line:49
+beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:54
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Group.js	/^module.exports = {$/;"	property	line:8
+beforeCreate	/home/ra100/Devel/sails-social-feed/api/models/Group.js	/^  beforeCreate: function (values, next) {$/;"	function	line:30
+beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Group.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:35
 bcrypt	/home/ra100/Devel/sails-social-feed/api/models/Passport.js	/^var bcrypt = require('bcryptjs');$/;"	variable	line:1
 hashPassword	/home/ra100/Devel/sails-social-feed/api/models/Passport.js	/^function hashPassword (passport, next) {$/;"	function	line:9
 hashPassword	/home/ra100/Devel/sails-social-feed/api/models/Passport.js	/^function hashPassword (passport, next) {$/;"	function	line:9
@@ -125,6 +146,16 @@ Passport.attributes	/home/ra100/Devel/sails-social-feed/api/models/Passport.js	/
 validatePassword	/home/ra100/Devel/sails-social-feed/api/models/Passport.js	/^    validatePassword: function (password, next) {$/;"	function	line:84
 beforeCreate	/home/ra100/Devel/sails-social-feed/api/models/Passport.js	/^  beforeCreate: function (passport, next) {$/;"	function	line:96
 beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Passport.js	/^  beforeUpdate: function (passport, next) {$/;"	function	line:106
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Stream.js	/^module.exports = {$/;"	property	line:8
+beforeCreate	/home/ra100/Devel/sails-social-feed/api/models/Stream.js	/^  beforeCreate: function (values, next) {$/;"	function	line:99
+beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Stream.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:104
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Role.js	/^module.exports = {$/;"	property	line:8
+beforeCreate	/home/ra100/Devel/sails-social-feed/api/models/Role.js	/^  beforeCreate: function (values, next) {$/;"	function	line:25
+beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Role.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:30
+module.exports.schema	/home/ra100/Devel/sails-social-feed/api/models/User.js	/^module.exports = {$/;"	property	line:1
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/User.js	/^  schema: true,$/;"	property	line:3
+beforeCreate	/home/ra100/Devel/sails-social-feed/api/models/User.js	/^  beforeCreate: function (values, next) {$/;"	function	line:42
+beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/User.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:47
 exports	/home/ra100/Devel/sails-social-feed/api/policies/isOwner.js	/^module.exports = function(req, res, next) {$/;"	function	line:8
 module.exports	/home/ra100/Devel/sails-social-feed/api/policies/isOwner.js	/^\/**$/;"	function	line:0
 exports	/home/ra100/Devel/sails-social-feed/api/policies/bearerAuth.js	/^module.exports = function (req, res, next) {$/;"	function	line:15
@@ -142,6 +173,100 @@ module.exports	/home/ra100/Devel/sails-social-feed/api/policies/isAdmin.js	/^\/*
 background-color	/home/ra100/Devel/sails-social-feed/assets/styles/main-style.scss	/^$background-color: #eee;$/;"	function	line:3
 html	/home/ra100/Devel/sails-social-feed/assets/styles/main-style.scss	/^html,$/;"	function	line:8
 body	/home/ra100/Devel/sails-social-feed/assets/styles/main-style.scss	/^body {$/;"	function	line:9
+mdb-font-family	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;$/;"	function	line:6
+$mdb-text-color-light:  unquote("rgba(#	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-text-color-light:  unquote("rgba(#{$rgb-white}, 0.84)") !default;$/;"	function	line:7
+mdb-text-color-light	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-text-color-light:  unquote("rgba(#{$rgb-white}, 0.84)") !default;$/;"	function	line:7
+mdb-text-color-light-hex	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-text-color-light-hex: $white !default; \/\/ for contrast function in inverse$/;"	function	line:8
+$mdb-text-color-primary: unquote("rgba(#	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-text-color-primary: unquote("rgba(#{$rgb-black}, 0.87)") !default;$/;"	function	line:9
+mdb-text-color-primary	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-text-color-primary: unquote("rgba(#{$rgb-black}, 0.87)") !default;$/;"	function	line:9
+mdb-text-color-primary-hex	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-text-color-primary-hex: $black !default; \/\/ for contrast function in inverse$/;"	function	line:10
+icon-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$icon-color: rgba(0,0,0,0.5) !default;$/;"	function	line:11
+$mdb-label-color: unquote("rgba(#	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-color: unquote("rgba(#{$rgb-black}, 0.26)") !default;$/;"	function	line:14
+mdb-label-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-color: unquote("rgba(#{$rgb-black}, 0.26)") !default;$/;"	function	line:14
+$mdb-label-color-toggle-focus: unquote("rgba(#	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-color-toggle-focus: unquote("rgba(#{$rgb-black}, .54)") !default;$/;"	function	line:15
+mdb-label-color-toggle-focus	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-color-toggle-focus: unquote("rgba(#{$rgb-black}, .54)") !default;$/;"	function	line:15
+brand-primary	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$brand-primary: $blue-900 !default;$/;"	function	line:19
+brand-success	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$brand-success: $green !default;$/;"	function	line:20
+brand-danger	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$brand-danger: $red !default;$/;"	function	line:21
+brand-warning	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$brand-warning: $deep-orange !default;$/;"	function	line:22
+brand-info	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$brand-info: $light-blue !default;$/;"	function	line:23
+border-radius-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$border-radius-base: 2px !default;$/;"	function	line:25
+border-radius-small	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$border-radius-small: 1px !default;$/;"	function	line:26
+font-family-sans-serif	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$font-family-sans-serif: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;$/;"	function	line:29
+headings-font-weight	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$headings-font-weight: 300 !default;$/;"	function	line:30
+body-bg	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$body-bg: $light-blue-50 !default;$/;"	function	line:32
+mdb-brand-inverse	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-brand-inverse: $blue-900 !default;$/;"	function	line:39
+mdb-animation-curve-fast-out-slow-in	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1) !default;$/;"	function	line:43
+mdb-animation-curve-linear-out-slow-in	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1) !default;$/;"	function	line:44
+mdb-animation-curve-fast-out-linear-in	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1) !default;$/;"	function	line:45
+mdb-animation-curve-default	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-animation-curve-default: $mdb-animation-curve-fast-out-slow-in !default;$/;"	function	line:46
+contrast-factor	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$contrast-factor: 40% !default;$/;"	function	line:52
+mdb-input-placeholder-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-placeholder-color: #BDBDBD !default;$/;"	function	line:60
+mdb-input-underline-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-underline-color: #D2D2D2 !default;$/;"	function	line:61
+mdb-label-static-size-ratio	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-static-size-ratio: 75 \/ 100 !default;$/;"	function	line:62
+mdb-help-block-size-ratio	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-help-block-size-ratio: 75 \/ 100 !default;$/;"	function	line:63
+mdb-input-font-size-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-font-size-base: 16px !default;$/;"	function	line:65
+mdb-input-font-size-large	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-font-size-large: ceil(($font-size-base * 1.25)) !default; \/\/ ~20px$/;"	function	line:66
+mdb-input-font-size-small	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-font-size-small: ceil(($font-size-base * 0.75)) !default; \/\/ ~12px$/;"	function	line:67
+mdb-input-line-height-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-line-height-base:        $line-height-base; \/\/1.428571429 !default; \/\/ 20\/14$/;"	function	line:71
+mdb-input-line-height-computed	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-line-height-computed:    floor(($mdb-input-font-size-base * $mdb-input-line-height-base)) !default; \/\/ ~20px$/;"	function	line:73
+mdb-input-line-height-large	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-line-height-large:         1.3333333 !default; \/\/ extra decimals for Win 8.1 Chrome$/;"	function	line:74
+mdb-input-line-height-small	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-line-height-small:         1.5 !default;$/;"	function	line:75
+mdb-input-padding-base-vertical	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-base-vertical:     8px - 1px !default; \/\/ was 6.$/;"	function	line:78
+mdb-input-padding-base-horizontal	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-base-horizontal:   0 !default; \/\/ was 12.$/;"	function	line:79
+mdb-label-as-placeholder-shim-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-as-placeholder-shim-base:  0 !default; \/\/ manual adjustment of label top when positioned as placeholder$/;"	function	line:80
+mdb-label-top-margin-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-top-margin-base:           16px !default;$/;"	function	line:81
+mdb-input-padding-large-vertical	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-large-vertical:    10px - 1px !default; \/\/ 10$/;"	function	line:83
+mdb-input-padding-large-horizontal	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-large-horizontal:  0 !default;  \/\/ 16$/;"	function	line:84
+mdb-label-as-placeholder-shim-large	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-as-placeholder-shim-large: -4px !default; \/\/ manual adjustment of label top when positioned as placeholder$/;"	function	line:85
+mdb-label-top-margin-large	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-top-margin-large:          16px !default;$/;"	function	line:86
+mdb-input-padding-small-vertical	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-small-vertical:    4px - 1px !default; \/\/ 5$/;"	function	line:88
+mdb-input-padding-small-horizontal	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-small-horizontal:  0 !default; \/\/ 10$/;"	function	line:89
+mdb-label-as-placeholder-shim-small	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-as-placeholder-shim-small: 8px !default; \/\/ manual adjustment of label top when positioned as placeholder$/;"	function	line:90
+mdb-label-top-margin-small	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-label-top-margin-small:          12px !default;$/;"	function	line:91
+mdb-input-padding-xs-vertical	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-xs-vertical:       2px !default; \/\/ 1$/;"	function	line:93
+mdb-input-padding-xs-horizontal	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-padding-xs-horizontal:     0 !default; \/\/ 5$/;"	function	line:94
+mdb-input-border-radius-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-border-radius-base:        0 !default;$/;"	function	line:96
+mdb-input-border-radius-large	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-border-radius-large:       0 !default;$/;"	function	line:97
+mdb-input-border-radius-small	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-border-radius-small:       0 !default;$/;"	function	line:98
+mdb-input-height-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-height-base:              ($mdb-input-line-height-computed + ($mdb-input-padding-base-vertical * 2) + 2) !default;$/;"	function	line:102
+mdb-input-height-large	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-height-large:             (ceil($mdb-input-font-size-large * $mdb-input-line-height-large) + ($mdb-input-padding-large-vertical * 2) + 2) !default;$/;"	function	line:104
+mdb-input-height-small	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-input-height-small:             (floor($mdb-input-font-size-small * $mdb-input-line-height-small) + ($mdb-input-padding-small-vertical * 2) + 2) !default;$/;"	function	line:106
+mdb-card-body-text	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-card-body-text: $mdb-text-color-primary !default;$/;"	function	line:112
+mdb-card-body-background	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-card-body-background: #fff !default;$/;"	function	line:113
+mdb-card-image-headline	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-card-image-headline: #fff !default;$/;"	function	line:114
+text-disabled	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$text-disabled: #a8a8a8 !default;$/;"	function	line:116
+background-disabled	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$background-disabled: #eaeaea !default;$/;"	function	line:117
+mdb-checkbox-size	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-checkbox-size: 20px !default;$/;"	function	line:120
+mdb-checkbox-animation-ripple	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-checkbox-animation-ripple: 500ms !default;$/;"	function	line:121
+mdb-checkbox-animation-check	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-checkbox-animation-check: 0.3s !default;$/;"	function	line:122
+mdb-checkbox-checked-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-checkbox-checked-color: $brand-primary !default;$/;"	function	line:123
+mdb-checkbox-border-size	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-checkbox-border-size: 2px !default;$/;"	function	line:125
+mdb-checkbox-label-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-checkbox-label-color: $mdb-label-color !default;$/;"	function	line:126
+mdb-checkbox-border-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-checkbox-border-color: $mdb-label-color-toggle-focus !default;$/;"	function	line:127
+mdb-popover-background	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-popover-background: rgba(101, 101, 101, 0.9) !default;$/;"	function	line:130
+mdb-popover-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-popover-color: #ececec !default;$/;"	function	line:131
+mdb-dropdown-font-size	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-dropdown-font-size: 16px !default;$/;"	function	line:134
+mdb-toggle-label-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-toggle-label-color: $mdb-label-color !default;$/;"	function	line:137
+mdb-radio-label-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-radio-label-color: $mdb-label-color !default;$/;"	function	line:140
+mdb-radio-color-off	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-radio-color-off: $mdb-label-color-toggle-focus !default;$/;"	function	line:141
+mdb-radio-color-on	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-radio-color-on: $brand-primary !default;$/;"	function	line:142
+mdb-btn-font-size-base	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-font-size-base: 14px !default;$/;"	function	line:145
+mdb-btn-font-size-lg	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-font-size-lg: 16px !default;$/;"	function	line:146
+mdb-btn-font-size-sm	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-font-size-sm: 12px !default;$/;"	function	line:147
+mdb-btn-font-size-xs	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-font-size-xs: 10px !default;$/;"	function	line:148
+mdb-btn-background-color	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-background-color: $body-bg; \/\/transparent !default;$/;"	function	line:151
+mdb-btn-background-color-text	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-background-color-text: $mdb-text-color-primary !default;$/;"	function	line:152
+mdl-btn-border-radus	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdl-btn-border-radus: 2px !default;$/;"	function	line:155
+//$mdb-btn-primary-color: unquote("rgba(#	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^\/\/$mdb-btn-primary-color: unquote("rgba(#{$rgb-grey-500}, 0.20)") !default;$/;"	function	line:156
+mdb-btn-fab-size	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-fab-size: 56px !default;$/;"	function	line:158
+mdb-btn-fab-size-mini	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-fab-size-mini: 40px !default;$/;"	function	line:159
+mdb-btn-fab-font-size	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-fab-font-size: 24px !default;$/;"	function	line:160
+mdb-btn-icon-size	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-icon-size: 32px !default;$/;"	function	line:162
+mdb-btn-icon-size-mini	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-btn-icon-size-mini: 24px !default;$/;"	function	line:163
+mdb-shadow-key-umbra-opacity	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-shadow-key-umbra-opacity: 0.2 !default;$/;"	function	line:166
+mdb-shadow-key-penumbra-opacity	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-shadow-key-penumbra-opacity: 0.14 !default;$/;"	function	line:167
+mdb-shadow-ambient-shadow-opacity	/home/ra100/Devel/sails-social-feed/assets/styles/_variables.scss	/^$mdb-shadow-ambient-shadow-opacity: 0.12 !default;$/;"	function	line:168
 _react	/home/ra100/Devel/sails-social-feed/assets/app/app.js	/^var _react = require('react');$/;"	variable	line:3
 _react2	/home/ra100/Devel/sails-social-feed/assets/app/app.js	/^var _react2 = _interopRequireDefault(_react);$/;"	variable	line:5
 _reactDom	/home/ra100/Devel/sails-social-feed/assets/app/app.js	/^var _reactDom = require('react-dom');$/;"	variable	line:7
@@ -360,8 +485,8 @@ Root.Root	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^  funct
 getChildContext	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^    value: function getChildContext() {$/;"	function	line:87
 render	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^    value: function render() {$/;"	function	line:92
 Root	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^var Root = function (_Component) {$/;"	function	line:69
-Root.propTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^Root.propTypes = {$/;"	property	line:145
-Root.childContextTypes.user	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^Root.childContextTypes = {$/;"	property	line:151
+Root.propTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^Root.propTypes = {$/;"	property	line:151
+Root.childContextTypes.user	/home/ra100/Devel/sails-social-feed/assets/app/build/Root.js	/^Root.childContextTypes = {$/;"	property	line:157
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/Groups.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/Groups.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/Groups.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -441,15 +566,17 @@ _this.state.status	/home/ra100/Devel/sails-social-feed/assets/app/build/models/G
 _this.state.error	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^      status: 0,$/;"	property	line:74
 GroupView.GroupView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^  function GroupView(props, context) {$/;"	function	line:67
 componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function componentDidMount() {$/;"	function	line:83
-componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function componentWillUnmount() {$/;"	function	line:91
-_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function _remove() {$/;"	function	line:96
-_edit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function _edit() {$/;"	function	line:107
-handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:112
-handleResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function handleResponse(data, res) {$/;"	function	line:128
-render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function render() {$/;"	function	line:140
-switch	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^      switch (this.state.status) {$/;"	function	line:144
+load	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function load(nextProps) {$/;"	function	line:89
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function componentWillUnmount() {$/;"	function	line:103
+componentWillReceiveProps	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function componentWillReceiveProps(nextProps) {$/;"	function	line:108
+_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function _remove() {$/;"	function	line:116
+_edit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function _edit() {$/;"	function	line:127
+handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:132
+handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function handleLoad(data, res) {$/;"	function	line:148
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^    value: function render() {$/;"	function	line:160
+switch	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^      switch (this.state.status) {$/;"	function	line:164
 GroupView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^var GroupView = function (_Component) {$/;"	function	line:49
-GroupView.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^GroupView.contextTypes = {$/;"	property	line:184
+GroupView.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupView.js	/^GroupView.contextTypes = {$/;"	property	line:204
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -480,20 +607,22 @@ _this.state.bsStyle	/home/ra100/Devel/sails-social-feed/assets/app/build/models/
 GroupEdit.GroupEdit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^  function GroupEdit(props, context) {$/;"	function	line:88
 GroupEdit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^var GroupEdit = function (_Component) {$/;"	function	line:70
 componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function componentDidMount() {$/;"	function	line:110
-componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:122
-handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:127
-handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:139
-handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:154
-_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _save() {$/;"	function	line:166
-_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _update() {$/;"	function	line:178
-_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _remove() {$/;"	function	line:190
-handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:201
-handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleSaveResponse(data) {$/;"	function	line:217
-_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _validateAll() {$/;"	function	line:236
-_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:257
-render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function render() {$/;"	function	line:266
-GroupEdit.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^GroupEdit.contextTypes = {$/;"	property	line:329
-GroupEdit.propTypes.groupId	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^GroupEdit.propTypes = {$/;"	property	line:335
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:116
+componentWillReceiveProps	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function componentWillReceiveProps(nextProps) {$/;"	function	line:121
+handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:129
+handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:141
+load	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function load(nextProps) {$/;"	function	line:156
+handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:174
+_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _save() {$/;"	function	line:186
+_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _update() {$/;"	function	line:198
+_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _remove() {$/;"	function	line:210
+handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:221
+handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function handleSaveResponse(data) {$/;"	function	line:237
+_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _validateAll() {$/;"	function	line:256
+_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:277
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^    value: function render() {$/;"	function	line:286
+GroupEdit.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^GroupEdit.contextTypes = {$/;"	property	line:349
+GroupEdit.propTypes.groupId	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupEdit.js	/^GroupEdit.propTypes = {$/;"	property	line:355
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -528,6 +657,40 @@ render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupRo
 GroupRow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupRow.js	/^var GroupRow = function (_Component) {$/;"	function	line:74
 GroupRow.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupRow.js	/^GroupRow.contextTypes = {$/;"	property	line:190
 GroupRow.propTypes.group	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Group/GroupRow.js	/^GroupRow.propTypes = {$/;"	property	line:196
+_createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+_createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+_createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+_react	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _react = require('react');$/;"	variable	line:9
+_reactBootstrap	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _reactBootstrap = require('react-bootstrap');$/;"	variable	line:11
+_reactIntl	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _reactIntl = require('react-intl');$/;"	variable	line:13
+_reactNotifyToast	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var _reactNotifyToast = require('react-notify-toast');$/;"	variable	line:15
+_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:17
+_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:17
+_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:19
+_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:19
+_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:21
+subClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	class	line:21
+_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:21
+MessageNewModal	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var MessageNewModal = function (_Component) {$/;"	function	line:61
+_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function _bind() {$/;"	function	line:66
+MessageNewModal	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^  function MessageNewModal(props, context) {$/;"	function	line:79
+_this.state.show	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    _this.state = {$/;"	property	line:84
+_this.state.message	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^      show: false,$/;"	property	line:85
+_this.state.bsStyle_message	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^      message: '',$/;"	property	line:86
+MessageNewModal.MessageNewModal	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^  function MessageNewModal(props, context) {$/;"	function	line:79
+componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function componentDidMount() {$/;"	function	line:95
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function componentWillUnmount() {$/;"	function	line:101
+componentWillReceiveProps	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function componentWillReceiveProps(nextProps) {$/;"	function	line:106
+close	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function close() {$/;"	function	line:113
+open	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function open() {$/;"	function	line:118
+save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function save() {$/;"	function	line:123
+handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function handleSaveResponse(data, res) {$/;"	function	line:148
+_handleMessageChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function _handleMessageChange(event) {$/;"	function	line:170
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^    value: function render() {$/;"	function	line:175
+MessageNewModal	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^var MessageNewModal = function (_Component) {$/;"	function	line:61
+MessageNewModal.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^MessageNewModal.contextTypes = {$/;"	property	line:227
+MessageNewModal.propTypes.streamId	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Message/MessageNewModal.js	/^MessageNewModal.propTypes = {$/;"	property	line:233
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/Users.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/Users.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/Users.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -607,13 +770,15 @@ _this.state.status	/home/ra100/Devel/sails-social-feed/assets/app/build/models/U
 _this.state.error	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^      status: 0,$/;"	property	line:90
 UserView.UserView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^  function UserView(props, context) {$/;"	function	line:83
 componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function componentDidMount() {$/;"	function	line:99
-componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function componentWillUnmount() {$/;"	function	line:110
-handleResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function handleResponse(data, res) {$/;"	function	line:115
-_edit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function _edit() {$/;"	function	line:127
-render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function render() {$/;"	function	line:132
-switch	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^      switch (this.state.status) {$/;"	function	line:136
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function componentWillUnmount() {$/;"	function	line:105
+componentWillReceiveProps	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function componentWillReceiveProps(nextProps) {$/;"	function	line:110
+load	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function load(nextProps) {$/;"	function	line:118
+handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function handleLoad(data, res) {$/;"	function	line:135
+_edit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function _edit() {$/;"	function	line:147
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^    value: function render() {$/;"	function	line:152
+switch	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^      switch (this.state.status) {$/;"	function	line:156
 UserView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^var UserView = function (_Component) {$/;"	function	line:65
-UserView.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^UserView.contextTypes = {$/;"	property	line:221
+UserView.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserView.js	/^UserView.contextTypes = {$/;"	property	line:241
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -660,27 +825,29 @@ _this.state.error	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Us
 _this.state.allow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^      error: null,$/;"	property	line:153
 UserEdit.UserEdit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^  function UserEdit(props, context) {$/;"	function	line:133
 componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function componentDidMount() {$/;"	function	line:162
-componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:181
-handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:186
-handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:198
-handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:213
-handleRoles	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleRoles(data, res) {$/;"	function	line:269
-handleGroups	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleGroups(data, res) {$/;"	function	line:289
-_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _save() {$/;"	function	line:309
-_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _update() {$/;"	function	line:325
-_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _remove() {$/;"	function	line:346
-handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:357
-handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleSaveResponse(data, res) {$/;"	function	line:373
-_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _validateAll() {$/;"	function	line:396
-_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:428
-_handlePasswordChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handlePasswordChange(event) {$/;"	function	line:433
-_handleEmailChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleEmailChange(event) {$/;"	function	line:438
-_handleRolesChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleRolesChange(event) {$/;"	function	line:443
-_handleGroupsChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleGroupsChange(event) {$/;"	function	line:458
-render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function render() {$/;"	function	line:473
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:168
+componentWillReceiveProps	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function componentWillReceiveProps(nextProps) {$/;"	function	line:173
+handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:181
+handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:193
+load	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function load(nextProps) {$/;"	function	line:208
+handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:230
+handleRoles	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleRoles(data, res) {$/;"	function	line:286
+handleGroups	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleGroups(data, res) {$/;"	function	line:306
+_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _save() {$/;"	function	line:326
+_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _update() {$/;"	function	line:342
+_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _remove() {$/;"	function	line:363
+handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:374
+handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function handleSaveResponse(data, res) {$/;"	function	line:390
+_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _validateAll() {$/;"	function	line:413
+_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:445
+_handlePasswordChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handlePasswordChange(event) {$/;"	function	line:450
+_handleEmailChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleEmailChange(event) {$/;"	function	line:455
+_handleRolesChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleRolesChange(event) {$/;"	function	line:460
+_handleGroupsChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function _handleGroupsChange(event) {$/;"	function	line:475
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^    value: function render() {$/;"	function	line:490
 UserEdit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^var UserEdit = function (_Component) {$/;"	function	line:115
-UserEdit.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^UserEdit.contextTypes = {$/;"	property	line:576
-UserEdit.propTypes.userId	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^UserEdit.propTypes = {$/;"	property	line:582
+UserEdit.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^UserEdit.contextTypes = {$/;"	property	line:593
+UserEdit.propTypes.userId	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserEdit.js	/^UserEdit.propTypes = {$/;"	property	line:599
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -715,6 +882,40 @@ render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserRow.
 UserRow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserRow.js	/^var UserRow = function (_Component) {$/;"	function	line:69
 UserRow.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserRow.js	/^UserRow.contextTypes = {$/;"	property	line:214
 UserRow.propTypes.user	/home/ra100/Devel/sails-social-feed/assets/app/build/models/User/UserRow.js	/^UserRow.propTypes = {$/;"	property	line:220
+_createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+_createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+_createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
+_react	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _react = require('react');$/;"	variable	line:9
+_reactIntl	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _reactIntl = require('react-intl');$/;"	variable	line:11
+_reactBootstrap	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _reactBootstrap = require('react-bootstrap');$/;"	variable	line:13
+_reactRouterBootstrap	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _reactRouterBootstrap = require('react-router-bootstrap');$/;"	variable	line:15
+_EditToolbar	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _EditToolbar = require('.\/..\/..\/EditToolbar');$/;"	variable	line:17
+_EditToolbar2	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _EditToolbar2 = _interopRequireDefault(_EditToolbar);$/;"	variable	line:19
+_reactNotifyToast	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var _reactNotifyToast = require('react-notify-toast');$/;"	variable	line:21
+_interopRequireDefault	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }$/;"	function	line:23
+_interopRequireDefault	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }$/;"	function	line:23
+_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:25
+_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:25
+_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:27
+_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:27
+_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:29
+subClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	class	line:29
+_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:29
+FeedRow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var FeedRow = function (_Component) {$/;"	function	line:39
+_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    value: function _bind() {$/;"	function	line:44
+FeedRow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^  function FeedRow(props, context) {$/;"	function	line:57
+_this.state.deleted	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    _this.state = {$/;"	property	line:62
+FeedRow.FeedRow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^  function FeedRow(props, context) {$/;"	function	line:57
+componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    value: function componentDidMount() {$/;"	function	line:71
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    value: function componentWillUnmount() {$/;"	function	line:76
+_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    value: function _remove() {$/;"	function	line:81
+_edit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    value: function _edit() {$/;"	function	line:92
+handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:97
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^    value: function render() {$/;"	function	line:109
+FeedRow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^var FeedRow = function (_Component) {$/;"	function	line:39
+FeedRow.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^FeedRow.contextTypes = {$/;"	property	line:162
+FeedRow.propTypes.feed	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedRow.js	/^FeedRow.propTypes = {$/;"	property	line:168
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -740,37 +941,40 @@ _possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/
 _inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:41
 subClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	class	line:41
 _inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:41
-getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:126
-getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:126
-FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var FeedCreate = function (_Component) {$/;"	function	line:137
-_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _bind() {$/;"	function	line:142
-FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^  function FeedCreate(props, context) {$/;"	function	line:155
-_this.state.definition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    _this.state = {$/;"	property	line:160
-FeedCreate.FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^  function FeedCreate(props, context) {$/;"	function	line:155
-FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var FeedCreate = function (_Component) {$/;"	function	line:137
-componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function componentDidMount() {$/;"	function	line:191
-isAdmin	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^      var isAdmin = function isAdmin() {$/;"	function	line:196
-componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:223
-handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:228
-handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:240
-handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:258
-handleDefinition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleDefinition(data, res) {$/;"	function	line:315
-handleGroups	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleGroups(data, res) {$/;"	function	line:325
-handleUsers	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleUsers(data, res) {$/;"	function	line:350
-_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _save() {$/;"	function	line:377
-_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _update() {$/;"	function	line:394
-_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _remove() {$/;"	function	line:416
-_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _validateAll() {$/;"	function	line:427
-handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleSaveResponse(data, res) {$/;"	function	line:439
-_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _remove() {}$/;"	function	line:462
-_handleStateChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleStateChange(event) {$/;"	function	line:465
-_handleRefreshChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleRefreshChange(event) {$/;"	function	line:470
-_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:475
-_handleUniqueNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleUniqueNameChange(event) {$/;"	function	line:481
-_handleGroupsChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleGroupsChange(event) {$/;"	function	line:486
-_handleOwnerChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleOwnerChange(event) {$/;"	function	line:501
-render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function render() {$/;"	function	line:518
-FeedCreate.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^FeedCreate.contextTypes = {$/;"	property	line:644
+getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:116
+getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:116
+FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var FeedCreate = function (_Component) {$/;"	function	line:127
+_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _bind() {$/;"	function	line:132
+FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^  function FeedCreate(props, context) {$/;"	function	line:145
+_this.state.definition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    _this.state = {$/;"	property	line:150
+FeedCreate.FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^  function FeedCreate(props, context) {$/;"	function	line:145
+FeedCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^var FeedCreate = function (_Component) {$/;"	function	line:127
+componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function componentDidMount() {$/;"	function	line:184
+load	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function load(nextProps) {$/;"	function	line:190
+isAdmin	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^      var isAdmin = function isAdmin() {$/;"	function	line:201
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:234
+handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:239
+handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:251
+handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:269
+handleDefinition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleDefinition(data, res) {$/;"	function	line:341
+handleGroups	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleGroups(data, res) {$/;"	function	line:351
+handleStreams	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleStreams(data, res) {$/;"	function	line:376
+handleUsers	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleUsers(data, res) {$/;"	function	line:399
+_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _save() {$/;"	function	line:425
+_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _update() {$/;"	function	line:442
+_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _remove() {$/;"	function	line:466
+_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _validateAll() {$/;"	function	line:477
+handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleSaveResponse(data, res) {$/;"	function	line:501
+handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:524
+_handleTypeChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleTypeChange(event) {$/;"	function	line:540
+_handleConfigChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleConfigChange(event) {$/;"	function	line:545
+_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:550
+_handleStreamChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleStreamChange(event) {$/;"	function	line:555
+_handleGroupsChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleGroupsChange(event) {$/;"	function	line:572
+_handleOwnerChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function _handleOwnerChange(event) {$/;"	function	line:587
+componentWillUpdate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function componentWillUpdate(nextProps, nextState) {$/;"	function	line:604
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^    value: function render() {$/;"	function	line:611
+FeedCreate.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Feed/FeedEdit.js	/^FeedCreate.contextTypes = {$/;"	property	line:752
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -796,37 +1000,40 @@ _possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/
 _inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:41
 subClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	class	line:41
 _inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:41
-getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:131
-getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:131
-StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var StreamCreate = function (_Component) {$/;"	function	line:142
-_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _bind() {$/;"	function	line:147
-StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^  function StreamCreate(props, context) {$/;"	function	line:160
-_this.state.definition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    _this.state = {$/;"	property	line:165
-StreamCreate.StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^  function StreamCreate(props, context) {$/;"	function	line:160
-StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var StreamCreate = function (_Component) {$/;"	function	line:142
-componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function componentDidMount() {$/;"	function	line:196
-isAdmin	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^      var isAdmin = function isAdmin() {$/;"	function	line:201
-componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:228
-handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:233
-handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:245
-handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:263
-handleDefinition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleDefinition(data, res) {$/;"	function	line:320
-handleGroups	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleGroups(data, res) {$/;"	function	line:330
-handleUsers	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleUsers(data, res) {$/;"	function	line:355
-_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _save() {$/;"	function	line:382
-_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _update() {$/;"	function	line:399
-_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _remove() {$/;"	function	line:421
-_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _validateAll() {$/;"	function	line:432
-handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:444
-handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleSaveResponse(data, res) {$/;"	function	line:460
-_handleStateChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleStateChange(event) {$/;"	function	line:483
-_handleRefreshChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleRefreshChange(event) {$/;"	function	line:488
-_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:493
-_handleUniqueNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleUniqueNameChange(event) {$/;"	function	line:499
-_handleGroupsChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleGroupsChange(event) {$/;"	function	line:504
-_handleOwnerChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleOwnerChange(event) {$/;"	function	line:519
-render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function render() {$/;"	function	line:536
-StreamCreate.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^StreamCreate.contextTypes = {$/;"	property	line:662
+getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:136
+getSelected	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var getSelected = function getSelected(data) {$/;"	function	line:136
+StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var StreamCreate = function (_Component) {$/;"	function	line:147
+_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _bind() {$/;"	function	line:152
+StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^  function StreamCreate(props, context) {$/;"	function	line:165
+_this.state.definition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    _this.state = {$/;"	property	line:170
+StreamCreate.StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^  function StreamCreate(props, context) {$/;"	function	line:165
+StreamCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^var StreamCreate = function (_Component) {$/;"	function	line:147
+componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function componentDidMount() {$/;"	function	line:202
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function componentWillUnmount() {$/;"	function	line:208
+componentWillReceiveProps	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function componentWillReceiveProps(nextProps) {$/;"	function	line:213
+handleCanCreate	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleCanCreate(data, res) {$/;"	function	line:221
+handleCanModify	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleCanModify(data, res) {$/;"	function	line:233
+load	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function load(nextProps) {$/;"	function	line:251
+isAdmin	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^      var isAdmin = function isAdmin() {$/;"	function	line:262
+handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleLoad(data, res) {$/;"	function	line:289
+handleDefinition	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleDefinition(data, res) {$/;"	function	line:347
+handleGroups	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleGroups(data, res) {$/;"	function	line:357
+handleUsers	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleUsers(data, res) {$/;"	function	line:382
+_save	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _save() {$/;"	function	line:409
+_update	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _update() {$/;"	function	line:427
+_remove	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _remove() {$/;"	function	line:450
+_validateAll	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _validateAll() {$/;"	function	line:461
+handleDestroyResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleDestroyResponse(data, res) {$/;"	function	line:473
+handleSaveResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function handleSaveResponse(data, res) {$/;"	function	line:489
+_handleStateChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleStateChange(event) {$/;"	function	line:512
+_handleRefreshChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleRefreshChange(event) {$/;"	function	line:517
+_handlePublishedChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handlePublishedChange(event) {$/;"	function	line:522
+_handleNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleNameChange(event) {$/;"	function	line:527
+_handleUniqueNameChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleUniqueNameChange(event) {$/;"	function	line:533
+_handleGroupsChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleGroupsChange(event) {$/;"	function	line:538
+_handleOwnerChange	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function _handleOwnerChange(event) {$/;"	function	line:553
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^    value: function render() {$/;"	function	line:570
+StreamCreate.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamEdit.js	/^StreamCreate.contextTypes = {$/;"	property	line:708
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -844,32 +1051,44 @@ _Loading	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/Stre
 _Loading2	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _Loading2 = _interopRequireDefault(_Loading);$/;"	variable	line:29
 _EditToolbar	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _EditToolbar = require('.\/..\/..\/EditToolbar');$/;"	variable	line:31
 _EditToolbar2	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _EditToolbar2 = _interopRequireDefault(_EditToolbar);$/;"	variable	line:33
-_lodash	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _lodash = require('lodash');$/;"	variable	line:35
-_lodash2	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _lodash2 = _interopRequireDefault(_lodash);$/;"	variable	line:37
-_interopRequireDefault	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }$/;"	function	line:39
-_interopRequireDefault	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }$/;"	function	line:39
-_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:41
-_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:41
-_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:43
-_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:43
-_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:45
-subClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	class	line:45
-_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:45
-StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var StreamView = function (_Component) {$/;"	function	line:75
-_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function _bind() {$/;"	function	line:80
-StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^  function StreamView(props, context) {$/;"	function	line:93
-_this.state.stream	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    _this.state = {$/;"	property	line:98
-_this.state.status	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      stream: null,$/;"	property	line:99
-_this.state.error	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      status: 0,$/;"	property	line:100
-StreamView.StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^  function StreamView(props, context) {$/;"	function	line:93
-componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function componentDidMount() {$/;"	function	line:109
-componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function componentWillUnmount() {$/;"	function	line:120
-handleResponse	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function handleResponse(data, res) {$/;"	function	line:125
-_edit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function _edit() {$/;"	function	line:137
-render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function render() {$/;"	function	line:142
-switch	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      switch (this.state.status) {$/;"	function	line:146
-StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var StreamView = function (_Component) {$/;"	function	line:75
-StreamView.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^StreamView.contextTypes = {$/;"	property	line:258
+_FeedRow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _FeedRow = require('.\/..\/Feed\/FeedRow');$/;"	variable	line:35
+_FeedRow2	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _FeedRow2 = _interopRequireDefault(_FeedRow);$/;"	variable	line:37
+_MessageNewModal	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _MessageNewModal = require('.\/..\/Message\/MessageNewModal');$/;"	variable	line:39
+_MessageNewModal2	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _MessageNewModal2 = _interopRequireDefault(_MessageNewModal);$/;"	variable	line:41
+_lodash	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _lodash = require('lodash');$/;"	variable	line:43
+_lodash2	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var _lodash2 = _interopRequireDefault(_lodash);$/;"	variable	line:45
+_interopRequireDefault	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }$/;"	function	line:47
+_interopRequireDefault	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }$/;"	function	line:47
+_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:49
+_classCallCheck	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }$/;"	function	line:49
+_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:51
+_possibleConstructorReturn	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }$/;"	function	line:51
+_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:53
+subClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	class	line:53
+_inherits	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }$/;"	function	line:53
+StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var StreamView = function (_Component) {$/;"	function	line:133
+_bind	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function _bind() {$/;"	function	line:138
+StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^  function StreamView(props, context) {$/;"	function	line:151
+_this.state.stream	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    _this.state = {$/;"	property	line:156
+_this.state.messages	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      stream: null,$/;"	property	line:157
+_this.state.status	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      messages: null,$/;"	property	line:158
+_this.state.error	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      status: 0,$/;"	property	line:159
+_this.state.newMessageShow	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      error: null,$/;"	property	line:160
+_this.state.replyId	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      newMessageShow: false,$/;"	property	line:161
+StreamView.StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^  function StreamView(props, context) {$/;"	function	line:151
+componentDidMount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function componentDidMount() {$/;"	function	line:170
+load	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function load(nextProps) {$/;"	function	line:176
+componentWillUnmount	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function componentWillUnmount() {$/;"	function	line:198
+componentWillReceiveProps	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function componentWillReceiveProps(nextProps) {$/;"	function	line:203
+handleLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function handleLoad(data, res) {$/;"	function	line:211
+handleMessagesLoad	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function handleMessagesLoad(data, res) {$/;"	function	line:223
+_edit	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function _edit() {$/;"	function	line:235
+addMessage	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function addMessage(event) {$/;"	function	line:240
+renderFeeds	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function renderFeeds() {$/;"	function	line:247
+render	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^    value: function render() {$/;"	function	line:294
+switch	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^      switch (this.state.status) {$/;"	function	line:298
+StreamView	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^var StreamView = function (_Component) {$/;"	function	line:133
+StreamView.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamView.js	/^StreamView.contextTypes = {$/;"	property	line:465
 _createClass	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
 _createClass.defineProperties	/home/ra100/Devel/sails-social-feed/assets/app/build/models/Stream/StreamRow.js	/^var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();$/;"	function	line:7
@@ -1068,7 +1287,7 @@ success	/home/ra100/Devel/sails-social-feed/assets/app/build/Navigation.js	/^   
 error	/home/ra100/Devel/sails-social-feed/assets/app/build/Navigation.js	/^        error: function error(data, status, xhr) {$/;"	function	line:118
 render	/home/ra100/Devel/sails-social-feed/assets/app/build/Navigation.js	/^    value: function render() {$/;"	function	line:126
 Navigation	/home/ra100/Devel/sails-social-feed/assets/app/build/Navigation.js	/^var Navigation = function (_Component) {$/;"	function	line:95
-Navigation.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/Navigation.js	/^Navigation.contextTypes = {$/;"	property	line:307
+Navigation.contextTypes.history	/home/ra100/Devel/sails-social-feed/assets/app/build/Navigation.js	/^Navigation.contextTypes = {$/;"	property	line:300
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/Nav.json	/^    "id": "login.button.title",$/;"	function	line:3
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/Nav.json	/^    "description": "Name on login button",$/;"	function	line:4
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/Nav.json	/^    "defaultMessage": "Login"$/;"	function	line:5
@@ -1207,6 +1426,27 @@ defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Group/GroupCreate.json	/^    "id": "button.save",$/;"	function	line:33
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Group/GroupCreate.json	/^    "description": "Save button text",$/;"	function	line:34
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Group/GroupCreate.json	/^    "defaultMessage": "Save"$/;"	function	line:35
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "id": "button.cancel",$/;"	function	line:3
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "description": "Cancel button text",$/;"	function	line:4
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "defaultMessage": "Cancel"$/;"	function	line:5
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "id": "button.save",$/;"	function	line:8
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "description": "Save button text",$/;"	function	line:9
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "defaultMessage": "Save"$/;"	function	line:10
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "id": "message.new.title",$/;"	function	line:13
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "description": "New message title",$/;"	function	line:14
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "defaultMessage": "Create message"$/;"	function	line:15
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "id": "message.field.message.label",$/;"	function	line:18
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "description": "Message message label",$/;"	function	line:19
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "defaultMessage": "Message"$/;"	function	line:20
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "id": "message.field.message.placeholder",$/;"	function	line:23
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "description": "Message message placeholder",$/;"	function	line:24
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "defaultMessage": "Write message here"$/;"	function	line:25
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "id": "message.error.wrong.stream.id",$/;"	function	line:28
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "description": "If no stream id is provided before save",$/;"	function	line:29
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "defaultMessage": "Wrong stream ID"$/;"	function	line:30
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "id": "message.saved.message",$/;"	function	line:33
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "description": "Saved notification",$/;"	function	line:34
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Message/MessageNewModal.json	/^    "defaultMessage": "Message has been saved"$/;"	function	line:35
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/User/UserView.json	/^    "id": "user.field.email.label",$/;"	function	line:3
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/User/UserView.json	/^    "description": "User Email label",$/;"	function	line:4
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/User/UserView.json	/^    "defaultMessage": "Email"$/;"	function	line:5
@@ -1303,42 +1543,39 @@ defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.name.label",$/;"	function	line:18
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Name label",$/;"	function	line:19
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Name"$/;"	function	line:20
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.uniquename.placeholder",$/;"	function	line:23
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Unique Name placeholder",$/;"	function	line:24
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "unique_name"$/;"	function	line:25
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.uniquename.label",$/;"	function	line:28
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Uniqie Name label",$/;"	function	line:29
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Uniqie Name"$/;"	function	line:30
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.state.label",$/;"	function	line:33
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed State label",$/;"	function	line:34
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "State"$/;"	function	line:35
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.state.option.active",$/;"	function	line:38
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed State Active",$/;"	function	line:39
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Active"$/;"	function	line:40
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.state.option.sleep",$/;"	function	line:43
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed State Sleep",$/;"	function	line:44
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Sleep"$/;"	function	line:45
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.state.option.inactive",$/;"	function	line:48
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed State Inactive",$/;"	function	line:49
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Inactive"$/;"	function	line:50
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.refresh.label",$/;"	function	line:53
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Refresh label",$/;"	function	line:54
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Refresh"$/;"	function	line:55
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.groups.label",$/;"	function	line:58
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Groups label",$/;"	function	line:59
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Groups"$/;"	function	line:60
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.owner.label",$/;"	function	line:63
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Owner label",$/;"	function	line:64
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Owner"$/;"	function	line:65
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "button.cancel",$/;"	function	line:68
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Cancel button text",$/;"	function	line:69
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Cancel"$/;"	function	line:70
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "button.create",$/;"	function	line:73
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Create button text",$/;"	function	line:74
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Create"$/;"	function	line:75
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.saved.notify",$/;"	function	line:78
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Saved user notification",$/;"	function	line:79
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Feed has been saved"$/;"	function	line:80
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.config.placeholder",$/;"	function	line:23
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Extra config placeholder",$/;"	function	line:24
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "ID\/hashtag\/name\/..."$/;"	function	line:25
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.config.label",$/;"	function	line:28
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Config label",$/;"	function	line:29
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Source ID"$/;"	function	line:30
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.type.placeholder",$/;"	function	line:33
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Type placeholder",$/;"	function	line:34
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Select type"$/;"	function	line:35
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.type.label",$/;"	function	line:38
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Type label",$/;"	function	line:39
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Type"$/;"	function	line:40
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.stream.label",$/;"	function	line:43
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Feed Stream label",$/;"	function	line:44
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Stream"$/;"	function	line:45
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.groups.label",$/;"	function	line:48
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Groups label",$/;"	function	line:49
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Groups"$/;"	function	line:50
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.field.owner.label",$/;"	function	line:53
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Owner label",$/;"	function	line:54
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Owner"$/;"	function	line:55
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "button.cancel",$/;"	function	line:58
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Cancel button text",$/;"	function	line:59
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Cancel"$/;"	function	line:60
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "button.create",$/;"	function	line:63
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Create button text",$/;"	function	line:64
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Create"$/;"	function	line:65
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "id": "feed.saved.notify",$/;"	function	line:68
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "description": "Saved user notification",$/;"	function	line:69
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedEdit.json	/^    "defaultMessage": "Feed has been saved"$/;"	function	line:70
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedRow.json	/^    "id": "button.edit",$/;"	function	line:3
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedRow.json	/^    "description": "Edit feed button",$/;"	function	line:4
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Feed/FeedRow.json	/^    "defaultMessage": "Edit"$/;"	function	line:5
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/Streams.json	/^    "id": "streams.all.title",$/;"	function	line:3
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/Streams.json	/^    "description": "Page title for streams overview",$/;"	function	line:4
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/Streams.json	/^    "defaultMessage": "Streams"$/;"	function	line:5
@@ -1378,6 +1615,36 @@ defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "stream.field.owner.label",$/;"	function	line:23
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Owner label",$/;"	function	line:24
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Owner"$/;"	function	line:25
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "stream.field.feeds.label",$/;"	function	line:28
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Feeds label",$/;"	function	line:29
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Feeds"$/;"	function	line:30
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "stream.field.messages.label",$/;"	function	line:33
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Messages label",$/;"	function	line:34
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Messages"$/;"	function	line:35
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "stream.field.published.label",$/;"	function	line:38
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Stream Published label",$/;"	function	line:39
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Published"$/;"	function	line:40
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "feed.field.name.label",$/;"	function	line:43
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Feed Name label",$/;"	function	line:44
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Name"$/;"	function	line:45
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "feed.field.config.label",$/;"	function	line:48
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Feed Config label",$/;"	function	line:49
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Source ID"$/;"	function	line:50
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "feed.field.type.label",$/;"	function	line:53
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Feed Type label",$/;"	function	line:54
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Type"$/;"	function	line:55
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "feed.field.stream.label",$/;"	function	line:58
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Feed Stream label",$/;"	function	line:59
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Stream"$/;"	function	line:60
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "feed.field.groups.label",$/;"	function	line:63
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Groups label",$/;"	function	line:64
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Groups"$/;"	function	line:65
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "streams.action",$/;"	function	line:68
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Table header action",$/;"	function	line:69
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "Action"$/;"	function	line:70
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "id": "message.add.button",$/;"	function	line:73
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "description": "Add new message button",$/;"	function	line:74
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamView.json	/^    "defaultMessage": "New Message"$/;"	function	line:75
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamCreate.json	/^    "id": "stream.new.title",$/;"	function	line:3
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamCreate.json	/^    "description": "Title of Create stream page",$/;"	function	line:4
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamCreate.json	/^    "defaultMessage": "Create New Stream"$/;"	function	line:5
@@ -1444,36 +1711,39 @@ defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.state.label",$/;"	function	line:33
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream State label",$/;"	function	line:34
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "State"$/;"	function	line:35
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.state.option.active",$/;"	function	line:38
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream State Active",$/;"	function	line:39
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Active"$/;"	function	line:40
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.state.option.sleep",$/;"	function	line:43
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream State Sleep",$/;"	function	line:44
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Sleep"$/;"	function	line:45
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.state.option.inactive",$/;"	function	line:48
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream State Inactive",$/;"	function	line:49
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Inactive"$/;"	function	line:50
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.refresh.label",$/;"	function	line:53
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream Refresh label",$/;"	function	line:54
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Refresh"$/;"	function	line:55
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.groups.label",$/;"	function	line:58
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Groups label",$/;"	function	line:59
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Groups"$/;"	function	line:60
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.owner.label",$/;"	function	line:63
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Owner label",$/;"	function	line:64
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Owner"$/;"	function	line:65
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "button.cancel",$/;"	function	line:68
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Cancel button text",$/;"	function	line:69
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Cancel"$/;"	function	line:70
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "button.create",$/;"	function	line:73
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Create button text",$/;"	function	line:74
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Create"$/;"	function	line:75
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.saved.notify",$/;"	function	line:78
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Saved user notification",$/;"	function	line:79
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Stream has been saved"$/;"	function	line:80
-id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.deleted.notify",$/;"	function	line:83
-description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Info that groups has beed deleted",$/;"	function	line:84
-defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Group has beed deleted."$/;"	function	line:85
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.published.label",$/;"	function	line:38
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream Published label",$/;"	function	line:39
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Published"$/;"	function	line:40
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.state.option.active",$/;"	function	line:43
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream State Active",$/;"	function	line:44
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Active"$/;"	function	line:45
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.state.option.sleep",$/;"	function	line:48
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream State Sleep",$/;"	function	line:49
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Sleep"$/;"	function	line:50
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.state.option.inactive",$/;"	function	line:53
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream State Inactive",$/;"	function	line:54
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Inactive"$/;"	function	line:55
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.refresh.label",$/;"	function	line:58
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Stream Refresh label",$/;"	function	line:59
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Refresh"$/;"	function	line:60
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.groups.label",$/;"	function	line:63
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Groups label",$/;"	function	line:64
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Groups"$/;"	function	line:65
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.field.owner.label",$/;"	function	line:68
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Owner label",$/;"	function	line:69
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Owner"$/;"	function	line:70
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "button.cancel",$/;"	function	line:73
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Cancel button text",$/;"	function	line:74
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Cancel"$/;"	function	line:75
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "button.create",$/;"	function	line:78
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Create button text",$/;"	function	line:79
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Create"$/;"	function	line:80
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.saved.notify",$/;"	function	line:83
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Saved user notification",$/;"	function	line:84
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Stream has been saved"$/;"	function	line:85
+id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "id": "stream.deleted.notify",$/;"	function	line:88
+description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "description": "Info that groups has beed deleted",$/;"	function	line:89
+defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/models/Stream/StreamEdit.json	/^    "defaultMessage": "Group has beed deleted."$/;"	function	line:90
 id	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/NotFound.json	/^    "id": "error.item.notfound.title",$/;"	function	line:3
 description	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/NotFound.json	/^    "description": "Page not found title",$/;"	function	line:4
 defaultMessage	/home/ra100/Devel/sails-social-feed/assets/app/locales/assets/app/components/es6/NotFound.json	/^    "defaultMessage": "Item not found"$/;"	function	line:5
@@ -1765,6 +2035,7 @@ module.exports.globals.sails	/home/ra100/Devel/sails-social-feed/config/globals.
 module.exports.globals.models	/home/ra100/Devel/sails-social-feed/config/globals.js	/^  sails: true,$/;"	property	line:40
 module.exports.csrf.grantTokenViaAjax	/home/ra100/Devel/sails-social-feed/config/csrf.js	/^module.exports.csrf = {$/;"	property	line:61
 module.exports.csrf.origin	/home/ra100/Devel/sails-social-feed/config/csrf.js	/^  grantTokenViaAjax: true,$/;"	property	line:62
+module.exports.http.middleware	/home/ra100/Devel/sails-social-feed/config/http.js	/^module.exports.http = {$/;"	property	line:12
 module.exports.autoreload.active	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^module.exports.autoreload = {$/;"	property	line:1
 module.exports.autoreload.usePolling	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^  active: true,$/;"	property	line:2
 module.exports.autoreload.dirs	/home/ra100/Devel/sails-social-feed/config/autoreload.js	/^  usePolling: false,$/;"	property	line:3
@@ -1780,6 +2051,7 @@ module.exports.session.host	/home/ra100/Devel/sails-social-feed/config/session.j
 module.exports.session.port	/home/ra100/Devel/sails-social-feed/config/session.js	/^  host: 'localhost',$/;"	property	line:71
 module.exports.session.db	/home/ra100/Devel/sails-social-feed/config/session.js	/^  port: 27017,$/;"	property	line:72
 module.exports.session.collection	/home/ra100/Devel/sails-social-feed/config/session.js	/^  db: 'social-feed',$/;"	property	line:73
+module.exports.policies.*	/home/ra100/Devel/sails-social-feed/config/policies.js	/^module.exports.policies = {$/;"	property	line:19
 module.exports.models.connection	/home/ra100/Devel/sails-social-feed/config/models.js	/^module.exports.models = {$/;"	property	line:12
 module.exports.models.migrate	/home/ra100/Devel/sails-social-feed/config/models.js	/^  connection: 'localDiskDb',$/;"	property	line:20
 module.exports.i18n.locales	/home/ra100/Devel/sails-social-feed/config/i18n.js	/^module.exports.i18n = {$/;"	property	line:18
@@ -1794,7 +2066,8 @@ Status.Passport.Logged	/home/ra100/Devel/sails-social-feed/config/locales/en.jso
 Error.Passport.Already.Authenticated	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Passport.Already.Authenticated": "Error.Passport.Already.Authenticated",$/;"	function	line:6
 Error.Not.Admin	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Not.Admin": "Error.Not.Admin",$/;"	function	line:7
 Error.Not.Editor	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Not.Editor": "Error.Not.Editor",$/;"	function	line:8
-Error.Not.InGroup	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Not.InGroup": "Error.Not.InGroup"$/;"	function	line:9
+Error.Not.InGroup	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Not.InGroup": "Error.Not.InGroup",$/;"	function	line:9
+Error.Stream.Not.Found	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Stream.Not.Found": "Error.Stream.Not.Found"$/;"	function	line:10
 module.exports.log	/home/ra100/Devel/sails-social-feed/config/env/development.js	/^module.exports = {$/;"	property	line:13
 module.exports.models	/home/ra100/Devel/sails-social-feed/config/env/production.js	/^module.exports = {$/;"	property	line:13
 module.exports.routes./	/home/ra100/Devel/sails-social-feed/config/routes.js	/^module.exports.routes = {$/;"	property	line:23
@@ -1813,10 +2086,22 @@ dependencies	/home/ra100/Devel/sails-social-feed/bower.json	/^  "dependencies": 
 sails.io.js	/home/ra100/Devel/sails-social-feed/bower.json	/^    "sails.io.js": "*",$/;"	function	line:12
 bootstrap-sass	/home/ra100/Devel/sails-social-feed/bower.json	/^    "bootstrap-sass": "~3.3.6",$/;"	function	line:13
 bootstrap-material-design	/home/ra100/Devel/sails-social-feed/bower.json	/^    "bootstrap-material-design": "*"$/;"	function	line:14
-_	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^var _ = require('lodash');$/;"	variable	line:1
-isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isAdmin: function (uid, req, next) {$/;"	function	line:7
-module.exports.isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^module.exports = {$/;"	method	line:6
-isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isEditor: function (uid, req, next) {$/;"	function	line:17
-module.exports.isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:15
-isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isOwner: function (data, req, next) {$/;"	function	line:27
-module.exports.isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:25
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^module.exports = {$/;"	property	line:8
+beforeValidate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  beforeValidate: function (values, next) {$/;"	function	line:65
+afterCreate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  afterCreate: function (values, next) {$/;"	function	line:97
+beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:111
+afterUpdate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  afterUpdate: function (values, next) {$/;"	function	line:129
+definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  definition: function (req, res) {$/;"	function	line:9
+module.exports.definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^module.exports = {$/;"	method	line:8
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  cancreate: function (req, res) {$/;"	function	line:12
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:11
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  canmodify: function (req, res) {$/;"	function	line:15
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:14
+candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  candestroy: function (req, res) {$/;"	function	line:18
+module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:17
+messageCount	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  messageCount: function (req, res) {$/;"	function	line:22
+module.exports.messageCount	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:20
+public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  public: function (req, res) {$/;"	function	line:31
+module.exports.public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:29
+destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  destroy: function (req, res, next) {$/;"	function	line:46
+module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:41
