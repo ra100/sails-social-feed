@@ -134,5 +134,12 @@ module.exports = {
     });
     // }
     next();
+  },
+
+  afterDestroy: function (destroyedRecords, next) {
+    for (var i in destroyedRecords) {
+      var message = destroyedRecords[i];
+      Stream.message(message.stream, {action: 'destroyed', id: message.id});
+    }
   }
 };

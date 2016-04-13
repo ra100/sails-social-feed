@@ -2086,11 +2086,6 @@ dependencies	/home/ra100/Devel/sails-social-feed/bower.json	/^  "dependencies": 
 sails.io.js	/home/ra100/Devel/sails-social-feed/bower.json	/^    "sails.io.js": "*",$/;"	function	line:12
 bootstrap-sass	/home/ra100/Devel/sails-social-feed/bower.json	/^    "bootstrap-sass": "~3.3.6",$/;"	function	line:13
 bootstrap-material-design	/home/ra100/Devel/sails-social-feed/bower.json	/^    "bootstrap-material-design": "*"$/;"	function	line:14
-module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^module.exports = {$/;"	property	line:8
-beforeValidate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  beforeValidate: function (values, next) {$/;"	function	line:65
-afterCreate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  afterCreate: function (values, next) {$/;"	function	line:97
-beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:111
-afterUpdate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  afterUpdate: function (values, next) {$/;"	function	line:129
 definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  definition: function (req, res) {$/;"	function	line:9
 module.exports.definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^module.exports = {$/;"	method	line:8
 cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  cancreate: function (req, res) {$/;"	function	line:12
@@ -2105,3 +2100,9 @@ public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/
 module.exports.public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:29
 destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  destroy: function (req, res, next) {$/;"	function	line:46
 module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:41
+module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^module.exports = {$/;"	property	line:8
+beforeValidate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  beforeValidate: function (values, next) {$/;"	function	line:65
+afterCreate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  afterCreate: function (values, next) {$/;"	function	line:97
+beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:111
+afterUpdate	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  afterUpdate: function (values, next) {$/;"	function	line:129
+afterDestroy	/home/ra100/Devel/sails-social-feed/api/models/Message.js	/^  afterDestroy: function (destroyedRecords, next) {$/;"	function	line:139

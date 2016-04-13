@@ -4,6 +4,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl, FormattedDate, FormattedTime} from 'react-intl';
 import {notify} from 'react-notify-toast';
 import _ from 'lodash';
+import EditToolbar from './../../EditToolbar';
 
 const messages = defineMessages({
   saved: {
@@ -23,14 +24,16 @@ class MessageRow extends Component {
     super(props, context);
     this.state = {
       published: null,
-      reviewed: null
+      reviewed: null,
+      message: null,
+      edit: false
     };
-    this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse');
+    this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse', '_handleMessageChange', '_handleEdit', '_remove', '_update', '_cancel');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.setState({published: this.props.message.published, reviewed: this.props.message.reviewed});
+    this.setState({published: this.props.message.published, reviewed: this.props.message.reviewed, message: this.props.message.message});
   }
 
   componentWillUnmount() {
@@ -61,12 +64,17 @@ class MessageRow extends Component {
   _update() {
     let {socket} = this.context;
     let {message} = this.props;
-    socket.put('/messages/' + message.id, {
+    let payload = {
       id: message.id,
       published: this.state.published,
       reviewed: this.state.reviewed,
       _csrf: _csrf
-    }, this.handleUpdateResponse);
+    };
+    if (this.state.edit) {
+      payload.message = this.state.message;
+    }
+    socket.put('/messages/' + message.id, payload, this.handleUpdateResponse);
+    this.setState({edit: false});
   }
 
   _handlePublishedChange(event) {
@@ -82,11 +90,37 @@ class MessageRow extends Component {
     }, this._update);
   }
 
+  _handleEdit(event) {
+    this.setState({edit: true});
+  }
+
+  _handleMessageChange(event) {
+    this.setState({message: event.target.value});
+  }
+
+  _remove() {
+    let {socket} = this.context;
+    socket.delete('/messages/' + this.props.message.id, {
+      _csrf: _csrf
+    }, this.handleUpdateResponse);
+    this.setState({edit: false});
+  }
+
+  _cancel() {
+    this.setState({edit: false});
+  }
+
   render() {
     const {formatMessage} = this.props.intl;
     let {message} = this.props;
     let published = <Input type="checkbox" checked={this.state.published} ref="published" onChange={this._handlePublishedChange} label=" "/>;
     let reviewed = <Input type="checkbox" checked={this.state.reviewed} ref="reviewed" onChange={this._handleReviewedChange} label=" "/>;
+    let msg = <span onTouchTap={this._handleEdit}>{this.state.message}</span>;
+    if (this.state.edit) {
+      msg = <span><Input type="textarea" label="" placeholder="textarea" value={this.state.message} onChange={this._handleMessageChange}/>
+        <EditToolbar update={this._update} remove={this._remove} cancelCallback={this._cancel}/>
+      </span>;
+    }
     return (
       <tr key={message.id}>
         <td>
@@ -104,7 +138,7 @@ class MessageRow extends Component {
         </td>
 
         <td>
-          {message.message}
+          {msg}
         </td>
 
         <td>

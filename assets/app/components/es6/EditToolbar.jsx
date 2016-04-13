@@ -63,7 +63,11 @@ class EditToolbar extends Component {
   }
 
   _cancel() {
-    this.context.history.goBack();
+    if (this.props.cancelCallback !== null) {
+      this.props.cancelCallback();
+    } else {
+      this.context.history.goBack();
+    }
   }
 
   render() {
@@ -117,6 +121,7 @@ EditToolbar.propTypes = {
   create: PropTypes.func,
   update: PropTypes.func,
   remove: PropTypes.func,
+  cancelCallback: PropTypes.func,
   cancel: PropTypes.bool
 };
 
@@ -125,6 +130,7 @@ EditToolbar.defaultTypes = {
   create: null,
   update: null,
   remove: null,
+  cancelCallback: null,
   cancel: true
 };
 

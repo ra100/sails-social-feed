@@ -6,7 +6,8 @@ import {
   PageHeader,
   Alert,
   Label,
-  Table
+  Table,
+  Pagination
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
@@ -136,17 +137,20 @@ class StreamView extends Component {
       status: 0,
       error: null,
       newMessageShow: false,
-      replyId: '',
+      reply_id: '',
       page: 0,
       items_per_page: 10,
+      messages_count: 0,
       streamId: 0
     };
-    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage', 'handleMessagesLoad', 'processSocketStream', 'processMessage', 'hideMessageModal');
+    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage', 'handleMessagesLoad', 'processSocketStream', 'processMessage', 'hideMessageModal', '_handlePagination', 'handleCountLoad');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.setState({streamId: this.props.params.streamId}, this.load);
+    this.setState({
+      streamId: this.props.params.streamId
+    }, this.load);
   }
 
   load(nextProps) {
@@ -158,6 +162,7 @@ class StreamView extends Component {
       populate: 'feeds,groups,owner'
     };
     socket.get('/streams/' + this.state.streamId, query, this.handleLoad);
+    socket.get('/streams/messagecount/' + this.state.streamId, this.handleCountLoad);
     this.loadMessages();
     socket.on('stream', this.processSocketStream);
   }
@@ -181,7 +186,12 @@ class StreamView extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.streamId !== this.props.params.streamId) {
-      this.setState({stream: null, status: 0, error: null, streamId: nextProps.params.streamId}, this.load);
+      this.setState({
+        stream: null,
+        status: 0,
+        error: null,
+        streamId: nextProps.params.streamId
+      }, this.load);
     }
   }
 
@@ -194,6 +204,13 @@ class StreamView extends Component {
     } else {
       this.setState({status: res.statusCode, error: null, stream: data});
     }
+  }
+
+  handleCountLoad(data, res) {
+    if (!this._isMounted) {
+      return;
+    }
+    this.setState({messages_count: data.count});
   }
 
   handleMessagesLoad(data, res) {
@@ -211,13 +228,19 @@ class StreamView extends Component {
     this.props.history.push('/stream/' + this.state.stream.id + '/edit');
   }
 
+  _handlePagination(event, selectedEvent) {
+    this.setState({
+      page: (selectedEvent.eventKey - 1)
+    }, this.loadMessages);
+  }
+
   hideMessageModal() {
     this.setState({newMessageShow: false});
   }
 
   addMessage(event) {
     let rpl = '';
-    this.setState({newMessageShow: true, replyId: rpl});
+    this.setState({newMessageShow: true, reply_id: rpl});
   }
 
   processSocketStream(event) {
@@ -229,6 +252,14 @@ class StreamView extends Component {
           this.context.socket.get('/messages/' + event.addedId, {
             populate: ''
           }, this.processMessage);
+        }
+        break;
+      case 'messaged':
+        if (event.data.action !== undefined && event.data.action == 'destroyed') {
+          let ms = this.state.messages.filter(function (r) {
+            return r.id !== event.data.id;
+          });
+          this.setState({messages: ms});
         }
         break;
       case 'removedFrom':
@@ -348,7 +379,7 @@ class StreamView extends Component {
               <Col xs={12}>
                 <h3><FormattedMessage {...messages.streamFieldMessagesLabel}/></h3>
                 {newMessageButton}
-                <MessageNewModal ref="newModal" streamId={this.props.params.streamId} show={this.state.newMessageShow} onHide={this.hideMessageModal} parentId={this.state.replyId}/>
+                <MessageNewModal ref="newModal" streamId={this.props.params.streamId} show={this.state.newMessageShow} onHide={this.hideMessageModal} parentId={this.state.reply_id}/>
               </Col>
               <Col xs={12}>
                 <Table striped hover responsive>
@@ -367,6 +398,7 @@ class StreamView extends Component {
                     })}
                   </tbody>
                 </Table>
+                <Pagination prev next first last ellipsis boundaryLinks items={this.state.messages_count/this.state.items_per_page} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
               </Col>
             </Row>
           );
