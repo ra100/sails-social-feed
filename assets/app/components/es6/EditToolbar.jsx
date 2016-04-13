@@ -63,7 +63,7 @@ class EditToolbar extends Component {
   }
 
   _cancel() {
-    if (this.props.cancelCallback !== null) {
+    if (typeof this.props.cancelCallback == 'function') {
       this.props.cancelCallback();
     } else {
       this.context.history.goBack();

@@ -398,7 +398,7 @@ class StreamView extends Component {
                     })}
                   </tbody>
                 </Table>
-                <Pagination prev next first last ellipsis boundaryLinks items={this.state.messages_count/this.state.items_per_page} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
+                <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count/this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
               </Col>
             </Row>
           );
