@@ -56,6 +56,11 @@ const messages = defineMessages({
     description: 'Messages label',
     defaultMessage: 'Messages'
   },
+  streamFieldDisplayLabel: {
+    id: 'stream.field.display.label',
+    description: 'Stream Display label',
+    defaultMessage: 'Show unreviewed'
+  },
   streamFieldPublishedLabel: {
     id: 'stream.field.published.label',
     description: 'Stream Published label',
@@ -182,6 +187,7 @@ class StreamView extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.off('stream', this.processSocketStream);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -244,6 +250,9 @@ class StreamView extends Component {
   }
 
   processSocketStream(event) {
+    if (event.id != this.state.streamId) {
+      return;
+    }
     switch (event.verb) {
       case 'addedTo':
         if (event.added) {
@@ -278,7 +287,8 @@ class StreamView extends Component {
     if (i >= 0) {
       ms[i] = m;
     } else {
-      if (ms[0].created < m.created) {
+      console.log(ms);
+      if (_.head(ms).created < m.created) {
         let tmp = _.reverse(ms);
         tmp.push(m);
         ms = _.take(_.reverse(tmp), 20);
@@ -329,6 +339,10 @@ class StreamView extends Component {
           if (stream.published) {
             pub = <i className="material-icons">check_box</i>;
           }
+          let display = <i className="material-icons">check_box_outline_blank</i>;
+          if (stream.display) {
+            display = <i className="material-icons">check_box</i>;
+          }
           let newMessageButton = <Button bsStyle="primary" onTouchTap={this.addMessage} value={123}>
             <i className="material-icons">add_circle</i>
             <FormattedMessage {...messages.addButton}/></Button>;
@@ -352,6 +366,11 @@ class StreamView extends Component {
               <Col xs={3}><FormattedMessage {...messages.streamFieldStateLabel}/></Col>
               <Col xs={9}>
                 <strong>{stream.state}</strong>
+              </Col>
+
+              <Col xs={3}><FormattedMessage {...messages.streamFieldDisplayLabel}/></Col>
+              <Col xs={9}>
+                {display}
               </Col>
 
               <Col xs={3}><FormattedMessage {...messages.streamFieldPublishedLabel}/></Col>
@@ -398,7 +417,7 @@ class StreamView extends Component {
                     })}
                   </tbody>
                 </Table>
-                <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count/this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
+                <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
               </Col>
             </Row>
           );

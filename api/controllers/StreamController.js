@@ -29,10 +29,21 @@ module.exports = {
   },
 
   public: function (req, res) {
-    Stream.findOne({where: {id: req.param('id'), published: true}, select: ['id', 'name', 'feeds']}).then(function (stream) {
+    Stream.findOne({where: {id: req.param('id'), published: true}, select: ['id', 'name']}).populate('feeds').then(function (stream) {
       if (!stream) {
         res.json(404, {error: req.__('Error.Stream.Not.Found')});
       } else {
+        var feeds = stream.feeds;
+        var i = _.findIndex(feeds, {type: 'form'});
+        if (i >= 0) {
+          stream.form = feeds[i].id;
+        } else {
+          stream.form = null;
+        }
+        stream.feeds = undefined;
+        if (req.isSocket) {
+          sails.sockets.join(req, 'stream_' + stream.id);
+        }
         res.json(stream);
       }
     }).catch(function (err) {
