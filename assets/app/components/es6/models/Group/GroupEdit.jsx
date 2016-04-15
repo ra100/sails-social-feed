@@ -77,6 +77,7 @@ class GroupEdit extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.get('/groups/unsubscribe');
   }
 
   componentWillReceiveProps(nextProps) {

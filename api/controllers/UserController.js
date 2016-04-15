@@ -105,5 +105,17 @@ module.exports = {
       user = r;
       return res.jsonx({username: user.username, roles: user.roles, id: user.id});
     });
+  },
+  
+  /**
+   * Unsubscribe from rooms related to this item
+   */
+  unsubscribe: function(req, res, next) {
+    if (!req.isSocket) {
+      return res.badRequest();
+    } else {
+      var id = req.param('id') ? req.param('id') : '';
+      socialFeed.unsubscribe(req, res, 'user', id);
+    }
   }
 };

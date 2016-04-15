@@ -189,6 +189,7 @@ class FeedCreate extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.get('/feeds/unsubscribe');
   }
 
   handleCanCreate(data, res) {

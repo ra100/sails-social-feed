@@ -55,12 +55,24 @@ module.exports = {
    * @override
    */
   destroy: function (req, res, next) {
-    var sid = req.params.id;
+    var sid = req.param('id');
     Stream.destroy({id: sid}).exec(function (err) {
       if (err) {
         return res.negotiate(err);
       }
       return res.ok();
     });
+  },
+
+  /**
+   * Unsubscribe from rooms related to this item
+   */
+  unsubscribe: function(req, res, next) {
+    if (!req.isSocket) {
+      return res.badRequest();
+    } else {
+      var id = req.param('id') ? req.param('id') : '';
+      socialFeed.unsubscribe(req, res, 'stream', id);
+    }
   }
 };

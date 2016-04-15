@@ -126,6 +126,9 @@ class UserEdit extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.get('/users/unsubscribe');
+    this.context.socket.get('/groups/unsubscribe');
+    this.context.socket.get('/roles/unsubscribe');
   }
 
   componentWillReceiveProps(nextProps) {

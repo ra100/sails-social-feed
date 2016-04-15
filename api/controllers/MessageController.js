@@ -15,5 +15,17 @@ module.exports = {
   candestroy: function (req, res) {
     res.ok({status: 'ok'});
   },
+  
+  /**
+   * Unsubscribe from rooms related to this item
+   */
+  unsubscribe: function(req, res, next) {
+    if (!req.isSocket) {
+      return res.badRequest();
+    } else {
+      var id = req.param('id') ? req.param('id') : '';
+      socialFeed.unsubscribe(req, res, 'message', id);
+    }
+  }
 };
 

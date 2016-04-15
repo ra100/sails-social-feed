@@ -34,14 +34,6 @@ sendOK	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^module.exports 
 module.exports	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^\/**$/;"	function	line:0
 sendOK	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^module.exports = function sendOK (data, options) {$/;"	function	line:14
 couldNotGuessView	/home/ra100/Devel/sails-social-feed/api/responses/ok.js	/^  else return res.guessView({ data: data }, function couldNotGuessView () {$/;"	function	line:44
-definition	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  definition: function (req, res) {$/;"	function	line:9
-module.exports.definition	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^module.exports = {$/;"	method	line:8
-cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  cancreate: function (req, res) {$/;"	function	line:12
-module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:11
-canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  canmodify: function (req, res) {$/;"	function	line:15
-module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:14
-candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  candestroy: function (req, res) {$/;"	function	line:18
-module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:17
 login	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^  login: function (req, res) {$/;"	function	line:33
 AuthController.login	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^var AuthController = {$/;"	method	line:8
 logout	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^  logout: function (req, res) {$/;"	function	line:67
@@ -61,34 +53,6 @@ returnError	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.j
 AuthController.ajaxCallback.returnError	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^    function returnError(err) {$/;"	function	line:190
 disconnect	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^  disconnect: function (req, res) {$/;"	function	line:234
 AuthController.disconnect	/home/ra100/Devel/sails-social-feed/api/controllers/AuthController.js	/^  },$/;"	method	line:226
-cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
-module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^module.exports = {$/;"	method	line:8
-canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
-module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:11
-candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  candestroy: function (req, res) {$/;"	function	line:15
-module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:14
-create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  create: function (req, res, next) {$/;"	function	line:22
-module.exports.create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:17
-update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  update: function (req, res, next) {$/;"	function	line:35
-module.exports.update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:30
-destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  destroy: function (req, res, next) {$/;"	function	line:88
-module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:83
-me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  me: function (req, res) {$/;"	function	line:102
-module.exports.me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:100
-cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
-module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^module.exports = {$/;"	method	line:8
-canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
-module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:11
-candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  candestroy: function (req, res) {$/;"	function	line:15
-module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:14
-destroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  destroy: function (req, res, next) {$/;"	function	line:22
-module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:17
-cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
-module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^module.exports = {$/;"	method	line:8
-canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
-module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  },$/;"	method	line:11
-candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  candestroy: function (req, res) {$/;"	function	line:15
-module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  },$/;"	method	line:14
 path	/home/ra100/Devel/sails-social-feed/api/services/passport.js	/^var path = require('path'),$/;"	variable	line:1
 connect	/home/ra100/Devel/sails-social-feed/api/services/passport.js	/^passport.connect = function (req, query, profile, next) {$/;"	function	line:65
 passport.connect	/home/ra100/Devel/sails-social-feed/api/services/passport.js	/^passport.protocols = require('.\/protocols');$/;"	function	line:30
@@ -126,13 +90,6 @@ module.exports	/home/ra100/Devel/sails-social-feed/api/services/protocols/cas.js
 module.exports.local	/home/ra100/Devel/sails-social-feed/api/services/protocols/index.js	/^module.exports = {$/;"	property	line:14
 authorize	/home/ra100/Devel/sails-social-feed/api/services/protocols/bearer.js	/^exports.authorize = function(token, done) {$/;"	function	line:11
 exports.authorize	/home/ra100/Devel/sails-social-feed/api/services/protocols/bearer.js	/^\/*$/;"	function	line:0
-_	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^var _ = require('lodash');$/;"	variable	line:1
-isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isAdmin: function (uid, req, next) {$/;"	function	line:7
-module.exports.isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^module.exports = {$/;"	method	line:6
-isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isEditor: function (uid, req, next) {$/;"	function	line:17
-module.exports.isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:15
-isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isOwner: function (data, req, next) {$/;"	function	line:27
-module.exports.isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:25
 module.exports.attributes	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^module.exports = {$/;"	property	line:8
 beforeCreate	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^  beforeCreate: function (values, next) {$/;"	function	line:49
 beforeUpdate	/home/ra100/Devel/sails-social-feed/api/models/Feed.js	/^  beforeUpdate: function (values, next) {$/;"	function	line:54
@@ -2048,7 +2005,6 @@ module.exports.session.host	/home/ra100/Devel/sails-social-feed/config/session.j
 module.exports.session.port	/home/ra100/Devel/sails-social-feed/config/session.js	/^  host: 'localhost',$/;"	property	line:71
 module.exports.session.db	/home/ra100/Devel/sails-social-feed/config/session.js	/^  port: 27017,$/;"	property	line:72
 module.exports.session.collection	/home/ra100/Devel/sails-social-feed/config/session.js	/^  db: 'social-feed',$/;"	property	line:73
-module.exports.policies.*	/home/ra100/Devel/sails-social-feed/config/policies.js	/^module.exports.policies = {$/;"	property	line:19
 module.exports.models.connection	/home/ra100/Devel/sails-social-feed/config/models.js	/^module.exports.models = {$/;"	property	line:12
 module.exports.models.migrate	/home/ra100/Devel/sails-social-feed/config/models.js	/^  connection: 'localDiskDb',$/;"	property	line:20
 module.exports.i18n.locales	/home/ra100/Devel/sails-social-feed/config/i18n.js	/^module.exports.i18n = {$/;"	property	line:18
@@ -2065,7 +2021,6 @@ Error.Not.Admin	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"E
 Error.Not.Editor	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Not.Editor": "Error.Not.Editor",$/;"	function	line:8
 Error.Not.InGroup	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Not.InGroup": "Error.Not.InGroup",$/;"	function	line:9
 Error.Stream.Not.Found	/home/ra100/Devel/sails-social-feed/config/locales/en.json	/^	"Error.Stream.Not.Found": "Error.Stream.Not.Found"$/;"	function	line:10
-module.exports.log	/home/ra100/Devel/sails-social-feed/config/env/development.js	/^module.exports = {$/;"	property	line:13
 module.exports.models	/home/ra100/Devel/sails-social-feed/config/env/production.js	/^module.exports = {$/;"	property	line:13
 module.exports.routes./	/home/ra100/Devel/sails-social-feed/config/routes.js	/^module.exports.routes = {$/;"	property	line:23
 module.exports.views.engine	/home/ra100/Devel/sails-social-feed/config/views.js	/^module.exports.views = {$/;"	property	line:14
@@ -2093,6 +2048,17 @@ module.exports.globals._	/home/ra100/Devel/sails-social-feed/config/globals.js	/
 module.exports.globals.async	/home/ra100/Devel/sails-social-feed/config/globals.js	/^  _: true,$/;"	property	line:21
 module.exports.globals.sails	/home/ra100/Devel/sails-social-feed/config/globals.js	/^  async: true,$/;"	property	line:31
 module.exports.globals.models	/home/ra100/Devel/sails-social-feed/config/globals.js	/^  sails: true,$/;"	property	line:40
+module.exports.log	/home/ra100/Devel/sails-social-feed/config/env/development.js	/^module.exports = {$/;"	property	line:13
+module.exports.policies.*	/home/ra100/Devel/sails-social-feed/config/policies.js	/^module.exports.policies = {$/;"	property	line:19
+_	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^var _ = require('lodash');$/;"	variable	line:1
+isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isAdmin: function (uid, req, next) {$/;"	function	line:7
+module.exports.isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^module.exports = {$/;"	method	line:6
+isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isEditor: function (uid, req, next) {$/;"	function	line:21
+module.exports.isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:19
+isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isOwner: function (data, req, next) {$/;"	function	line:35
+module.exports.isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:33
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  unsubscribe: function (req, res, modelName, modelId) {$/;"	function	line:67
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:65
 definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  definition: function (req, res) {$/;"	function	line:9
 module.exports.definition	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^module.exports = {$/;"	method	line:8
 cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  cancreate: function (req, res) {$/;"	function	line:12
@@ -2107,3 +2073,51 @@ public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/
 module.exports.public	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:29
 destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  destroy: function (req, res, next) {$/;"	function	line:57
 module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:52
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  unsubscribe: function(req, res, next) {$/;"	function	line:70
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/StreamController.js	/^  },$/;"	method	line:65
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^module.exports = {$/;"	method	line:8
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:11
+candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  candestroy: function (req, res) {$/;"	function	line:15
+module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:14
+create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  create: function (req, res, next) {$/;"	function	line:22
+module.exports.create	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:17
+update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  update: function (req, res, next) {$/;"	function	line:35
+module.exports.update	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:30
+destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  destroy: function (req, res, next) {$/;"	function	line:88
+module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:83
+me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  me: function (req, res) {$/;"	function	line:102
+module.exports.me	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:100
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  unsubscribe: function(req, res, next) {$/;"	function	line:113
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/UserController.js	/^  },$/;"	method	line:108
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/RoleController.js	/^  unsubscribe: function(req, res, next) {$/;"	function	line:12
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/RoleController.js	/^module.exports = {$/;"	method	line:8
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^module.exports = {$/;"	method	line:8
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  },$/;"	method	line:11
+candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  candestroy: function (req, res) {$/;"	function	line:15
+module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  },$/;"	method	line:14
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  unsubscribe: function(req, res, next) {$/;"	function	line:22
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/MessageController.js	/^  },$/;"	method	line:17
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  cancreate: function (req, res) {$/;"	function	line:9
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^module.exports = {$/;"	method	line:8
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  canmodify: function (req, res) {$/;"	function	line:12
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:11
+candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  candestroy: function (req, res) {$/;"	function	line:15
+module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:14
+destroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  destroy: function (req, res, next) {$/;"	function	line:22
+module.exports.destroy	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:17
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  unsubscribe: function(req, res, next) {$/;"	function	line:35
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/GroupController.js	/^  },$/;"	method	line:30
+definition	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  definition: function (req, res) {$/;"	function	line:9
+module.exports.definition	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^module.exports = {$/;"	method	line:8
+cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  cancreate: function (req, res) {$/;"	function	line:12
+module.exports.cancreate	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:11
+canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  canmodify: function (req, res) {$/;"	function	line:15
+module.exports.canmodify	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:14
+candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  candestroy: function (req, res) {$/;"	function	line:18
+module.exports.candestroy	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:17
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  unsubscribe: function(req, res, next) {$/;"	function	line:25
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/controllers/FeedController.js	/^  },$/;"	method	line:20

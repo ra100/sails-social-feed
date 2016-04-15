@@ -188,6 +188,9 @@ class StreamView extends Component {
   componentWillUnmount() {
     this._isMounted = false;
     this.context.socket.off('stream', this.processSocketStream);
+    this.context.socket.get('/streams/unsubscribe');
+    this.context.socket.get('/feeds/unsubscribe');
+    this.context.socket.get('/messages/unsubscribe');
   }
 
   componentWillReceiveProps(nextProps) {

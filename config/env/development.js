@@ -21,6 +21,6 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
   log: {
-    level: 'verbose'
+    level: 'silly'
   }
 };

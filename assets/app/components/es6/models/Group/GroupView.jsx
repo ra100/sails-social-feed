@@ -39,7 +39,7 @@ class GroupView extends Component {
     this._isMounted = true;
     this.load();
   }
-      
+
   load(nextProps) {
     if (!this._isMounted) {
       return;
@@ -54,6 +54,7 @@ class GroupView extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.get('/groups/unsubscribe');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -122,7 +123,7 @@ class GroupView extends Component {
                 {group.name}
               </PageHeader>
               <Col xs={12}></Col>
-            <EditToolbar edit={this._edit} remove={this._remove}/>
+              <EditToolbar edit={this._edit} remove={this._remove}/>
             </Row>
           );
         }

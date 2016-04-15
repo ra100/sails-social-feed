@@ -30,7 +30,7 @@ const messages = defineMessages({
     id: 'user.field.groups.label',
     description: 'Groups label',
     defaultMessage: 'Groups'
-  },
+  }
 });
 
 class UserView extends Component {
@@ -53,9 +53,12 @@ class UserView extends Component {
     this._isMounted = true;
     this.load();
   }
-  
+
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.get('/users/unsubscribe');
+    this.context.socket.get('/groups/unsubscribe');
+    this.context.socket.get('/roles/unsubscribe');
   }
 
   componentWillReceiveProps(nextProps) {

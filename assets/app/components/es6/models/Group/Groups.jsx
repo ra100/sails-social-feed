@@ -50,6 +50,7 @@ class Groups extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.get('/groups/unsubscribe');
   }
 
   handleResponse(data, res) {

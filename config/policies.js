@@ -54,6 +54,7 @@ module.exports.policies = {
     'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
     'canmodify': ['passport', 'sessionAuth', 'editSelf'],
     'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
+    'unsubscribe': []
   },
 
   StreamController: {
@@ -64,7 +65,8 @@ module.exports.policies = {
     'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'public': []
+    'public': [],
+    'unsubscribe': []
   },
 
   FeedController: {
@@ -74,7 +76,8 @@ module.exports.policies = {
     'create': ['passport', 'sessionAuth', 'isEditor'],
     'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner']
+    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'unsubscribe': []
   },
 
   GroupController: {
@@ -84,6 +87,7 @@ module.exports.policies = {
     'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
     'canmodify': ['passport', 'sessionAuth', 'isAdmin'],
     'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
+    'unsubscribe': []
   }
 
   /***************************************************************************

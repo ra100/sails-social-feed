@@ -75,6 +75,7 @@ class Streams extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.context.socket.get('/streams/unsubscribe');
   }
 
   handleResponse(data, res) {
