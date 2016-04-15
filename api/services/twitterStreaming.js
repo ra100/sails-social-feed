@@ -22,7 +22,7 @@ module.exports = {
       twitterStreaming.setTokensFromFeeds(feeds);
       twitterStreaming.setTrackStrings(feeds);
       twitterStreaming.initStream();
-      return next(twitterStreaming);
+      return (next) ? next(twitterStreaming) : null;
     }).catch(function (err) {
       return next(err);
     });
@@ -39,19 +39,27 @@ module.exports = {
       access_token_key: twitterStreaming.access_token_key,
       access_token_secret: twitterStreaming.access_token_secret
     });
+
     var t = twitterStreaming.track.join(',');
     var f = twitterStreaming.follow.join(',');
-    twitter.stream('statuses/filter', {
-      track: t,
-      follow: f
-    }, function (stream) {
-      twitterStreaming.stream = stream;
-      stream.on('data', twitterStreaming.processData);
-      stream.on('end', function (response) {
-        sails.log.verbose('Stream end', response);
+    twitter.showUser(f, function (err, data) {
+      var users = [];
+      _.forEach(data, function (user) {
+        users.push(user.id);
       });
-      stream.on('destroy', function (response) {
-        sails.log.verbose('Stream destroyed', response);
+      twitterStreaming.follow = users;
+      twitter.stream('statuses/filter', {
+        // track: t
+        follow: users.join(',')
+      }, function (stream) {
+        twitterStreaming.stream = stream;
+        stream.on('data', twitterStreaming.processData);
+        stream.on('end', function (response) {
+          sails.log.verbose('Stream end', response);
+        });
+        stream.on('destroy', function (response) {
+          sails.log.verbose('Stream destroyed', response);
+        });
       });
     });
     twitterStreaming.twitter = twitter;

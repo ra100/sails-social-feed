@@ -2132,6 +2132,210 @@ authTwitter	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  a
 module.exports.authTwitter	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:81
 authTwitterTokens	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  authTwitterTokens: function (req, res) {$/;"	function	line:113
 module.exports.authTwitterTokens	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:111
+VERSION	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^var VERSION = '0.2.8',$/;"	variable	line:1
+Twitter	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^function Twitter(options) {$/;"	function	line:12
+defaults.consumer_key	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {$/;"	property	line:15
+defaults.consumer_secret	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^    consumer_key: null,$/;"	property	line:16
+defaults.access_token_key	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^    consumer_secret: null,$/;"	property	line:17
+defaults.access_token_secret	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^    access_token_key: null,$/;"	property	line:18
+defaults.headers	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^    access_token_secret: null,$/;"	property	line:19
+Twitter	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^function Twitter(options) {$/;"	function	line:12
+get	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.get = function(url, params, callback) {$/;"	function	line:49
+Twitter	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^module.exports = Twitter;$/;"	class	line:44
+Twitter.get	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.get = function(url, params, callback) {$/;"	method	line:49
+catch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^      catch(err) {$/;"	function	line:82
+post	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.post = function(url, content, content_type, callback) {$/;"	function	line:95
+Twitter.post	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.post = function(url, content, content_type, callback) {$/;"	method	line:95
+catch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^      catch(err) {$/;"	function	line:142
+search	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.search = function(q, params, callback) {$/;"	function	line:155
+Twitter.search	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.search = function(q, params, callback) {$/;"	method	line:155
+stream	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.stream = function(method, params, callback) {$/;"	function	line:176
+Twitter.stream	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.stream = function(method, params, callback) {$/;"	method	line:176
+destroySilent	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  stream.destroySilent = function() {$/;"	function	line:214
+stream.destroySilent	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var stream = new streamparser();$/;"	function	line:212
+destroy	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  stream.destroy = function() {$/;"	function	line:220
+stream.destroy	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  };$/;"	function	line:219
+processTweet	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  function processTweet(tweet) {$/;"	function	line:231
+function.processTweet	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  function processTweet(tweet) {$/;"	function	line:231
+cookie	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.cookie = function(req) {$/;"	function	line:292
+Twitter.cookie	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.cookie = function(req) {$/;"	method	line:292
+login	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.login = function(mount, success) {$/;"	function	line:313
+Twitter.login	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.login = function(mount, success) {$/;"	method	line:313
+handle	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  return function handle(req, res, next) {$/;"	function	line:331
+function.handle	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  return function handle(req, res, next) {$/;"	function	line:331
+gatekeeper	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.gatekeeper = function(failure) {$/;"	function	line:423
+Twitter.gatekeeper	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.gatekeeper = function(failure) {$/;"	method	line:423
+getPublicTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getPublicTimeline = function(params, callback) {$/;"	function	line:456
+Twitter.getPublicTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getPublicTimeline = function(params, callback) {$/;"	method	line:456
+getHomeTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getHomeTimeline = function(params, callback) {$/;"	function	line:462
+Twitter.getHomeTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getHomeTimeline = function(params, callback) {$/;"	method	line:462
+getFriendsTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFriendsTimeline = function(params, callback) {$/;"	function	line:468
+Twitter.getFriendsTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFriendsTimeline = function(params, callback) {$/;"	method	line:468
+getUserTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getUserTimeline = function(params, callback) {$/;"	function	line:474
+Twitter.getUserTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getUserTimeline = function(params, callback) {$/;"	method	line:474
+getMentions	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getMentions = function(params, callback) {$/;"	function	line:480
+Twitter.getMentions	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getMentions = function(params, callback) {$/;"	method	line:480
+getRetweetedByMe	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedByMe = function(params, callback) {$/;"	function	line:486
+Twitter.getRetweetedByMe	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedByMe = function(params, callback) {$/;"	method	line:486
+getRetweetedToMe	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedToMe = function(params, callback) {$/;"	function	line:492
+Twitter.getRetweetedToMe	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedToMe = function(params, callback) {$/;"	method	line:492
+getRetweetsOfMe	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetsOfMe = function(params, callback) {$/;"	function	line:498
+Twitter.getRetweetsOfMe	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetsOfMe = function(params, callback) {$/;"	method	line:498
+getRetweetedToUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedToUser = function(params, callback){$/;"	function	line:504
+Twitter.getRetweetedToUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedToUser = function(params, callback){$/;"	method	line:504
+getRetweetedByUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedByUser = function(params, callback){$/;"	function	line:510
+Twitter.getRetweetedByUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedByUser = function(params, callback){$/;"	method	line:510
+showStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showStatus = function(id, callback) {$/;"	function	line:518
+Twitter.showStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showStatus = function(id, callback) {$/;"	method	line:518
+Twitter.getStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getStatus$/;"	method	line:523
+updateStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateStatus = function(text, params, callback) {$/;"	function	line:526
+Twitter.updateStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateStatus = function(text, params, callback) {$/;"	method	line:526
+var.defaults.status	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {$/;"	property	line:533
+var.defaults.include_entities	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^    status: text,$/;"	property	line:534
+destroyStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyStatus = function(id, callback) {$/;"	function	line:542
+Twitter.destroyStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyStatus = function(id, callback) {$/;"	method	line:542
+Twitter.deleteStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.deleteStatus$/;"	method	line:547
+retweetStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.retweetStatus = function(id, callback) {$/;"	function	line:550
+Twitter.retweetStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.retweetStatus = function(id, callback) {$/;"	method	line:550
+getRetweets	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweets = function(id, params, callback) {$/;"	function	line:556
+Twitter.getRetweets	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweets = function(id, params, callback) {$/;"	method	line:556
+getRetweetedBy	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedBy = function(id, params, callback) {$/;"	function	line:562
+Twitter.getRetweetedBy	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedBy = function(id, params, callback) {$/;"	method	line:562
+getRetweetedByIds	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedByIds = function(id, params, callback) {$/;"	function	line:568
+Twitter.getRetweetedByIds	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRetweetedByIds = function(id, params, callback) {$/;"	method	line:568
+showUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showUser = function(id, callback) {$/;"	function	line:576
+Twitter.showUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showUser = function(id, callback) {$/;"	method	line:576
+Twitter.lookupUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.lookupUser$/;"	method	line:603
+searchUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.searchUser = function(q, params, callback) {$/;"	function	line:607
+Twitter.searchUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.searchUser = function(q, params, callback) {$/;"	method	line:607
+Twitter.searchUsers	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.searchUsers$/;"	method	line:618
+userProfileImage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.userProfileImage = function(id, params, callback) {$/;"	function	line:623
+Twitter.userProfileImage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.userProfileImage = function(id, params, callback) {$/;"	method	line:623
+params.size	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^    params = { size: params };$/;"	property	line:628
+getTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getTrends = function(callback) {$/;"	function	line:654
+Twitter.getTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getTrends = function(callback) {$/;"	method	line:654
+getCurrentTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getCurrentTrends = function(params, callback) {$/;"	function	line:659
+Twitter.getCurrentTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getCurrentTrends = function(params, callback) {$/;"	method	line:659
+getTrendsWithId	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getTrendsWithId = function(woeid, params, callback) {$/;"	function	line:664
+Twitter.getTrendsWithId	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getTrendsWithId = function(woeid, params, callback) {$/;"	method	line:664
+getDailyTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getDailyTrends = function(params, callback) {$/;"	function	line:671
+Twitter.getDailyTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getDailyTrends = function(params, callback) {$/;"	method	line:671
+getWeeklyTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getWeeklyTrends = function(params, callback) {$/;"	function	line:677
+Twitter.getWeeklyTrends	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getWeeklyTrends = function(params, callback) {$/;"	method	line:677
+getLists	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getLists = function(id, params, callback) {$/;"	function	line:687
+Twitter.getLists	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getLists = function(id, params, callback) {$/;"	method	line:687
+var.defaults.key	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {key:'lists'};$/;"	property	line:693
+getListMemberships	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListMemberships = function(id, params, callback) {$/;"	function	line:705
+Twitter.getListMemberships	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListMemberships = function(id, params, callback) {$/;"	method	line:705
+var.defaults.key	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {key:'lists'};$/;"	property	line:711
+getListSubscriptions	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListSubscriptions = function(id, params, callback) {$/;"	function	line:723
+Twitter.getListSubscriptions	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListSubscriptions = function(id, params, callback) {$/;"	method	line:723
+var.defaults.key	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {key:'lists'};$/;"	property	line:729
+showList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showList = function(screen_name, list_id, callback) {$/;"	function	line:742
+Twitter.showList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showList = function(screen_name, list_id, callback) {$/;"	method	line:742
+getListTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListTimeline = function(screen_name, list_id, params, callback) {$/;"	function	line:749
+Twitter.getListTimeline	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListTimeline = function(screen_name, list_id, params, callback) {$/;"	method	line:749
+Twitter.showListStatuses	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showListStatuses$/;"	method	line:754
+createList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createList = function(screen_name, list_name, params, callback) {$/;"	function	line:758
+Twitter.createList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createList = function(screen_name, list_name, params, callback) {$/;"	method	line:758
+updateList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateList = function(screen_name, list_id, params, callback) {$/;"	function	line:771
+Twitter.updateList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateList = function(screen_name, list_id, params, callback) {$/;"	method	line:771
+deleteList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.deleteList = function(screen_name, list_id, callback) {$/;"	function	line:778
+Twitter.deleteList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.deleteList = function(screen_name, list_id, callback) {$/;"	method	line:778
+Twitter.destroyList	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyList$/;"	method	line:783
+getListMembers	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListMembers = function(screen_name, list_id, params, callback) {$/;"	function	line:789
+Twitter.getListMembers	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListMembers = function(screen_name, list_id, params, callback) {$/;"	method	line:789
+getListSubscribers	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListSubscribers = function(screen_name, list_id, params, callback) {$/;"	function	line:806
+Twitter.getListSubscribers	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getListSubscribers = function(screen_name, list_id, params, callback) {$/;"	method	line:806
+getDirectMessages	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getDirectMessages = function(params, callback) {$/;"	function	line:822
+Twitter.getDirectMessages	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getDirectMessages = function(params, callback) {$/;"	method	line:822
+getDirectMessagesSent	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getDirectMessagesSent = function(params, callback) {$/;"	function	line:828
+Twitter.getDirectMessagesSent	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getDirectMessagesSent = function(params, callback) {$/;"	method	line:828
+Twitter.getSentDirectMessages	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getSentDirectMessages$/;"	method	line:833
+newDirectMessage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.newDirectMessage = function(id, text, params, callback) {$/;"	function	line:836
+Twitter.newDirectMessage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.newDirectMessage = function(id, text, params, callback) {$/;"	method	line:836
+var.defaults.text	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {$/;"	property	line:842
+var.defaults.include_entities	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^    text: text,$/;"	property	line:843
+Twitter.updateDirectMessage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateDirectMessage$/;"	method	line:856
+destroyDirectMessage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyDirectMessage = function(id, callback) {$/;"	function	line:860
+Twitter.destroyDirectMessage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyDirectMessage = function(id, callback) {$/;"	method	line:860
+Twitter.deleteDirectMessage	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.deleteDirectMessage$/;"	method	line:865
+createFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createFriendship = function(id, params, callback) {$/;"	function	line:870
+Twitter.createFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createFriendship = function(id, params, callback) {$/;"	method	line:870
+var.defaults.include_entities	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {$/;"	property	line:876
+destroyFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyFriendship = function(id, callback) {$/;"	function	line:890
+Twitter.destroyFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyFriendship = function(id, callback) {$/;"	method	line:890
+var.params.include_entities	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var params = {$/;"	property	line:896
+Twitter.deleteFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.deleteFriendship$/;"	method	line:908
+showFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showFriendship = function(source, target, callback) {$/;"	function	line:913
+Twitter.showFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showFriendship = function(source, target, callback) {$/;"	method	line:913
+incomingFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.incomingFriendship = function(callback) {$/;"	function	line:931
+Twitter.incomingFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.incomingFriendship = function(callback) {$/;"	method	line:931
+Twitter.incomingFriendships	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.incomingFriendships$/;"	method	line:936
+outgoingFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.outgoingFriendship = function(callback) {$/;"	function	line:939
+Twitter.outgoingFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.outgoingFriendship = function(callback) {$/;"	method	line:939
+Twitter.outgoingFriendships	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.outgoingFriendships$/;"	method	line:944
+lookupFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.lookupFriendship = function(id, callback) {$/;"	function	line:947
+Twitter.lookupFriendship	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.lookupFriendship = function(id, callback) {$/;"	method	line:947
+getFriendsIds	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFriendsIds = function(id, callback) {$/;"	function	line:975
+Twitter.getFriendsIds	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFriendsIds = function(id, callback) {$/;"	method	line:975
+var.params.key	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var params = { key: 'ids' };$/;"	property	line:981
+getFollowersIds	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFollowersIds = function(id, callback) {$/;"	function	line:992
+Twitter.getFollowersIds	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFollowersIds = function(id, callback) {$/;"	method	line:992
+var.params.key	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var params = { key: 'ids' };$/;"	property	line:998
+verifyCredentials	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.verifyCredentials = function(callback) {$/;"	function	line:1011
+Twitter.verifyCredentials	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.verifyCredentials = function(callback) {$/;"	method	line:1011
+rateLimitStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.rateLimitStatus = function(callback) {$/;"	function	line:1017
+Twitter.rateLimitStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.rateLimitStatus = function(callback) {$/;"	method	line:1017
+updateProfile	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateProfile = function(params, callback) {$/;"	function	line:1023
+Twitter.updateProfile	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateProfile = function(params, callback) {$/;"	method	line:1023
+Twitter.var.defaults.include_entities	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {$/;"	property	line:1025
+updateProfileImg	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateProfileImg = function (params, callback) {$/;"	function	line:1035
+Twitter.updateProfileImg	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.updateProfileImg = function (params, callback) {$/;"	method	line:1035
+Twitter.var.defaults.include_entities	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  var defaults = {$/;"	property	line:1037
+getFavorites	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFavorites = function(params, callback) {$/;"	function	line:1052
+Twitter.getFavorites	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getFavorites = function(params, callback) {$/;"	method	line:1052
+createFavorite	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createFavorite = function(id, params, callback) {$/;"	function	line:1058
+Twitter.createFavorite	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createFavorite = function(id, params, callback) {$/;"	method	line:1058
+Twitter.favoriteStatus	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.favoriteStatus$/;"	method	line:1063
+destroyFavorite	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyFavorite = function(id, params, callback) {$/;"	function	line:1066
+Twitter.destroyFavorite	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyFavorite = function(id, params, callback) {$/;"	method	line:1066
+Twitter.deleteFavorite	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.deleteFavorite$/;"	method	line:1071
+createBlock	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createBlock = function(id, callback) {$/;"	function	line:1078
+Twitter.createBlock	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createBlock = function(id, callback) {$/;"	method	line:1078
+Twitter.blockUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.blockUser$/;"	method	line:1090
+destroyBlock	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyBlock = function(id, callback) {$/;"	function	line:1093
+Twitter.destroyBlock	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroyBlock = function(id, callback) {$/;"	method	line:1093
+Twitter.unblockUser	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.unblockUser$/;"	method	line:1105
+blockExists	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.blockExists = function(id, callback) {$/;"	function	line:1108
+Twitter.blockExists	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.blockExists = function(id, callback) {$/;"	method	line:1108
+Twitter.isBlocked	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.isBlocked$/;"	method	line:1120
+reportSpam	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.reportSpam = function(id, callback) {$/;"	function	line:1127
+Twitter.reportSpam	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.reportSpam = function(id, callback) {$/;"	method	line:1127
+savedSearches	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.savedSearches = function(callback) {$/;"	function	line:1142
+Twitter.savedSearches	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.savedSearches = function(callback) {$/;"	method	line:1142
+showSavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showSavedSearch = function(id, callback) {$/;"	function	line:1148
+Twitter.showSavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.showSavedSearch = function(id, callback) {$/;"	method	line:1148
+createSavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createSavedSearch = function(query, callback) {$/;"	function	line:1154
+Twitter.createSavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.createSavedSearch = function(query, callback) {$/;"	method	line:1154
+Twitter.newSavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.newSavedSearch =$/;"	method	line:1159
+destroySavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroySavedSearch = function(id, callback) {$/;"	function	line:1162
+Twitter.destroySavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.destroySavedSearch = function(id, callback) {$/;"	method	line:1162
+Twitter.deleteSavedSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.deleteSavedSearch =$/;"	method	line:1167
+geoSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoSearch = function(params, callback) {$/;"	function	line:1174
+Twitter.geoSearch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoSearch = function(params, callback) {$/;"	method	line:1174
+geoSimilarPlaces	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoSimilarPlaces = function(lat, lng, name, params, callback) {$/;"	function	line:1180
+Twitter.geoSimilarPlaces	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoSimilarPlaces = function(lat, lng, name, params, callback) {$/;"	method	line:1180
+geoReverseGeocode	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoReverseGeocode = function(lat, lng, params, callback) {$/;"	function	line:1200
+Twitter.geoReverseGeocode	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoReverseGeocode = function(lat, lng, params, callback) {$/;"	method	line:1200
+geoGetPlace	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoGetPlace = function(place_id, callback) {$/;"	function	line:1219
+Twitter.geoGetPlace	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.geoGetPlace = function(place_id, callback) {$/;"	method	line:1219
+getRelatedResults	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRelatedResults = function(id, params, callback) {$/;"	function	line:1234
+Twitter.getRelatedResults	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype.getRelatedResults = function(id, params, callback) {$/;"	method	line:1234
+_getUsingCursor	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype._getUsingCursor = function(url, params, callback) {$/;"	function	line:1244
+Twitter._getUsingCursor	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^Twitter.prototype._getUsingCursor = function(url, params, callback) {$/;"	method	line:1244
+fetch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  function fetch(err, data) {$/;"	function	line:1259
+function.fetch	/home/ra100/Devel/sails-social-feed/node_modules/ntwitter/lib/twitter.js	/^  function fetch(err, data) {$/;"	function	line:1259
 socketio	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^var socketio = require('socket.io');$/;"	variable	line:1
 ntwitter	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^var ntwitter = require('ntwitter');$/;"	variable	line:2
 _	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^var _ = require('lodash');$/;"	variable	line:3
@@ -2142,10 +2346,10 @@ module.exports.access_token_secret	/home/ra100/Devel/sails-social-feed/api/servi
 module.exports.twitter_consumer_key	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  access_token_secret: '',$/;"	property	line:9
 init	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  init: function (next) {$/;"	function	line:16
 initStream	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  initStream: function () {$/;"	function	line:31
-t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = twitterStreaming.track.join(',');$/;"	variable	line:42
-f	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var f = twitterStreaming.follow.join(',');$/;"	variable	line:43
-processData	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  processData: function (data) {$/;"	function	line:60
-setTokensFromFeeds	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTokensFromFeeds: function (feeds) {$/;"	function	line:65
-setTrackStrings	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTrackStrings: function (feeds) {$/;"	function	line:74
-t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = [];$/;"	variable	line:76
-switch	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^      switch (feed.type) {$/;"	function	line:78
+t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = twitterStreaming.track.join(',');$/;"	variable	line:43
+f	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var f = twitterStreaming.follow.join(',');$/;"	variable	line:44
+processData	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  processData: function (data) {$/;"	function	line:68
+setTokensFromFeeds	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTokensFromFeeds: function (feeds) {$/;"	function	line:73
+setTrackStrings	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTrackStrings: function (feeds) {$/;"	function	line:82
+t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = [];$/;"	variable	line:84
+switch	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^      switch (feed.type) {$/;"	function	line:86

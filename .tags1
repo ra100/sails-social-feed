@@ -14,10 +14,10 @@ module.exports.access_token_secret	/home/ra100/Devel/sails-social-feed/api/servi
 module.exports.twitter_consumer_key	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  access_token_secret: '',$/;"	property	line:9
 init	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  init: function (next) {$/;"	function	line:16
 initStream	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  initStream: function () {$/;"	function	line:31
-t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = twitterStreaming.track.join(',');$/;"	variable	line:42
-f	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var f = twitterStreaming.follow.join(',');$/;"	variable	line:43
-processData	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  processData: function (data) {$/;"	function	line:60
-setTokensFromFeeds	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTokensFromFeeds: function (feeds) {$/;"	function	line:65
-setTrackStrings	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTrackStrings: function (feeds) {$/;"	function	line:74
-t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = [];$/;"	variable	line:76
-switch	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^      switch (feed.type) {$/;"	function	line:78
+t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = twitterStreaming.track.join(',');$/;"	variable	line:43
+f	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var f = twitterStreaming.follow.join(',');$/;"	variable	line:44
+processData	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  processData: function (data) {$/;"	function	line:68
+setTokensFromFeeds	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTokensFromFeeds: function (feeds) {$/;"	function	line:73
+setTrackStrings	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTrackStrings: function (feeds) {$/;"	function	line:82
+t	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var t = [];$/;"	variable	line:84
+switch	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^      switch (feed.type) {$/;"	function	line:86
