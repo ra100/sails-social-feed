@@ -149,6 +149,7 @@ module.exports = {
               }
               auth.oauth_access_token = oAuthAccessToken;
               auth.oauth_access_token_secret = oAuthAccessTokenSecret;
+              auth.valid = true;
               Feed.update(id, {auth: auth}).then(function(feed) {
                 return res.redirect('/#/feed/' + id);
               }).catch(function (err) {

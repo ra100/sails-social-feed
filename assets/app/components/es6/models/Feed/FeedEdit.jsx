@@ -301,7 +301,7 @@ class FeedCreate extends Component {
         groups: groups,
         error: null,
         edit: true,
-        auth: null
+        auth: auth
       });
       this.refs.owner.syncData();
       this.refs.groups.syncData();
