@@ -73,6 +73,16 @@ const messages = defineMessages({
     description: 'Owner label',
     defaultMessage: 'Owner'
   },
+  feedFieldAuthLabel: {
+    id: 'feed.field.auth.label',
+    description: 'Auth label',
+    defaultMessage: 'Authenticate'
+  },
+  feedFieldReAuthLabel: {
+    id: 'feed.field.reauth.label',
+    description: 'ReAuth label',
+    defaultMessage: 'Re-authenticate'
+  },
   cancelButton: {
     id: 'button.cancel',
     description: 'Cancel button text',
@@ -122,6 +132,7 @@ class FeedCreate extends Component {
       stream: [],
       groups: [],
       owner: [],
+      auth: null,
 
       bsStyle: {
         name: null,
@@ -137,7 +148,7 @@ class FeedCreate extends Component {
       allow: true,
       view: false
     };
-    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', 'handleCanCreate', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse', 'load');
+    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse', 'handleAuthResponse', 'load');
   }
 
   componentDidMount() {
@@ -271,6 +282,14 @@ class FeedCreate extends Component {
         }
       }
 
+      let auth = null;
+      if (data.auth) {
+        auth = false;
+        if (data.auth.valid) {
+          auth = true;
+        }
+      }
+
       this.setState({
         status: res.statusCode,
         feed: data,
@@ -281,7 +300,8 @@ class FeedCreate extends Component {
         owner: owner,
         groups: groups,
         error: null,
-        edit: true
+        edit: true,
+        auth: null
       });
       this.refs.owner.syncData();
       this.refs.groups.syncData();
@@ -536,6 +556,19 @@ class FeedCreate extends Component {
     this.setState({owner: owner});
   }
 
+  _handleAuth(event) {
+    console.log('auth vole');
+    let {socket} = this.context;
+    socket.get('/feeds/authorize/' + this.state.feed.id, this.handleAuthResponse);
+  }
+
+  handleAuthResponse(data, res) {
+    console.log(data);
+    if (res.statusCode == 200) {
+      location.href = data.redirect;
+    }
+  }
+
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.load(nextProps);
@@ -597,6 +630,14 @@ class FeedCreate extends Component {
       </div>
     </div>;
 
+    let authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldAuthLabel}/></Button>;
+    if (this.state.auth !== null) {
+      authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldReAuthLabel}/></Button>;
+    }
+    if (!this.state.edit || ['twitter_user', 'twitter_hashtag'].indexOf(this.state.type) < 0) {
+      authButton = null;
+    }
+
     let create = null;
     let update = null;
     let remove = null;
@@ -631,6 +672,7 @@ class FeedCreate extends Component {
             {fieldStream}
             {fieldGroups}
             {fieldOwner}
+            {authButton}
           </form>
           <EditToolbar create={create} update={update} remove={remove}/>
         </Col>

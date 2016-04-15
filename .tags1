@@ -4,3 +4,17 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+_	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^var _ = require('lodash');$/;"	variable	line:2
+oauth	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^var oauth = require('oauth');$/;"	variable	line:3
+isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isAdmin: function (uid, req, next) {$/;"	function	line:9
+module.exports.isAdmin	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^module.exports = {$/;"	method	line:8
+isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isEditor: function (uid, req, next) {$/;"	function	line:23
+module.exports.isEditor	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:21
+isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  isOwner: function (data, req, next) {$/;"	function	line:37
+module.exports.isOwner	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:35
+unsubscribe	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  unsubscribe: function (req, res, modelName, modelId) {$/;"	function	line:69
+module.exports.unsubscribe	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:67
+authTwitter	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  authTwitter: function (req, res) {$/;"	function	line:83
+module.exports.authTwitter	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:81
+authTwitterTokens	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  authTwitterTokens: function (req, res) {$/;"	function	line:113
+module.exports.authTwitterTokens	/home/ra100/Devel/sails-social-feed/api/services/socialFeed.js	/^  },$/;"	method	line:111
