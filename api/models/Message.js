@@ -22,6 +22,10 @@ module.exports = {
       type: 'text',
       required: true
     },
+    uuid: {
+      type: 'text',
+      required: false
+    },
     published: {
       type: 'boolean',
       defaultsTo: false
