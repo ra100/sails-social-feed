@@ -151,6 +151,7 @@ module.exports = {
               auth.oauth_access_token_secret = oAuthAccessTokenSecret;
               auth.valid = true;
               Feed.update(id, {auth: auth}).then(function(feed) {
+                twitterStreaming.reconnect(auth.oauth_access_token, auth.oauth_access_token_secret);
                 return res.redirect('/#/feed/' + id);
               }).catch(function (err) {
                 return res.negotiate(err);

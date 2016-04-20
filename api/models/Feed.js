@@ -51,8 +51,23 @@ module.exports = {
     next();
   },
 
+  afterCreate: function (newlyInsertedRecord, next) {
+    twitterStreaming.reload();
+    next();
+  },
+
   beforeUpdate: function (values, next) {
     delete values._csrf;
+    next();
+  },
+
+  afterUpdate: function (updatedRecord, next) {
+    twitterStreaming.reload();
+    next();
+  },
+
+  afterDestroy: function (destroyedRecords, next) {
+    twitterStreaming.reload();
     next();
   }
 };

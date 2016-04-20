@@ -44,6 +44,16 @@ module.exports = {
     picture: {
       type: 'json'
     },
+    author: {
+      type: 'json'
+      /**
+       * name
+       * id
+       * handle
+       * picture
+       * url
+       */
+    },
     metadata: {
       type: 'json'
         /*

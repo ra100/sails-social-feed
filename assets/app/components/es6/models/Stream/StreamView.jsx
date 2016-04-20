@@ -276,7 +276,7 @@ class StreamView extends Component {
         break;
       case 'removedFrom':
       default:
-        // console.log(event);
+        console.log(event);
         break;
     }
   }
