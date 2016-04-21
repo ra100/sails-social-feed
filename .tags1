@@ -4,30 +4,3 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-socketio	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^var socketio = require('socket.io');$/;"	variable	line:1
-Twitter	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^var Twitter = require('twitter');$/;"	variable	line:2
-_	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^var _ = require('lodash');$/;"	variable	line:3
-t.twitter	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^var t = {$/;"	property	line:5
-t.auth_feed_id	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  twitter: null,$/;"	property	line:6
-t.access_token_key	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  auth_feed_id: null,$/;"	property	line:7
-t.access_token_secret	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  access_token_key: '',$/;"	property	line:8
-t.twitter_consumer_key	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  access_token_secret: '',$/;"	property	line:9
-init	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  init: function () {$/;"	function	line:26
-reload	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  reload: function () {$/;"	function	line:45
-reconnect	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  reconnect: function (access_token_key, access_token_secret) {$/;"	function	line:65
-initStream	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  initStream: function () {$/;"	function	line:82
-destroyStream	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  destroyStream: function () {$/;"	function	line:124
-processData	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  processData: function (data) {$/;"	function	line:131
-status	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var status = data;$/;"	variable	line:146
-feed	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var feed = null;$/;"	variable	line:152
-hashtag_feed	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var hashtag_feed = t.findHashtag(status.entities.hashtags, t.twitter_hashtag);$/;"	variable	line:153
-message.stream	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var message = {$/;"	property	line:166
-user	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var user = status.user;$/;"	variable	line:177
-message.author.name	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    message.author = {$/;"	property	line:178
-message.metadata.likes	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    message.metadata = {$/;"	property	line:185
-setTokensFromFeeds	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTokensFromFeeds: function (feeds) {$/;"	function	line:225
-setTrackStrings	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  setTrackStrings: function (feeds) {$/;"	function	line:239
-track	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^    var track = [];$/;"	variable	line:241
-switch	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^      switch (feed.type) {$/;"	function	line:245
-findHashtag	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  findHashtag: function (hashtags, feeds) {$/;"	function	line:263
-invalidateToken	/home/ra100/Devel/sails-social-feed/api/services/twitterStreaming.js	/^  invalidateToken: function () {$/;"	function	line:273

@@ -159,7 +159,7 @@ var t = {
     };
 
     if (feed == null) {
-      sails.log.warning('Status does not match any feed', status.id_str);
+      sails.log.warn('Status does not match any feed', status.id_str);
       return;
     };
 
