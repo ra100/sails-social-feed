@@ -13,3 +13,48 @@ Used technologies:
 *   passport
 *   babel
 *   es6
+*   ...
+
+## How to start
+
+*   install sailsjs and other global modules
+
+```shell
+npm install -g sails babel-cli bower
+```
+
+*   install local modules
+
+```shell
+npm install
+bower install
+```
+
+*   lift sails
+
+```shell
+sails lift
+```
+
+*   or create local script end set environment variables, e.g. `start.sh`:
+
+```bash
+#!/bin/bash
+
+export BASE_URL='https://mygreatapp.com'
+export APP_NAME='socialFeed'
+export PORT=1338
+export ADMIN_NAME='admin'
+export ADMIN_PASSWORD='nbusr123'
+export ADMIN_EMAIL='admin@mygreatapp.com'
+export TWITTER_CONSUMER_KEY='TWITTER_CONSUMER_KEY'
+export TWITTER_CONSUMER_SECRET='TWITTER_CONSUMER_SECRET'
+export FACEBOOK_APP_ID='FACEBOOK_APP_ID'
+export FACEBOOK_APP_SECRET='FACEBOOK_APP_SECRET'
+
+sails lift
+```
+
+
+
+
