@@ -1,44 +1,40 @@
 # Social feed
-
-[Sails](http://sailsjs.org) application to collect messages from social
-networks and publish to more social streams.
+[Sails](http://sailsjs.org) application to collect messages from social networks and publish to more social streams.
 
 Used technologies:
-
-*   nodejs
-*   sails
-*   react
-*   react-bootstrap
-*   react-router
-*   passport
-*   babel
-*   es6
-*   ...
+- nodejs
+- sails
+- react
+- react-bootstrap
+- react-router
+- passport
+- babel
+- es6
+- ...
 
 ## How to start
-
-*   install sailsjs and other global modules
+- install sailsjs and other global modules
 
 ```shell
 npm install -g sails babel-cli bower
 ```
 
-*   install local modules
+- install local modules
 
 ```shell
 npm install
 bower install
 ```
 
-*   lift sails
+- lift sails
 
 ```shell
 sails lift
 ```
 
-*   or create local script end set environment variables, e.g. `start.sh`:
+- or create local script end set environment variables, e.g. `start.sh`:
 
-```bash
+```shell
 #!/bin/bash
 
 export BASE_URL='https://mygreatapp.com'
@@ -55,6 +51,12 @@ export FACEBOOK_APP_SECRET='FACEBOOK_APP_SECRET'
 sails lift
 ```
 
+## What works
+- [x] administration
+  - [x] users
+  - [x] streams
+  - [x] groups
+  - [x] feeds
 
-
-
+- [x] twitter Streaming API
+  - [x] listening for users and hashtags
