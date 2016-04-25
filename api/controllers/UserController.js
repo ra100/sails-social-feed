@@ -106,7 +106,7 @@ module.exports = {
       return res.jsonx({username: user.username, roles: user.roles, id: user.id});
     });
   },
-  
+
   /**
    * Unsubscribe from rooms related to this item
    */

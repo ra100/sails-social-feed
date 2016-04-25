@@ -18,3 +18,19 @@ describe 'UserModel', ->
         user.username.should.be.a 'string'
       .catch (err) =>
         throw err
+
+  describe '#find()', ->
+    it 'should check find function', ->
+      User.find()
+      .then (users) =>
+        users.should.have.length 2
+      .catch (err) =>
+        throw err
+
+  describe '#destroy()', ->
+    it 'should check destroy function', ->
+      User.destroy({username: 'editor'})
+      .then (users) =>
+        users.should.have.length 1
+      .catch (err) =>
+        throw err
