@@ -63,7 +63,8 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node ./node_modules/mocha/bin/mocha --opts test/mocha.opts test/bootstrap.test.js test/integration/**/*.test.coffee"
   },
   "main": "app.js",
   "repository": {
@@ -79,6 +80,7 @@
     "babel-preset-react": "^6.3.13",
     "babelify": "^7.2.0",
     "browserify-resolutions": "^1.0.6",
+    "chai": "^3.5.0",
     "dedupify": "^0.1.0",
     "eslint-plugin-react": "^3.10.0",
     "grunt-browserify": "^4.0.1",
