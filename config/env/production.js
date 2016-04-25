@@ -40,6 +40,14 @@ module.exports = {
     twitter_consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
     facebook_app_id: process.env.FACEBOOK_APP_ID,
     facebook_app_secret: process.env.FACEBOOK_APP_SECRET
+  },
+
+  session: {
+    adapter: 'mongo',
+    host: 'localhost',
+    port: 27017,
+    db: 'social-feed',
+    collection: 'sessions',
   }
 
 };
