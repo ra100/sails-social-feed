@@ -11,7 +11,7 @@ describe 'UserModel', ->
       .catch (err) =>
         throw err
 
-  describe '#fineOne()', ->
+  describe '#findOne()', ->
     it 'should check findOne function', ->
       User.findOne({username: 'editor'})
       .then (user) =>
