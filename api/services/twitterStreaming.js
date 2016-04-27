@@ -110,6 +110,7 @@ var t = {
         stream.on('data', t.processData);
         stream.on('end', function (response) {
           sails.log.info('Stream ended');
+          t.initStream();
         });
         stream.on('destroy', function (response) {
           sails.log.info('Stream destroyed');

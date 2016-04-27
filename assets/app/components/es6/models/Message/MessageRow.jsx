@@ -121,6 +121,10 @@ class MessageRow extends Component {
         <EditToolbar update={this._update} remove={this._remove} cancelCallback={this._cancel}/>
       </span>;
     }
+    let author = '';
+    if (message.author) {
+      author = <a href={message.author.url} target="blank">{message.author.name}</a>;
+    }
     return (
       <tr key={message.id}>
         <td>
@@ -135,6 +139,10 @@ class MessageRow extends Component {
           <FormattedTime value={new Date(message.created)}/>
           <br/>
           <FormattedDate value={new Date(message.created)}/>
+        </td>
+
+        <td>
+          {author}
         </td>
 
         <td>

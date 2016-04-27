@@ -125,6 +125,11 @@ const messages = defineMessages({
     id: 'message.field.type.label',
     description: 'Message feed type label',
     defaultMessage: 'Type'
+  },
+  messageFieldAuthorLabel: {
+    id: 'message.field.author.label',
+    description: 'Message feed author label',
+    defaultMessage: 'Author'
   }
 });
 
@@ -144,7 +149,7 @@ class StreamView extends Component {
       newMessageShow: false,
       reply_id: '',
       page: 0,
-      items_per_page: 10,
+      items_per_page: 20,
       messages_count: 0,
       streamId: 0
     };
@@ -410,6 +415,7 @@ class StreamView extends Component {
                       <th><FormattedMessage {...messages.messageFieldPublishedLabel}/></th>
                       <th><FormattedMessage {...messages.messageFieldReviewedLabel}/></th>
                       <th><FormattedMessage {...messages.messageFieldCreatedLabel}/></th>
+                      <th><FormattedMessage {...messages.messageFieldAuthorLabel}/></th>
                       <th><FormattedMessage {...messages.messageFieldMessageLabel}/></th>
                       <th><FormattedMessage {...messages.messageFieldTypeLabel}/></th>
                     </tr>
