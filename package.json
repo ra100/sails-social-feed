@@ -72,7 +72,7 @@
     "url": "git://github.com/ra100/socialFeed.git"
   },
   "author": "ra100",
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "devDependencies": {
     "babel-eslint": "^4.1.6",
     "babel-plugin-react-intl": "^2.1.1",
