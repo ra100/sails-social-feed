@@ -245,10 +245,10 @@ var t = {
     _.forEach(feeds, function (feed) {
       switch (feed.type) {
         case 'twitter_hashtag':
-          track.push(feed.config);
+          track.push(feed.config.toLowerCase());
           break;
         case 'twitter_user':
-          follow.push(feed.config);
+          follow.push(feed.config.toLowerCase());
           break;
       }
       t[feed.type][feed.config] = {
@@ -264,8 +264,8 @@ var t = {
   findHashtag: function (hashtags, feeds) {
     for (var i in hashtags) {
       var h = hashtags[i];
-      if (feeds['#' + h.text] !== undefined) {
-        return feeds['#' + h.text];
+      if (feeds['#' + h.text.toLowerCase()] !== undefined) {
+        return feeds['#' + h.text.toLowerCase()];
       }
     }
     return null;
