@@ -1,7 +1,7 @@
 {
   "name": "socialFeed",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "a Sails application",
   "keywords": [],
   "browser": {
@@ -72,7 +72,7 @@
     "url": "git://github.com/ra100/socialFeed.git"
   },
   "author": "ra100",
-  "license": "",
+  "license": "GPLv3",
   "devDependencies": {
     "babel-eslint": "^4.1.6",
     "babel-plugin-react-intl": "^2.1.1",
