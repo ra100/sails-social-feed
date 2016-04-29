@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing streams
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var _ = require('lodash');
 
 module.exports = {
   definition: function (req, res) {
