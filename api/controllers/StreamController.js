@@ -7,30 +7,40 @@
 var _ = require('lodash');
 
 module.exports = {
-  definition: function (req, res) {
+  definition(req, res) {
     res.ok(sails.models.stream.definition);
   },
-  cancreate: function (req, res) {
+  cancreate(req, res) {
     res.ok({status: 'ok'});
   },
-  canmodify: function (req, res) {
+  canmodify(req, res) {
     res.ok({status: 'ok'});
   },
-  candestroy: function (req, res) {
+  candestroy(req, res) {
     res.ok({status: 'ok'});
   },
 
-  messageCount: function (req, res) {
+  messageCount(req, res) {
     var id = req.param('id');
-    Message.count({where: {stream: id}}).then(function(count) {
+    Message.count({
+      where: {
+        stream: id
+      }
+    }).then(function (count) {
       res.json({id: id, count: count});
     }).catch(function (err) {
       res.serverError(err);
     });
   },
 
-  public: function (req, res) {
-    Stream.findOne({where: {id: req.param('id'), published: true}, select: ['id', 'name']}).populate('feeds').then(function (stream) {
+  public(req, res) {
+    Stream.findOne({
+      where: {
+        id: req.param('id'),
+        published: true
+      },
+      select: ['id', 'name']
+    }).populate('feeds').then((stream) => {
       if (!stream) {
         res.json(404, {error: req.__('Error.Stream.Not.Found')});
       } else {
@@ -47,7 +57,7 @@ module.exports = {
         }
         res.json(stream);
       }
-    }).catch(function (err) {
+    }).catch((err) => {
       res.serverError(err);
     });
   },
@@ -55,9 +65,9 @@ module.exports = {
   /**
    * @override
    */
-  destroy: function (req, res, next) {
+  destroy(req, res, next) {
     var sid = req.param('id');
-    Stream.destroy({id: sid}).exec(function (err) {
+    Stream.destroy({id: sid}).exec((err) => {
       if (err) {
         return res.negotiate(err);
       }
@@ -68,11 +78,13 @@ module.exports = {
   /**
    * Unsubscribe from rooms related to this item
    */
-  unsubscribe: function(req, res, next) {
+  unsubscribe(req, res, next) {
     if (!req.isSocket) {
       return res.badRequest();
     } else {
-      var id = req.param('id') ? req.param('id') : '';
+      var id = req.param('id')
+        ? req.param('id')
+        : '';
       socialFeed.unsubscribe(req, res, 'stream', id);
     }
   }
