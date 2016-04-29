@@ -66,7 +66,8 @@ module.exports.policies = {
     'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'public': [],
-    'unsubscribe': []
+    'unsubscribe': [],
+    'messages': []
   },
 
   FeedController: {

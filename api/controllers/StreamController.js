@@ -62,6 +62,23 @@ module.exports = {
     });
   },
 
+  messages(req, res) {
+    let limit = req.param('limit') || 10;
+    let skip = req.param('skip') || 0;
+    sails.log.silly(req.params);
+    return Message.find({
+      where: {
+        stream: req.param('id')
+      },
+      sort: 'created DESC',
+      limit: limit,
+      skip: skip,
+      select: ['feedType', 'message', 'id', 'created', 'link', 'metadata', 'author']
+    }).then((messages) => {
+      res.json(messages);
+    }).catch(res.serverError);
+  },
+
   /**
    * @override
    */
