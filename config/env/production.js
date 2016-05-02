@@ -36,11 +36,19 @@ module.exports = {
   },
 
   session: {
-    adapter: 'mongo',
+    adapter: 'connect-redis',
     host: 'localhost',
-    port: 27017,
-    db: 'social-feed',
-    collection: 'sessions',
+    port: 6379,
+    db: 0,
+    prefix: 'sess:',
+  },
+
+  sockets: {
+    adapter: 'socket.io-redis',
+    host: 'localhost',
+    port: 6379,
+    db: 'sailssocket',
+    prefix: 'socket:',
   }
 
 };
