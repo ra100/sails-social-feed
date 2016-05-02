@@ -39,7 +39,7 @@ module.exports = {
     adapter: 'connect-redis',
     host: 'localhost',
     port: 6379,
-    db: 'sfsess',
+    db: 0,
     prefix: 'sess:',
   },
 
@@ -47,7 +47,7 @@ module.exports = {
     adapter: 'socket.io-redis',
     host: 'localhost',
     port: 6379,
-    db: 'sfsock',
+    db: 1,
     prefix: 'socket:',
   }
 

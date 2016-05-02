@@ -65,7 +65,9 @@ var AuthController = {
    * @param {Object} res
    */
   logout: function (req, res) {
-    req.logout();
+    if (req.logout) {
+      req.logout();
+    }
 
     // mark the user as logged out for auth purposes
     req.session.authenticated = false;

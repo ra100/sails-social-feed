@@ -14,6 +14,25 @@ module.exports = function (grunt) {
 
   var version = grunt.file.readJSON('package.json').version;
   var pipeline = require('../pipeline');
+  var external = [
+    'react',
+    'react-dom',
+    'react-intl',
+    'react-tap-event-plugin',
+    'react-bootstrap',
+    'react-bootstrap-multiselect',
+    'react-router',
+    'react-router-bootstrap',
+    'react-notify-toast',
+    'socket.io-client',
+    'sails.io.js',
+    'lodash',
+    'history',
+    'arrive',
+    'jquery-browserify',
+    'bootstrap_material_design',
+    'ripples'
+  ];
 
   grunt.config.set('browserify', {
     dev: {
@@ -22,45 +41,9 @@ module.exports = function (grunt) {
       options: {
         basedir: pipeline.appRootDir,
         watch: true,
-        external: [
-          'react',
-          'react-dom',
-          'react-tap-event-plugin',
-          'react-intl',
-          'react-bootstrap',
-          'react-bootstrap-multiselect',
-          'react-router',
-          'react-router-bootstrap',
-          'react-notify-toast',
-          'socket.io-client',
-          'sails.io.js',
-          'lodash',
-          'history',
-          'arrive',
-          'jquery-browserify',
-          'bootstrap_material_design',
-          'ripples'
-        ],
+        external: external,
         plugin: [
-          ['browserify-resolutions', [
-            'react',
-            'react-dom',
-            'react-tap-event-plugin',
-            'react-intl',
-            'react-bootstrap',
-            'react-bootstrap-multiselect',
-            'react-router',
-            'react-router-bootstrap',
-            'react-notify-toast',
-            'socket.io-client',
-            'sails.io.js',
-            'lodash',
-            'history',
-            'arrive',
-            'jquery-browserify',
-            'bootstrap_material_design',
-            'ripples'
-          ]],
+          ['browserify-resolutions', external],
           'dedupify'
         ],
         browserifyOptions: {
@@ -73,25 +56,7 @@ module.exports = function (grunt) {
       src: [],
       dest: '.tmp/public/browserify/vendor.js',
       options: {
-        alias: [
-          'react',
-          'react-dom',
-          'react-tap-event-plugin',
-          'react-intl',
-          'react-bootstrap',
-          'react-bootstrap-multiselect',
-          'react-router',
-          'react-router-bootstrap',
-          'react-notify-toast',
-          'socket.io-client',
-          'sails.io.js',
-          'lodash',
-          'history',
-          'arrive',
-          'jquery-browserify',
-          'bootstrap_material_design',
-          'ripples'
-        ],
+        alias: external,
         browserifyOptions: {
           fast: true,
           debug: true,
@@ -102,25 +67,7 @@ module.exports = function (grunt) {
     prod: {
       options: {
         basedir: pipeline.appRootDir,
-        external: [
-          'react',
-          'react-dom',
-          'react-tap-event-plugin',
-          'react-intl',
-          'react-bootstrap',
-          'react-bootstrap-multiselect',
-          'react-router',
-          'react-router-bootstrap',
-          'react-notify-toast',
-          'socket.io-client',
-          'sails.io.js',
-          'lodash',
-          'history',
-          'arrive',
-          'jquery-browserify',
-          'bootstrap_material_design',
-          'ripples'
-        ],
+        external: external,
         plugin: [
           [
             'minifyify', {
@@ -140,25 +87,7 @@ module.exports = function (grunt) {
       src: [],
       dest: '.tmp/public/browserify/vendor.js',
       options: {
-        alias: [
-          'react',
-          'react-dom',
-          'react-tap-event-plugin',
-          'react-intl',
-          'react-bootstrap',
-          'react-bootstrap-multiselect',
-          'react-router',
-          'react-router-bootstrap',
-          'react-notify-toast',
-          'socket.io-client',
-          'sails.io.js',
-          'lodash',
-          'history',
-          'arrive',
-          'jquery-browserify',
-          'bootstrap_material_design',
-          'ripples'
-        ],
+        alias: external,
         plugin: [
           [
             'minifyify', {

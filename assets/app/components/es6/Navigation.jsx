@@ -86,16 +86,12 @@ class Navigation extends Component {
 
   _logout() {
     var _self = this;
-    $.ajax({
-      type: 'GET',
-      url: '/logout',
-      success: function (data, status, xhr) {
+    this.context.socket.get('/logout', (data, res) => {
+      if (res.statusCode == 200 || res.statusCode == 302) {
         _self.context.user.clearUser();
         _self.context.history.push('/login');
-      },
-      error: function (data, status, xhr) {
-        let message = JSON.parse(data.response);
-        console.log(message);
+      } else {
+        console.error(res);
       }
     });
   }
@@ -214,7 +210,8 @@ class Navigation extends Component {
 
 Navigation.contextTypes = {
   history: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired
 };
 
 export default injectIntl(Navigation);
