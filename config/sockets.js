@@ -12,7 +12,6 @@
 
 module.exports.sockets = {
 
-
   /***************************************************************************
   *                                                                          *
   * Node.js (and consequently Sails.js) apps scale horizontally. It's a      *
@@ -50,9 +49,7 @@ module.exports.sockets = {
   // db: 'sails',
   // pass: '<redis auth password>',
 
-
-
- /***************************************************************************
+  /***************************************************************************
   *                                                                          *
   * Whether to expose a 'get /__getcookie' route with CORS support that sets *
   * a cookie (this is used by the sails.io.js socket client to get access to *
@@ -66,8 +63,6 @@ module.exports.sockets = {
   ***************************************************************************/
 
   // grant3rdPartyCookie: true,
-
-
 
   /***************************************************************************
   *                                                                          *
@@ -106,13 +101,13 @@ module.exports.sockets = {
   * app's security.                                                          *
   *                                                                          *
   ***************************************************************************/
-  // beforeConnect: function(handshake, cb) {
-  //   // `true` allows the connection
-  //   return cb(null, true);
-  //
-  //   // (`false` would reject the connection)
-  // },
+  beforeConnect: function (handshake, cb) {
+    sails.services.metrics.socketConnect();
+    // `true` allows the connection
+    return cb(null, true);
 
+    // (`false` would reject the connection)
+  },
 
   /***************************************************************************
   *                                                                          *
@@ -122,10 +117,11 @@ module.exports.sockets = {
   * disconnects                                                              *
   *                                                                          *
   ***************************************************************************/
-  // afterDisconnect: function(session, socket, cb) {
-  //   // By default: do nothing.
-  //   return cb();
-  // },
+  afterDisconnect: function (session, socket, cb) {
+    sails.services.metrics.socketDisconnect();
+    // By default: do nothing.
+    return cb();
+  },
 
   /***************************************************************************
   *                                                                          *

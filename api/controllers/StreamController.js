@@ -65,7 +65,6 @@ module.exports = {
   messages(req, res) {
     let limit = req.param('limit') || 10;
     let skip = req.param('skip') || 0;
-    sails.log.silly(req.params);
     return Message.find({
       where: {
         stream: req.param('id')

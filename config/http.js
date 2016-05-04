@@ -23,8 +23,9 @@ module.exports.http = {
 
   middleware: {
     compress: require('compression')(),
+    metricador: require('metricador-express-middleware')({namespace: 'shoutbox'}),
 
-  /***************************************************************************
+    /***************************************************************************
   *                                                                          *
   * The order in which middleware should be run for HTTP request. (the Sails *
   * router is invoked by the "router" middleware below.)                     *
@@ -33,9 +34,9 @@ module.exports.http = {
 
     order: [
       'startRequestTimer',
+      'metricador',
       'cookieParser',
       'session',
-      // 'myRequestLogger',
       'bodyParser',
       'handleBodyParserError',
       'compress',
@@ -49,7 +50,7 @@ module.exports.http = {
       '500'
     ],
 
-  /****************************************************************************
+    /****************************************************************************
   *                                                                           *
   * Example custom middleware; logs each request to the console.              *
   *                                                                           *
