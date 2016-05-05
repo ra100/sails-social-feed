@@ -22,5 +22,7 @@ module.exports = {
   // }
   log: {
     level: 'silly'
-  }
+  },
+
+  appname: process.env.APP_NAME
 };

@@ -74,6 +74,9 @@ module.exports = {
       skip: skip,
       select: ['feedType', 'message', 'id', 'created', 'link', 'metadata', 'author']
     }).then((messages) => {
+      if (req.isSocket) {
+        Stream.subscribe(req, [req.param('id')]);
+      }
       res.json(messages);
     }).catch(res.serverError);
   },

@@ -27,6 +27,7 @@ module.exports.policies = {
 
   // '*': true,
   '*': [
+    'metric',
     // 'localize',
     // 'basicAuth',
     'passport',
@@ -39,56 +40,56 @@ module.exports.policies = {
     // 'CriteriaPolicy',
   ],
 
-  '/login': true,
-  '/register': ['passport', 'sessionAuth', 'isAdmin'],
+  '/login': ['metric', true],
+  '/register': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
 
   AuthController: {
-    '*': ['passport']
+    '*': ['metric', 'passport']
   },
 
   UserController: {
-    'view': ['passport', 'sessionAuth'],
-    'create': ['passport', 'sessionAuth', 'isAdmin'],
-    'update': ['passport', 'sessionAuth', 'editSelf'],
-    'destroy': ['passport', 'sessionAuth', 'isAdmin'],
-    'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
-    'canmodify': ['passport', 'sessionAuth', 'editSelf'],
-    'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
-    'unsubscribe': []
+    'view': ['metric', 'passport', 'sessionAuth'],
+    'create': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'update': ['metric', 'passport', 'sessionAuth', 'editSelf'],
+    'destroy': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'cancreate': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'canmodify': ['metric', 'passport', 'sessionAuth', 'editSelf'],
+    'candestroy': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'unsubscribe': ['metric', true]
   },
 
   StreamController: {
-    'definition': ['passport', 'sessionAuth', 'isEditor'],
-    'cancreate': ['passport', 'sessionAuth', 'isEditor'],
-    'canmodify': ['passport', 'sessionAuth', 'isOwner'],
-    'create': ['passport', 'sessionAuth', 'isEditor'],
-    'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'public': [],
-    'unsubscribe': [],
-    'messages': []
+    'definition': ['metric', 'passport', 'sessionAuth', 'isEditor'],
+    'cancreate': ['metric', 'passport', 'sessionAuth', 'isEditor'],
+    'canmodify': ['metric', 'passport', 'sessionAuth', 'isOwner'],
+    'create': ['metric', 'passport', 'sessionAuth', 'isEditor'],
+    'view': ['metric', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'update': ['metric', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'destroy': ['metric', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'public': ['metric', true],
+    'unsubscribe': ['metric', true],
+    'messages': ['metric', true]
   },
 
   FeedController: {
-    'definition': ['passport', 'sessionAuth', 'isEditor'],
-    'cancreate': ['passport', 'sessionAuth', 'isEditor'],
-    'canmodify': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'create': ['passport', 'sessionAuth', 'isEditor'],
-    'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'unsubscribe': []
+    'definition': ['metric', 'passport', 'sessionAuth', 'isEditor'],
+    'cancreate': ['metric', 'passport', 'sessionAuth', 'isEditor'],
+    'canmodify': ['metric', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'create': ['metric', 'passport', 'sessionAuth', 'isEditor'],
+    'view': ['metric', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'update': ['metric', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'destroy': ['metric', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'unsubscribe': ['metric', true]
   },
 
   GroupController: {
-    'view': ['passport', 'sessionAuth'],
-    'create': ['passport', 'sessionAuth', 'isAdmin'],
-    'destroy': ['passport', 'sessionAuth', 'isAdmin'],
-    'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
-    'canmodify': ['passport', 'sessionAuth', 'isAdmin'],
-    'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
-    'unsubscribe': []
+    'view': ['metric', 'passport', 'sessionAuth'],
+    'create': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'destroy': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'cancreate': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'canmodify': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'candestroy': ['metric', 'passport', 'sessionAuth', 'isAdmin'],
+    'unsubscribe': ['metric', true]
   }
 
   /***************************************************************************

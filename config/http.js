@@ -23,7 +23,6 @@ module.exports.http = {
 
   middleware: {
     compress: require('compression')(),
-    metricador: require('metricador-express-middleware')({namespace: 'shoutbox'}),
 
     /***************************************************************************
   *                                                                          *
@@ -33,8 +32,7 @@ module.exports.http = {
   ***************************************************************************/
 
     order: [
-      'startRequestTimer',
-      'metricador',
+      // 'startRequestTimer',
       'cookieParser',
       'session',
       'bodyParser',

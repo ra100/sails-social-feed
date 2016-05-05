@@ -49,6 +49,8 @@ module.exports = {
     port: 6379,
     db: 1,
     prefix: 'socket:',
-  }
+  },
+
+  appname: process.env.APP_NAME
 
 };
