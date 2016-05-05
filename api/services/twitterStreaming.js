@@ -26,7 +26,7 @@ var t = {
   init: function () {
     if (t.loading) return;
     t.loading = true;
-    Feed.find({
+    return Feed.find({
       where: {
         type: ['twitter_user', 'twitter_hashtag']
       }
@@ -45,7 +45,7 @@ var t = {
   reload: function () {
     if (t.loading) return;
     t.loading = true;
-    Feed.find({
+    return Feed.find({
       where: {
         type: ['twitter_user', 'twitter_hashtag']
       }
@@ -65,7 +65,7 @@ var t = {
   reconnect: function (access_token_key, access_token_secret) {
     t.access_token_key = access_token_key;
     t.access_token_secret = access_token_secret;
-    Feed.find({
+    return Feed.find({
       where: {
         type: ['twitter_user', 'twitter_hashtag']
       }
@@ -133,7 +133,7 @@ var t = {
     sails.log.verbose('Stream data', data);
     // delete message if tweet is deleted
     if (data.delete !== undefined) {
-      Message.destroy({
+      return Message.destroy({
         where: {
           uuid: data.delete.status.id
         }
@@ -142,7 +142,6 @@ var t = {
       }).catch(function (err) {
         sails.log.error('Destroying message failed', err);
       });
-      return;
     };
     var status = data;
 
@@ -194,20 +193,20 @@ var t = {
       message.metadata.media_ext = status.extended_entities.media;
     }
 
-    Message.findOne({
+    return Message.findOne({
       where: {
         uuid: status.id,
         feedType: feed.type
       }
     }).then(function (foundMessage) {
       if (foundMessage == undefined) {
-        Message.create(message).then(function (createdMessage) {
+        return Message.create(message).then(function (createdMessage) {
           sails.log.verbose('Message created', createdMessage);
         }).catch(function (err) {
           sails.log.verbose('Creating message failed', err);
         });
       } else {
-        Message.update({
+        return Message.update({
           where: {
             uuid: status.id,
             feedType: feed.type
@@ -275,7 +274,7 @@ var t = {
     if (t.auth_feed_id == null || t.auth_feed_id == undefined) {
       sails.log.error('No feed id set.');
     };
-    Feed.findOne(t.auth_feed_id).then(function (feed) {
+    return Feed.findOne(t.auth_feed_id).then(function (feed) {
       if (feed) {
         feed.auth.valid = false;
         Feed.update(feed.id, {auth: feed.auth}).then(function (feed) {

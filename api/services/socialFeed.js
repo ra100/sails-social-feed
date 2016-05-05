@@ -1,4 +1,3 @@
-'use strict';
 var _ = require('lodash');
 var oauth = require('oauth');
 
@@ -11,14 +10,14 @@ module.exports = {
    */
   firstRun: function (next) {
     var adminName = process.env.ADMIN_NAME || 'admin';
-    User.findOne({username: adminName}).then(function (adminUser) {
+    return User.findOne({username: adminName}).then(function (adminUser) {
       // If an admin user exists, skip the bootstrap data
       sails.log.verbose('adminUser', adminUser);
       if (adminUser != undefined) {
         return next();
       }
       sails.log.info('Creating roles and admin...');
-      Role.create({name: 'admin'}).then(function (adminRole) {
+      return Role.create({name: 'admin'}).then(function (adminRole) {
         sails.log.info(adminRole);
         User.create({
           username: adminName,
@@ -29,7 +28,7 @@ module.exports = {
           var crypto = require('crypto');
           var token = crypto.randomBytes(48).toString('base64');
 
-          Passport.create({
+          return Passport.create({
             protocol: 'local',
             password: process.env.ADMIN_PASSWORD || 'admin123',
             user: user.id,
@@ -43,10 +42,10 @@ module.exports = {
           });
         }).catch(sails.log.error);
       }).catch(sails.log.error).then(function () {
-        Role.findOrCreate({
+        return Role.findOrCreate({
           name: 'editor'
         }, {name: 'editor'}).then(sails.log.info).catch(sails.log.error).then(function () {
-          Role.findOrCreate({
+          return Role.findOrCreate({
             name: 'user'
           }, {name: 'user'}).then(sails.log.info).catch(sails.log.error).then(next);
         });
