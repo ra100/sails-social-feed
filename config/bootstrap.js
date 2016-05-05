@@ -18,7 +18,6 @@ module.exports.bootstrap = function (cb) {
 
   sails.on('ready', function () {
     socialFeed.firstRun(twitterStreaming.init);
-    metrics.init();
   });
 
   sails.on('lowered', function () {
