@@ -102,7 +102,6 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
   beforeConnect: function (handshake, cb) {
-    sails.services.metrics.socketConnect();
     // `true` allows the connection
     return cb(null, true);
 
@@ -118,7 +117,6 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
   afterDisconnect: function (session, socket, cb) {
-    sails.services.metrics.socketDisconnect();
     // By default: do nothing.
     return cb();
   },
