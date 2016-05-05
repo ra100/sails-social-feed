@@ -281,7 +281,7 @@ class StreamView extends Component {
         break;
       case 'removedFrom':
       default:
-        console.log(event);
+        console.debug(event);
         break;
     }
   }
@@ -295,7 +295,6 @@ class StreamView extends Component {
     if (i >= 0) {
       ms[i] = m;
     } else {
-      console.log(ms);
       if (_.head(ms).created < m.created) {
         let tmp = _.reverse(ms);
         tmp.push(m);

@@ -42,7 +42,7 @@ class MessageRow extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.state.published !== nextProps.message.published || this.state.reviewed !== nextProps.message.reviewed || this.props.message.message !== nextProps.message.message) {
-      this.setState({published: nextProps.message.published, reviewed: nextProps.message.reviewed});
+      this.setState({published: nextProps.message.published, reviewed: nextProps.message.reviewed, message: nextProps.message.message});
     }
   }
 
