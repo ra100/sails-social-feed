@@ -1,17 +1,17 @@
 # TODO
 - [x] create todo list
-- [ ] administration
-  - [ ] permissions
-  - [ ] roles
-  - [ ] authentication
-  - [ ] user model
-- [ ] database design
-  - [ ] messages
-  - [ ] feeds
+- [x] administration
+  - [x] permissions
+  - [x] roles
+  - [x] authentication
+  - [x] user model
+- [x] database design
+  - [x] messages
+  - [x] feeds
   - [ ] replies (option to reply to message)
 - [ ] data download
   - [ ] facebook realtime API
-  - [ ] twitter realtime API
+  - [x] twitter realtime API
   - [ ] youtube API
   - [ ] instagram realtime API
   - [ ] soundcloud API
