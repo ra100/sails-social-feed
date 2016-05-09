@@ -17,12 +17,12 @@ class MessageBody extends Component {
   }
 
   render() {
-    return '';
+    return <div>{this.props.message}</div>;
   }
 }
 
 MessageBody.propTypes = {
-  message: PropTypes.object.isRequired,
+  message: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   meta: PropTypes.object.isRequired
 };

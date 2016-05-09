@@ -93,8 +93,8 @@ module.exports = {
         next(err);
       });
     } else if (values.stream) {
-      Stream.findOne(values.stream).then(function (stream) {
-        User.findOne(values.author.id).then(function(user) {
+      return Stream.findOne(values.stream).then(function (stream) {
+        return User.findOne({id: values.author}).then(function(user) {
           values.feedType = 'admin';
           values.published = true;
           values.author = {
