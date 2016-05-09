@@ -1,12 +1,30 @@
 // vars
 //
-$background-color: #eee;
-
-//
+$background-color: #eee; //
 // Base structure
 //
-html,
-body {
+
+body,
+html {
   background-color: $background-color;
   height: 100%;
+}
+
+.user-name {
+  clear: left;
+  float: left;
+}
+
+.user-picture {
+  clear: left;
+  display: block;
+  float: left;
+  height: 24px;
+  width: 24px;
+}
+
+.user-handle {
+  clear: left;
+  float: left;
+  font-size: 0.8em;
 }

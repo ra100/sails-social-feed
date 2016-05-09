@@ -96,6 +96,7 @@ class MessageNewModal extends Component {
     let payload = {
       message: this.state.message,
       stream: this.props.streamId,
+      author: this.context.user.id,
       isAnswer: false,
       _csrf: _csrf
     };

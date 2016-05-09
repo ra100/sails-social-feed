@@ -19,7 +19,7 @@ module.exports = {
       model: 'Feed'
     },
     message: {
-      type: 'text',
+      type: 'mediumtext',
       required: true
     },
     uuid: {
@@ -94,9 +94,15 @@ module.exports = {
       });
     } else if (values.stream) {
       Stream.findOne(values.stream).then(function (stream) {
-        values.feedType = 'admin';
-        values.published = stream.display;
-        next();
+        User.findOne(values.author.id).then(function(user) {
+          values.feedType = 'admin';
+          values.published = true;
+          values.author = {
+            name: user.displayname,
+            picture: user.picture
+          };
+          next();
+        });
       }).catch(function (err) {
         next(err);
       });

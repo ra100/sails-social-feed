@@ -5,6 +5,8 @@ import {FormattedMessage, defineMessages, injectIntl, FormattedDate, FormattedTi
 import {notify} from 'react-notify-toast';
 import _ from 'lodash';
 import EditToolbar from './../../EditToolbar';
+import MessageAuthor from './MessageAuthor';
+import MessageBody from './MessageBody';
 
 const messages = defineMessages({
   saved: {
@@ -28,7 +30,7 @@ class MessageRow extends Component {
       message: null,
       edit: false
     };
-    this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse', '_handleMessageChange', '_handleEdit', '_remove', '_update', '_cancel');
+    this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse', '_handleMessageChange', '_handleEdit', '_remove', '_update', '_cancel', '_getType');
   }
 
   componentDidMount() {
@@ -110,21 +112,23 @@ class MessageRow extends Component {
     this.setState({edit: false});
   }
 
+  _getType() {
+    let {message} = this.props;
+    switch(message.feedType) {
+      case 'twitter_hashtag':
+      case 'twitter_user':
+        return 'twitter';
+      default:
+        return 'admin';
+    }
+  }
+
   render() {
     const {formatMessage} = this.props.intl;
     let {message} = this.props;
     let published = <Input type="checkbox" checked={this.state.published} ref="published" onChange={this._handlePublishedChange} label=" "/>;
     let reviewed = <Input type="checkbox" checked={this.state.reviewed} ref="reviewed" onChange={this._handleReviewedChange} label=" "/>;
-    let msg = <span onTouchTap={this._handleEdit}>{this.state.message}</span>;
-    if (this.state.edit) {
-      msg = <span><Input type="textarea" label="" placeholder="textarea" value={this.state.message} onChange={this._handleMessageChange}/>
-        <EditToolbar update={this._update} remove={this._remove} cancelCallback={this._cancel}/>
-      </span>;
-    }
-    let author = '';
-    if (message.author) {
-      author = <a href={message.author.url} target="blank">{message.author.name}</a>;
-    }
+    let type = this._getType();
     return (
       <tr key={message.id}>
         <td>
@@ -142,11 +146,11 @@ class MessageRow extends Component {
         </td>
 
         <td>
-          {author}
+          <MessageAuthor type={type} author={message.author}/>
         </td>
 
         <td>
-          {msg}
+          <MessageBody type={type} message={message.message} meta={message.metadata}/>
         </td>
 
         <td>
