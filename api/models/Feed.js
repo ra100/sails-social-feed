@@ -27,6 +27,9 @@ module.exports = {
     config: {
       type: 'string'
     },
+    meta: {
+      type: 'json'
+    },
     groups: {
       collection: 'Group',
       via: 'feeds'
@@ -52,22 +55,38 @@ module.exports = {
   },
 
   afterCreate: function (newlyInsertedRecord, next) {
-    twitterStreaming.reload();
+    if (newlyInsertedRecord.type.indexOf('twitter') >= 0) {
+      twitterStreaming.init();
+    }
     next();
   },
 
   beforeUpdate: function (values, next) {
     delete values._csrf;
-    next();
+    if (values.type == 'twitter_user') {
+      twitterStreaming.findUid(values.config).then((uid) => {
+        values.meta = {uid: uid};
+        next();
+      }).catch((err) => {
+        values.meta = {uid: 0};
+        next();
+      });
+    } else {
+      next();
+    }
   },
 
   afterUpdate: function (updatedRecord, next) {
-    twitterStreaming.reload();
+    if (updatedRecord.type.indexOf('twitter') >= 0) {
+      twitterStreaming.init();
+    }
     next();
   },
 
   afterDestroy: function (destroyedRecords, next) {
-    twitterStreaming.reload();
+    if (destroyedRecords[0].type.indexOf('twitter') >= 0) {
+      twitterStreaming.init();
+    }
     next();
   }
 };

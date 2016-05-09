@@ -20,12 +20,8 @@ var t = {
   stream: null,
   status_link: 'https://twitter.com/statuses/',
   user_link: 'https://twitter.com/',
-  // prevent multiple loading sequences
-  loading: false,
 
   init: function () {
-    if (t.loading) return;
-    t.loading = true;
     return Feed.find({
       where: {
         type: ['twitter_user', 'twitter_hashtag']
@@ -33,26 +29,6 @@ var t = {
     }).populate('stream').then(function (feeds) {
       t.setTokensFromFeeds(feeds);
       t.setTrackStrings(feeds);
-      t.initStream();
-    }).catch(function (err) {
-      sails.log.verbose('Twitter Streaming error', err);
-    });
-  },
-
-  /**
-   * reloads stream after saving feed
-   */
-  reload: function () {
-    if (t.loading) return;
-    t.loading = true;
-    return Feed.find({
-      where: {
-        type: ['twitter_user', 'twitter_hashtag']
-      }
-    }).populate('stream').then(function (feeds) {
-      t.setTrackStrings(feeds);
-      t.destroyStream();
-      t.twitter = null;
       t.initStream();
     }).catch(function (err) {
       sails.log.verbose('Twitter Streaming error', err);
@@ -71,8 +47,6 @@ var t = {
       }
     }).populate('stream').then(function (feeds) {
       t.setTrackStrings(feeds);
-      t.destroyStream();
-      t.twitter = null;
       t.initStream();
     }).catch(function (err) {
       sails.log.verbose('Twitter Streaming error', err);
@@ -80,53 +54,33 @@ var t = {
   },
 
   initStream: function () {
-    t.destroyStream();
+    if (t.stream !== null) {
+      t.stream.destroy();
+      t.stream = null;
+      return;
+    };
     if (t.twitter == null) {
       t.twitter = new Twitter({consumer_key: t.twitter_consumer_key, consumer_secret: t.twitter_consumer_secret, access_token_key: t.access_token_key, access_token_secret: t.access_token_secret});
     };
 
-    t.twitter.get('/users/lookup.json', {
-      screen_name: _.keys(t.twitter_user).join(',')
-    }, function (err, data) {
-      if (err) {
-        sails.log.error(err);
-        if (err[0].code == 89) { // invalid or expired token
-          t.invalidateToken();
-        }
-        return;
-      }
-      var users = [];
-      _.forEach(data, function (user) {
-        users.push(user.id);
+    t.twitter.stream('statuses/filter', {
+      track: t.track.join(','),
+      follow: t.follow.join(',')
+    }, function (stream) {
+      sails.log.info('Stream created');
+      t.stream = stream;
+      stream.on('data', t.processData);
+      stream.on('end', function (response) {
+        sails.log.info('Stream ended', response);
+        setTimeout(function () {
+          t.stream = null;
+          t.init();
+        }, 5000);
       });
-      t.follow = users;
-      t.twitter.stream('statuses/filter', {
-        track: t.track.join(','),
-        follow: t.follow.join(',')
-      }, function (stream) {
-        sails.log.info('Stream created');
-        t.stream = stream;
-        t.loading = false;
-        stream.on('data', t.processData);
-        stream.on('end', function (response) {
-          sails.log.info('Stream ended');
-          t.initStream();
-        });
-        stream.on('destroy', function (response) {
-          sails.log.info('Stream destroyed');
-        });
-        stream.on('error', function (err) {
-          sails.log.error(err);
-        });
+      stream.on('error', function (err) {
+        sails.log.error(err);
       });
     });
-  },
-
-  destroyStream: function () {
-    if (t.stream !== null) {
-      t.stream.destroy();
-      t.stream = null;
-    };
   },
 
   processData: function (data) {
@@ -224,7 +178,7 @@ var t = {
 
   setTokensFromFeeds: function (feeds) {
     var feed = _.find(feeds, function (f) {
-      sails.log.silly(f.auth.valid);
+      sails.log.silly('valid auth:', f.auth.valid);
       return f.auth.valid == true;
     });
     if (feed == undefined) {
@@ -247,10 +201,10 @@ var t = {
           track.push(feed.config.toLowerCase());
           break;
         case 'twitter_user':
-          follow.push(feed.config.toLowerCase());
+          follow.push(feed.meta.uid);
           break;
       }
-      t[feed.type][feed.config] = {
+      t[feed.type][feed.config.toLowerCase()] = {
         id: feed.id,
         stream: feed.stream.id,
         type: feed.type
@@ -285,6 +239,23 @@ var t = {
       }
     }).catch(function (err) {
       sails.log.error('Error while loading feed', err);
+    });
+  },
+
+  findUid: function (name) {
+    return new Promise((res, rej) => {
+      t.twitter.get('/users/lookup.json', {
+        screen_name: name
+      }, function (err, data) {
+        if (err) {
+          sails.log.error(err);
+          if (err[0].code == 89) { // invalid or expired token
+            t.invalidateToken();
+          }
+          return rej(err);
+        }
+        res(data[0].id_str);
+      });
     });
   }
 
