@@ -143,7 +143,7 @@ module.exports = {
     let id = req.param('id');
     let oauth_token = req.param('oauth_token');
     let oauth_verifier = req.param('oauth_verifier');
-    var oa = new oauth.OAuth('https://api.twitter.com/oauth/request_token', 'https://api.twitter.com/oauth/access_token', sails.config.auth.twitter_consumer_key, sails.config.auth.twitter_consumer_secret, '1.0', 'http://shoutbox.rozhlas.cz/feeds/twitter/' + id, 'HMAC-SHA1');
+    var oa = new oauth.OAuth('https://api.twitter.com/oauth/request_token', 'https://api.twitter.com/oauth/access_token', sails.config.auth.twitter_consumer_key, sails.config.auth.twitter_consumer_secret, '1.0', 'https://shoutbox.rozhlas.cz/feeds/twitter/' + id, 'HMAC-SHA1');
     Feed.findOne(id).then(function (feed) {
       if (!feed.auth.oauth_token_secret) {
         return res.serverError();
