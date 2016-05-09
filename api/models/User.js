@@ -7,9 +7,15 @@ module.exports = {
       type: 'string',
       unique: true
     },
+    displayname: {
+      type: 'string'
+    },
     email: {
       type: 'email',
       unique: true
+    },
+    picture: {
+      type: 'string',
     },
     passports: {
       collection: 'Passport',

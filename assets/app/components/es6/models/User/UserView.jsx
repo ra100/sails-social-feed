@@ -116,7 +116,7 @@ class UserView extends Component {
           return (
             <Row>
               <PageHeader>
-                {user.username}
+                {user.displayname}&nbsp;[{user.username}]
               </PageHeader>
               <Col xs={3}><FormattedMessage {...messages.userFieldEmailLabel}/></Col>
               <Col xs={9}>

@@ -21,6 +21,7 @@ module.exports = {
         sails.log.info(adminRole);
         User.create({
           username: adminName,
+          displayname: 'Administrator',
           email: process.env.ADMIN_EMAIL || 'admin@example.com',
           'roles': [adminRole.id]
         }).then(function (user) {

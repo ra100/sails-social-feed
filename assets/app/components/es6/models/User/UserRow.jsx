@@ -112,6 +112,7 @@ class UserRow extends Component {
     return (
       <tr key={user.id}>
         <td>
+          {user.displayname}
           <LinkContainer to={'/user/' + user.id}>
             <Button bsStyle="link">{user.username}</Button>
           </LinkContainer>

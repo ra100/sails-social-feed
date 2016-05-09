@@ -35,6 +35,7 @@ module.exports = {
   update: function (req, res, next) {
     var uid = req.param('id'),
       username = req.param('username'),
+      displayname = req.param('displayname'),
       password = req.param('password'),
       email = req.param('email'),
       roles = req.param('roles'),
@@ -43,6 +44,9 @@ module.exports = {
     updated = {};
     if (username != undefined && username.length > 0) {
       updated.username = username;
+    }
+    if (displayname != undefined && displayname.length > 0) {
+      updated.displayname = displayname;
     }
     if (email != undefined && email.length > 0) {
       updated.email = email;

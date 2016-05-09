@@ -37,6 +37,16 @@ const messages = defineMessages({
     description: 'User Name label',
     defaultMessage: 'Username'
   },
+  userFieldDisplaynamePlaceholder: {
+    id: 'user.field.displayname.placeholder',
+    description: 'User Display Name placeholder',
+    defaultMessage: 'Display Name'
+  },
+  userFieldDisplaynameLabel: {
+    id: 'user.field.displayname.label',
+    description: 'User Display Name label',
+    defaultMessage: 'Display Name'
+  },
   userFieldEmailPlaceholder: {
     id: 'user.field.email.placeholder',
     description: 'User Email placeholder',
@@ -100,12 +110,14 @@ class UserEdit extends Component {
     super(props, context);
     this.state = {
       bsStyle_username: null,
+      bsStyle_displayname: null,
       bsStyle_groups: null,
       bsStyle_roles: null,
       bsStyle_password: null,
       bsStyle_email: null,
 
       username: null,
+      displayname: null,
       groups: null,
       roles: null,
       password: null,
@@ -116,7 +128,7 @@ class UserEdit extends Component {
       error: null,
       allow: true
     };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse');
   }
 
   componentDidMount() {
@@ -224,6 +236,7 @@ class UserEdit extends Component {
         status: res.statusCode,
         user: data,
         username: data.username,
+        displayname: data.displayname,
         email: data.email,
         roles: roles,
         groups: groups,
@@ -280,6 +293,7 @@ class UserEdit extends Component {
     if (this._validateAll()) {
       socket.post('/users/create', {
         username: this.state.username,
+        displayname: this.state.displayname,
         password: this.state.password,
         email: this.state.email,
         roles: getSelected(this.state.roles),
@@ -294,6 +308,7 @@ class UserEdit extends Component {
     if (this._validateAll()) {
       let payload = {
         username: this.state.username,
+        displayname: this.state.displayname,
         password: this.state.password,
         email: this.state.email,
         _csrf: _csrf
@@ -360,6 +375,12 @@ class UserEdit extends Component {
     } else {
       this.setState({bsStyle_username: 'success'});
     }
+    if (!this.state.displayname || this.state.displayname.length == 0) {
+      this.setState({bsStyle_displayname: 'error'});
+      passed = false;
+    } else {
+      this.setState({bsStyle_displayname: 'success'});
+    }
     if ((!this.state.edit && this.state.password == null) || (this.state.password != null && this.state.password.length < 6)) {
       this.setState({bsStyle_password: 'error'});
       passed = false;
@@ -385,6 +406,10 @@ class UserEdit extends Component {
 
   _handleNameChange(event) {
     this.setState({username: event.target.value});
+  }
+
+  _handleDisplaynameChange(event) {
+    this.setState({displayname: event.target.value});
   }
 
   _handlePasswordChange(event) {
@@ -439,6 +464,8 @@ class UserEdit extends Component {
 
     let fieldName = <Input type="text" label={formatMessage(messages.userFieldNameLabel)} placeholder={formatMessage(messages.userFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.username} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle_username}></Input>;
 
+    let fieldDisplayname = <Input type="text" label={formatMessage(messages.userFieldDisplaynameLabel)} placeholder={formatMessage(messages.userFieldDisplaynamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.displayname} onChange={this._handleDisplaynameChange} ref="displayname" bsStyle={this.state.bsStyle_displayname}></Input>;
+
     let fieldPassword = <Input type="password" label={formatMessage(messages.userFieldPasswordLabel)} placeholder={formatMessage(messages.userFieldPasswordPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.password} onChange={this._handlePasswordChange} ref="password" bsStyle={this.state.bsStyle_password}></Input>;
 
     let fieldEmail = <Input type="email" label={formatMessage(messages.userFieldEmailLabel)} placeholder={formatMessage(messages.userFieldEmailPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.email} onChange={this._handleEmailChange} ref="email" bsStyle={this.state.bsStyle_email}></Input>;
@@ -484,6 +511,7 @@ class UserEdit extends Component {
           {errorMessage}
           <form className="form-horizontal">
             {fieldName}
+            {fieldDisplayname}
             {fieldPassword}
             {fieldEmail}
             {fieldRoles}
