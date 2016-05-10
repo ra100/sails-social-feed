@@ -24,7 +24,11 @@ class MessageBody extends Component {
     if (typeof meta.media == 'undefined') {
       return null;
     }
-    return meta.media_ext.map((media, i) => {
+    let med = meta.media;
+    if (typeof meta.media_ext !== 'undefined') {
+      med = meta.media_ext;
+    }
+    let m = med.map((media, i) => {
       switch (media.type) {
         case 'photo':
           return <a key={media.id} href={media.expanded_url} target="_blank">
@@ -34,6 +38,9 @@ class MessageBody extends Component {
           return null;
       }
     });
+    return <div class="media">
+      {m}
+    </div>;
   }
 
   render() {

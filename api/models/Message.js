@@ -24,7 +24,8 @@ module.exports = {
     },
     uuid: {
       type: 'text',
-      required: false
+      required: false,
+      unique: true
     },
     published: {
       type: 'boolean',

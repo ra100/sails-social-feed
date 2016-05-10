@@ -56,7 +56,7 @@ module.exports = {
 
   afterCreate: function (newlyInsertedRecord, next) {
     if (newlyInsertedRecord.type.indexOf('twitter') >= 0) {
-      twitterStreaming.init();
+      twitterStreaming.restart();
     }
     next();
   },
@@ -78,14 +78,14 @@ module.exports = {
 
   afterUpdate: function (updatedRecord, next) {
     if (updatedRecord.type.indexOf('twitter') >= 0) {
-      twitterStreaming.init();
+      twitterStreaming.restart();
     }
     next();
   },
 
   afterDestroy: function (destroyedRecords, next) {
     if (destroyedRecords[0].type.indexOf('twitter') >= 0) {
-      twitterStreaming.init();
+      twitterStreaming.restart();
     }
     next();
   }

@@ -2,6 +2,9 @@ var socketio = require('socket.io');
 var Twitter = require('twitter');
 var _ = require('lodash');
 
+const status_link = 'https://twitter.com/statuses/';
+const user_link = 'https://twitter.com/';
+
 var t = {
   twitter: null,
   auth_feed_id: null,
@@ -18,8 +21,7 @@ var t = {
   // key:object pairs to set correct feed for message
   twitter_user: {},
   stream: null,
-  status_link: 'https://twitter.com/statuses/',
-  user_link: 'https://twitter.com/',
+  reload: true,
 
   init: function () {
     Feed.find({
@@ -64,7 +66,48 @@ var t = {
       t.twitter = new Twitter({consumer_key: t.twitter_consumer_key, consumer_secret: t.twitter_consumer_secret, access_token_key: t.access_token_key, access_token_secret: t.access_token_secret});
     };
 
-    var q = t.buildQuery();
+    let createStream = function () {
+      t.twitter.stream('statuses/filter', {
+        track: t.track.join(','),
+        follow: t.follow.join(',')
+      }, function (stream) {
+        sails.log.info('Stream created');
+        t.stream = stream;
+        stream.on('data', t.processData);
+        stream.on('end', function (response) {
+          sails.log.info('Stream ended');
+          t.reload = true;
+          setTimeout(function () {
+            t.stream = null;
+            t.init();
+          }, 5000);
+        });
+        stream.on('error', function (err) {
+          sails.log.error(err);
+          if (err.code == 'ECONNRESET') {
+            t.reload = false;
+            setTimeout(function () {
+              t.stream = null;
+              t.init();
+            }, 5000);
+          }
+        });
+        stream.on('destroy', function (res) {
+          sails.log.info('Stream destroyed');
+          setTimeout(function () {
+            t.reload = true;
+            t.stream = null;
+            t.init();
+          }, 10000);
+        });
+      });
+    };
+
+    if (!t.reload) {
+      return createStream();
+    }
+
+    let q = t.buildQuery();
 
     Message.findOne({
       where: {
@@ -90,35 +133,16 @@ var t = {
           sails.log.silly('payload: ', payload);
           t.twitter.get('search/tweets', payload, (err, data) => {
             t.processGetData(data);
-            t.twitter.stream('statuses/filter', {
-              track: t.track.join(','),
-              follow: t.follow.join(',')
-            }, function (stream) {
-              sails.log.info('Stream created');
-              t.stream = stream;
-              stream.on('data', t.processData);
-              stream.on('end', function (response) {
-                sails.log.info('Stream ended');
-                setTimeout(function () {
-                  t.stream = null;
-                  t.init();
-                }, 5000);
-              });
-              stream.on('error', function (err) {
-                sails.log.error(err);
-              });
-              stream.on('destroy', function (res) {
-                sails.log.info('Stream destroyed');
-                setTimeout(function () {
-                  t.stream = null;
-                  t.init();
-                }, 10000);
-              });
-            });
+            createStream();
           });
         }
       }
     });
+  },
+
+  restart: function() {
+    t.reload = true;
+    t.init();
   },
 
   buildQuery: function () {
@@ -147,7 +171,9 @@ var t = {
     if (data.delete !== undefined) {
       return Message.destroy({
         where: {
-          uuid: data.delete.status.id
+          uuid: {
+            endsWith: data.delete.status.id
+          }
         }
       }).then(function (message) {
         sails.log.verbose('Message destroyed', message);
@@ -155,43 +181,60 @@ var t = {
         sails.log.error('Destroying message failed', err);
       });
     };
-    var status = data;
+    let status = data;
 
-    if (data.retweeted_status !== undefined && t.twitter_user[data.retweeted_status.user.screen_name] !== undefined) {
+    let feed = null;
+    // if tweet is retweet
+    if (typeof data.retweeted_status !== 'undefined') {
       status = data.retweeted_status;
-    };
-
-    var feed = null;
-    var hashtag_feed = t.findHashtag(status.entities.hashtags, t.twitter_hashtag);
-
-    if (t.twitter_user[status.user.screen_name] !== undefined) {
-      feed = t.twitter_user[status.user.screen_name];
-    } else if (hashtag_feed !== null) {
-      feed = hashtag_feed;
-    };
+      // if we follow retweeted user
+      if (typeof t.twitter_user[status.user.screen_name] !== 'undefined') {
+        feed = t.twitter_user[status.user.screen_name];
+        // we don't follow retweeted user
+      } else {
+        let hashtag_feed = t.findHashtag(status.entities.hashtags, t.twitter_hashtag);
+        // hashtag in retweeted status tracked
+        if (hashtag_feed !== null) {
+          feed = hashtag_feed;
+          // we don't track retweeted hashtags
+        } else {
+          status = data;
+          feed = t.findHashtag(status.entities.hashtags, t.twitter_hashtag);
+        }
+      }
+      // if tweet doesn't have retweet
+    } else {
+      if (typeof t.twitter_user[status.user.screen_name] !== 'undefined') {
+        feed = t.twitter_user[status.user.screen_name];
+      } else {
+        feed = t.findHashtag(status.entities.hashtags, t.twitter_hashtag);
+      }
+    }
 
     if (feed == null) {
-      sails.log.warn('Status does not match any feed', status.id_str);
+      sails.log.warn('Status does not match any feed', status_link + status.id_str);
       return;
     };
 
-    var message = {
+    let uuid = feed.id + '_' + status.id;
+
+    let message = {
       stream: feed.stream,
       feedType: feed.type,
       feed: feed.id,
       message: status.text,
-      uuid: status.id,
+      uuid: uuid,
       created: status.created_at,
-      link: t.status_link + status.id_str,
+      link: status_link + status.id_str,
       author: {},
       metadata: {}
     };
-    var user = status.user;
+    let user = status.user;
     message.author = {
       name: user.name,
       handle: user.screen_name,
       id: user.id,
-      url: t.user_link + user.screen_name,
+      url: user_link + user.screen_name,
       picture: user.profile_image_url_https
     };
     message.metadata = {
@@ -209,30 +252,37 @@ var t = {
 
     return Message.findOne({
       where: {
-        uuid: status.id,
+        uuid: uuid,
         feedType: feed.type
       }
     }).then(function (foundMessage) {
       if (foundMessage == undefined) {
         return Message.create(message).then(function (createdMessage) {
-          sails.log.verbose('Message created', createdMessage);
+          sails.log.verbose('Message created id:', createdMessage.id);
+          sails.log.silly(createdMessage);
         }).catch(function (err) {
+          if (err) {
+            if (err.code == 'E_VALIDATION') {
+              return sails.log.warn('UUID already exists');
+            };
+          };
           sails.log.verbose('Creating message failed', err);
         });
       } else {
         return Message.update({
           where: {
-            uuid: status.id,
+            uuid: uuid,
             feedType: feed.type
           }
         }, message).then(function (updatedMessage) {
-          sails.log.verbose('Message created', updatedMessage);
+          sails.log.verbose('Message updated id:', updatedMessage.id);
+          sails.log.silly(updatedMessage);
         }).catch(function (err) {
-          sails.log.verbose('Creating message failed', err);
+          sails.log.warn('Creating message failed', err);
         });
       }
     }).catch(function (err) {
-      sails.log.verbose('Error finding message with uuid', stutus.id, err);
+      sails.log.warn('Error finding message with uuid', stutus.id, err);
     });
   },
 
