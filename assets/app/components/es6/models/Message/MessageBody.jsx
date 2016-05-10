@@ -1,5 +1,8 @@
 import {Component, PropTypes} from 'react';
 
+const hashLink = 'https://twitter.com/hashtag/HASHTAG';
+const userLink = 'https://twitter.com/USER';
+
 class MessageBody extends Component {
 
   _bind(...methods) {
@@ -13,11 +16,28 @@ class MessageBody extends Component {
       edit: false,
       editable: false
     };
-    this._bind();
+    this._bind('renderMedia');
+  }
+
+  renderMedia() {
+    const {meta} = this.props;
+    if (typeof meta.media == 'undefined') {
+      return null;
+    }
+    return meta.media_ext.map((media, i) => {
+      switch (media.type) {
+        case 'photo':
+          return <a key={media.id} href={media.expanded_url} target="_blank">
+            <img src={media.media_url_https} width={media.sizes.small.w} height={media.sizes.small.h}/>
+          </a>;
+        default:
+          return null;
+      }
+    });
   }
 
   render() {
-    return <div>{this.props.message}</div>;
+    return <div>{this.props.message}{this.renderMedia()}</div>;
   }
 }
 
