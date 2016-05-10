@@ -22,16 +22,17 @@ var t = {
   user_link: 'https://twitter.com/',
 
   init: function () {
-    return Feed.find({
+    Feed.find({
       where: {
         type: ['twitter_user', 'twitter_hashtag']
       }
-    }).populate('stream').then(function (feeds) {
+    }).populate('stream').exec((err, feeds) => {
+      if (err) {
+        return sails.log.verbose('Twitter Streaming error', err);
+      }
       t.setTokensFromFeeds(feeds);
       t.setTrackStrings(feeds);
       t.initStream();
-    }).catch(function (err) {
-      sails.log.verbose('Twitter Streaming error', err);
     });
   },
 
@@ -63,24 +64,81 @@ var t = {
       t.twitter = new Twitter({consumer_key: t.twitter_consumer_key, consumer_secret: t.twitter_consumer_secret, access_token_key: t.access_token_key, access_token_secret: t.access_token_secret});
     };
 
-    t.twitter.stream('statuses/filter', {
-      track: t.track.join(','),
-      follow: t.follow.join(',')
-    }, function (stream) {
-      sails.log.info('Stream created');
-      t.stream = stream;
-      stream.on('data', t.processData);
-      stream.on('end', function (response) {
-        sails.log.info('Stream ended', response);
-        setTimeout(function () {
-          t.stream = null;
-          t.init();
-        }, 5000);
-      });
-      stream.on('error', function (err) {
-        sails.log.error(err);
-      });
+    var q = t.buildQuery();
+
+    Message.findOne({
+      where: {
+        or: [
+          {
+            feedType: 'twitter_user'
+          }, {
+            feedType: 'twitter_hashtag'
+          }
+        ]
+      },
+      sort: 'uuid DESC'
+    }).exec((err, message) => {
+      if (err) {
+        sails.log.error('Error findig uuid', err);
+      } else {
+        let payload = {};
+        if (message !== undefined) {
+          payload.since_id = message.uuid;
+        }
+        for (let i in q) {
+          payload.q = q[i];
+          sails.log.silly('payload: ', payload);
+          t.twitter.get('search/tweets', payload, (err, data) => {
+            t.processGetData(data);
+            t.twitter.stream('statuses/filter', {
+              track: t.track.join(','),
+              follow: t.follow.join(',')
+            }, function (stream) {
+              sails.log.info('Stream created');
+              t.stream = stream;
+              stream.on('data', t.processData);
+              stream.on('end', function (response) {
+                sails.log.info('Stream ended');
+                setTimeout(function () {
+                  t.stream = null;
+                  t.init();
+                }, 5000);
+              });
+              stream.on('error', function (err) {
+                sails.log.error(err);
+              });
+              stream.on('destroy', function (res) {
+                sails.log.info('Stream destroyed');
+                setTimeout(function () {
+                  t.stream = null;
+                  t.init();
+                }, 10000);
+              });
+            });
+          });
+        }
+      }
     });
+  },
+
+  buildQuery: function () {
+    let q = [];
+    let users = [];
+    for (let j in t.twitter_user) {
+      users.push('@' + j);
+    }
+    let m = _.union(t.track, users);
+    q = _.chunk(m, 10);
+    for (let i in q) {
+      q[i] = _.join(q[i], ' OR ');
+    }
+    return q;
+  },
+
+  processGetData: function (data) {
+    for (let i in data.statuses) {
+      t.processData(data.statuses[i]);
+    }
   },
 
   processData: function (data) {
@@ -144,7 +202,9 @@ var t = {
 
     if (status.entities.media) {
       message.metadata.media = status.entities.media;
-      message.metadata.media_ext = status.extended_entities.media;
+      if (status.extended_entities) {
+        message.metadata.media_ext = status.extended_entities.media;
+      }
     }
 
     return Message.findOne({

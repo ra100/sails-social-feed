@@ -18,8 +18,8 @@ module.exports = function (grunt) {
   grunt.config.set('sails-linker', {
     devJs: {
       options: {
-        startTag: '<!--SCRIPTS-->',
-        endTag: '<!--SCRIPTS END-->',
+        startTag: '<!--BROWSERIFY-->',
+        endTag: '<!--BROWSERIFY END-->',
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public'
       },
@@ -32,8 +32,8 @@ module.exports = function (grunt) {
 
     devJsRelative: {
       options: {
-        startTag: '<!--SCRIPTS-->',
-        endTag: '<!--SCRIPTS END-->',
+        startTag: '<!--BROWSERIFY-->',
+        endTag: '<!--BROWSERIFY END-->',
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public',
         relative: true
@@ -47,8 +47,8 @@ module.exports = function (grunt) {
 
     prodJs: {
       options: {
-        startTag: '<!--SCRIPTS-->',
-        endTag: '<!--SCRIPTS END-->',
+        startTag: '<!--BROWSERIFY-->',
+        endTag: '<!--BROWSERIFY END-->',
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public'
       },
@@ -61,8 +61,8 @@ module.exports = function (grunt) {
 
     prodJsRelative: {
       options: {
-        startTag: '<!--SCRIPTS-->',
-        endTag: '<!--SCRIPTS END-->',
+        startTag: '<!--BROWSERIFY-->',
+        endTag: '<!--BROWSERIFY END-->',
         fileTmpl: '<script src="%s"></script>',
         appRoot: '.tmp/public',
         relative: true
@@ -151,8 +151,8 @@ module.exports = function (grunt) {
 
     devJsJade: {
       options: {
-        startTag: '// SCRIPTS',
-        endTag: '// SCRIPTS END',
+        startTag: '// BROWSERIFY',
+        endTag: '// BROWSERIFY END',
         fileTmpl: 'script(src="%s")',
         appRoot: '.tmp/public'
       },
@@ -163,8 +163,8 @@ module.exports = function (grunt) {
 
     devJsRelativeJade: {
       options: {
-        startTag: '// SCRIPTS',
-        endTag: '// SCRIPTS END',
+        startTag: '// BROWSERIFY',
+        endTag: '// BROWSERIFY END',
         fileTmpl: 'script(src="%s")',
         appRoot: '.tmp/public',
         relative: true
@@ -176,8 +176,8 @@ module.exports = function (grunt) {
 
     prodJsJade: {
       options: {
-        startTag: '// SCRIPTS',
-        endTag: '// SCRIPTS END',
+        startTag: '// BROWSERIFY',
+        endTag: '// BROWSERIFY END',
         fileTmpl: 'script(src="%s")',
         appRoot: '.tmp/public'
       },
@@ -188,8 +188,8 @@ module.exports = function (grunt) {
 
     prodJsRelativeJade: {
       options: {
-        startTag: '// SCRIPTS',
-        endTag: '// SCRIPTS END',
+        startTag: '// BROWSERIFY',
+        endTag: '// BROWSERIFY END',
         fileTmpl: 'script(src="%s")',
         appRoot: '.tmp/public',
         relative: true
