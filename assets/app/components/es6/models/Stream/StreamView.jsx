@@ -353,6 +353,7 @@ class StreamView extends Component {
           let newMessageButton = <Button bsStyle="primary" onTouchTap={this.addMessage} value={123}>
             <i className="material-icons">add_circle</i>
             <FormattedMessage {...messages.addButton}/></Button>;
+          let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>;
           return (
             <Row>
               <PageHeader>
@@ -408,6 +409,7 @@ class StreamView extends Component {
                 <MessageNewModal ref="newModal" streamId={this.props.params.streamId} show={this.state.newMessageShow} onHide={this.hideMessageModal} parentId={this.state.reply_id}/>
               </Col>
               <Col xs={12}>
+                {pager}
                 <Table striped hover responsive>
                   <thead>
                     <tr>
@@ -425,7 +427,7 @@ class StreamView extends Component {
                     })}
                   </tbody>
                 </Table>
-                <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
+                {pager}
               </Col>
             </Row>
           );
