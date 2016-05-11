@@ -24,5 +24,6 @@ module.exports = {
     level: 'silly'
   },
 
-  appname: process.env.APP_NAME
+  appname: process.env.APP_NAME,
+  baseurl: process.env.BASE_URL
 };

@@ -51,6 +51,7 @@ module.exports = {
     prefix: 'socket:',
   },
 
-  appname: process.env.APP_NAME
+  appname: process.env.APP_NAME,
+  baseurl: process.env.BASE_URL
 
 };
