@@ -221,7 +221,7 @@ var t = {
       return;
     };
 
-    let uuid = feed.id + '_' + status.id;
+    let uuid = feed.stream + '_' + status.id;
 
     let message = {
       stream: feed.stream,
