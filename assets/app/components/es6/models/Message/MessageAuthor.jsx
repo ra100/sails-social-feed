@@ -27,6 +27,9 @@ class MessageAuthor extends Component {
           <span className="user-handle">@{author.handle}</span>
         </span>;
         break;
+      case 'admin':
+        a = <span className="author">{author.name}</span>;
+        break;
     }
 
     return a;
