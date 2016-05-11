@@ -121,14 +121,15 @@ var t = {
           }
         ]
       },
-      sort: 'uuid DESC'
+      sort: 'created DESC'
     }).exec((err, message) => {
       if (err) {
         sails.log.error('Error findig uuid', err);
+        createStream();
       } else {
         let payload = {};
         if (message !== undefined) {
-          payload.since_id = message.uuid;
+          payload.since_id = message.uuid.substr(0, 18);
         }
         for (let i in q) {
           payload.q = q[i];
@@ -221,7 +222,7 @@ var t = {
       return;
     };
 
-    let uuid = feed.stream + '_' + status.id;
+    let uuid = status.id + '_' + feed.stream;
 
     let message = {
       stream: feed.stream,
@@ -305,6 +306,7 @@ var t = {
     t.access_token_key = feed.auth.oauth_access_token;
     t.access_token_secret = feed.auth.oauth_access_token_secret;
     t.auth_feed_id = feed.id;
+    return true;
   },
 
   setTrackStrings: function (feeds) {
