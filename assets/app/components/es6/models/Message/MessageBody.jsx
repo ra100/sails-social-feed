@@ -21,7 +21,7 @@ class MessageBody extends Component {
 
   renderMedia() {
     const {meta} = this.props;
-    if (typeof meta.media == 'undefined') {
+    if (meta == null || typeof meta.media == 'undefined') {
       return null;
     }
     let med = meta.media;
@@ -51,7 +51,11 @@ class MessageBody extends Component {
 MessageBody.propTypes = {
   message: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  meta: PropTypes.object.isRequired
+  meta: PropTypes.object
+};
+
+MessageBody.defaultTypes = {
+  meta: null
 };
 
 export default MessageBody;
