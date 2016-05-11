@@ -6,6 +6,7 @@
 */
 
 module.exports = {
+
   attributes: {
     name: {
       type: 'string'
@@ -65,10 +66,14 @@ module.exports = {
     delete values._csrf;
     if (values.type == 'twitter_user') {
       twitterStreaming.findUid(values.config).then((uid) => {
-        values.meta = {uid: uid};
+        values.meta = {
+          uid: uid
+        };
         next();
       }).catch((err) => {
-        values.meta = {uid: 0};
+        values.meta = {
+          uid: 0
+        };
         next();
       });
     } else {

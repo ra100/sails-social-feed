@@ -237,7 +237,7 @@ class StreamCreate extends Component {
       }, this.handleGroups);
     }
     socket.get('/streams/definition', this.handleDefinition);
-    if (streamId >= 0) {
+    if (typeof streamId !== 'undefined') {
       socket.get('/streams/canmodify/' + streamId, this.handleCanModify);
     } else {
       socket.get('/streams/cancreate', this.handleCanCreate);
@@ -370,7 +370,7 @@ class StreamCreate extends Component {
         state: this.state.state,
         refresh: this.state.refresh,
         published: this.state.published,
-        display: data.display,
+        display: this.state.display,
         groups: getSelected(this.state.groups),
         owner: getSelected(this.state.owner)[0],
         _csrf: _csrf

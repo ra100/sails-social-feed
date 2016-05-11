@@ -187,7 +187,7 @@ class UserEdit extends Component {
       populate: 'none',
       sort: 'name'
     }, this.handleGroups);
-    if (userId >= 0) {
+    if (typeof userId !== 'undefined') {
       socket.get('/users/canmodify/' + userId, this.handleCanModify);
     } else {
       socket.get('/users/cancreate', this.handleCanCreate);

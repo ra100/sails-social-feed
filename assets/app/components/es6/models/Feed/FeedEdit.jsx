@@ -191,7 +191,7 @@ class FeedCreate extends Component {
       }, this.handleStreams);
     }
     socket.get('/feeds/definition', this.handleDefinition);
-    if (feedId >= 0) {
+    if (typeof feedId !== 'undefined') {
       socket.get('/feeds/canmodify/' + feedId, this.handleCanModify);
     } else {
       socket.get('/feeds/cancreate', this.handleCanCreate);
@@ -348,6 +348,9 @@ class FeedCreate extends Component {
       return;
     }
     let selected = getSelected(this.state.stream);
+    if (selected.length == 0 && data.length == 1) {
+      selected.push(data[0].id);
+    }
     let streams = [];
     let i;
     for (i in data) {
@@ -514,6 +517,7 @@ class FeedCreate extends Component {
     let val = event.context.value;
     let sel = event.context.selected;
     let i;
+    console.log(val, sel);
     let stream = [];
     for (i in this.state.stream) {
       stream[i] = this.state.stream[i];

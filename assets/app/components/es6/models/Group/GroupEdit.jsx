@@ -120,7 +120,7 @@ class GroupEdit extends Component {
     if (nextProps) {
       groupId = nextProps.params.groupId;
     }
-    if (groupId >= 0) {
+    if (typeof groupId !== 'undefined') {
       socket.get('/groups/canmodify/' + groupId, this.handleCanModify);
     } else {
       socket.get('/groups/cancreate', this.handleCanCreate);

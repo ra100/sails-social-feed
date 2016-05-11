@@ -32,7 +32,9 @@ var t = {
       if (err) {
         return sails.log.verbose('Twitter Streaming error', err);
       }
-      t.setTokensFromFeeds(feeds);
+      if (t.setTokensFromFeeds(feeds) == null) {
+        return;
+      };
       t.setTrackStrings(feeds);
       t.initStream();
     });
@@ -160,6 +162,9 @@ var t = {
   },
 
   processGetData: function (data) {
+    if (typeof data == 'undefined') {
+      return;
+    }
     for (let i in data.statuses) {
       t.processData(data.statuses[i]);
     }
@@ -275,7 +280,7 @@ var t = {
             feedType: feed.type
           }
         }, message).then(function (updatedMessage) {
-          sails.log.verbose('Message updated id:', updatedMessage.id);
+          sails.log.verbose('Message updated id:', updatedMessage[0].id);
           sails.log.silly(updatedMessage);
         }).catch(function (err) {
           sails.log.warn('Creating message failed', err);
@@ -288,12 +293,14 @@ var t = {
 
   setTokensFromFeeds: function (feeds) {
     var feed = _.find(feeds, function (f) {
-      sails.log.silly('valid auth:', f.auth.valid);
-      return f.auth.valid == true;
+      if (typeof f.auth !== 'undefined') {
+        sails.log.silly('valid auth:', f.auth.valid);
+        return f.auth.valid == true;
+      }
     });
     if (feed == undefined) {
       sails.log.error('No authorized feed credentials found.');
-      throw {error: 'No authorized feed credentials found.'};
+      return null;
     }
     t.access_token_key = feed.auth.oauth_access_token;
     t.access_token_secret = feed.auth.oauth_access_token_secret;

@@ -19,7 +19,7 @@ module.exports = {
       sails.log.info('Creating roles and admin...');
       return Role.create({name: 'admin'}).then(function (adminRole) {
         sails.log.info(adminRole);
-        User.create({
+        return User.create({
           username: adminName,
           displayname: 'Administrator',
           email: process.env.ADMIN_EMAIL || 'admin@example.com',
@@ -34,7 +34,7 @@ module.exports = {
             password: process.env.ADMIN_PASSWORD || 'admin123',
             user: user.id,
             accessToken: token
-          }).then().catch(function (err, passport) {
+          }).then(sails.log.info).catch(function (err, passport) {
             if (err) {
               if (err.code === 'E_VALIDATION') {
                 req.flash('error', 'Error.Passport.Password.Invalid');

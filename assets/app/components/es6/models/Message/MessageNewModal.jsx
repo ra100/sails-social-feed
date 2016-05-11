@@ -100,7 +100,7 @@ class MessageNewModal extends Component {
       isAnswer: false,
       _csrf: _csrf
     };
-    if (this.props.parentId > 0) {
+    if (typeof this.props.parentId !== 'undefined') {
       payload.isAnswer = true;
       payload.relatedMessage = this.props.parentId;
     }
