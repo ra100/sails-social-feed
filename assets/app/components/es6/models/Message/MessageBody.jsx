@@ -32,7 +32,7 @@ class MessageBody extends Component {
       switch (media.type) {
         case 'photo':
           return <a key={media.id} href={media.expanded_url} target="_blank">
-            <img src={media.media_url_https} width={media.sizes.small.w} height={media.sizes.small.h}/>
+            <img src={media.media_url_https} width={media.sizes.small.w/3} height={media.sizes.small.h/3}/>
           </a>;
         default:
           return null;
