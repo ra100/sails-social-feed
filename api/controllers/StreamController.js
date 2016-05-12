@@ -34,11 +34,12 @@ module.exports = {
   },
 
   public(req, res) {
+    let where = {id: req.param('id'), published: true};
+    if (req.param('uniqueName')) {
+      where = {uniqueName: req.param('uniqueName'), published: true};
+    };
     Stream.findOne({
-      where: {
-        id: req.param('id'),
-        published: true
-      },
+      where: where,
       select: ['id', 'name']
     }).populate('feeds').then((stream) => {
       if (!stream) {
