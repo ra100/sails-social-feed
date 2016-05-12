@@ -37,7 +37,6 @@
     "jsonlint-lines": "^1.7.1",
     "kerberos": "0.0.17",
     "lodash": "^4.6.1",
-    "metricador-express-middleware": "^0.3.1",
     "normalize.css": "^4.1.1",
     "passport": "^0.3.2",
     "passport-http-bearer": "^1.0.1",
