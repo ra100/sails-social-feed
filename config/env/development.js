@@ -21,7 +21,7 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
   log: {
-    level: 'silly'
+    level: 'verbose'
   },
 
   appname: process.env.APP_NAME,
