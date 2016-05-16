@@ -22,6 +22,8 @@ var t = {
   twitter_user: {},
   stream: null,
   reload: true,
+  calm: 1,
+  streams: 0,
 
   init: function () {
     Feed.find({
@@ -59,58 +61,55 @@ var t = {
   },
 
   initStream: function () {
-    if (t.stream !== null) {
-      t.stream.destroy();
-      t.stream = null;
-      return;
-    };
     if (t.twitter == null) {
       t.twitter = new Twitter({consumer_key: t.twitter_consumer_key, consumer_secret: t.twitter_consumer_secret, access_token_key: t.access_token_key, access_token_secret: t.access_token_secret});
     };
 
     let createStream = function () {
+      if (t.streams == 0);
       t.twitter.stream('statuses/filter', {
         track: t.track.join(','),
         follow: t.follow.join(',')
       }, function (stream) {
+        t.streams++;
         sails.log.info('Stream created');
         t.stream = stream;
         stream.on('data', t.processData);
         stream.on('end', function (response) {
+          t.streams--;
           sails.log.info('Stream ended');
-          t.reload = true;
           setTimeout(function () {
-            t.stream = null;
-            t.init();
-          }, 5000);
+            if (t.stream !== null) {
+              t.stream = null;
+              t.init();
+            }
+          }, 1000 * t.calm);
         });
         stream.on('error', function (err) {
           sails.log.error(err);
+          if (err.message == 'Status Code: 420') {
+            sails.log.silly('stream: ', t.stream);
+            t.calm++;
+          }
           if (err.code == 'ECONNRESET') {
             t.reload = false;
-            setTimeout(function () {
-              t.stream = null;
-              t.init();
-            }, 5000);
+            if (t.stream !== null) {
+              t.stream.destroy();
+            }
+            t.calm++;
           }
-        });
-        stream.on('destroy', function (res) {
-          sails.log.info('Stream destroyed');
-          setTimeout(function () {
-            t.reload = true;
-            t.stream = null;
-            t.init();
-          }, 10000);
         });
       });
     };
 
+    // If stream is not reloaded, just create stream
     if (!t.reload) {
       return createStream();
     }
 
     let q = t.buildQuery();
 
+    // Find latest tweet imported and find all newer data. Then create stream.
     Message.findOne({
       where: {
         or: [
@@ -124,7 +123,7 @@ var t = {
       sort: 'created DESC'
     }).exec((err, message) => {
       if (err) {
-        sails.log.error('Error findig uuid', err);
+        sails.log.warn('Error findig uuid', err);
         createStream();
       } else {
         let payload = {};
@@ -134,6 +133,7 @@ var t = {
         for (let i in q) {
           payload.q = q[i];
           sails.log.silly('payload: ', payload);
+          //  Search for tweets newer than
           t.twitter.get('search/tweets', payload, (err, data) => {
             t.processGetData(data);
             createStream();
@@ -143,9 +143,13 @@ var t = {
     });
   },
 
-  restart: function() {
+  restart: function () {
     t.reload = true;
-    t.init();
+    if (t.stream !== null) {
+      t.stream.destroy();
+    } else if (t.twitter == null) {
+      t.init();
+    }
   },
 
   buildQuery: function () {
@@ -172,7 +176,8 @@ var t = {
   },
 
   processData: function (data) {
-    sails.log.verbose('Stream data', data);
+    t.calm = 1; // Descrease calm only after some data is delivered
+    sails.log.silly('Stream data', data);
     // delete message if tweet is deleted
     if (data.delete !== undefined) {
       return Message.destroy({
@@ -218,7 +223,7 @@ var t = {
     }
 
     if (feed == null) {
-      sails.log.warn('Status does not match any feed', status_link + status.id_str);
+      sails.log.debug('Status does not match any feed', status_link + status.id_str);
       return;
     };
 
@@ -288,7 +293,7 @@ var t = {
         });
       }
     }).catch(function (err) {
-      sails.log.warn('Error finding message with uuid', stutus.id, err);
+      sails.log.warn('Error finding message with uuid', status.id, err);
     });
   },
 
