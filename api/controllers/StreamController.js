@@ -34,9 +34,15 @@ module.exports = {
   },
 
   public(req, res) {
-    let where = {id: req.param('id'), published: true};
-    if (req.param('uniqueName')) {
-      where = {uniqueName: req.param('uniqueName'), published: true};
+    let where = {
+      id: req.param('id'),
+      published: true
+    };
+    if (req.param('name')) {
+      where = {
+        uniqueName: req.param('name'),
+        published: true
+      };
     };
     Stream.findOne({
       where: where,
@@ -56,7 +62,7 @@ module.exports = {
         if (req.isSocket) {
           sails.sockets.join(req, 'stream_' + stream.id);
         }
-        res.json(stream);
+        res.json({feeds: stream.feeds, id: stream.id});
       }
     }).catch((err) => {
       res.serverError(err);
@@ -73,7 +79,15 @@ module.exports = {
       sort: 'created DESC',
       limit: limit,
       skip: skip,
-      select: ['feedType', 'message', 'id', 'created', 'link', 'metadata', 'author']
+      select: [
+        'feedType',
+        'message',
+        'id',
+        'created',
+        'link',
+        'metadata',
+        'author'
+      ]
     }).then((messages) => {
       if (req.isSocket) {
         Stream.subscribe(req, [req.param('id')]);
