@@ -64,21 +64,26 @@ module.exports = {
 
   beforeUpdate: function (values, next) {
     delete values._csrf;
-    if (values.type == 'twitter_user') {
-      twitterStreaming.findUid(values.config).then((uid) => {
-        values.meta = {
-          uid: uid
-        };
+    Feed.findOne({id: values.id}).then((feed) => {
+      if (values.type == 'twitter_user') {
+        if (feed.config == values.config && feed.meta.uid !== 0) {
+          return next();
+        }
+        return twitterStreaming.findUid(values.config).then((uid) => {
+          values.meta = {
+            uid: uid
+          };
+          next();
+        }).catch((err) => {
+          values.meta = {
+            uid: 0
+          };
+          next();
+        });
+      } else {
         next();
-      }).catch((err) => {
-        values.meta = {
-          uid: 0
-        };
-        next();
-      });
-    } else {
-      next();
-    }
+      }
+    }).catch(next);
   },
 
   afterUpdate: function (updatedRecord, next) {
