@@ -62,7 +62,7 @@ module.exports = {
         if (req.isSocket) {
           sails.sockets.join(req, 'stream_' + stream.id);
         }
-        res.json({feeds: stream.feeds, id: stream.id});
+        res.json({form: stream.form, id: stream.id});
       }
     }).catch((err) => {
       res.serverError(err);
