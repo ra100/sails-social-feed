@@ -74,7 +74,8 @@ module.exports = {
     let skip = req.param('skip') || 0;
     return Message.find({
       where: {
-        stream: req.param('id')
+        stream: req.param('id'),
+        published: true
       },
       sort: 'created DESC',
       limit: limit,
