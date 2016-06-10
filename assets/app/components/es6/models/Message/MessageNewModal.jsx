@@ -97,11 +97,11 @@ class MessageNewModal extends Component {
       message: this.state.message,
       stream: this.props.streamId,
       author: this.context.user.id,
-      isAnswer: false,
+      isResponse: false,
       _csrf: _csrf
     };
     if (typeof this.props.parentId !== 'undefined') {
-      payload.isAnswer = true;
+      payload.isResponse = true;
       payload.relatedMessage = this.props.parentId;
     }
     socket.post('/messages', payload, this.handleSaveResponse);

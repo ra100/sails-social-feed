@@ -238,7 +238,8 @@ var t = {
       created: status.created_at,
       link: status_link + status.id_str,
       author: {},
-      metadata: {}
+      metadata: {},
+      mediaType: 'text'
     };
     let user = status.user;
     message.author = {
@@ -256,8 +257,21 @@ var t = {
 
     if (status.entities.media) {
       message.metadata.media = status.entities.media;
+      switch (status.entities.media[0].type) {
+        case 'photo':
+          message.mediaType = 'photo';
+          break;
+      }
       if (status.extended_entities) {
         message.metadata.media_ext = status.extended_entities.media;
+        switch (status.extended_entities.media[0].type) {
+          case 'photo':
+            message.mediaType = 'photo';
+            break;
+          case 'animated_gif':
+            message.mediaType = 'video';
+            break;
+        }
       }
     }
 

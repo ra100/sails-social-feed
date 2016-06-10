@@ -68,9 +68,15 @@ module.exports = {
       collection: 'Message',
       via: 'relatedMessage'
     },
-    isAnswer: {
+    isResponse: {
       type: 'boolean',
       defaultsTo: false
+    },
+    mediaType: {
+      type: 'string'
+      /**
+       * text, audio, video, picture
+       */
     }
   },
 
