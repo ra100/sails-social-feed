@@ -149,7 +149,7 @@ passport.connect = function (req, query, profile, next) {
           }
 
           // Fetch the user associated with the Passport
-          User.findOne(passport.user.id, next);
+          User.findOne({where: {id: passport.user.id}, populate: ['groups', 'roles']}, next);
         });
       }
     } else {
@@ -369,7 +369,9 @@ passport.serializeUser(function (user, next) {
 });
 
 passport.deserializeUser(function (id, next) {
-  User.findOne(id, next);
+  User.findOne(id).populate(['groups', 'roles']).exec(function(err, data) {
+    next(err, data);
+  });
 });
 
 module.exports = passport;
