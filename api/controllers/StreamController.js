@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 var _ = require('lodash');
+var actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
 
 module.exports = {
   definition(req, res) {
@@ -122,5 +123,74 @@ module.exports = {
         : '';
       socialFeed.unsubscribe(req, res, 'stream', id);
     }
+  },
+
+  /**
+   * Override default find and add permissions key
+   */
+  find(req, res) {
+    // Look up the model
+    var Model = actionUtil.parseModel(req);
+
+    // If an `id` param was specified, use the findOne blueprint action
+    // to grab the particular instance with its primary key === the value
+    // of the `id` param.   (mainly here for compatibility for 0.9, where
+    // there was no separate `findOne` action)
+    if (actionUtil.parsePk(req)) {
+      return require('./findOne')(req, res);
+    }
+
+    var criteria = actionUtil.parseCriteria(req);
+    // Lookup for records that match the specified criteria
+    var query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req));
+    query = actionUtil.populateRequest(query, req);
+    query.exec(function found(err, matchingRecords) {
+      if (err) {
+        return res.serverError(err);
+      }
+      // Only `.watch()` for new instances of the model if
+      // `autoWatch` is enabled.
+      permissions.setPermissions(matchingRecords, 'stream', req.user);
+
+      if (req._sails.hooks.pubsub && req.isSocket) {
+        Model.subscribe(req, matchingRecords);
+        if (req.options.autoWatch) {
+          Model.watch(req);
+        }
+        // Also subscribe to instances of all associated models
+        _.each(matchingRecords, function (record) {
+          actionUtil.subscribeDeep(req, record);
+        });
+      }
+      sails.log.verbose(matchingRecords);
+      res.ok(matchingRecords);
+    });
+  },
+
+  /**
+   * Override default findOne.
+   * Add permissions info.
+   */
+  findOne(req, res) {
+
+    var Model = actionUtil.parseModel(req);
+    var pk = actionUtil.requirePk(req);
+
+    var query = Model.findOne(pk);
+    query = actionUtil.populateRequest(query, req);
+    query.exec(function found(err, matchingRecord) {
+      if (err) {
+        return res.serverError(err);
+      }
+      if (!matchingRecord) {
+        return res.notFound('No record found with the specified `id`.');
+      }
+      if (req._sails.hooks.pubsub && req.isSocket) {
+        Model.subscribe(req, matchingRecord);
+        actionUtil.subscribeDeep(req, matchingRecord);
+      }
+      permissions.addPermissions(matchingRecord, 'stream', req.user);
+      res.ok(matchingRecord);
+    });
   }
 };

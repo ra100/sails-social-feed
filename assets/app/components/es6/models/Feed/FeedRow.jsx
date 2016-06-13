@@ -69,9 +69,15 @@ class FeedRow extends Component {
         return <Label key={i}>{group.name}</Label>;
       });
     };
+
+    let en = <i className="material-icons">check_box_outline_blank</i>;
+    if (feed.enabled) {
+      en = <i className="material-icons">check_box</i>;
+    }
     return (
       <tr key={feed.id}>
         <td>
+          {en}
           <LinkContainer to={'/feed/' + feed.id}>
             <Button bsStyle="link">{feed.name}</Button>
           </LinkContainer>

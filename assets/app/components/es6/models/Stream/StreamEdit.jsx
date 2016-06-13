@@ -562,12 +562,12 @@ class StreamCreate extends Component {
       </div>
     </div>;
 
-    let fieldPublished = <div className="form-grou">
+    let fieldPublished = <div className="form-group">
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.streamFieldPublishedLabel}/>
       </label><Input type="checkbox" label={formatMessage(messages.streamFieldPublishedLabel)} onChange={this._handlePublishedChange} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" checked={this.state.published} ref='published'/></div>;
 
-    let fieldDisplay = <div className="form-grou">
+    let fieldDisplay = <div className="form-group">
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.streamFieldDisplayLabel}/>
       </label><Input type="checkbox" label={formatMessage(messages.streamFieldDisplayLabel)} onChange={this._handleDisplayChange} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" checked={this.state.display} ref='display'/></div>;

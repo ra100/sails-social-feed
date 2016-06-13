@@ -97,7 +97,12 @@ const messages = defineMessages({
     id: 'feed.saved.notify',
     description: 'Saved user notification',
     defaultMessage: 'Feed has been saved'
-  }
+  },
+  feedFieldEnabledLabel: {
+    id: 'feed.field.enabled.label',
+    description: 'Feed Enabled label',
+    defaultMessage: 'Enabled'
+  },
 });
 
 const getSelected = function (data) {
@@ -132,6 +137,7 @@ class FeedCreate extends Component {
       stream: [],
       groups: [],
       owner: [],
+      enabled: true,
       auth: null,
 
       bsStyle: {
@@ -148,7 +154,7 @@ class FeedCreate extends Component {
       allow: true,
       view: false
     };
-    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse', 'handleAuthResponse', 'load');
+    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange','_handleEnabledChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse', 'handleAuthResponse', 'load');
   }
 
   componentDidMount() {
@@ -299,6 +305,7 @@ class FeedCreate extends Component {
         stream: stream,
         owner: owner,
         groups: groups,
+        enabled: data.enabled,
         error: null,
         edit: true,
         auth: auth
@@ -400,6 +407,7 @@ class FeedCreate extends Component {
         name: this.state.name,
         type: this.state.type,
         config: this.state.config,
+        enabled: this.state.enabled,
         stream: getSelected(this.state.stream)[0],
         groups: getSelected(this.state.groups),
         owner: getSelected(this.state.owner)[0],
@@ -415,8 +423,10 @@ class FeedCreate extends Component {
         name: this.state.name,
         type: this.state.type,
         config: this.state.config,
+        enabled: this.state.enabled,
         _csrf: _csrf
       };
+      console.log(payload);
       if (this.context.user.permissions.feed.group.u) {
         payload.owner = getSelected(this.state.owner)[0];
       }
@@ -560,14 +570,16 @@ class FeedCreate extends Component {
     this.setState({owner: owner});
   }
 
+  _handleEnabledChange(event) {
+    this.setState({enabled: this.refs.enabled.refs.input.checked});
+  }
+
   _handleAuth(event) {
-    console.log('auth vole');
     let {socket} = this.context;
     socket.get('/feeds/authorize/' + this.state.feed.id, this.handleAuthResponse);
   }
 
   handleAuthResponse(data, res) {
-    console.log(data);
     if (res.statusCode == 200) {
       location.href = data.redirect;
     }
@@ -642,6 +654,11 @@ class FeedCreate extends Component {
       authButton = null;
     }
 
+    let fieldEnabled = <div className="form-group">
+      <label className="control-label col-xs-12 col-sm-2">
+        <FormattedMessage {...messages.feedFieldEnabledLabel}/>
+      </label><Input type="checkbox" label={formatMessage(messages.feedFieldEnabledLabel)} onChange={this._handleEnabledChange} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" checked={this.state.enabled} ref='enabled'/></div>;
+
     let create = null;
     let update = null;
     let remove = null;
@@ -676,6 +693,7 @@ class FeedCreate extends Component {
             {fieldStream}
             {fieldGroups}
             {fieldOwner}
+            {fieldEnabled}
             {authButton}
           </form>
           <EditToolbar create={create} update={update} remove={remove}/>

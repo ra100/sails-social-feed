@@ -47,6 +47,10 @@ module.exports = {
     },
     auth: {
       type: 'json'
+    },
+    enabled: {
+      type: 'boolean',
+      defaultsTo: true
     }
   },
 

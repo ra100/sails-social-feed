@@ -28,7 +28,8 @@ var t = {
   init: function () {
     Feed.find({
       where: {
-        type: ['twitter_user', 'twitter_hashtag']
+        type: ['twitter_user', 'twitter_hashtag'],
+        enabled: true
       }
     }).populate('stream').exec((err, feeds) => {
       if (err) {
