@@ -18,7 +18,7 @@ import EditToolbar from './../../EditToolbar';
 import FeedRow from './../Feed/FeedRow';
 import MessageNewModal from './../Message/MessageNewModal';
 import MessageRow from './../Message/MessageRow';
-import _ from 'lodash';
+import _ from 'lodash/core';
 
 const messages = defineMessages({
   streamFieldUniqueNameLabel: {

@@ -13,7 +13,7 @@ import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
 import EditToolbar from './../../EditToolbar';
 import {notify} from 'react-notify-toast';
-import _ from 'lodash';
+import _ from 'lodash/core';
 
 const messages = defineMessages({
   groupTitle: {

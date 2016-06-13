@@ -3,7 +3,7 @@ import {findDOMNode} from 'react-dom';
 import {Modal, Button, Input, Alert} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import 'jquery-browserify';
-import _ from 'lodash';
+import _ from 'lodash/core';
 import permissions from '../permissions';
 
 /**

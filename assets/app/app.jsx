@@ -7,7 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import {IntlProvider} from 'react-intl';
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
-import _ from 'lodash';
+import _ from 'lodash/core';
 import Root from './build/Root';
 import permissions from './permissions';
 import 'jquery-browserify';

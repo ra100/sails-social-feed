@@ -3,7 +3,7 @@ import {Row, Button, PageHeader, Input, Label} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl, FormattedDate, FormattedTime} from 'react-intl';
 import {notify} from 'react-notify-toast';
-import _ from 'lodash';
+import _ from 'lodash/core';
 import EditToolbar from './../../EditToolbar';
 import MessageAuthor from './MessageAuthor';
 import MessageBody from './MessageBody';

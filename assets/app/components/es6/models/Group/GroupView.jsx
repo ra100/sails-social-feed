@@ -15,7 +15,7 @@ import NotFound from './../../NotFound';
 import Error from './../../Error';
 import Loading from './../../Loading';
 import EditToolbar from './../../EditToolbar';
-import _ from 'lodash';
+import _ from 'lodash/core';
 
 const messages = defineMessages({});
 

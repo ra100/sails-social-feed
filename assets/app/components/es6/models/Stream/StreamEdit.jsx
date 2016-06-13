@@ -14,8 +14,8 @@ import Forbidden from './../../Forbidden';
 import EditToolbar from './../../EditToolbar';
 import {notify} from 'react-notify-toast';
 import Multiselect from 'react-bootstrap-multiselect';
-import _ from 'lodash';
-import 'jquery-browserify';
+import _ from 'lodash/core';
+import array from 'lodash/array';
 
 const messages = defineMessages({
   streamTitle: {
@@ -270,7 +270,7 @@ class StreamCreate extends Component {
         groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
       }
       if (this.state.groups) {
-        groups = _.unionBy(this.state.groups, groups, 'value');
+        groups = array.unionBy(this.state.groups, groups, 'value');
       }
       for (i in data.groups) {
         let j;
@@ -353,8 +353,8 @@ class StreamCreate extends Component {
         selected: (_.indexOf(selected, user.id) > -1)
       });
     }
-    let u = _.union(this.state.owner, users);
-    u = _.uniqBy(u, 'value');
+    let u = array.union(this.state.owner, users);
+    u = array.uniqBy(u, 'value');
     this.setState({owner: u});
     if (this.refs.owner) {
       this.refs.owner.syncData();

@@ -14,8 +14,8 @@ import Forbidden from './../../Forbidden';
 import EditToolbar from './../../EditToolbar';
 import {notify} from 'react-notify-toast';
 import Multiselect from 'react-bootstrap-multiselect';
-import _ from 'lodash';
-import 'jquery-browserify';
+import _ from 'lodash/core';
+import array from 'lodash/array';
 
 const messages = defineMessages({
   feedTitle: {
@@ -277,7 +277,7 @@ class FeedCreate extends Component {
         groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
       }
       if (this.state.groups) {
-        groups = _.unionBy(this.state.groups, groups, 'value');
+        groups = array.unionBy(this.state.groups, groups, 'value');
       }
       for (i in data.groups) {
         let j;
@@ -365,10 +365,10 @@ class FeedCreate extends Component {
       streams.push({
         value: stream.id,
         label: [stream.name, ' ', '[', stream.uniqueName, ']'].join(''),
-        selected: (_.indexOf(selected, stream.id) > -1)
+        selected: (selected.indexOf(stream.id) > -1)
       });
     }
-    let s = _.unionBy(this.state.stream, streams, 'value');
+    let s = array.unionBy(this.state.stream, streams, 'value');
     this.setState({stream: s});
     if (this.refs.stream) {
       this.refs.stream.syncData();
@@ -390,10 +390,10 @@ class FeedCreate extends Component {
       users.push({
         value: user.id,
         label: user.username,
-        selected: (_.indexOf(selected, user.id) > -1)
+        selected: (selected.indexOf(user.id) > -1)
       });
     }
-    let u = _.unionBy(this.state.owner, users, 'value');
+    let u = array.unionBy(this.state.owner, users, 'value');
     this.setState({owner: u});
     if (this.refs.owner) {
       this.refs.owner.syncData();

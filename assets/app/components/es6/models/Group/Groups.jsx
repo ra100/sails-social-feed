@@ -5,7 +5,7 @@ import Forbidden from './../../Forbidden';
 import NotFound from './../../NotFound';
 import Loading from './../../Loading';
 import GroupRow from './GroupRow';
-import _ from 'lodash';
+import _ from 'lodash/core';
 
 const messages = defineMessages({
   groupsTitle: {

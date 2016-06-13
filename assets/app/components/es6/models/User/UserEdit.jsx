@@ -14,7 +14,7 @@ import Forbidden from './../../Forbidden';
 import EditToolbar from './../../EditToolbar';
 import {notify} from 'react-notify-toast';
 import Multiselect from 'react-bootstrap-multiselect';
-import _ from 'lodash';
+import _ from 'lodash/core';
 
 const messages = defineMessages({
   userTitle: {
@@ -116,12 +116,12 @@ class UserEdit extends Component {
       bsStyle_password: null,
       bsStyle_email: null,
 
-      username: null,
-      displayname: null,
+      username: '',
+      displayname: '',
       groups: null,
       roles: null,
-      password: null,
-      email: null,
+      password: '',
+      email: '',
 
       user: null,
       edit: false,
@@ -369,19 +369,19 @@ class UserEdit extends Component {
 
   _validateAll() {
     let passed = true;
-    if (!this.state.username || this.state.username.length == 0) {
+    if (this.state.username.length == 0) {
       this.setState({bsStyle_username: 'error'});
       passed = false;
     } else {
       this.setState({bsStyle_username: 'success'});
     }
-    if (!this.state.displayname || this.state.displayname.length == 0) {
+    if (this.state.displayname.length == 0) {
       this.setState({bsStyle_displayname: 'error'});
       passed = false;
     } else {
       this.setState({bsStyle_displayname: 'success'});
     }
-    if ((!this.state.edit && this.state.password == null) || (this.state.password != null && this.state.password.length < 6)) {
+    if ((!this.state.edit && this.state.password == '') || (this.state.password != '' && this.state.password.length < 6)) {
       this.setState({bsStyle_password: 'error'});
       passed = false;
     } else {

@@ -9,7 +9,7 @@ import {
   MenuItem
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import _ from 'lodash';
+import _ from 'lodash/core';
 
 /**
  * App navbar
