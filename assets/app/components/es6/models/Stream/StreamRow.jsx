@@ -70,13 +70,19 @@ class StreamRow extends Component {
   render() {
     const {formatMessage} = this.props.intl;
     let {stream} = this.props;
+
+    let link = <LinkContainer to={'/stream/' + stream.id}>
+      <Button bsStyle="link">{stream.name}</Button>
+    </LinkContainer>;
+    if (!stream.permissions.u) {
+      link = <strong>{stream.name}</strong>;
+    }
+
     return (
       <tr key={stream.id}>
 
         <td>
-          <LinkContainer to={'/stream/' + stream.id}>
-            <Button bsStyle="link">{stream.name}</Button>
-          </LinkContainer>
+          {link}
         </td>
 
         <td>
@@ -102,7 +108,9 @@ class StreamRow extends Component {
           })}
         </td>
         <td>
-          <EditToolbar edit={this._edit} cancel={false}/>
+          <EditToolbar edit={stream.permissions.u
+            ? this._edit
+            : null} cancel={false}/>
         </td>
       </tr>
     );

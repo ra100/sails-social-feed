@@ -28,3 +28,14 @@ html {
   float: left;
   font-size: 0.8em;
 }
+
+.table {
+   > tbody,
+   > thead,
+  > tfoot {
+     > tr > th,
+    > tr > td {
+      vertical-align: middle;
+    }
+  }
+}

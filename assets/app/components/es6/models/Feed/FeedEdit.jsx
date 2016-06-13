@@ -154,7 +154,7 @@ class FeedCreate extends Component {
       allow: true,
       view: false
     };
-    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange','_handleEnabledChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleCanModify', 'handleDestroyResponse', 'handleAuthResponse', 'load');
+    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange','_handleEnabledChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load');
   }
 
   componentDidMount() {
@@ -198,7 +198,10 @@ class FeedCreate extends Component {
     }
     socket.get('/feeds/definition', this.handleDefinition);
     if (typeof feedId !== 'undefined') {
-      socket.get('/feeds/canmodify/' + feedId, this.handleCanModify);
+      let query = {
+        populate: 'owner,groups,stream,owner'
+      };
+      socket.get('/feeds/' + this.props.params.feedId, query, this.handleLoad);
     } else {
       socket.get('/feeds/cancreate', this.handleCanCreate);
     }
@@ -220,33 +223,26 @@ class FeedCreate extends Component {
     }
   }
 
-  handleCanModify(data, res) {
-    if (!this._isMounted) {
-      return;
-    }
-    if (res.statusCode == 200) {
-      this.setState({allow: true, edit: true});
-      let {socket} = this.context;
-      let query = {
-        populate: 'owner,groups,stream'
-      };
-      socket.get('/feeds/' + this.props.params.feedId, query, this.handleLoad);
-    } else {
-      this.setState({allow: true, view: true});
-    }
-  }
-
   handleLoad(data, res) {
     if (!this._isMounted) {
       return;
     }
     if (res.statusCode == 200) {
+      if (data.permissions.c) {
+        this.setState({edit: true, allow: true});
+      } else {
+        this.setState({edit: false, allow: true});
+        return;
+      }
+      if (!data.permissions.r) {
+        return;
+      }
       let i;
       let owner = [];
       let stream = [];
       let groups = [];
-      if (this.state.owner == null && data.owner) {
-        owner.push({value: data.owner.id, label: data.owner.name, selected: true});
+      if (this.state.owner.length == 0 && data.owner) {
+        owner.push({value: data.owner.id, label: data.owner.username, selected: true});
       } else {
         owner = this.state.owner;
         let j;
@@ -259,7 +255,7 @@ class FeedCreate extends Component {
         }
       }
 
-      if (this.state.stream == null && data.stream) {
+      if (this.state.stream.length == 0 && data.stream) {
         stream.push({value: data.stream.id, label: data.stream.name, selected: true});
       } else {
         stream = this.state.stream;
@@ -310,6 +306,7 @@ class FeedCreate extends Component {
         edit: true,
         auth: auth
       });
+      this.refs.stream.syncData();
       this.refs.owner.syncData();
       this.refs.groups.syncData();
     } else {

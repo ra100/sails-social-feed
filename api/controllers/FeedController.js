@@ -85,17 +85,6 @@ module.exports = {
       // `autoWatch` is enabled.
       permissions.setPermissions(matchingRecords, 'feed', req.user);
 
-      if (req._sails.hooks.pubsub && req.isSocket) {
-        Model.subscribe(req, matchingRecords);
-        if (req.options.autoWatch) {
-          Model.watch(req);
-        }
-        // Also subscribe to instances of all associated models
-        _.each(matchingRecords, function (record) {
-          actionUtil.subscribeDeep(req, record);
-        });
-      }
-      sails.log.verbose(matchingRecords);
       res.ok(matchingRecords);
     });
   },

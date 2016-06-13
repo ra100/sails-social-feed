@@ -252,8 +252,8 @@ class StreamCreate extends Component {
       let i;
       let owner = [];
       let groups = [];
-      if (this.state.owner == null && data.owner) {
-        owner.push({value: data.owner.id, label: data.owner.name, selected: true});
+      if (this.state.owner.length == 0 && data.owner) {
+        owner.push({value: data.owner.id, label: data.owner.username, selected: true});
       } else {
         owner = this.state.owner;
         let j;

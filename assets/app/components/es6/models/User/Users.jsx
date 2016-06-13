@@ -16,7 +16,7 @@ const messages = defineMessages({
   name: {
     id: 'user.field.name.label',
     description: 'Table header name',
-    defaultMessage: 'Username'
+    defaultMessage: 'User'
   },
   email: {
     id: 'user.field.email.label',

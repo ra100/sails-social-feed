@@ -135,7 +135,11 @@ class Streams extends Component {
                   </thead>
                   <tbody>
                     {this.state.streams.map(function (stream, i) {
-                      return <StreamRow stream={stream} key={i}/>;
+                      if (stream.permissions.r) {
+                        return <StreamRow stream={stream} key={i}/>;
+                      } else {
+                        return null;
+                      }
                     })}
                   </tbody>
                 </Table>

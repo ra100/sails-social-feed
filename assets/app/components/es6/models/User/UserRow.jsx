@@ -95,6 +95,7 @@ class UserRow extends Component {
   render() {
     const {formatMessage} = this.props.intl;
     let {user} = this.props;
+    let p = user.permissions;
     if (this.state.deleted) {
       return (
         <tr key={user.id}>
@@ -109,13 +110,18 @@ class UserRow extends Component {
         return <Label key={i}>{group.name}</Label>;
       });
     };
+    
+    let username = <LinkContainer to={'/user/' + user.id}>
+      <Button bsStyle="link">{user.username}</Button>
+    </LinkContainer>;
+    if (!p.r) {
+      username = <strong>{user.username}</strong>;
+    }
     return (
       <tr key={user.id}>
         <td>
           {user.displayname}
-          <LinkContainer to={'/user/' + user.id}>
-            <Button bsStyle="link">{user.username}</Button>
-          </LinkContainer>
+          {username}
         </td>
         <td>
           {user.email}
@@ -129,7 +135,7 @@ class UserRow extends Component {
           {groups}
         </td>
         <td>
-          <EditToolbar edit={this._edit} remove={this._remove} cancel={false}/>
+          <EditToolbar edit={p.u ? this._edit : null} remove={p.d ? this._remove: null} cancel={false}/>
         </td>
       </tr>
     );
