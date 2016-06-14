@@ -81,10 +81,19 @@ module.exports = {
       if (err) {
         return res.serverError(err);
       }
-      // Only `.watch()` for new instances of the model if
-      // `autoWatch` is enabled.
+      // // Only `.watch()` for new instances of the model if
+      // // `autoWatch` is enabled.
+      // if (req._sails.hooks.pubsub && req.isSocket) {
+      //   Model.subscribe(req, matchingRecords);
+      //   if (req.options.autoWatch) {
+      //     Model.watch(req);
+      //   }
+      //   // Also subscribe to instances of all associated models
+      //   _.each(matchingRecords, function (record) {
+      //     actionUtil.subscribeDeep(req, record);
+      //   });
+      // }
       permissions.setPermissions(matchingRecords, 'feed', req.user);
-
       res.ok(matchingRecords);
     });
   },

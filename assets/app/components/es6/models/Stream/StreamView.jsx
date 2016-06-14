@@ -18,7 +18,7 @@ import EditToolbar from './../../EditToolbar';
 import FeedRow from './../Feed/FeedRow';
 import MessageNewModal from './../Message/MessageNewModal';
 import MessageRow from './../Message/MessageRow';
-import _ from 'lodash/core';
+import array from 'lodash/array';
 
 const messages = defineMessages({
   streamFieldUniqueNameLabel: {
@@ -289,16 +289,16 @@ class StreamView extends Component {
   processMessage(data, res) {
     let m = data;
     let ms = this.state.messages;
-    let i = _.findIndex(ms, function (o) {
+    let i = array.findIndex(ms, function (o) {
       return o.id == m.id;
     });
     if (i >= 0) {
       ms[i] = m;
     } else {
-      if (_.head(ms).created < m.created) {
-        let tmp = _.reverse(ms);
+      if (array.head(ms).created < m.created) {
+        let tmp =array.reverse(ms);
         tmp.push(m);
-        ms = _.take(_.reverse(tmp), 20);
+        ms = array.take(array.reverse(tmp), 20);
       }
     }
     this.setState({messages: ms});
