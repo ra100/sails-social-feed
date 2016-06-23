@@ -3,7 +3,7 @@ import {findDOMNode} from 'react-dom';
 import {Modal, Button, Input, Alert} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import 'jquery-browserify';
-import _ from 'lodash/core';
+import array from 'lodash/array';
 import permissions from '../permissions';
 
 /**
@@ -122,16 +122,20 @@ class Login extends Component {
         if (jwr.statusCode == 200) {
           user = data;
           user.permissions = {};
-          _.forEach(user.roles, function (v, k) {
+          array.forEach(user.roles, function (v, k) {
             let perm = permissions[v.name];
-            user.permissions = _.merge(user.permissions, perm);
+            user.permissions = array.merge(user.permissions, perm);
           });
           _self.context.user.setUser(user);
           _self.context.history.push('/');
         }
       });
     } else {
-      this.setState({alert: data.message, alertVisible: true,});
+      if (data.error == 'Error.Passport.Already.Authenticated') {
+        _self.context.history.push('/');
+      } else {
+        this.setState({alert: data.message, alertVisible: true});
+      }
     }
   }
 
