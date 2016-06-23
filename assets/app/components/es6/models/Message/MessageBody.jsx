@@ -13,8 +13,7 @@ class MessageBody extends Component {
     super(props, context);
     this.state = {
       message: null,
-      edit: false,
-      editable: false
+      edit: false
     };
     this._bind('renderMedia');
   }
@@ -44,6 +43,7 @@ class MessageBody extends Component {
   }
 
   render() {
+    const {editable} = this.state;
     return <div>{this.props.message}{this.renderMedia()}</div>;
   }
 }
@@ -51,11 +51,13 @@ class MessageBody extends Component {
 MessageBody.propTypes = {
   message: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  meta: PropTypes.object
+  meta: PropTypes.object,
+  editable: PropTypes.bool
 };
 
 MessageBody.defaultTypes = {
-  meta: null
+  meta: null,
+  editable: false
 };
 
 export default MessageBody;

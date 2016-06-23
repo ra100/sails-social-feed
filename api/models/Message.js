@@ -44,6 +44,13 @@ module.exports = {
     },
     picture: {
       type: 'json'
+      /**
+       * paths to different image sizes
+       * full:
+       * large:
+       * medium:
+       * thumb:
+       */
     },
     author: {
       type: 'json'
@@ -57,7 +64,7 @@ module.exports = {
     },
     metadata: {
       type: 'json'
-        /*
+      /*
          * TODO
          * Different for every feed type
          *
@@ -101,7 +108,7 @@ module.exports = {
       });
     } else if (values.stream) {
       return Stream.findOne(values.stream).then(function (stream) {
-        return User.findOne({id: values.author}).then(function(user) {
+        return User.findOne({id: values.author}).then(function (user) {
           values.feedType = 'admin';
           values.published = true;
           values.author = {
@@ -113,6 +120,20 @@ module.exports = {
       }).catch(function (err) {
         next(err);
       });
+    } else {
+      next();
+    }
+  },
+
+  beforeCreate: function (values, next) {
+    if (values.image) {
+      sails.log.warn(values.image);
+      imageService.upload(values.image).then((...files) => {
+        sails.log.verbose(files);
+        delete values.image;
+      }).then(() => {
+        next({error: 'error'});
+      }).catch(next);
     } else {
       next();
     }
@@ -166,7 +187,10 @@ module.exports = {
   afterDestroy: function (destroyedRecords, next) {
     for (var i in destroyedRecords) {
       var message = destroyedRecords[i];
-      Stream.message(message.stream, {action: 'destroyed', id: message.id});
+      Stream.message(message.stream, {
+        action: 'destroyed',
+        id: message.id
+      });
     }
   }
 };

@@ -28,14 +28,19 @@ class MessageRow extends Component {
       published: null,
       reviewed: null,
       message: null,
-      edit: false
+      edit: false,
+      editable: false
     };
     this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse', '_handleMessageChange', '_handleEdit', '_remove', '_update', '_cancel', '_getType');
   }
 
   componentDidMount() {
     this._isMounted = true;
-    this.setState({published: this.props.message.published, reviewed: this.props.message.reviewed, message: this.props.message.message});
+    var editable = false;
+    if (typeof this.props.message.author.id == 'undefined') {
+      editable = true;
+    }
+    this.setState({published: this.props.message.published, reviewed: this.props.message.reviewed, message: this.props.message.message, editable: editable});
   }
 
   componentWillUnmount() {
@@ -152,7 +157,7 @@ class MessageRow extends Component {
         </td>
 
         <td>
-          <MessageBody type={type} message={message.message} meta={message.metadata}/>
+          <MessageBody type={type} message={message.message} meta={message.metadata} editable={this.state.editable}/>
         </td>
 
         <td>

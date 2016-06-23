@@ -1,5 +1,14 @@
 import {Component, PropTypes} from 'react';
-import {Button, Modal, Row, Input} from 'react-bootstrap';
+import {findDOMNode} from 'react-dom';
+import {
+  Button,
+  Modal,
+  Row,
+  Input,
+  FormGroup,
+  ControlLabel,
+  FormControl
+} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {notify} from 'react-notify-toast';
 
@@ -29,6 +38,11 @@ const messages = defineMessages({
     description: 'Message message placeholder',
     defaultMessage: 'Write message here'
   },
+  messageFieldUploadLabel: {
+    id: 'message.field.upload.label',
+    description: 'Message upload label',
+    defaultMessage: 'Upload image'
+  },
   wrongStreamId: {
     id: 'message.error.wrong.stream.id',
     description: 'If no stream id is provided before save',
@@ -52,9 +66,11 @@ class MessageNewModal extends Component {
     this.state = {
       show: false,
       message: '',
-      bsStyle_message: null
+      upload: null,
+      bsStyle_message: null,
+      bsStyle_upload: null
     };
-    this._bind('open', 'close', 'save', '_handleMessageChange', 'handleSaveResponse');
+    this._bind('open', 'close', 'save', '_handleMessageChange', 'handleSaveResponse', '_handleUploadChange');
   }
 
   componentDidMount() {
@@ -89,7 +105,7 @@ class MessageNewModal extends Component {
       this.close();
       return;
     }
-    if (this.state.message.length == 0) {
+    if (this.state.message.length == 0 && this.state.upload == null) {
       this.setState({bsStyle_message: 'error'});
       return;
     }
@@ -100,6 +116,9 @@ class MessageNewModal extends Component {
       isResponse: false,
       _csrf: _csrf
     };
+    if (this.state.upload !== null) {
+      payload.image = this.state.upload;
+    }
     if (typeof this.props.parentId !== 'undefined') {
       payload.isResponse = true;
       payload.relatedMessage = this.props.parentId;
@@ -132,10 +151,16 @@ class MessageNewModal extends Component {
     this.setState({message: event.target.value});
   }
 
+  _handleUploadChange(event) {
+    this.setState({upload: event.target.files[0]});
+  }
+
   render() {
     const {formatMessage} = this.props.intl;
 
     let fieldMessage = <Input type="textarea" label={formatMessage(messages.messageFieldMessageLabel)} placeholder={formatMessage(messages.messageFieldMessagePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-10" value={this.state.message} onChange={this._handleMessageChange} ref="name" bsStyle={this.state.bsStyle_message}></Input>;
+
+    let fieldUpload = <form ref="uploadForm" encType="multipart/form-data" onChange={this._handleUploadChange}><input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-10 col-sm-offset-2" /></form>;
 
     return (
       <span>
@@ -145,6 +170,7 @@ class MessageNewModal extends Component {
           </Modal.Header>
           <Modal.Body>
             <Row>{fieldMessage}</Row>
+            <Row>{fieldUpload}</Row>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.save} bsStyle="success">{formatMessage(messages.saveButton)}</Button>
