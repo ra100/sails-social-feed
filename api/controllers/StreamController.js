@@ -88,7 +88,8 @@ module.exports = {
         'created',
         'link',
         'metadata',
-        'author'
+        'author',
+        'picture'
       ]
     }).then((messages) => {
       if (req.isSocket) {

@@ -11,10 +11,20 @@ module.exports.image = {
       accessKeyId: process.env.S3_KEY,
       secretAccessKey: process.env.S3_SECRET
     },
+    cleanup: {
+      original: true,
+      version: true
+    },
+    origin: {
+      awsImageAcl: 'public-read'
+    },
     resize: {
       quality: 90
     },
     versions: [
+      {
+        suffx: '-original'
+      },
       {
         maxHeight: 1200,
         maxWidth: 1600,

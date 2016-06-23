@@ -1,8 +1,32 @@
+var Upload = require('s3-uploader');
+var fs = require('fs');
+var uuid = require('node-uuid');
+var client = new Upload(sails.config.image.s3_bucket, sails.config.image.options);
+
 module.exports = {
-  upload: function(file) {
-    sails.log.verbose(file);
+  uploadImage: function (file) {
     return new Promise((res, rej) => {
-      res({filename: 'asdfasdf'});
+      storageService.saveTmp(file).then((filename) => {
+        client.upload(filename, {}, (err, versions, meta) => {
+          if (err) {
+            return rej(err);
+          }
+          res(versions);
+        });
+      });
+    });
+  },
+  saveTmp: function (file) {
+    return new Promise((res, rej) => {
+      var filename = '/tmp/' + uuid.v4() + file.name;
+      fs.writeFile(filename, file.data, (err) => {
+        if (err) {
+          sails.log.err('Error saving temp file', err);
+          return rej(err);
+        }
+        sails.log.debug('Temporary image saved', filename);
+        res(filename);
+      });
     });
   }
 };

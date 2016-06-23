@@ -127,12 +127,31 @@ module.exports = {
 
   beforeCreate: function (values, next) {
     if (values.image) {
-      sails.log.warn(values.image);
-      imageService.upload(values.image).then((...files) => {
-        sails.log.verbose(files);
+      storageService.uploadImage(values.image).then((versions) => {
+        var picture = {};
+        picture.original = {
+          path: versions[0].url,
+          height: versions[0].height,
+          width: versions[0].width,
+        };
+        picture.large = {
+          path: versions[1].url,
+          height: versions[1].height,
+          width: versions[1].width
+        };
+        picture.medium = {
+          path: versions[2].url,
+          height: versions[2].height,
+          width: versions[2].width
+        };
+        picture.thumb = {
+          path: versions[3].url,
+          height: versions[3].height,
+          width: versions[3].width
+        };
+        values.picture = picture;
         delete values.image;
-      }).then(() => {
-        next({error: 'error'});
+        next();
       }).catch(next);
     } else {
       next();

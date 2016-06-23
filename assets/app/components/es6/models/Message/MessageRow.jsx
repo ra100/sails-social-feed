@@ -157,7 +157,7 @@ class MessageRow extends Component {
         </td>
 
         <td>
-          <MessageBody type={type} message={message.message} meta={message.metadata} editable={this.state.editable}/>
+          <MessageBody type={type} message={message} meta={message.metadata} editable={this.state.editable}/>
         </td>
 
         <td>

@@ -152,7 +152,12 @@ class MessageNewModal extends Component {
   }
 
   _handleUploadChange(event) {
-    this.setState({upload: event.target.files[0]});
+    this.setState({
+      upload: {
+        data: event.target.files[0],
+        name: event.target.files[0].name
+      }
+    });
   }
 
   render() {
@@ -160,7 +165,7 @@ class MessageNewModal extends Component {
 
     let fieldMessage = <Input type="textarea" label={formatMessage(messages.messageFieldMessageLabel)} placeholder={formatMessage(messages.messageFieldMessagePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-10" value={this.state.message} onChange={this._handleMessageChange} ref="name" bsStyle={this.state.bsStyle_message}></Input>;
 
-    let fieldUpload = <form ref="uploadForm" encType="multipart/form-data" onChange={this._handleUploadChange}><input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-10 col-sm-offset-2" /></form>;
+    let fieldUpload = <form ref="uploadForm" encType="multipart/form-data" onChange={this._handleUploadChange}><input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-10 col-sm-offset-2"/></form>;
 
     return (
       <span>

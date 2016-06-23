@@ -15,10 +15,22 @@ class MessageBody extends Component {
       message: null,
       edit: false
     };
-    this._bind('renderMedia');
+    this._bind('renderMedia', 'renderTwitterMedia', 'renderAdminMedia');
   }
 
   renderMedia() {
+    const {type} = this.props;
+    switch (type) {
+      case 'twitter':
+        return this.renderTwitterMedia();
+      case 'admin':
+        return this.renderAdminMedia();
+      default:
+        return null;
+    }
+  }
+
+  renderTwitterMedia() {
     const {meta} = this.props;
     if (meta == null || typeof meta.media == 'undefined') {
       return null;
@@ -31,7 +43,7 @@ class MessageBody extends Component {
       switch (media.type) {
         case 'photo':
           return <a key={media.id} href={media.expanded_url} target="_blank">
-            <img src={media.media_url_https} width={media.sizes.small.w/3} height={media.sizes.small.h/3}/>
+            <img src={media.media_url_https} width={media.sizes.small.w / 3} height={media.sizes.small.h / 3}/>
           </a>;
         default:
           return null;
@@ -42,14 +54,24 @@ class MessageBody extends Component {
     </div>;
   }
 
+  renderAdminMedia() {
+    if (!this.props.message.picture) {
+      return null;
+    }
+    let {picture} = this.props.message;
+    return <a href={picture.original.path} target="_blank">
+      <img src={picture.thumb.path} width={picture.thumb.width} height={picture.thumb.height}/>
+    </a>;
+  }
+
   render() {
     const {editable} = this.state;
-    return <div>{this.props.message}{this.renderMedia()}</div>;
+    return <div>{this.props.message.message}{this.renderMedia()}</div>;
   }
 }
 
 MessageBody.propTypes = {
-  message: PropTypes.string.isRequired,
+  message: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   meta: PropTypes.object,
   editable: PropTypes.bool
