@@ -1,0 +1,117 @@
+version: v1.5.0
+ignore:
+  'npm:minimatch:20160620':
+    - sails > grunt > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.621Z'
+    - sails > grunt > glob > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.622Z'
+    - grunt-contrib-watch > gaze > globule > glob > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.623Z'
+    - sails > grunt-contrib-watch > gaze > globule > glob > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.624Z'
+    - grunt-contrib-watch > gaze > globule > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.627Z'
+    - sails > grunt-contrib-watch > gaze > globule > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.627Z'
+    - sails > grunt > findup-sync > glob > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.628Z'
+    - sails > grunt-cli > findup-sync > glob > minimatch:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.628Z'
+  'npm:negotiator:20160616':
+    - sails > compression > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.629Z'
+    - sails > connect > compression > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.629Z'
+    - sails > skipper > connect > compression > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.629Z'
+    - sails > express > connect > compression > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.629Z'
+    - sails > connect > serve-index > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.630Z'
+    - sails > skipper > connect > serve-index > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.632Z'
+    - sails > express > connect > serve-index > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.632Z'
+    - sails > sails-hook-sockets > socket.io > engine.io > accepts > negotiator:
+        reason: no upgrade or patch
+        expires: '2016-07-24T13:23:06.632Z'
+patch:
+  'npm:marked:20150520':
+    - doxx > marked:
+        patched: '2016-06-24T13:06:43.637Z'
+      sails-apidocs > dox > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - doxx > dox > marked:
+        patched: '2016-06-24T13:06:43.637Z'
+      sails-apidocs > doxx > dox > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - dox > marked:
+        patched: '2016-06-24T13:06:43.637Z'
+      doxx > dox > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > dox > marked:
+        patched: '2016-06-24T13:06:43.637Z'
+      doxx > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+  'npm:minimatch:20160620':
+    - sails > grunt-sync > glob > minimatch:
+        patched: '2016-06-24T13:06:43.637Z'
+  'npm:qs:20140806':
+    - sails > grunt-contrib-watch > tiny-lr > qs:
+        patched: '2016-06-24T13:06:43.637Z'
+  'npm:qs:20140806-1':
+    - sails > grunt-contrib-watch > tiny-lr > qs:
+        patched: '2016-06-24T13:06:43.637Z'
+  'npm:uglify-js:20150824':
+    - doxx > jade > transformers > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - doxx > jade > constantinople > uglify-js:
+        patched: '2016-06-24T13:06:43.637Z'
+      doxx > jade > transformers > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > transformers > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > transformers > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > constantinople > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > constantinople > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > with > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > with > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > constantinople > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > constantinople > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+  'npm:uglify-js:20151024':
+    - doxx > jade > transformers > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - doxx > jade > constantinople > uglify-js:
+        patched: '2016-06-24T13:06:43.637Z'
+      sails-apidocs > doxx > jade > transformers > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > constantinople > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > with > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > constantinople > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
