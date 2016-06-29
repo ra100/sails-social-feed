@@ -49,10 +49,8 @@ module.exports.http = {
     ],
 
     /****************************************************************************
-  *                                                                           *
-  * Example custom middleware; logs each request to the console.              *
-  *                                                                           *
-  ****************************************************************************/
+    * Example custom middleware; logs each request to the console.              *
+    ***************************************************************************/
 
     // myRequestLogger: function (req, res, next) {
     //     console.log("Requested :: ", req.method, req.url);
