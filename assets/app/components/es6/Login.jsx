@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import {Modal, Button, Input, Alert} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import 'jquery-browserify';
+import _ from 'lodash/core';
 import fp from 'lodash/fp';
 import permissions from '../permissions';
 
@@ -122,7 +123,7 @@ class Login extends Component {
         if (jwr.statusCode == 200) {
           user = data;
           user.permissions = {};
-          fp.forEach(user.roles, function (v, k) {
+          _.forEach(user.roles, function (v, k) {
             let perm = permissions[v.name];
             user.permissions = fp.merge(user.permissions, perm);
           });
