@@ -86,7 +86,16 @@ passport.connect = function (req, query, profile, next) {
   }
   // If the profile object contains a username, add it to the user.
   if (profile.hasOwnProperty('username')) {
-    user.username = profile.username;
+    user.username = profile.username + '_' + profile.provider;
+  }
+
+  if (profile.provider == 'twitter') {
+    user.displayname = profile.displayName;
+    user.picture = profile.photos[0].value;
+    user.meta = {
+      name: profile.username,
+      displayname: profile.displayName
+    };
   }
 
   // If neither an email or a username was available in the profile, we don't
@@ -141,15 +150,28 @@ passport.connect = function (req, query, profile, next) {
         if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
           passport.tokens = query.tokens;
         }
-
         // Save any updates to the Passport before moving on
-        passport.save(function (err, passport) {
+        passport.save(function (err) {
           if (err) {
             return next(err);
           }
 
           // Fetch the user associated with the Passport
-          User.findOne({where: {id: passport.user.id}, populate: ['groups', 'roles']}, next);
+          User.update({
+            where: {
+              id: passport.user
+            }
+          }, user).then((u) => {
+            return User.findOne({
+              where: {
+                id: passport.user
+              },
+              populate: ['groups', 'roles']
+            });
+          }).then((u) => {
+            sails.log.debug(u);
+            next(null, u);
+          }).catch(next);
         });
       }
     } else {
@@ -311,16 +333,16 @@ passport.loadStrategies = function () {
       var baseUrl = sails.getBaseurl();
 
       switch (protocol) {
-      case 'oauth':
-      case 'oauth2':
-        options.callbackURL = url.resolve(baseUrl, callback);
-        break;
+        case 'oauth':
+        case 'oauth2':
+          options.callbackURL = url.resolve(baseUrl, callback);
+          break;
 
-      case 'openid':
-        options.returnURL = url.resolve(baseUrl, callback);
-        options.realm = baseUrl;
-        options.profile = true;
-        break;
+        case 'openid':
+          options.returnURL = url.resolve(baseUrl, callback);
+          options.realm = baseUrl;
+          options.profile = true;
+          break;
       }
 
       // Merge the default options with any options defined in the config. All
@@ -369,7 +391,7 @@ passport.serializeUser(function (user, next) {
 });
 
 passport.deserializeUser(function (id, next) {
-  User.findOne(id).populate(['groups', 'roles']).exec(function(err, data) {
+  User.findOne(id).populate(['groups', 'roles']).exec(function (err, data) {
     next(err, data);
   });
 });

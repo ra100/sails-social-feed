@@ -48,12 +48,14 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  // 'get /login': 'AuthController.login',
+  'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
   'post /logout': 'AuthController.logout',
-  // 'get /register': 'AuthController.register',
+  'get /register': 'AuthController.register',
 
   'post /auth/local': 'AuthController.ajaxCallback',
   'post /auth/local/:action': 'AuthController.ajaxCallback',
-
+  'get /auth/:provider': 'AuthController.provider',
+  'get /auth/:provider/callback': 'AuthController.callback',
+  'get /auth/:provider/:action': 'AuthController.callback'
 };

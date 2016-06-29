@@ -8,6 +8,13 @@ module.exports = {
     displayname: {
       type: 'string'
     },
+    meta: {
+      type: 'json',
+    },
+    blocked: {
+      type: 'boolean',
+      default: false
+    },
     email: {
       type: 'email',
       unique: true
@@ -51,5 +58,16 @@ module.exports = {
   beforeUpdate: function (values, next) {
     delete values._csrf;
     next();
+  },
+
+  /**
+   * Remove Passports after user delete
+   */
+  afterDestroy: function (destroyedRecords, next) {
+    Promise.all(destroyedRecords.map((user) => {
+      return Passport.destroy({user: user.id});
+    })).then(() => {
+      next();
+    }).catch(next);
   }
 };
