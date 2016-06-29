@@ -29,7 +29,8 @@ module.exports.passport = {
     strategy: require('passport-twitter').Strategy,
     options: {
       consumerKey: process.env.TWITTER_CONSUMER_KEY,
-      consumerSecret: process.env.TWITTER_CONSUMER_SECRET
+      consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+      callbackURL: process.env.BASE_URL + '/auth/twitter/callback'
     }
   },
   //
