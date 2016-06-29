@@ -14,6 +14,7 @@ import Forbidden from './../../Forbidden';
 import EditToolbar from './../../EditToolbar';
 import {notify} from 'react-notify-toast';
 import Multiselect from 'react-bootstrap-multiselect';
+import Dropdown from 'react-input-enhancements';
 import _ from 'lodash/core';
 import array from 'lodash/array';
 
@@ -423,7 +424,6 @@ class FeedCreate extends Component {
         enabled: this.state.enabled,
         _csrf: _csrf
       };
-      console.log(payload);
       if (this.context.user.permissions.feed.group.u) {
         payload.owner = getSelected(this.state.owner)[0];
       }
@@ -490,7 +490,7 @@ class FeedCreate extends Component {
       notify.show(formatMessage(messages.saved), 'success');
       this.setState({error: null});
       let id = data.id;
-      this.props.history.push('/feed/' + id);
+      this.props.history.push('/stream/' + getSelected(this.state.stream)[0]);
     }
   }
 
@@ -524,7 +524,6 @@ class FeedCreate extends Component {
     let val = event.context.value;
     let sel = event.context.selected;
     let i;
-    console.log(val, sel);
     let stream = [];
     for (i in this.state.stream) {
       stream[i] = this.state.stream[i];

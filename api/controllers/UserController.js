@@ -108,7 +108,7 @@ module.exports = {
     var user = req.user;
     User.findOne({id: user.id}).populate('roles').populate('groups').exec(function (e, r) {
       user = r;
-      return res.jsonx({username: user.username, roles: user.roles, id: user.id});
+      return res.jsonx({username: user.username, roles: user.roles, id: user.id, displayname: user.displayname, picture: user.picture, meta: user.meta});
     });
   },
 

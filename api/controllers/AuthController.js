@@ -46,6 +46,14 @@ var AuthController = {
       };
     });
 
+    if (req.session.authenticated) {
+      var user = req.user;
+      if (typeof user.roles == 'undefined' || user.roles.length == 0) {
+        return res.view('pop');
+      }
+      return res.redirect('/');
+    }
+
     // Render the `auth/login.ext` view
     res.view({providers: providers, errors: req.flash('error')});
   },
@@ -121,6 +129,13 @@ var AuthController = {
    * @param {Object} res
    */
   callback: function (req, res) {
+    if (req.session.authenticated) {
+      var user = req.user;
+      if (typeof user.roles == 'undefined' || user.roles.length == 0) {
+        return res.view('pop');
+      }
+      return res.redirect('/');
+    }
     function tryAgain(err) {
 
       // Only certain error messages are returned via req.flash('error', someError)
