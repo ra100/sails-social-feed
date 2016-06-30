@@ -83,7 +83,7 @@ var t = {
             t.streams--;
             sails.log.info('Stream ended');
             setTimeout(function () {
-              if (t.stream !== null && (new Date() - new Date(t.stream.started) > 1000 * t.calm)) {
+              if (t.stream !== null) { // && (new Date() - new Date(t.stream.started) > 1000 * t.calm)
                 t.stream = null;
                 t.init();
               }
