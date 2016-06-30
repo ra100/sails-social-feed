@@ -47,7 +47,7 @@ module.exports = {
           break;
       }
     }).catch(function (err) {
-      res.serverError(err);
+      return res.serverError(err);
     });
   },
 
@@ -94,7 +94,7 @@ module.exports = {
       //   });
       // }
       permissions.setPermissions(matchingRecords, 'feed', req.user);
-      res.ok(matchingRecords);
+      return res.ok(matchingRecords);
     });
   },
 
@@ -117,7 +117,7 @@ module.exports = {
         actionUtil.subscribeDeep(req, matchingRecord);
       }
       permissions.addPermissions(matchingRecord, 'feed', req.user);
-      res.ok(matchingRecord);
+      return res.ok(matchingRecord);
     });
   }
 };

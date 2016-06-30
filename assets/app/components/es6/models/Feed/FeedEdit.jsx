@@ -200,7 +200,7 @@ class FeedCreate extends Component {
     socket.get('/feeds/definition', this.handleDefinition);
     if (typeof feedId !== 'undefined') {
       let query = {
-        populate: 'owner,groups,stream,owner'
+        populate: 'owner,groups,stream'
       };
       socket.get('/feeds/' + this.props.params.feedId, query, this.handleLoad);
     } else {

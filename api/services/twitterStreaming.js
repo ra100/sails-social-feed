@@ -28,7 +28,9 @@ var t = {
   init: function () {
     Feed.find({
       where: {
-        type: ['twitter_user', 'twitter_hashtag'],
+        type: [
+          'twitter_user', 'twitter_hashtag'
+        ],
         enabled: true
       }
     }).populate('stream').exec((err, feeds) => {
@@ -67,40 +69,44 @@ var t = {
     };
 
     let createStream = function () {
-      if (t.streams == 0);
-      t.twitter.stream('statuses/filter', {
-        track: t.track.join(','),
-        follow: t.follow.join(',')
-      }, function (stream) {
-        t.streams++;
-        sails.log.info('Stream created');
-        t.stream = stream;
-        stream.on('data', t.processData);
-        stream.on('end', function (response) {
-          t.streams--;
-          sails.log.info('Stream ended');
-          setTimeout(function () {
-            if (t.stream !== null) {
-              t.stream = null;
-              t.init();
+      if (t.streams == 0) {
+        t.twitter.stream('statuses/filter', {
+          track: t.track.join(','),
+          follow: t.follow.join(',')
+        }, function (stream) {
+          t.streams++;
+          sails.log.info('Stream created');
+          t.stream = stream;
+          t.stream.started = new Date();
+          stream.on('data', t.processData);
+          stream.on('end', function (response) {
+            t.streams--;
+            sails.log.info('Stream ended');
+            setTimeout(function () {
+              if (t.stream !== null && (new Date() - new Date(t.stream.started) > 1000 * t.calm)) {
+                t.stream = null;
+                t.init();
+              }
+            }, 1000 * t.calm);
+          });
+          stream.on('error', function (err) {
+            sails.log.warn(err.message);
+            sails.log.debug('Number of streams: ', t.streams, 'calm:', t.calm);
+            if (err.message == 'Status Code: 420') {
+              sails.log.info('Stream too many connections');
+              sails.log.silly('stream: ', t.stream);
+              t.calm++;
             }
-          }, 1000 * t.calm);
-        });
-        stream.on('error', function (err) {
-          sails.log.error(err);
-          if (err.message == 'Status Code: 420') {
-            sails.log.silly('stream: ', t.stream);
-            t.calm++;
-          }
-          if (err.code == 'ECONNRESET') {
-            t.reload = false;
-            if (t.stream !== null) {
-              t.stream.destroy();
+            else if (err.code == 'ECONNRESET') {
+              t.reload = false;
+              if (t.stream !== null) {
+                t.stream.destroy();
+              }
+              t.calm++;
             }
-            t.calm++;
-          }
+          });
         });
-      });
+      }
     };
 
     // If stream is not reloaded, just create stream
@@ -146,6 +152,7 @@ var t = {
 
   restart: function () {
     t.reload = true;
+    t.calm = 1;
     if (t.stream !== null) {
       t.stream.destroy();
     } else if (t.twitter == null) {
@@ -177,7 +184,6 @@ var t = {
   },
 
   processData: function (data) {
-    t.calm = 1; // Descrease calm only after some data is delivered
     sails.log.silly('Stream data', data);
     // delete message if tweet is deleted
     if (data.delete !== undefined) {
@@ -338,13 +344,15 @@ var t = {
     t.twitter_user = {};
     t.twitter_hashtag = {};
     _.forEach(feeds, function (feed) {
-      switch (feed.type) {
-        case 'twitter_hashtag':
-          track.push(feed.config.toLowerCase());
-          break;
-        case 'twitter_user':
-          follow.push(feed.meta.uid);
-          break;
+      if (feed.enabled) {
+        switch (feed.type) {
+          case 'twitter_hashtag':
+            track.push(feed.config.toLowerCase());
+            break;
+          case 'twitter_user':
+            follow.push(feed.meta.uid);
+            break;
+        }
       }
       t[feed.type][feed.config.toLowerCase()] = {
         id: feed.id,
