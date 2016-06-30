@@ -38,12 +38,17 @@ module.exports = {
    * Submit message by logged in user
    */
   submit: function (req, res) {
-    var message = {};
-    message.message = req.param('message');
-    message._csrf = req.session.csrfSecret;
-    message.image = req.param('image');
-    // sails.log.debug(req.session, message);
-    res.json({status: 'ok'});
-    
+    var message = {
+      message: req.param('message'),
+      image: req.param('image'),
+      feed: req.param('feed'),
+      author: {
+        name: req.user.displaname,
+        picture: req.user.picture
+      }
+    };
+    Message.create(message).then((message) => {
+      res.json({status: 'ok', 'message': message});
+    }).catch(res.negotiate);
   }
 };
