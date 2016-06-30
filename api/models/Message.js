@@ -151,6 +151,7 @@ module.exports = {
         };
         values.picture = picture;
         delete values.image;
+        values.mediaType = 'photo';
         next();
       }).catch(next);
     } else {

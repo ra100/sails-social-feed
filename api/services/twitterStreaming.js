@@ -268,6 +268,9 @@ var t = {
         switch (status.extended_entities.media[0].type) {
           case 'photo':
             message.mediaType = 'photo';
+            if (status.extended_entities.media.length > 1) {
+              message.mediaType = 'gallery';
+            }
             break;
           case 'animated_gif':
             message.mediaType = 'video';

@@ -37,7 +37,7 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  allRoutes: true,
+  // allRoutes: true,
 
   /***************************************************************************
   *                                                                          *
@@ -47,7 +47,7 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  origin: '*',
+  // origin: '*',
 
   /***************************************************************************
   *                                                                          *
@@ -55,7 +55,7 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  credentials: true,
+  // credentials: true,
 
   /***************************************************************************
   *                                                                          *
@@ -75,14 +75,14 @@ module.exports.cors = {
 
   // headers: 'content-type'
 
-  securityLevel: 1,
-
-  '/auth/*': {
-    target: 'AuthController.ajaxCallback',
-    cors: {
-      origin: '*',
-      methods: 'GET'
-    }
-  }
+  // securityLevel: 1,
+  // 
+  // '/auth/*': {
+  //   target: 'AuthController.ajaxCallback',
+  //   cors: {
+  //     origin: '*',
+  //     methods: 'GET'
+  //   }
+  // }
 
 };

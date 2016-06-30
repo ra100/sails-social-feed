@@ -89,7 +89,8 @@ module.exports = {
         'link',
         'metadata',
         'author',
-        'picture'
+        'picture',
+        'mediaType'
       ]
     }).then((messages) => {
       if (req.isSocket) {
@@ -123,6 +124,7 @@ module.exports = {
         ? req.param('id')
         : '';
       socialFeed.unsubscribe(req, res, 'stream', id);
+      next();
     }
   },
 

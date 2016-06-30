@@ -70,6 +70,12 @@ module.exports.policies = {
     'messages': [true]
   },
 
+  MessageController: {
+    '*': ['passport', 'sessionAuth', 'isEditor'],
+    'unsubscribe': [true],
+    'submit': ['passport', 'sessionAuth', 'rateLimit']
+  },
+
   FeedController: {
     'definition': ['passport', 'sessionAuth', 'isEditor'],
     'cancreate': ['passport', 'sessionAuth', 'isEditor'],

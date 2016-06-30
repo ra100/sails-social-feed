@@ -9,5 +9,6 @@
 	"Error.Not.InGroup": "Error.Not.InGroup",
 	"Error.Stream.Not.Found": "Error.Stream.Not.Found",
 	"Error.Passport.Password.NotSet": "Error.Passport.Password.NotSet",
-	"You have been authenticated": "You have been authenticated"
+	"You have been authenticated": "You have been authenticated",
+	"Error.Too.Many.Requests": "Error.Too.Many.Requests"
 }
