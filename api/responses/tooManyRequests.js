@@ -33,7 +33,7 @@ module.exports = function forbidden (data, options) {
   // send back any identifying information about errors.
   if (sails.config.environment === 'production') {
     data = undefined;
-    data = {'message': res.__('Error.Too.Many.Requests')};
+    data = res.__('Error.Too.Many.Requests');
   }
 
   // If the user-agent wants JSON, always respond with JSON

@@ -26,12 +26,29 @@ create `start.sh`:
 ```shell
 #!/bin/bash
 
-export BASE_URL='INSERT BASE URL'
+export BASE_URL='https://example.com'
+export ORIGIN='https://shoutbox.rozhlas.cz,http://localhost:8082'
 export APP_NAME='socialFeed'
 export PORT=1338
 export ADMIN_NAME='admin'
 export ADMIN_PASSWORD='admin123'
-export ADMIN_EMAIL='admin@thissite.com'
+export ADMIN_EMAIL='admin@example.com'
+export GOOGLE_CLIENT_ID=''
+export GOOGLE_CLIENT_SECRET=''
+export FACEBOOK_APP_ID=''
+export FACEBOOK_APP_SECRET=''
+export FACEBOOK_API_VERSION='2.6'
+export TWITTER_CONSUMER_KEY=''
+export TWITTER_CONSUMER_SECRET=''
+export JWT_SECRET=''
+export S3_KEY=''
+export S3_SECRET=''
+export S3_BUCKET=''
+export S3_ROOT=''
+export S3_REGION=''
+export PORT=1338
+export NODE_ENV=development
+export STREAMS=true
 
 sails lift
 ```
