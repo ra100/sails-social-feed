@@ -40,13 +40,15 @@ module.exports = {
   submit: function (req, res) {
     var message = {
       message: req.param('message'),
-      image: req.param('image'),
       feed: req.param('feed'),
       author: {
-        name: req.user.displaname,
+        name: req.user.displayname,
         picture: req.user.picture
       }
     };
+    if (req.param('image') !== null) {
+      message.image = req.param('image');
+    }
     Message.create(message).then((message) => {
       res.json({status: 'ok', 'message': message});
     }).catch(res.negotiate);
