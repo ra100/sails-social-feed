@@ -124,7 +124,6 @@ module.exports = {
         ? req.param('id')
         : '';
       socialFeed.unsubscribe(req, res, 'stream', id);
-      next();
     }
   },
 

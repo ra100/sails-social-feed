@@ -30,7 +30,6 @@ module.exports = {
         ? req.param('id')
         : '';
       socialFeed.unsubscribe(req, res, 'message', id);
-      next();
     }
   },
 
