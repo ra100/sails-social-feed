@@ -23,9 +23,10 @@ var t = {
   stream: null,
   reload: true,
   calm: 1,
-  streams: 0,
+  timer: null,
 
   init: function () {
+    clearTimeout(t.timer);
     Feed.find({
       where: {
         type: [
@@ -69,29 +70,32 @@ var t = {
     };
 
     let createStream = function () {
-      if (t.streams == 0) {
+      if (t.stream == null || !t.stream.active) {
         t.twitter.stream('statuses/filter', {
           track: t.track.join(','),
           follow: t.follow.join(',')
         }, function (stream) {
-          t.streams++;
+          clearTimeout(t.timer);
           sails.log.info('Stream created');
           t.stream = stream;
-          t.stream.started = new Date();
+          stream.active = true;
           stream.on('data', t.processData);
-          stream.on('end', function (response) {
-            t.streams--;
+          stream.on('end', function() {
             sails.log.info('Stream ended');
-            setTimeout(function () {
-              if (t.stream !== null) { // && (new Date() - new Date(t.stream.started) > 1000 * t.calm)
-                t.stream = null;
+            stream.active = false;
+            clearTimeout(t.timer);
+            sails.log.debug('Calm: ', t.calm);
+            t.timer = setTimeout(function () {
+              clearTimeout(t.timer);
+              if (t.stream.active) {
+                t.stream.destroy();
+              } else {
                 t.init();
               }
-            }, 1000 * t.calm);
+            }, 1000 * t.calm * t.calm);
           });
           stream.on('error', function (err) {
             sails.log.warn(err.message);
-            sails.log.debug('Number of streams: ', t.streams, 'calm:', t.calm);
             if (err.message == 'Status Code: 420') {
               sails.log.info('Stream too many connections');
               sails.log.silly('stream: ', t.stream);
@@ -153,9 +157,10 @@ var t = {
   restart: function () {
     t.reload = true;
     t.calm = 1;
-    if (t.stream !== null) {
+    clearTimeout(t.timer);
+    if (t.stream !== null && t.stream.active) {
       t.stream.destroy();
-    } else if (t.twitter == null) {
+    } else {
       t.init();
     }
   },
@@ -186,6 +191,7 @@ var t = {
   processData: function (data) {
     sails.log.silly('Stream data', data);
     // delete message if tweet is deleted
+    clearTimeout(t.timer);
     if (data.delete !== undefined) {
       return Message.destroy({
         where: {
