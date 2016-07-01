@@ -70,7 +70,7 @@ module.exports = {
     delete values._csrf;
     Feed.findOne({id: values.id}).then((feed) => {
       if (values.type == 'twitter_user') {
-        if (feed.config == values.config && feed.meta.uid !== 0) {
+        if (feed.config == values.config && typeof feed.meta !== 'undefined' && feed.meta.uid !== 0) {
           return next();
         }
         return twitterStreaming.findUid(values.config).then((uid) => {
