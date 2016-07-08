@@ -54,21 +54,21 @@ patch:
   'npm:marked:20150520':
     - doxx > marked:
         patched: '2016-06-24T13:06:43.637Z'
-      sails-apidocs > dox > marked:
-        patched: '2016-06-24T13:21:04.347Z'
     - doxx > dox > marked:
         patched: '2016-06-24T13:06:43.637Z'
-      sails-apidocs > doxx > dox > marked:
-        patched: '2016-06-24T13:21:04.347Z'
     - dox > marked:
         patched: '2016-06-24T13:06:43.637Z'
-      doxx > dox > marked:
-        patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > dox > marked:
         patched: '2016-06-24T13:06:43.637Z'
-      doxx > marked:
-        patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > doxx > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > dox > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > dox > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - doxx > dox > marked:
+        patched: '2016-06-24T13:21:04.347Z'
+    - doxx > marked:
         patched: '2016-06-24T13:21:04.347Z'
   'npm:minimatch:20160620':
     - sails > grunt-sync > glob > minimatch:
@@ -84,8 +84,6 @@ patch:
         patched: '2016-06-24T13:21:04.347Z'
     - doxx > jade > constantinople > uglify-js:
         patched: '2016-06-24T13:06:43.637Z'
-      doxx > jade > transformers > uglify-js:
-        patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > doxx > jade > transformers > uglify-js:
         patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > doxx > jade > transformers > uglify-js:
@@ -101,17 +99,28 @@ patch:
     - sails-apidocs > constantinople > uglify-js:
         patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > constantinople > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+    - doxx > jade > transformers > uglify-js:
         patched: '2016-06-24T13:21:04.347Z'
   'npm:uglify-js:20151024':
     - doxx > jade > transformers > uglify-js:
         patched: '2016-06-24T13:21:04.347Z'
     - doxx > jade > constantinople > uglify-js:
         patched: '2016-06-24T13:06:43.637Z'
-      sails-apidocs > doxx > jade > transformers > uglify-js:
-        patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > doxx > jade > constantinople > uglify-js:
         patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > doxx > jade > with > uglify-js:
         patched: '2016-06-24T13:21:04.347Z'
     - sails-apidocs > constantinople > uglify-js:
         patched: '2016-06-24T13:21:04.347Z'
+    - sails-apidocs > doxx > jade > transformers > uglify-js:
+        patched: '2016-06-24T13:21:04.347Z'
+  'npm:ws:20160624':
+    - socket.io-client > engine.io-client > ws:
+        patched: '2016-07-08T13:24:31.413Z'
+    - sails > sails-hook-sockets > socket.io-client > engine.io-client > ws:
+        patched: '2016-07-08T13:24:31.413Z'
+    - sails > sails-hook-sockets > socket.io > socket.io-client > engine.io-client > ws:
+        patched: '2016-07-08T13:24:31.413Z'
+    - sails > sails-hook-sockets > socket.io > engine.io > ws:
+        patched: '2016-07-08T13:24:31.413Z'
