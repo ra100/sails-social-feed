@@ -95,6 +95,10 @@ module.exports.policies = {
     'canmodify': ['passport', 'sessionAuth', 'isAdmin'],
     'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
     'unsubscribe': [true]
+  },
+
+  OembedController: {
+    '*': [true]
   }
 
   /***************************************************************************

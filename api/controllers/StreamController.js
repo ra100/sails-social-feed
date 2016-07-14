@@ -76,6 +76,7 @@ module.exports = {
     return Message.find({
       where: {
         stream: req.param('id'),
+        isResponse: false,
         published: true
       },
       sort: 'created DESC',

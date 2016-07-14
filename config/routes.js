@@ -57,5 +57,7 @@ module.exports.routes = {
   'post /auth/local/:action': 'AuthController.ajaxCallback',
   'get /auth/:provider': 'AuthController.callback',
   'get /auth/:provider/callback': 'AuthController.callback',
-  'get /auth/:provider/:action': 'AuthController.callback'
+  'get /auth/:provider/:action': 'AuthController.callback',
+
+  'get /oembed/youtube': 'OembedController.youtube',
 };
