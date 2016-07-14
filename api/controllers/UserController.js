@@ -151,7 +151,9 @@ module.exports = {
       // `autoWatch` is enabled.
       permissions.setPermissions(matchingRecords, 'user', req.user);
 
-      res.ok(matchingRecords);
+      res.ok(matchingRecords.filter((value) => {
+        return value.permissions.r;
+      }));
     });
   },
 

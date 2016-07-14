@@ -102,7 +102,7 @@ module.exports = {
   editor: {
     user: {
       all: {
-        r: true
+        r: false
       },
       group: {
         r: true
@@ -115,7 +115,7 @@ module.exports = {
     stream: {
       all: {
         c: true,
-        r: true
+        r: false
       },
       group: {
         c: true,
@@ -133,7 +133,7 @@ module.exports = {
     feed: {
       all: {
         c: true,
-        r: true
+        r: false
       },
       group: {
         c: true,
@@ -168,7 +168,7 @@ module.exports = {
     },
     group: {
       all: {
-        r: true
+        r: false
       },
       group: {
         r: true
@@ -180,7 +180,9 @@ module.exports = {
   },
   user: {
     user: {
-      all: {},
+      all: {
+        r: false
+      },
       group: {
         r: true
       },
@@ -191,7 +193,7 @@ module.exports = {
     },
     stream: {
       all: {
-        r: true
+        r: false
       },
       group: {
         r: true
@@ -225,10 +227,10 @@ module.exports = {
     message: {
       all: {},
       group: {
-        r: true
+        r: false
       },
       own: {
-        r: true
+        r: false
       }
     }
   }

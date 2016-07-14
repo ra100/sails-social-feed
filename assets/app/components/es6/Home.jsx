@@ -10,10 +10,7 @@ class Home extends Component {
   }
 
   render() {
-    return (
-      <div>Welcome
-        {this.context.user.username}!</div>
-    );
+    return null;
   }
 };
 

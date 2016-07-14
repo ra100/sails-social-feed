@@ -113,7 +113,7 @@ class Navigation extends Component {
     let viewGroups = null;
     let viewUsers = null;
     if (permissions) {
-      if (permissions.stream.own.c) {
+      if (permissions.stream && permissions.stream.own.c) {
         let createStream = <LinkContainer to={'/create/stream'}>
           <MenuItem>
             <FormattedMessage {...messages.stream}/>
@@ -121,7 +121,7 @@ class Navigation extends Component {
         </LinkContainer>;
 
         let createFeed = null;
-        if (permissions.feed.own.c) {
+        if (permissions.feed && permissions.feed.own.c) {
           createFeed = <LinkContainer to={'/create/feed'}>
             <MenuItem>
               <FormattedMessage {...messages.feed}/>
@@ -130,7 +130,7 @@ class Navigation extends Component {
         };
 
         let createGroup = null;
-        if (permissions.group.all.c) {
+        if (permissions.group && permissions.group.all.c) {
           createGroup = <LinkContainer to={'/create/group'}>
             <MenuItem>
               <FormattedMessage {...messages.group}/>
@@ -139,7 +139,7 @@ class Navigation extends Component {
         };
 
         let createUser = null;
-        if (permissions.user.all.c) {
+        if (permissions.user && permissions.user.all.c) {
           createUser = <LinkContainer to={'/create/user'}>
             <MenuItem>
               <FormattedMessage {...messages.user}/>
@@ -154,7 +154,7 @@ class Navigation extends Component {
           {createUser}
         </NavDropdown>;
 
-        if (permissions.stream.all.r) {
+        if (permissions.stream && permissions.stream.own.r) {
           viewStreams = <LinkContainer to={'/streams'}>
             <MenuItem>
               <FormattedMessage {...messages.streams}/>
@@ -162,7 +162,7 @@ class Navigation extends Component {
           </LinkContainer>;
         };
 
-        if (permissions.group.all.r) {
+        if (permissions.group && permissions.group.own.r) {
           viewGroups = <LinkContainer to={'/groups'}>
             <MenuItem>
               <FormattedMessage {...messages.groups}/>
@@ -170,7 +170,7 @@ class Navigation extends Component {
           </LinkContainer>;
         };
 
-        if (permissions.user.all.r) {
+        if (permissions.user && permissions.user.own.r) {
           viewUsers = <LinkContainer to={'/users'}>
             <MenuItem>
               <FormattedMessage {...messages.users}/>

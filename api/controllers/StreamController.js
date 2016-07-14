@@ -163,7 +163,9 @@ module.exports = {
       //   });
       // }
       permissions.setPermissions(matchingRecords, 'stream', req.user);
-      res.ok(matchingRecords);
+      res.ok(matchingRecords.filter((value) => {
+        return value.permissions.r;
+      }));
     });
   },
 

@@ -31,13 +31,13 @@ module.exports = {
   },
   hasGroups(obj, user) {
     var ug = [];
-    for (var i in user.groups) {
-      if (typeof user.groups.i == 'object') {
-        ug.push(user.groups[i].id);
+    for (var group of user.groups) {
+      if (typeof group == 'object') {
+        ug.push(group.id);
       }
     }
-    for (var i in obj.groups) {
-      if (ug.indexOf(obj.groups[i].id) >= 0) {
+    for (var group of obj.groups) {
+      if (ug.indexOf(group.id) >= 0) {
         return true;
       }
     }
