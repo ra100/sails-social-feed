@@ -60,7 +60,7 @@
     "react-toolbox": "^0.16.2",
     "reactify": "^1.1.1",
     "s3-uploader": "^2.0.0-rc.1",
-    "sails": "^0.12.3",
+    "sails": "^0.12.4-rc2",
     "sails-apidocs": "git+https://github.com/sukharenko/sails-apidocs.git",
     "sails-disk": "^0.10.10",
     "sails-mongo": "^0.11.7",
