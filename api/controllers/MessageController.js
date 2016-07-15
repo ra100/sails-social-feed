@@ -48,7 +48,12 @@ module.exports = {
     if (req.param('image') !== null) {
       message.image = req.param('image');
     }
+    if (req.param('parent') !== null) {
+      message.isResponse = true;
+      message.relatedMessage = parent;
+    }
     Message.create(message).then((message) => {
+      // TODO add relatedMessage
       res.json({status: 'ok', 'message': message});
     }).catch(res.negotiate);
   }

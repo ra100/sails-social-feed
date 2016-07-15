@@ -76,7 +76,7 @@ module.exports = {
     return Message.find({
       where: {
         stream: req.param('id'),
-        isResponse: false,
+        // isResponse: false,
         published: true
       },
       sort: 'created DESC',
@@ -91,7 +91,9 @@ module.exports = {
         'metadata',
         'author',
         'picture',
-        'mediaType'
+        'mediaType',
+        'relatedMessage',
+        'isResponse'
       ]
     }).then((messages) => {
       if (req.isSocket) {

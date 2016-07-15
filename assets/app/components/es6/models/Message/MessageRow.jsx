@@ -13,6 +13,11 @@ const messages = defineMessages({
     id: 'message.message.saved',
     description: 'Saved message',
     defaultMessage: 'Changes have been saved'
+  },
+  replyButton: {
+    'id': 'message.button.reply',
+    'description': 'Open reply popup button',
+    'defaultMessage': 'Reply'
   }
 });
 
@@ -31,7 +36,7 @@ class MessageRow extends Component {
       edit: false,
       editable: false
     };
-    this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse', '_handleMessageChange', '_handleEdit', '_remove', '_update', '_cancel', '_getType');
+    this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse', '_handleMessageChange', '_handleEdit', '_remove', '_update', '_cancel', '_getType', 'reply');
   }
 
   componentDidMount() {
@@ -66,6 +71,10 @@ class MessageRow extends Component {
         notify.show(res.body, 'error');
         break;
     }
+  }
+
+  reply() {
+    this.props.replyCallback(this.props.message.id);
   }
 
   _update() {
@@ -136,6 +145,10 @@ class MessageRow extends Component {
     let published = <Input type="checkbox" checked={this.state.published} ref="published" onChange={this._handlePublishedChange} label=" "/>;
     let reviewed = <Input type="checkbox" checked={this.state.reviewed} ref="reviewed" onChange={this._handleReviewedChange} label=" "/>;
     let type = this._getType();
+    let reply = null;
+    if (this.props.replyCallback !== null) {
+      reply = <Button onClick={this.reply} bsStyle="default">{formatMessage(messages.replyButton)}</Button>;
+    }
     return (
       <tr key={message.id}>
         <td>
@@ -158,6 +171,7 @@ class MessageRow extends Component {
 
         <td>
           <MessageBody type={type} message={message} meta={message.metadata} editable={this.state.editable}/>
+          {reply}
         </td>
 
         <td>
@@ -175,7 +189,13 @@ MessageRow.contextTypes = {
 };
 
 MessageRow.propTypes = {
-  message: PropTypes.object.isRequired
+  message: PropTypes.object.isRequired,
+  replyCallback: PropTypes.func
 };
+
+MessageRow.defaultTypes = {
+  replyCallback: null
+};
+
 
 export default injectIntl(MessageRow);

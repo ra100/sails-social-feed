@@ -153,7 +153,7 @@ class StreamView extends Component {
       messages_count: 0,
       streamId: 0
     };
-    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage', 'handleMessagesLoad', 'processSocketStream', 'processMessage', 'hideMessageModal', '_handlePagination', 'handleCountLoad');
+    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage', 'handleMessagesLoad', 'processSocketStream', 'processMessage', 'hideMessageModal', '_handlePagination', 'handleCountLoad', 'openReply');
   }
 
   componentDidMount() {
@@ -253,8 +253,12 @@ class StreamView extends Component {
   }
 
   addMessage(event) {
-    let rpl = '';
+    let rpl = this.state.reply_id;
     this.setState({newMessageShow: true, reply_id: rpl});
+  }
+
+  openReply(parentId) {
+    this.setState({newMessageShow: true, reply_id: parentId});
   }
 
   processSocketStream(event) {
@@ -354,6 +358,7 @@ class StreamView extends Component {
             <i className="material-icons">add_circle</i>
             <FormattedMessage {...messages.addButton}/></Button>;
           let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>;
+          let openReply = this.openReply;
           return (
             <Row>
               <PageHeader>
@@ -423,7 +428,7 @@ class StreamView extends Component {
                   </thead>
                   <tbody>
                     {this.state.messages.map(function (message, i) {
-                      return <MessageRow message={message} key={message.id}/>;
+                      return <MessageRow message={message} key={message.id} replyCallback={openReply}/>;
                     })}
                   </tbody>
                 </Table>
