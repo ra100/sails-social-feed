@@ -121,7 +121,7 @@ class MessageNewModal extends Component {
     }
     if (typeof this.props.parentId !== 'undefined') {
       payload.isResponse = true;
-      payload.relatedMessage = this.props.parentId;
+      payload.parentMessage = this.props.parentId;
     }
     socket.post('/messages', payload, this.handleSaveResponse);
     this.setState({bsStyle_message: null});

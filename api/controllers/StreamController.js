@@ -73,10 +73,12 @@ module.exports = {
   messages(req, res) {
     let limit = req.param('limit') || 10;
     let skip = req.param('skip') || 0;
-    return Message.find({
+    let all = req.param('all') || false;
+    let populate = req.param('populate') || ['relatedMessage', 'parentMessage'];
+    let criteria = {
       where: {
         stream: req.param('id'),
-        // isResponse: false,
+        isResponse: false,
         published: true
       },
       sort: 'created DESC',
@@ -93,9 +95,16 @@ module.exports = {
         'picture',
         'mediaType',
         'relatedMessage',
+        'parentMessage',
         'isResponse'
       ]
-    }).then((messages) => {
+    };
+    if (all) {
+      criteria.where = {
+        stream: req.param('id'),
+      };
+    }
+    return Message.find(criteria).populate(populate).then((messages) => {
       if (req.isSocket) {
         Stream.subscribe(req, [req.param('id')]);
       }

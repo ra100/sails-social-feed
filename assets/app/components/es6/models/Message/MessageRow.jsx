@@ -7,6 +7,7 @@ import _ from 'lodash/core';
 import EditToolbar from './../../EditToolbar';
 import MessageAuthor from './MessageAuthor';
 import MessageBody from './MessageBody';
+import MessageRelated from './MessageRelated';
 
 const messages = defineMessages({
   saved: {
@@ -18,6 +19,16 @@ const messages = defineMessages({
     'id': 'message.button.reply',
     'description': 'Open reply popup button',
     'defaultMessage': 'Reply'
+  },
+  replyto: {
+    'id': 'message.replyto.text',
+    'description': 'Label for parent message',
+    'defaultMessage': 'Is reply to'
+  },
+  replies: {
+    'id': 'message.replies.text',
+    'description': 'Label for parent message',
+    'defaultMessage': 'Replies'
   }
 });
 
@@ -126,8 +137,8 @@ class MessageRow extends Component {
     this.setState({edit: false});
   }
 
-  _getType() {
-    let {message} = this.props;
+  _getType(m) {
+    let message = m || this.props.message;
     switch(message.feedType) {
       case 'twitter_hashtag':
       case 'twitter_user':
@@ -146,8 +157,17 @@ class MessageRow extends Component {
     let reviewed = <Input type="checkbox" checked={this.state.reviewed} ref="reviewed" onChange={this._handleReviewedChange} label=" "/>;
     let type = this._getType();
     let reply = null;
-    if (this.props.replyCallback !== null) {
+    if (this.props.replyCallback !== null && !message.isResponse) {
       reply = <Button onClick={this.reply} bsStyle="default">{formatMessage(messages.replyButton)}</Button>;
+    }
+    let related = null;
+    if (typeof message.parentMessage == 'object') {
+      related = <span className="parent-message"><FormattedMessage {...messages.replyto}/>:
+        <MessageBody type={this._getType(message.parentMessage)} message={message.parentMessage} meta={message.parentMessage.message.metadata}/></span>;
+    }
+    let replies = null;
+    if (typeof message.relatedMessage == 'array' && message.relatedMessage.length > 0) {
+      replies = <span className="reply-count">><FormattedMessage {...messages.replies}/>: {message.relatedMessage.length}</span>;
     }
     return (
       <tr key={message.id}>
@@ -172,6 +192,7 @@ class MessageRow extends Component {
         <td>
           <MessageBody type={type} message={message} meta={message.metadata} editable={this.state.editable}/>
           {reply}
+          {related}
         </td>
 
         <td>
@@ -196,6 +217,5 @@ MessageRow.propTypes = {
 MessageRow.defaultTypes = {
   replyCallback: null
 };
-
 
 export default injectIntl(MessageRow);

@@ -4,7 +4,6 @@ import {
   Col,
   Row,
   Grid,
-  Button,
   Input,
   PageHeader,
   ButtonToolbar
@@ -92,16 +91,6 @@ const messages = defineMessages({
     id: 'stream.field.owner.label',
     description: 'Owner label',
     defaultMessage: 'Owner'
-  },
-  cancelButton: {
-    id: 'button.cancel',
-    description: 'Cancel button text',
-    defaultMessage: 'Cancel'
-  },
-  createButton: {
-    id: 'button.create',
-    description: 'Create button text',
-    defaultMessage: 'Create'
   },
   saved: {
     id: 'stream.saved.notify',

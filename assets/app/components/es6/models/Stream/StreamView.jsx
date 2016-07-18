@@ -185,9 +185,11 @@ class StreamView extends Component {
     let messages_query = {
       sort: 'created DESC',
       limit: this.state.items_per_page,
-      skip: this.state.page * this.state.items_per_page
+      skip: this.state.page * this.state.items_per_page,
+      populate: ['relatedMessage', 'parentMessage'],
+      all: true
     };
-    socket.get('/streams/' + this.state.streamId + '/messages', messages_query, this.handleMessagesLoad);
+    socket.get('/streams/messages/' + this.state.streamId, messages_query, this.handleMessagesLoad);
   }
 
   componentWillUnmount() {

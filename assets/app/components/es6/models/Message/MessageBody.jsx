@@ -1,7 +1,24 @@
 import {Component, PropTypes} from 'react';
+import {Input} from 'react-bootstrap';
+import EditToolbar from './../../EditToolbar';
+import {notify} from 'react-notify-toast';
+import {formatMessage, defineMessages, injectIntl} from 'react-intl';
 
 const hashLink = 'https://twitter.com/hashtag/HASHTAG';
 const userLink = 'https://twitter.com/USER';
+
+const messages = defineMessages({
+  saved: {
+    id: 'message.saved.message',
+    description: 'Saved notification',
+    defaultMessage: 'Message has been saved'
+  },
+  deleted: {
+    id: 'message.deleted.message',
+    description: 'Deleted notification',
+    defaultMessage: 'Message has been deleted'
+  }
+});
 
 class MessageBody extends Component {
 
@@ -12,10 +29,69 @@ class MessageBody extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      message: null,
+      message: '',
       edit: false
     };
-    this._bind('renderMedia', 'renderTwitterMedia', 'renderAdminMedia');
+    this._bind('renderMedia', 'renderTwitterMedia', 'renderAdminMedia', 'handleEdit', 'update', 'cancel', 'remove', '_handleMessageChange', 'handleDelete');
+  }
+
+  componentDidMount() {
+    this.setState({message: this.props.message.message});
+  }
+
+  handleEdit() {
+    this.setState({'edit': true});
+  }
+
+  update() {
+    this.setState({edit: false});
+    socket.put('/messages/' + this.props.message.id, {
+      _csrf: _csrf,
+      message: this.state.message
+    }, this.handleUpdate);
+  }
+
+  cancel() {
+    this.setState({message: this.props.message.message, edit: false});
+  }
+
+  remove() {
+    socket.delete('/messages', {
+      _csrf: _csrf,
+      id: this.props.message.id
+    }, this.handleDelete);
+  }
+
+  handleUpdate(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (res.statusCode == 500) {
+      notify.show('Error 500', 'error');
+      return;
+    }
+    if (res.statusCode == 403) {
+      notify.show(res.body, 'error');
+      return;
+    }
+    notify.show(formatMessage(messages.saved), 'success');
+    this.setState({edit: false});
+  }
+
+  handleDelete(data, res) {
+    const {formatMessage} = this.props.intl;
+    if (res.statusCode == 500) {
+      notify.show('Error 500', 'error');
+      return;
+    }
+    if (res.statusCode == 403) {
+      notify.show(res.body, 'error');
+      return;
+    }
+    notify.show(formatMessage(messages.deleted), 'success');
+    this.setState({message: 'DELETED', edit: false});
+  }
+
+  _handleMessageChange(event) {
+    this.setState({message: event.target.value});
   }
 
   renderMedia() {
@@ -65,10 +141,33 @@ class MessageBody extends Component {
   }
 
   render() {
-    const {editable} = this.state;
-    return <div>{this.props.message.message}{this.renderMedia()}</div>;
+    let {editable} = this.props;
+    let {edit} = this.state;
+    let text = null;
+    let buttons = null;
+    if (editable) {
+      if (edit) {
+        text = <div>
+          <Input type="textarea" value={this.state.message} onChange={this._handleMessageChange} ref="message"></Input>
+        </div>;
+        buttons = <EditToolbar update={this.update} remove={this.remove} cancelCallback={this.cancel}/>;
+      } else {
+        text = <span className="text editable" onClick={this.handleEdit}>{this.props.message.message}</span>;
+      }
+    } else {
+      text = <span className="text">{this.props.message.message}</span>;
+    }
+    return (
+      <div>{text}{buttons}{this.renderMedia()}</div>
+    );
   }
 }
+
+MessageBody.contextTypes = {
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired
+};
 
 MessageBody.propTypes = {
   message: PropTypes.object.isRequired,
@@ -82,4 +181,4 @@ MessageBody.defaultTypes = {
   editable: false
 };
 
-export default MessageBody;
+export default injectIntl(MessageBody);
