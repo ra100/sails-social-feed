@@ -166,8 +166,8 @@ class MessageRow extends Component {
         <MessageBody type={this._getType(message.parentMessage)} message={message.parentMessage} meta={message.parentMessage.message.metadata}/></span>;
     }
     let replies = null;
-    if (typeof message.relatedMessage == 'array' && message.relatedMessage.length > 0) {
-      replies = <span className="reply-count">><FormattedMessage {...messages.replies}/>: {message.relatedMessage.length}</span>;
+    if (message.relatedMessage && message.relatedMessage.length > 0) {
+      replies = <span className="reply-count"><FormattedMessage {...messages.replies}/>: {message.relatedMessage.length}</span>;
     }
     return (
       <tr key={message.id}>
@@ -193,6 +193,7 @@ class MessageRow extends Component {
           <MessageBody type={type} message={message} meta={message.metadata} editable={this.state.editable}/>
           {reply}
           {related}
+          {replies}
         </td>
 
         <td>
