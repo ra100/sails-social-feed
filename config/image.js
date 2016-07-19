@@ -67,5 +67,34 @@ module.exports.image = {
         height: 150
       }
     }
+  },
+
+  avatarOptions: {
+    aws: {
+      region: process.env.S3_REGION,
+      path: process.env.S3_ROOT + '/',
+      acl: 'public-read',
+      accessKeyId: process.env.S3_KEY,
+      secretAccessKey: process.env.S3_SECRET
+    },
+    cleanup: {
+      original: true,
+      version: true
+    },
+    origin: {
+      awsImageAcl: 'public-read'
+    },
+    resize: {
+      quality: 90
+    },
+    versions: [
+      {
+        maxHeight: 48,
+        maxWidth: 48,
+        suffix: '-avatar',
+        quality: 90,
+        aspect: '1:1'
+      }
+    ]
   }
 };

@@ -110,7 +110,7 @@ class UserRow extends Component {
         return <Label key={i}>{group.name}</Label>;
       });
     };
-    
+
     let username = <LinkContainer to={'/user/' + user.id}>
       <Button bsStyle="link">{user.username}</Button>
     </LinkContainer>;
@@ -120,6 +120,7 @@ class UserRow extends Component {
     return (
       <tr key={user.id}>
         <td>
+          <img src={user.picture}/>
           {user.displayname}
           {username}
         </td>

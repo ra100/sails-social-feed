@@ -52,12 +52,30 @@ module.exports = {
 
   beforeCreate: function (values, next) {
     delete values._csrf;
-    next();
+    if (values.image) {
+      storageService.uploadAvatar(values.image).then((versions) => {
+        var picture = {};
+        values.picture = versions[0].url;
+        delete values.image;
+        next();
+      }).catch(next);
+    } else {
+      next();
+    }
   },
 
   beforeUpdate: function (values, next) {
     delete values._csrf;
-    next();
+    if (values.image) {
+      storageService.uploadAvatar(values.image).then((versions) => {
+        var picture = {};
+        values.picture = versions[0].url;
+        delete values.image;
+        next();
+      }).catch(next);
+    } else {
+      next();
+    }
   },
 
   /**

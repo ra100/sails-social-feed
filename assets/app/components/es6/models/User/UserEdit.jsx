@@ -37,6 +37,11 @@ const messages = defineMessages({
     description: 'User Name label',
     defaultMessage: 'Username'
   },
+  userFieldAvatarLabel: {
+    id: 'user.field.avatar.label',
+    description: 'User Avatar label',
+    defaultMessage: 'Avatar'
+  },
   userFieldDisplaynamePlaceholder: {
     id: 'user.field.displayname.placeholder',
     description: 'User Display Name placeholder',
@@ -122,13 +127,14 @@ class UserEdit extends Component {
       roles: null,
       password: '',
       email: '',
+      upload: null,
 
       user: null,
       edit: false,
       error: null,
       allow: true
     };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse', '_handleUploadChange');
   }
 
   componentDidMount() {
@@ -288,10 +294,19 @@ class UserEdit extends Component {
     this.refs.groups.syncData();
   }
 
+  _handleUploadChange(event) {
+    this.setState({
+      upload: {
+        data: event.target.files[0],
+        name: event.target.files[0].name
+      }
+    });
+  }
+
   _save() {
     let {socket} = this.context;
     if (this._validateAll()) {
-      socket.post('/users/create', {
+      let payload = {
         username: this.state.username,
         displayname: this.state.displayname,
         password: this.state.password,
@@ -299,7 +314,11 @@ class UserEdit extends Component {
         roles: getSelected(this.state.roles),
         groups: getSelected(this.state.groups),
         _csrf: _csrf
-      }, this.handleSaveResponse);
+      };
+      if (this.state.upload !== null) {
+        payload.image = this.state.upload;
+      }
+      socket.post('/users/create', payload, this.handleSaveResponse);
     }
   }
 
@@ -318,6 +337,9 @@ class UserEdit extends Component {
       }
       if (this.context.user.permissions.user.all.u) {
         payload.groups = getSelected(this.state.groups);
+      }
+      if (this.state.upload !== null) {
+        payload.image = this.state.upload;
       }
       socket.post('/users/update/' + this.props.params.userId, payload, this.handleSaveResponse);
     }
@@ -489,6 +511,17 @@ class UserEdit extends Component {
         <Multiselect onChange={this._handleGroupsChange} data={this.state.groups} multiple ref="groups"/>
       </div>
     </div>;
+    let picture = null;
+    if (this.state.user !== null && this.state.user.picture) {
+      picture = <img src={this.state.user.picture} />;
+    }
+    let fieldUpload = <div className="avatar-upload">
+      <label className="control-label col-xs-12 col-sm-2">
+        <FormattedMessage {...messages.userFieldAvatarLabel}/>
+      </label>
+      {picture}
+      <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4" />
+    </div>;
 
     let create = null;
     let update = null;
@@ -509,9 +542,10 @@ class UserEdit extends Component {
         <PageHeader>{title}</PageHeader>
         <Col xs={12}>
           {errorMessage}
-          <form className="form-horizontal">
+          <form className="form-horizontal" onChange={this._handleUploadChange}>
             {fieldName}
             {fieldDisplayname}
+            {fieldUpload}
             {fieldPassword}
             {fieldEmail}
             {fieldRoles}
