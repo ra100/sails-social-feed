@@ -47,6 +47,7 @@ module.exports.policies = {
   },
 
   UserController: {
+    'me': ['passport', 'sessionAuth'],
     'view': ['passport', 'sessionAuth'],
     'create': ['passport', 'sessionAuth', 'isAdmin'],
     'update': ['passport', 'sessionAuth', 'editSelf'],

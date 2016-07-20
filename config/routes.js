@@ -55,6 +55,7 @@ module.exports.routes = {
 
   'post /auth/local': 'AuthController.ajaxCallback',
   'post /auth/local/:action': 'AuthController.ajaxCallback',
+  'post /auth/emaillogin' : 'AuthController.emaillogin',
   'get /auth/:provider': 'AuthController.callback',
   'get /auth/:provider/callback': 'AuthController.callback',
   'get /auth/:provider/:action': 'AuthController.callback',

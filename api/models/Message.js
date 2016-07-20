@@ -112,6 +112,11 @@ module.exports = {
       });
     } else if (values.stream) {
       return Stream.findOne(values.stream).then(function (stream) {
+        if (typeof values.author === 'object') {
+          values.feedType = 'form';
+          values.published = stream.display;
+          return next();
+        }
         return User.findOne({id: values.author}).then(function (user) {
           values.feedType = 'admin';
           values.published = true;

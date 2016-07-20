@@ -37,20 +37,21 @@ module.exports = {
    * Submit message by logged in user
    */
   submit: function (req, res) {
+    sails.log.debug(req);
     var message = {
       message: req.param('message'),
-      feed: req.param('feed'),
+      stream: req.param('stream'),
       author: {
         name: req.user.displayname,
         picture: req.user.picture
       }
     };
-    if (req.param('image') !== null) {
+    if (typeof req.param('image') !== 'undefined') {
       message.image = req.param('image');
     }
-    if (req.param('parent') !== null) {
+    if (typeof req.param('parent') !== 'undefined') {
       message.isResponse = true;
-      message.relatedMessage = parent;
+      message.relatedMessage = req.param('parent');
     }
     Message.create(message).then((message) => {
       // TODO add relatedMessage

@@ -110,6 +110,9 @@ module.exports = {
 
   me: function (req, res) {
     var user = req.user;
+    if (user == undefined) {
+      return res.json();
+    }
     User.findOne({id: user.id}).populate('roles').populate('groups').exec(function (e, r) {
       user = r;
       return res.jsonx({username: user.username, roles: user.roles, id: user.id, displayname: user.displayname, picture: user.picture, meta: user.meta});
