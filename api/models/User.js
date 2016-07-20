@@ -60,6 +60,10 @@ module.exports = {
         next();
       }).catch(next);
     } else {
+      if (values.email) {
+        var hashmd5 = crypto.createHash('md5').update(values.email).digest('hex');
+        values.picture = 'https://www.gravatar.com/avatar/' + hashmd5 + '.jpg?s=48';
+      }
       next();
     }
   },
