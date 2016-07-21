@@ -266,36 +266,34 @@ var AuthController = {
     var email = user.email.toLowerCase();
     req.body.password = email;
     req.body.username = email;
+    req.body.identifier = email;
     req.body.email = email;
     req.body.displayname = user.name;
     // TODO FIX THIS
-    passport.authenticate('local', (err, user, info) => {
-      sails.log.info(err, user, info);
-      sails.log.debug(req);
+    passport.callback(req, res, function (err, user, challenges, statuses) {
       if (user !== false) {
-        sails.log.debug(req.session);
-        sails.log.debug(req.user);
-        return res.json(user);
-      }
-      // if (user == false) {
-      //   return res.negotiate(info);
-      // }
-
-      sails.services.passport.protocols.local.register(req, res, (err, user) => {
-        if (err) {
-          return res.negotiate(err);
-        }
-        passport.authenticate('local', (err, user, info) => {
+        req.login(user, function (err) {
           if (err) {
             return res.negotiate(err);
           }
-          if (info) {
-            return res.negotiate(info);
-          }
+          req.session.authenticated = true;
           return res.json(user);
-        })(req, res);
-      });
-    })(req, res);
+        });
+      } else {
+        sails.services.passport.protocols.local.register(req, res, (err, user) => {
+          if (err) {
+            return res.negotiate(err);
+          }
+          req.login(user, function (err) {
+            if (err) {
+              return res.negotiate(err);
+            }
+            req.session.authenticated = true;
+            return res.json(user);
+          });
+        });
+      }
+    });
   }
 };
 

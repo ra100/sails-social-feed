@@ -73,16 +73,24 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  // headers: 'content-type'
+  headers: ['content-type', 'X-CSRF-Token'],
 
-  // securityLevel: 1,
-  // 
+  // securityLevel: 1
+
   // '/auth/*': {
   //   target: 'AuthController.ajaxCallback',
   //   cors: {
   //     origin: '*',
   //     methods: 'GET'
   //   }
-  // }
+  // },
+  // 
+  // '/auth/emaillogin': {
+  //   target: 'AuthController.emaillogin',
+  //   cors: {
+  //     origin: '*',
+  //     methods: 'POST'
+  //   }
+  // },
 
 };
