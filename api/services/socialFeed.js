@@ -85,7 +85,7 @@ module.exports = {
       if (err) {
         return next(req.__('Error.Unexpected'), obj);
       }
-      if (!obj) {
+      if (!obj || !obj.owner) {
         return next(null, null);
       }
       if (obj.owner.id == uid) {
