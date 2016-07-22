@@ -8,7 +8,7 @@
 - [x] database design
   - [x] messages
   - [x] feeds
-  - [ ] replies (option to reply to message)
+  - [x] replies (option to reply to message)
 - [ ] data download
   - [ ] facebook realtime API
   - [x] twitter realtime API
@@ -17,8 +17,8 @@
   - [ ] soundcloud API
   - [ ] background job
 - [ ] frontend
-  - [ ] view simple message
-  - [ ] view image
+  - [x] view simple message
+  - [x] view image
   - [ ] view video
   - [ ] message reply
   - [ ] view metadata (likes, retweets, comments, ...)
