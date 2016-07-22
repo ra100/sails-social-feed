@@ -16,7 +16,8 @@ Used technologies:
 - install sailsjs and other global modules
 
 ```shell
-npm install -g sails babel-cli bower
+npm install -g sails babel-cli bower typescript grunt-cli
+gem install sass
 ```
 
 - install local modules
@@ -57,15 +58,7 @@ sails lift
 
 ### Setup SSL
 
-Add to `local.js`:
-
-```js
-  ssl: {
-    ca: require('fs').readFileSync(__dirname + './ssl/my_apps_ssl.ca'),
-    key: require('fs').readFileSync(__dirname + './ssl/my_apps_ssl.key'),
-    cert: require('fs').readFileSync(__dirname + './ssl/my_apps_ssl.crt')
-  },
-```
+Setup on server, etc nginx <https://www.sitepoint.com/configuring-nginx-ssl-node-js/>
 
 ### Set persistent sessions between restarts
 
@@ -79,6 +72,14 @@ In `local.js`, e.g. use redis
     db: 0,
     prefix: 'sess:',
   }
+
+  sockets: {
+    adapter: 'socket.io-redis',
+    host: 'localhost',
+    port: 6379,
+    db: 1,
+    prefix: 'socket:',
+  },
 ```
 
 More info on `local.js` file in  [sailsjs.org documentation](http://sailsjs.org/#!/documentation/anatomy/myApp/config/local.js.html).

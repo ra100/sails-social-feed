@@ -1,3 +1,5 @@
+var crypt = require('crypto');
+
 module.exports = {
 
   attributes: {
