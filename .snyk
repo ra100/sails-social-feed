@@ -1,15 +1,24 @@
-version: v1.5.0
+version: v1.5.2
 ignore:
   'npm:minimatch:20160620':
     - sails > grunt > minimatch:
         reason: no upgrade or patch
         expires: '2016-07-24T13:23:06.621Z'
+      grunt > minimatch:
+        reason: None given
+        expires: '2016-08-21T08:14:23.185Z'
     - sails > grunt > glob > minimatch:
         reason: no upgrade or patch
         expires: '2016-07-24T13:23:06.622Z'
+      grunt > glob > minimatch:
+        reason: None given
+        expires: '2016-08-21T08:14:23.185Z'
     - grunt-contrib-watch > gaze > globule > glob > minimatch:
         reason: no upgrade or patch
         expires: '2016-07-24T13:23:06.623Z'
+      grunt > findup-sync > glob > minimatch:
+        reason: None given
+        expires: '2016-08-21T08:14:23.186Z'
     - sails > grunt-contrib-watch > gaze > globule > glob > minimatch:
         reason: no upgrade or patch
         expires: '2016-07-24T13:23:06.624Z'
@@ -118,12 +127,16 @@ patch:
   'npm:ws:20160624':
     - socket.io-client > engine.io-client > ws:
         patched: '2016-07-08T13:24:31.413Z'
+      sails > sails-hook-sockets > socket.io-client > engine.io-client > ws:
+        patched: '2016-07-22T08:13:29.834Z'
     - sails > sails-hook-sockets > socket.io-client > engine.io-client > ws:
         patched: '2016-07-08T13:24:31.413Z'
+      socket.io-client > engine.io-client > ws:
+        patched: '2016-07-22T08:13:29.834Z'
     - sails > sails-hook-sockets > socket.io > socket.io-client > engine.io-client > ws:
-        patched: '2016-07-15T09:27:37.998Z'
+        patched: '2016-07-22T08:13:29.834Z'
     - sails > sails-hook-sockets > socket.io > engine.io > ws:
-        patched: '2016-07-15T09:27:37.998Z'
+        patched: '2016-07-22T08:13:29.834Z'
     - sails > sails-hook-sockets > socket.io-client > engine.io-client > ws:
         patched: '2016-07-15T09:27:37.998Z'
     - socket.io-client > engine.io-client > ws:
