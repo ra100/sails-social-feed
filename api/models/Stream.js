@@ -22,11 +22,13 @@ module.exports = {
       unique: true
     },
     owner: {
-      model: 'User'
+      model: 'User',
+      required: true
     },
     groups: {
       collection: 'Group',
-      via: 'streams'
+      via: 'streams',
+      required: true
     },
     feeds: {
       collection: 'Feed',
@@ -98,11 +100,25 @@ module.exports = {
 
   beforeCreate: function (values, next) {
     delete values._csrf;
-    next();
+    if (!values.groups || values.groups.length == 0) {
+      User.find(values.owner).then((user) => {
+        values.groups = user.groups;
+        next();
+      }).catch(next);
+    } else {
+      next();
+    }
   },
 
   beforeUpdate: function (values, next) {
     delete values._csrf;
-    next();
+    if (!values.groups || values.groups.length == 0) {
+      User.find(values.owner).then((user) => {
+        values.groups = user.groups;
+        next();
+      }).catch(next);
+    } else {
+      next();
+    }
   }
 };
