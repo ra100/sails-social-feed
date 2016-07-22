@@ -95,7 +95,7 @@ module.exports = function (grunt) {
               'map': null
             }
           ],
-          ['browserify-resolutions', ['*']],
+          ['browserify-resolutions', [external]],
           'dedupify'
         ],
         browserifyOptions: {
