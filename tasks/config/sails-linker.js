@@ -53,9 +53,9 @@ module.exports = function (grunt) {
         appRoot: '.tmp/public'
       },
       files: {
-        '.tmp/public/**/*.html': ['.tmp/public/browserify/vendor.min.js', '.tmp/public/min/production.' + version + '.min.js'],
-        'views/**/*.html': ['.tmp/public/browserify/vendor.min.js', '.tmp/public/min/production.' + version + '.min.js'],
-        'views/**/*.ejs': ['.tmp/public/browserify/vendor.min.js', '.tmp/public/min/production.' + version + '.min.js']
+        '.tmp/public/**/*.html': ['.tmp/public/min/vendor.min.js', '.tmp/public/min/production.' + version + '.min.js'],
+        'views/**/*.html': ['.tmp/public/min/vendor.min.js', '.tmp/public/min/production.' + version + '.min.js'],
+        'views/**/*.ejs': ['.tmp/public/min/vendor.min.js', '.tmp/public/min/production.' + version + '.min.js']
       }
     },
 
@@ -68,9 +68,9 @@ module.exports = function (grunt) {
         relative: true
       },
       files: {
-        '.tmp/public/**/*.html': ['.tmp/public/browserify/vendor.min.js','.tmp/public/min/production.' + version + '.min.js'],
-        'views/**/*.html': ['.tmp/public/browserify/vendor.min.js','.tmp/public/min/production.' + version + '.min.js'],
-        'views/**/*.ejs': ['.tmp/public/browserify/vendor.min.js','.tmp/public/min/production.' + version + '.min.js']
+        '.tmp/public/**/*.html': ['.tmp/public/min/vendor.min.js','.tmp/public/min/production.' + version + '.min.js'],
+        'views/**/*.html': ['.tmp/public/min/vendor.min.js','.tmp/public/min/production.' + version + '.min.js'],
+        'views/**/*.ejs': ['.tmp/public/min/vendor.min.js','.tmp/public/min/production.' + version + '.min.js']
       }
     },
 
