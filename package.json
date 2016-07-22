@@ -17,6 +17,7 @@
     "connect-mongo": "0.8.2",
     "connect-redis": "3.0.2",
     "constantinople": "^3.0.0",
+    "crypto": "0.0.3",
     "doxx": "^2.0.0",
     "ejs": "^0.8.8",
     "grunt": "^0.4.5",
