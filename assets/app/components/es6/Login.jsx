@@ -1,6 +1,13 @@
-import {Component, PropTypes,} from 'react';
+import {Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Modal, Button, Input, Alert} from 'react-bootstrap';
+import {
+  Modal,
+  Button,
+  FormControl,
+  Alert,
+  ControlLabel,
+  FormGroup
+} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import 'jquery-browserify';
 import _ from 'lodash/core';
@@ -16,38 +23,38 @@ const messages = defineMessages({
   loginTitle: {
     id: 'login.modal.title',
     description: 'Title of login popup',
-    defaultMessage: 'Login',
+    defaultMessage: 'Login'
   },
   buttonLogin: {
     id: 'login.button.title',
     description: 'Login button title',
-    defaultMessage: 'Login',
+    defaultMessage: 'Login'
   },
   buttonClose: {
     id: 'close.button.title',
     description: 'Close button title',
-    defaultMessage: 'Close',
+    defaultMessage: 'Close'
   },
   fieldLogin: {
     id: 'login.login.field',
     description: 'Username label',
-    defaultMessage: 'Username',
+    defaultMessage: 'Username'
   },
   hintLogin: {
     id: 'login.login.hint',
     description: 'Hint message for username',
-    defaultMessage: 'Enter username or email',
+    defaultMessage: 'Enter username or email'
   },
   fieldPassword: {
     id: 'login.password.field',
     description: 'Password label',
-    defaultMessage: 'Password',
+    defaultMessage: 'Password'
   },
   hintPassword: {
     id: 'login.password.hint',
     description: 'Password field placeholder',
-    defaultMessage: 'Type password here',
-  },
+    defaultMessage: 'Type password here'
+  }
 });
 
 class Login extends Component {
@@ -59,11 +66,11 @@ class Login extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      login: null,
-      password: null,
+      login: '',
+      password: '',
       showModal: true,
       alert: '',
-      alertVisible: false,
+      alertVisible: false
     };
     this._bind('_login', '_handleLoginChange', '_handlePasswordChange', '_handleLoginKeyDown', '_handlePasswordKeyDown', '_processResponse');
   }
@@ -99,7 +106,7 @@ class Login extends Component {
         password: this.state.password,
         _csrf: this._csrf(),
         type: 'local',
-        identifier: login,
+        identifier: login
       };
       $.ajax({
         type: 'POST',
@@ -110,7 +117,7 @@ class Login extends Component {
         },
         error: function (data, status, xhr) {
           let message = JSON.parse(data.response);
-        },
+        }
       });
     }
   }
@@ -147,8 +154,16 @@ class Login extends Component {
   render() {
     const {formatMessage} = this.props.intl;
 
-    let loginButton = <Input type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} label={formatMessage(messages.fieldLogin)} ref="login" onChange={this._handleLoginChange} onKeyDown={this._handleLoginKeyDown}/>;
-    let passwordButton = <Input type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} label={formatMessage(messages.fieldPassword)} ref="password" onChange={this._handlePasswordChange} onKeyDown={this._handlePasswordKeyDown}/>;
+    let loginButton = <FormGroup controlId="login">
+      <ControlLabel>{formatMessage(messages.fieldLogin)}</ControlLabel>
+      <FormControl type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} ref="login" onChange={this._handleLoginChange} onKeyDown={this._handleLoginKeyDown}/>
+    </FormGroup>;
+
+    let passwordButton = <FormGroup controlId="password">
+      <ControlLabel>{formatMessage(messages.fieldPassword)}</ControlLabel>
+      <FormControl type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} ref="password" onChange={this._handlePasswordChange} onKeyDown={this._handlePasswordKeyDown}/>
+      </FormGroup>;
+
     let alert = null;
     if (this.state.alertVisible) {
       alert = <Alert bsStyle="danger">{this.state.alert}</Alert>;
@@ -162,8 +177,7 @@ class Login extends Component {
           </Modal.Header>
           <Modal.Body>
             {loginButton}
-            <br/>
-            {passwordButton}
+            <br/> {passwordButton}
             {alert}
           </Modal.Body>
           <Modal.Footer>
@@ -176,8 +190,8 @@ class Login extends Component {
 }
 
 Login.contextTypes = {
-  history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default injectIntl(Login);

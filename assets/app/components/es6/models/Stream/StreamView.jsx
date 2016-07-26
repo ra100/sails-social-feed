@@ -243,7 +243,7 @@ class StreamView extends Component {
   }
 
   _edit() {
-    this.props.history.push('/stream/' + this.state.stream.id + '/edit');
+    this.context.history.push('/stream/' + this.state.stream.id + '/edit');
   }
 
   _handlePagination(event, selectedEvent) {
@@ -297,6 +297,11 @@ class StreamView extends Component {
   processMessage(data, res) {
     let m = data;
     let ms = this.state.messages;
+    if (ms.length === 0) {
+      ms.push(m);
+      this.setState({messages: ms});
+      return;
+    }
     let i = array.findIndex(ms, function (o) {
       return o.id == m.id;
     });

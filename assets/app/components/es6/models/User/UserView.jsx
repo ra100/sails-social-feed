@@ -95,7 +95,7 @@ class UserView extends Component {
   }
 
   _edit() {
-    this.props.history.push('/user/' + this.state.user.id + '/edit');
+    this.context.history.push('/user/' + this.state.user.id + '/edit');
   }
 
   render() {

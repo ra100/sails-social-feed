@@ -2,7 +2,8 @@ var CONST_ES6_BUILD_PATH = './build/';
 
 import React from 'react';
 import {render} from 'react-dom';
-import {createHistory, createHashHistory} from 'history';
+import {createHashHistory} from 'history';
+// import createHashHistory from 'history/lib/createHashHistory';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {IntlProvider} from 'react-intl';
 import socketIOClient from 'socket.io-client';

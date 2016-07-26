@@ -89,7 +89,7 @@ class Navigation extends Component {
     this.context.socket.get('/logout', (data, res) => {
       if (res.statusCode == 200 || res.statusCode == 302) {
         _self.context.user.clearUser();
-        _self.context.history.push('/login');
+        _self.props.history.push('/login');
       } else {
         console.error(res);
       }
@@ -209,9 +209,12 @@ class Navigation extends Component {
 }
 
 Navigation.contextTypes = {
-  history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
+};
+
+Navigation.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
 export default injectIntl(Navigation);

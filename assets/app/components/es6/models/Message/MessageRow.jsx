@@ -1,5 +1,5 @@
 import {Component, PropTypes} from 'react';
-import {Row, Button, PageHeader, Input, Label} from 'react-bootstrap';
+import {Row, Button, PageHeader, Checkbox, Label} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl, FormattedDate, FormattedTime} from 'react-intl';
 import {notify} from 'react-notify-toast';
@@ -106,14 +106,14 @@ class MessageRow extends Component {
 
   _handlePublishedChange(event) {
     this.setState({
-      published: this.refs.published.refs.input.checked,
+      published: this.published.checked,
       reviewed: true
     }, this._update);
   }
 
   _handleReviewedChange(event) {
     this.setState({
-      reviewed: this.refs.reviewed.refs.input.checked
+      reviewed: this.reviewed.checked
     }, this._update);
   }
 
@@ -153,8 +153,8 @@ class MessageRow extends Component {
   render() {
     const {formatMessage} = this.props.intl;
     let {message} = this.props;
-    let published = <Input type="checkbox" checked={this.state.published} ref="published" onChange={this._handlePublishedChange} label=" "/>;
-    let reviewed = <Input type="checkbox" checked={this.state.reviewed} ref="reviewed" onChange={this._handleReviewedChange} label=" "/>;
+    let published = <Checkbox checked={this.state.published} inputRef={ref => {this.published = ref;}} onChange={this._handlePublishedChange}/>;
+    let reviewed = <Checkbox type="checkbox" checked={this.state.reviewed} inputRef={ref => {this.reviewed = ref;}} onChange={this._handleReviewedChange}/>;
     let type = this._getType();
     let reply = null;
     if (this.props.replyCallback !== null && !message.isResponse) {

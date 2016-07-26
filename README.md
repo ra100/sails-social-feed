@@ -16,7 +16,7 @@ Used technologies:
 - install sailsjs and other global modules
 
 ```shell
-npm install -g sails babel-cli bower typescript grunt-cli
+npm install -g sails babel-cli bower grunt-cli
 gem install sass
 ```
 

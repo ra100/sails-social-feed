@@ -7,7 +7,6 @@ module.exports = function (grunt) {
     'babelBuild',
     'browserify:vendorDev',
     'browserify:dev',
-    'typescript',
     'coffee:dev',
   ]);
 };

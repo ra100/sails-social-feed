@@ -5,7 +5,10 @@ import {
   Row,
   Grid,
   Button,
-  Input,
+  FormControl,
+  FormGroup,
+  ControlLabel,
+  Checkbox,
   PageHeader,
   ButtonToolbar
 } from 'react-bootstrap';
@@ -103,7 +106,7 @@ const messages = defineMessages({
     id: 'feed.field.enabled.label',
     description: 'Feed Enabled label',
     defaultMessage: 'Enabled'
-  },
+  }
 });
 
 const getSelected = function (data) {
@@ -155,7 +158,7 @@ class FeedCreate extends Component {
       allow: true,
       view: false
     };
-    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange','_handleEnabledChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load');
+    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', '_handleEnabledChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load');
   }
 
   componentDidMount() {
@@ -490,7 +493,7 @@ class FeedCreate extends Component {
       notify.show(formatMessage(messages.saved), 'success');
       this.setState({error: null});
       let id = data.id;
-      this.props.history.push('/stream/' + getSelected(this.state.stream)[0]);
+      this.context.history.push('/stream/' + getSelected(this.state.stream)[0]);
     }
   }
 
@@ -502,7 +505,7 @@ class FeedCreate extends Component {
     if (res.statusCode == 200) {
       this.setState({deleted: true});
       notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.props.history.goBack();
+      this.context.history.goBack();
     } else {
       notify.show(res.body, 'error');
     }
@@ -567,7 +570,7 @@ class FeedCreate extends Component {
   }
 
   _handleEnabledChange(event) {
-    this.setState({enabled: this.refs.enabled.refs.input.checked});
+    this.setState({enabled: this.enabled.checked});
   }
 
   _handleAuth(event) {
@@ -601,18 +604,36 @@ class FeedCreate extends Component {
       </Alert>;
     }
 
-    let fieldName = <Input type="text" label={formatMessage(messages.feedFieldNameLabel)} placeholder={formatMessage(messages.feedFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle.name}></Input>;
+    let fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle.name}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldNameLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="text" value={this.state.name} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.feedFieldNamePlaceholder)}/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
-    let fieldConfig = <Input type="text" label={formatMessage(messages.feedFieldConfigLabel)} placeholder={formatMessage(messages.feedFieldConfigPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.config} onChange={this._handleConfigChange} ref="config" bsStyle={this.state.bsStyle.config}></Input>;
+    let fieldConfig = <FormGroup controlId="config" className="col-xs-12" validationState={this.state.bsStyle.config}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldConfigLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="text" value={this.state.config} onChange={this._handleConfigChange} ref="config" placeholder={formatMessage(messages.feedFieldConfigPlaceholder)}/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
-    let fieldType = <Input type="select" label={formatMessage(messages.feedFieldTypeLabel)} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.type} onChange={this._handleTypeChange} bsStyle={this.state.bsStyle.type}>
-      <option value="">{formatMessage(messages.feedFieldTypePlaceholder)}</option>
-      {_.map(this.state.definition.type.enum, function (val) {
-        return <option value={val} key={val}>{val}</option>;
-      })}
-    </Input>;
+    let fieldType = <FormGroup controlId="config" className="col-xs-12" validationState={this.state.bsStyle.type}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldTypeLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl componentClass="select" value={this.state.type} onChange={this._handleTypeChange}>
+          <option value="">{formatMessage(messages.feedFieldTypePlaceholder)}</option>
+          {this.state.definition.type.enum.map(function (val, i) {
+            return <option value={val} key={i}>{val}</option>;
+          })}
+        </FormControl>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
-    let streamClass = 'form-group has-feedback ' + this.state.bsStyle.stream;
+    let streamClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.stream;
     let fieldStream = <div className={streamClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.feedFieldStreamLabel}/>
@@ -622,7 +643,7 @@ class FeedCreate extends Component {
       </div>
     </div>;
 
-    let groupsClass = 'form-group has-feedback ' + this.state.bsStyle.groups;
+    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.groups;
     let fieldGroups = <div className={groupsClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.feedFieldGroupsLabel}/>
@@ -632,7 +653,7 @@ class FeedCreate extends Component {
       </div>
     </div>;
 
-    let ownerClass = 'form-group has-feedback ' + this.state.bsStyle.owner;
+    let ownerClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.owner;
     let fieldOwner = <div className={ownerClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.feedFieldOwnerLabel}/>
@@ -650,10 +671,12 @@ class FeedCreate extends Component {
       authButton = null;
     }
 
-    let fieldEnabled = <div className="form-group">
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.feedFieldEnabledLabel}/>
-      </label><Input type="checkbox" label={formatMessage(messages.feedFieldEnabledLabel)} onChange={this._handleEnabledChange} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" checked={this.state.enabled} ref='enabled'/></div>;
+    let fieldEnabled = <FormGroup controlId="enabled" className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.feedFieldEnabledLabel}/></ControlLabel>
+      <Checkbox onChange={this._handleEnabledChange} checked={this.state.enabled} inputRef={(ref) => {
+        this.enabled = ref;
+      }}></Checkbox>
+    </FormGroup>;
 
     let create = null;
     let update = null;

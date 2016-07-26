@@ -1,5 +1,5 @@
 import {Component, PropTypes} from 'react';
-import {Input} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
 import EditToolbar from './../../EditToolbar';
 import {notify} from 'react-notify-toast';
 import {formatMessage, defineMessages, injectIntl} from 'react-intl';
@@ -148,7 +148,7 @@ class MessageBody extends Component {
     if (editable) {
       if (edit) {
         text = <div>
-          <Input type="textarea" value={this.state.message} onChange={this._handleMessageChange} ref="message"></Input>
+          <FormControl componentClass="textarea" value={this.state.message} onChange={this._handleMessageChange} ref="message"/>
         </div>;
         buttons = <EditToolbar update={this.update} remove={this.remove} cancelCallback={this.cancel}/>;
       } else {

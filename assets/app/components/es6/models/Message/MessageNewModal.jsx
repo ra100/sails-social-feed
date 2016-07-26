@@ -4,13 +4,14 @@ import {
   Button,
   Modal,
   Row,
-  Input,
   FormGroup,
   ControlLabel,
-  FormControl
+  FormControl,
+  Col
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import {notify} from 'react-notify-toast';
+import Loading from './../../Loading';
 
 const messages = defineMessages({
   cancelButton: {
@@ -67,6 +68,7 @@ class MessageNewModal extends Component {
       show: false,
       message: '',
       upload: null,
+      uploading: false,
       bsStyle_message: null,
       bsStyle_upload: null
     };
@@ -124,11 +126,12 @@ class MessageNewModal extends Component {
       payload.parentMessage = this.props.parentId;
     }
     socket.post('/messages', payload, this.handleSaveResponse);
-    this.setState({bsStyle_message: null});
+    this.setState({bsStyle_message: null, loading: true});
   }
 
   handleSaveResponse(data, res) {
     const {formatMessage} = this.props.intl;
+    this.setState({loading: false});
     if (res.statusCode == 500) {
       notify.show('Error 500', 'error');
       return;
@@ -163,32 +166,51 @@ class MessageNewModal extends Component {
   render() {
     const {formatMessage} = this.props.intl;
 
-    let fieldMessage = <Input type="textarea" label={formatMessage(messages.messageFieldMessageLabel)} placeholder={formatMessage(messages.messageFieldMessagePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-10" value={this.state.message} onChange={this._handleMessageChange} ref="name" bsStyle={this.state.bsStyle_message}></Input>;
+    let fieldMessage = <FormGroup controlId="message" validationState={this.state.bsStyle_message} className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-10">{formatMessage(messages.messageFieldMessageLabel)}</ControlLabel>
+      <Col sm={10} xs={12}>
+        <FormControl componentClass="textarea" placeholder={formatMessage(messages.messageFieldMessagePlaceholder)} value={this.state.message} onChange={this._handleMessageChange} ref="message"/>
+      </Col>
+    </FormGroup>;
 
-    let fieldUpload = <form ref="uploadForm" encType="multipart/form-data" onChange={this._handleUploadChange}><input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-10 col-sm-offset-2"/></form>;
+    let filename = null;
+
+    if (this.state.upload !== null) {
+      filename = <strong>: {this.state.upload.name}</strong>;
+    }
+
+    let fieldUpload = <FormGroup controlId="upload" className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-10">{formatMessage(messages.messageFieldUploadLabel)}{filename}</ControlLabel>
+      <FormControl onChange={this._handleUploadChange} type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-10 col-sm-offset-2"/>
+    </FormGroup>;
+
+    let body = <Modal.Body>
+      {fieldMessage}
+      {fieldUpload}
+    </Modal.Body>;
+
+    if (this.state.loading) {
+      body = <Modal.Body>
+        <Loading/>
+      </Modal.Body>;
+    }
 
     return (
-      <span>
-        <Modal show={this.state.show} onHide={this.close}>
-          <Modal.Header closeButton>
-            <Modal.Title>{formatMessage(messages.messageNew)}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Row>{fieldMessage}</Row>
-            <Row>{fieldUpload}</Row>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.save} bsStyle="success">{formatMessage(messages.saveButton)}</Button>
-            <Button onClick={this.close}>{formatMessage(messages.cancelButton)}</Button>
-          </Modal.Footer>
-        </Modal>
-      </span>
+      <Modal show={this.state.show} onHide={this.close}>
+        <Modal.Header closeButton>
+          <Modal.Title>{formatMessage(messages.messageNew)}</Modal.Title>
+        </Modal.Header>
+        {body}
+        <Modal.Footer>
+          <Button onClick={this.save} bsStyle="success">{formatMessage(messages.saveButton)}</Button>
+          <Button onClick={this.close}>{formatMessage(messages.cancelButton)}</Button>
+        </Modal.Footer>
+      </Modal>
     );
   }
 }
 
 MessageNewModal.contextTypes = {
-  history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
 };

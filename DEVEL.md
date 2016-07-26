@@ -15,7 +15,7 @@ sails new socialFeed
 mv socialFeed/* ./*
 npm install
 bower install
-npm install grunt-browserify grunt-mocha-test grunt-typescript-compile mocha --save-dev
+npm install grunt-browserify grunt-mocha-test mocha --save-dev
 npm install babelify grunt-browserify --save-dev
 npm install babel-eslint eslint-plugin-react --save-dev
 npm install -g babel-cli

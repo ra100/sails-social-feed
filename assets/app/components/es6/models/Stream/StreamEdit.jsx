@@ -4,9 +4,12 @@ import {
   Col,
   Row,
   Grid,
-  Input,
+  FormGroup,
+  ControlLabel,
+  FormControl,
   PageHeader,
-  ButtonToolbar
+  ButtonToolbar,
+  Checkbox
 } from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
@@ -115,7 +118,7 @@ const getSelected = function (data) {
   return selected;
 };
 
-class StreamCreate extends Component {
+class StreamEdit extends Component {
 
   _bind(...methods) {
     methods.forEach((method) => this[method] = this[method].bind(this));
@@ -417,7 +420,7 @@ class StreamCreate extends Component {
     if (res.statusCode == 200) {
       this.setState({deleted: true});
       notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.props.history.goBack();
+      this.context.history.goBack();
     } else {
       notify.show(res.body, 'error');
     }
@@ -440,7 +443,7 @@ class StreamCreate extends Component {
       notify.show(formatMessage(messages.saved), 'success');
       this.setState({error: null});
       let id = data.id;
-      this.props.history.push('/stream/' + id);
+      this.context.history.push('/stream/' + id);
     }
   }
 
@@ -453,11 +456,11 @@ class StreamCreate extends Component {
   }
 
   _handlePublishedChange(event) {
-    this.setState({published: this.refs.published.refs.input.checked});
+    this.setState({published: this.refs.published.checked});
   }
 
   _handleDisplayChange(event) {
-    this.setState({display: this.refs.display.refs.input.checked});
+    this.setState({display: this.refs.display.checked});
   }
 
   _handleNameChange(event) {
@@ -513,25 +516,50 @@ class StreamCreate extends Component {
       </Alert>;
     }
 
-    let fieldName = <Input type="text" label={formatMessage(messages.streamFieldNameLabel)} placeholder={formatMessage(messages.streamFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle_name}></Input>;
+    let fieldName = <FormGroup controlId="name" validationState={this.state.bsStyle_name} className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.streamFieldNameLabel)}</ControlLabel>
+      <Col sm={5} xs={12}>
+        <FormControl type="text" placeholder={formatMessage(messages.streamFieldNamePlaceholder)} value={this.state.name} onChange={this._handleNameChange} ref="name"/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
-    let fieldUniqueName = <Input type="text" label={formatMessage(messages.streamFieldUniqueNameLabel)} placeholder={formatMessage(messages.streamFieldUniqueNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.uniquename} onChange={this._handleUniqueNameChange} ref="name" bsStyle={this.state.bsStyle_uniquename}></Input>;
+    let fieldUniqueName = <FormGroup controlId="uniquename" className="col-xs-12" validationState={this.state.bsStyle_uniquename}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.streamFieldUniqueNameLabel)}</ControlLabel>
+      <Col sm={5} xs={12}>
+        <FormControl type="text" placeholder={formatMessage(messages.streamFieldUniqueNamePlaceholder)} value={this.state.uniquename} onChange={this._handleUniqueNameChange} ref="name"/>
+      </Col>
+      <FormControl.Feedback/>
+    </FormGroup>;
 
-    let fieldState = <Input type="select" label={formatMessage(messages.streamFieldStateLabel)} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.state} onChange={this._handleStateChange}>
-      {_.map(this.state.definition.state.enum, function (val) {
-        return <option value={val} key={val}>
-          {formatMessage(messages['streamStateOption' + val])}
-        </option>;
-      })}
-    </Input>;
+    let fieldState = <FormGroup controlId="state" className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.streamFieldStateLabel)}</ControlLabel>
+      <Col sm={5} xs={12}>
+        <FormControl componentClass="select" value={this.state.state} onChange={this._handleStateChange}>
+          {this.state.definition.state.enum.map(function (val, i) {
+            return <option value={val} key={i}>
+              {formatMessage(messages['streamStateOption' + val])}
+            </option>;
+          })}
+        </FormControl>
+      </Col>
+    </FormGroup>;
 
-    let fieldRefresh = <Input type="select" label={formatMessage(messages.streamFieldRefreshLabel)} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.refresh} onChange={this._handleRefreshChange}>
-      {_.map(this.state.definition.refresh.enum, function (val) {
-        return <option value={val} key={val}>{val}</option>;
-      })}
-    </Input>;
+    let fieldRefresh = null;
+    if (this.state.definition.refresh.enum.length > 0) {
+      fieldRefresh = <FormGroup controlId="refresh" className="col-xs-12">
+        <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.streamFieldRefreshLabel)}</ControlLabel>
+        <Col sm={5} xs={12}>
+          <FormControl componentClass="select" value={this.state.refresh} onChange={this._handleStateChange}>
+            {this.state.definition.refresh.enum.map(function (val, i) {
+              return <option value={Number(val).toString()} key={i}>{Number(val).toString()}</option>;
+            })}
+          </FormControl>
+        </Col>
+      </FormGroup>;
+    }
 
-    let groupsClass = 'form-group has-feedback ' + this.state.bsStyle_groups;
+    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups;
     let fieldGroups = <div className={groupsClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.streamFieldGroupsLabel}/>
@@ -541,7 +569,7 @@ class StreamCreate extends Component {
       </div>
     </div>;
 
-    let ownerClass = 'form-group has-feedback ' + this.state.bsStyle_owner;
+    let ownerClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_owner;
     let fieldOwner = <div className={ownerClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.streamFieldOwnerLabel}/>
@@ -551,21 +579,20 @@ class StreamCreate extends Component {
       </div>
     </div>;
 
-    let fieldPublished = <div className="form-group">
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.streamFieldPublishedLabel}/>
-      </label><Input type="checkbox" label={formatMessage(messages.streamFieldPublishedLabel)} onChange={this._handlePublishedChange} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" checked={this.state.published} ref='published'/></div>;
+    let fieldPublished = <FormGroup controlId="published" className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.streamFieldPublishedLabel}/></ControlLabel>
+      <Checkbox onChange={this._handlePublishedChange} checked={this.state.published} inputRef={(ref) => {this.refs.published = ref;}}></Checkbox>
+    </FormGroup>;
 
-    let fieldDisplay = <div className="form-group">
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.streamFieldDisplayLabel}/>
-      </label><Input type="checkbox" label={formatMessage(messages.streamFieldDisplayLabel)} onChange={this._handleDisplayChange} labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" checked={this.state.display} ref='display'/></div>;
+    let fieldDisplay = <FormGroup controlId="display" className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.streamFieldDisplayLabel}/></ControlLabel>
+      <Checkbox onChange={this._handleDisplayChange} checked={this.state.display} inputRef={(ref) => {this.refs.display = ref;}}></Checkbox>
+    </FormGroup>;
 
     let create = null;
     let update = null;
     let remove = null;
     let title = null;
-
     if (this.state.edit) {
       update = this._update;
       remove = this._remove;
@@ -599,10 +626,10 @@ class StreamCreate extends Component {
   }
 }
 
-StreamCreate.contextTypes = {
+StreamEdit.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
 };
 
-export default injectIntl(StreamCreate);
+export default injectIntl(StreamEdit);

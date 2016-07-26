@@ -4,7 +4,10 @@ import {
   Row,
   Grid,
   Button,
-  Input,
+  FormGroup,
+  ControlLabel,
+  HelpBlock,
+  FormControl,
   PageHeader,
   ButtonToolbar,
   Alert
@@ -362,7 +365,7 @@ class UserEdit extends Component {
     if (res.statusCode == 200) {
       this.setState({deleted: true});
       notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.props.history.goBack();
+      this.context.history.goBack();
     } else {
       notify.show(res.body, 'error');
     }
@@ -385,7 +388,7 @@ class UserEdit extends Component {
       notify.show(formatMessage(messages.saved), 'success');
       this.setState({error: null});
       let id = data.id;
-      this.props.history.push('/user/' + id);
+      this.context.history.push('/user/' + id);
     }
   }
 
@@ -484,13 +487,37 @@ class UserEdit extends Component {
       </Alert>;
     }
 
-    let fieldName = <Input type="text" label={formatMessage(messages.userFieldNameLabel)} placeholder={formatMessage(messages.userFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.username} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle_username}></Input>;
+    let fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle_username}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldNameLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="text" value={this.state.username} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.userFieldNamePlaceholder)}/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
-    let fieldDisplayname = <Input type="text" label={formatMessage(messages.userFieldDisplaynameLabel)} placeholder={formatMessage(messages.userFieldDisplaynamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.displayname} onChange={this._handleDisplaynameChange} ref="displayname" bsStyle={this.state.bsStyle_displayname}></Input>;
+    let fieldDisplayname = <FormGroup controlId="displayname" className="col-xs-12" validationState={this.state.bsStyle_displayname}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldDisplaynameLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="text" value={this.state.displayname} onChange={this._handleDisplaynameChange} ref="displayname" placeholder={formatMessage(messages.userFieldDisplaynamePlaceholder)}/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
-    let fieldPassword = <Input type="password" label={formatMessage(messages.userFieldPasswordLabel)} placeholder={formatMessage(messages.userFieldPasswordPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.password} onChange={this._handlePasswordChange} ref="password" bsStyle={this.state.bsStyle_password}></Input>;
+    let fieldPassword = <FormGroup controlId="password" className="col-xs-12" validationState={this.state.bsStyle_password}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldPasswordLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="password" value={this.state.password} onChange={this._handlePasswordChange} ref="password" placeholder={formatMessage(messages.userFieldPasswordPlaceholder)}/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
-    let fieldEmail = <Input type="email" label={formatMessage(messages.userFieldEmailLabel)} placeholder={formatMessage(messages.userFieldEmailPlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.email} onChange={this._handleEmailChange} ref="email" bsStyle={this.state.bsStyle_email}></Input>;
+    let fieldEmail = <FormGroup controlId="email" className="col-xs-12" validationState={this.state.bsStyle_email}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldEmailLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="email" value={this.state.email} onChange={this._handleEmailChange} ref="email" placeholder={formatMessage(messages.userFieldEmailPlaceholder)}/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
     let rolesClass = 'form-group has-feedback ' + this.state.bsStyle_roles;
     let fieldRoles = <div className={rolesClass}>
@@ -513,14 +540,14 @@ class UserEdit extends Component {
     </div>;
     let picture = null;
     if (this.state.user !== null && this.state.user.picture) {
-      picture = <img src={this.state.user.picture} />;
+      picture = <img src={this.state.user.picture}/>;
     }
     let fieldUpload = <div className="avatar-upload">
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldAvatarLabel}/>
       </label>
       {picture}
-      <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4" />
+      <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4"/>
     </div>;
 
     let create = null;

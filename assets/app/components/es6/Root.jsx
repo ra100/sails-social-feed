@@ -16,8 +16,8 @@ import UserView from './models/User/UserView';
 
 class Root extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       history: props.history,
       user: props.user,
@@ -26,7 +26,7 @@ class Root extends Component {
   }
 
   getChildContext() {
-    return {user: this.state.user, socket: this.state.socket};
+    return {user: this.state.user, socket: this.state.socket, history: this.state.history};
   }
 
   render() {
@@ -77,6 +77,7 @@ Root.propTypes = {
 };
 
 Root.childContextTypes = {
+  history: PropTypes.object,
   user: PropTypes.object,
   socket: PropTypes.object
 };

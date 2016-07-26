@@ -85,7 +85,7 @@ class GroupView extends Component {
     if (res.statusCode == 200) {
       this.setState({deleted: true});
       notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.props.history.goBack();
+      this.context.history.goBack();
     } else {
       notify.show(res.body, 'error');
     }

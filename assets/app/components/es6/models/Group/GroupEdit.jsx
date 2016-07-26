@@ -4,7 +4,9 @@ import {
   Row,
   Grid,
   Button,
-  Input,
+  FormControl,
+  FormGroup,
+  ControlLabel,
   PageHeader,
   ButtonToolbar,
   Alert
@@ -175,7 +177,7 @@ class GroupEdit extends Component {
     if (res.statusCode == 200) {
       this.setState({deleted: true});
       notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.props.history.goBack();
+      this.context.history.goBack();
     } else {
       notify.show(res.body, 'error');
     }
@@ -194,7 +196,7 @@ class GroupEdit extends Component {
       notify.show(formatMessage(messages.saved), 'success');
       this.setState({error: null});
       let id = data.id;
-      this.props.history.push('/group/' + id);
+      this.context.history.push('/group/' + id);
     }
   }
 
@@ -240,7 +242,14 @@ class GroupEdit extends Component {
       </Alert>;
     }
 
-    let fieldName = <Input type="text" label={formatMessage(messages.groupFieldNameLabel)} placeholder={formatMessage(messages.groupFieldNamePlaceholder)} hasFeedback labelClassName="col-xs-12 col-sm-2" wrapperClassName="col-xs-12 col-sm-5" value={this.state.group.name} onChange={this._handleNameChange} ref="name" bsStyle={this.state.bsStyle.name}></Input>;
+    let fieldName = 
+    <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle.name}>
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.groupFieldNameLabel)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="text" value={this.state.group.name} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.groupFieldNamePlaceholder)}/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>;
 
     let create = null;
     let update = null;

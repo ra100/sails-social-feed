@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {Component, PropTypes} from 'react';
 import {Grid} from 'react-bootstrap';
 import Navigation from './Navigation';
 import Notifications from 'react-notify-toast';
@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <div>
         <Notifications/>
-        <Navigation history={this.props.history}/>
+        <Navigation history={this.context.history}/>
         <Grid>
           {this.props.children}
         </Grid>
@@ -24,5 +24,11 @@ class App extends Component {
     );
   }
 }
+
+App.contextTypes = {
+  history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired
+};
 
 module.exports = App;

@@ -16,8 +16,7 @@ module.exports = function (grunt) {
     options: { force: true },
     dev: ['./tmp/public/**'],
     es6Build: [
-      pipeline.es6To5BuildPath + '/**/*.js',
-      pipeline.typescriptDir + 'dist/**/*.ts',
+      pipeline.es6To5BuildPath + '/**/*.js'
     ],
     build: ['www']
   });
