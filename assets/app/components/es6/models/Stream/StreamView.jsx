@@ -186,7 +186,9 @@ class StreamView extends Component {
       sort: 'created DESC',
       limit: this.state.items_per_page,
       skip: this.state.page * this.state.items_per_page,
-      populate: ['relatedMessage', 'parentMessage'],
+      populate: [
+        'relatedMessage', 'parentMessage'
+      ],
       all: true
     };
     socket.get('/streams/messages/' + this.state.streamId, messages_query, this.handleMessagesLoad);
@@ -302,7 +304,7 @@ class StreamView extends Component {
       ms[i] = m;
     } else {
       if (array.head(ms).created < m.created) {
-        let tmp =array.reverse(ms);
+        let tmp = array.reverse(ms);
         tmp.push(m);
         ms = array.take(array.reverse(tmp), 20);
       }
@@ -311,6 +313,9 @@ class StreamView extends Component {
   }
 
   renderFeeds() {
+    if (this.state.stream.feeds.length == 0) {
+      return null;
+    }
     return (
       <Col xs={12}>
         <Table striped hover condensed responsive>
@@ -361,6 +366,14 @@ class StreamView extends Component {
             <FormattedMessage {...messages.addButton}/></Button>;
           let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>;
           let openReply = this.openReply;
+
+          let msgs = null;
+
+          if (this.state.messages.length > 0) {
+            msgs = this.state.messages.map(function (message, i) {
+              return <MessageRow message={message} key={message.id} replyCallback={openReply}/>;
+            });
+          }
           return (
             <Row>
               <PageHeader>
@@ -429,9 +442,7 @@ class StreamView extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.messages.map(function (message, i) {
-                      return <MessageRow message={message} key={message.id} replyCallback={openReply}/>;
-                    })}
+                    {msgs}
                   </tbody>
                 </Table>
                 {pager}
