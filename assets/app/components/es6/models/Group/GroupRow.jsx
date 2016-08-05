@@ -102,7 +102,7 @@ class GroupRow extends Component {
     if (this.state.deleted) {
       return (
         <tr key={group.id}>
-          <td colSpan="2" bsStyle="danger"><FormattedMessage {...messages.deleted}/></td>
+          <td colSpan="2" className="danger"><FormattedMessage {...messages.deleted}/></td>
         </tr>
       );
     }

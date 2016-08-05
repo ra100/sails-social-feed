@@ -67,7 +67,7 @@ class GroupView extends Component {
   _remove() {
     let {socket} = this.context;
     if (!this.state.deleted) {
-      socket.post('/groups/destroy/' + this.props.group.id, {
+      socket.post('/groups/destroy/' + this.props.params.groupId, {
         _csrf: _csrf
       }, this.handleDestroyResponse);
     }

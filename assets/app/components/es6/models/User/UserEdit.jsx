@@ -298,12 +298,18 @@ class UserEdit extends Component {
   }
 
   _handleUploadChange(event) {
-    this.setState({
-      upload: {
-        data: event.target.files[0],
-        name: event.target.files[0].name
-      }
-    });
+    if (event.target.files !== null) {
+      this.setState({
+        upload: {
+          data: event.target.files[0],
+          name: event.target.files[0].name
+        }
+      });
+    } else {
+      this.setState({
+        upload: null
+      });
+    }
   }
 
   _save() {
@@ -446,8 +452,8 @@ class UserEdit extends Component {
   }
 
   _handleRolesChange(event) {
-    let val = event.context.value;
-    let sel = event.context.selected;
+    let val = event[0].value;
+    let sel = event[0].selected;
     let i;
     let roles = [];
     for (i in this.state.roles) {
@@ -460,8 +466,8 @@ class UserEdit extends Component {
   }
 
   _handleGroupsChange(event) {
-    let val = event.context.value;
-    let sel = event.context.selected;
+    let val = event[0].value;
+    let sel = event[0].selected;
     let i;
     let groups = [];
     for (i in this.state.groups) {

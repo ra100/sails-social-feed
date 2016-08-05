@@ -63,7 +63,7 @@ class GroupEdit extends Component {
         name: null
       },
       group: {
-        name: null
+        name: ''
       },
       edit: false,
       error: null,
@@ -163,7 +163,7 @@ class GroupEdit extends Component {
   _remove() {
     let {socket} = this.context;
     if (!this.state.deleted) {
-      socket.delete('/groups/' + this.props.group.id, {
+      socket.delete('/groups/' + this.props.params.groupId, {
         _csrf: _csrf
       }, this.handleDestroyResponse);
     }

@@ -473,8 +473,8 @@ class StreamEdit extends Component {
   }
 
   _handleGroupsChange(event) {
-    let val = event.context.value;
-    let sel = event.context.selected;
+    let val = event[0].value;
+    let sel = event[0].selected;
     let i;
     let groups = [];
     for (i in this.state.groups) {
@@ -487,8 +487,8 @@ class StreamEdit extends Component {
   }
 
   _handleOwnerChange(event) {
-    let val = event.context.value;
-    let sel = event.context.selected;
+    let val = event[0].value;
+    let sel = event[0].selected;
     let i;
     let owner = [];
     for (i in this.state.owner) {

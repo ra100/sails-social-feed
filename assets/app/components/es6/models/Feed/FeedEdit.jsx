@@ -524,8 +524,8 @@ class FeedCreate extends Component {
   }
 
   _handleStreamChange(event) {
-    let val = event.context.value;
-    let sel = event.context.selected;
+    let val = event[0].value;
+    let sel = event[0].selected;
     let i;
     let stream = [];
     for (i in this.state.stream) {
@@ -540,8 +540,8 @@ class FeedCreate extends Component {
   }
 
   _handleGroupsChange(event) {
-    let val = event.context.value;
-    let sel = event.context.selected;
+    let val = event[0].value;
+    let sel = event[0].selected;
     let i;
     let groups = [];
     for (i in this.state.groups) {
@@ -554,8 +554,8 @@ class FeedCreate extends Component {
   }
 
   _handleOwnerChange(event) {
-    let val = event.context.value;
-    let sel = event.context.selected;
+    let val = event[0].value;
+    let sel = event[0].selected;
     let i;
     let owner = [];
     for (i in this.state.owner) {
