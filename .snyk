@@ -82,6 +82,8 @@ patch:
   'npm:minimatch:20160620':
     - sails > grunt-sync > glob > minimatch:
         patched: '2016-06-24T13:06:43.637Z'
+    - sails > grunt-sync > glob > minimatch:
+        patched: '2016-08-02T11:05:36.125Z'
   'npm:qs:20140806':
     - sails > grunt-contrib-watch > tiny-lr > qs:
         patched: '2016-06-24T13:06:43.637Z'
@@ -149,3 +151,7 @@ patch:
         patched: '2016-07-24T17:30:53.787Z'
     - sails > sails-hook-sockets > socket.io > socket.io-client > engine.io-client > ws:
         patched: '2016-07-24T17:30:53.787Z'
+    - sails > sails-hook-sockets > socket.io-client > engine.io-client > ws:
+        patched: '2016-08-02T11:05:36.125Z'
+    - sails > sails-hook-sockets > socket.io > socket.io-client > engine.io-client > ws:
+        patched: '2016-08-02T11:05:36.125Z'
