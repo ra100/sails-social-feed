@@ -379,6 +379,7 @@ class StreamView extends Component {
               return <MessageRow message={message} key={message.id} replyCallback={openReply}/>;
             });
           }
+
           return (
             <Row>
               <PageHeader>
@@ -454,6 +455,8 @@ class StreamView extends Component {
               </Col>
             </Row>
           );
+        } else {
+          return null;
         }
         break;
 
