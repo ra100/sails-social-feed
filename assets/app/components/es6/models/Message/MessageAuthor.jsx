@@ -20,7 +20,7 @@ class MessageAuthor extends Component {
       case 'twitter':
         a = <span className="author">
           <a href={author.url} target="_blank">
-            <img src={author.picture} className="user-picture"/>
+            <img height="48" width="48" src={author.picture} className="user-picture"/>
           </a>
           <a className="user-name" href={author.url} target="_blank">{author.name}
           </a>

@@ -120,7 +120,7 @@ class UserRow extends Component {
     return (
       <tr key={user.id}>
         <td>
-          <img src={user.picture}/>
+          <img height="48" width="48" className="avatar" src={user.picture}/>
           {user.displayname}
           {username}
         </td>
