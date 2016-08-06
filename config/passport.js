@@ -19,10 +19,6 @@ module.exports.passport = {
     strategy: require('passport-local').Strategy
   },
 
-  // bearer: {
-  //   strategy: require('passport-http-bearer').Strategy
-  // },
-  //
   twitter: {
     name: 'Twitter',
     protocol: 'oauth',
@@ -33,46 +29,50 @@ module.exports.passport = {
       callbackURL: process.env.BASE_URL + '/auth/twitter/callback'
     }
   },
-  //
-  // github: {
-  //   name: 'GitHub',
-  //   protocol: 'oauth2',
-  //   strategy: require('passport-github').Strategy,
-  //   options: {
-  //     clientID: 'your-client-id',
-  //     clientSecret: 'your-client-secret'
-  //   }
-  // },
-  //
-  // facebook: {
-  //   name: 'Facebook',
-  //   protocol: 'oauth2',
-  //   strategy: require('passport-facebook').Strategy,
-  //   options: {
-  //     clientID: 'your-client-id',
-  //     clientSecret: 'your-client-secret',
-  //     scope: ['email'] /* email is necessary for login behavior */
-  //   }
-  // },
-  //
-  // google: {
-  //   name: 'Google',
-  //   protocol: 'oauth2',
-  //   strategy: require('passport-google-oauth').OAuth2Strategy,
-  //   options: {
-  //     clientID: 'your-client-id',
-  //     clientSecret: 'your-client-secret'
-  //   }
-  // },
-  //
-  // cas: {
-  //   name: 'CAS',
-  //   protocol: 'cas',
-  //   strategy: require('passport-cas').Strategy,
-  //   options: {
-  //     ssoBaseURL: 'http://your-cas-url',
-  //     serverBaseURL: 'http://localhost:1337',
-  //     serviceURL: 'http://localhost:1337/auth/cas/callback'
-  //   }
-  // }
+
+  facebook: {
+    name: 'Facebook',
+    protocol: 'oauth2',
+    strategy: require('passport-facebook').Strategy,
+    options: {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      scope: ['email', 'public_profile'], /* email is necessary for login behavior */
+      callbackURL: process.env.BASE_URL + '/auth/facebook/callback'
+    }
+  },
+
+  google: {
+    name: 'Google',
+    protocol: 'oauth2',
+    strategy: require('passport-google-oauth').OAuth2Strategy,
+    options: {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.BASE_URL + '/auth/google/callback'
+    }
+  },
+
+  instagram: {
+    name: 'Instagram',
+    protocol: 'oauth2',
+    strategy: require('passport-instagram').Strategy,
+    options: {
+      clientID: process.env.INSTAGRAM_CLIENT_ID,
+      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
+      callbackURL: process.env.BASE_URL + '/auth/instagram/callback'
+    }
+  },
+
+  soundcloud: {
+    name: 'Soundcloud',
+    protocol: 'oauth2',
+    strategy: require('passport-soundcloud').Strategy,
+    options: {
+      clientID: process.env.SOUNDCLOUD_CLIENT_ID,
+      clientSecret: process.env.SOUNDCLOUD_CLIENT_SECRET,
+      callbackURL: process.env.BASE_URL + '/auth/soundcloud/callback'
+    }
+  },
+
 };
