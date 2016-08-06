@@ -525,7 +525,7 @@ class UserEdit extends Component {
       </Col>
     </FormGroup>;
 
-    let rolesClass = 'form-group has-feedback ' + this.state.bsStyle_roles;
+    let rolesClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_roles;
     let fieldRoles = <div className={rolesClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldRolesLabel}/>
@@ -535,7 +535,7 @@ class UserEdit extends Component {
       </div>
     </div>;
 
-    let groupsClass = 'form-group has-feedback ' + this.state.bsStyle_groups;
+    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups;
     let fieldGroups = <div className={groupsClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldGroupsLabel}/>
