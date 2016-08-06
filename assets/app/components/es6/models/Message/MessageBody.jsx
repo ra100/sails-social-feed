@@ -125,7 +125,7 @@ class MessageBody extends Component {
           return null;
       }
     });
-    return <div class="media">
+    return <div className="media">
       {m}
     </div>;
   }
