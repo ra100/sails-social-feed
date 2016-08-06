@@ -246,9 +246,9 @@ class StreamView extends Component {
     this.context.history.push('/stream/' + this.state.stream.id + '/edit');
   }
 
-  _handlePagination(event, selectedEvent) {
+  _handlePagination(page, event) {
     this.setState({
-      page: (selectedEvent.eventKey - 1)
+      page: (page - 1)
     }, this.loadMessages);
   }
 
