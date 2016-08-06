@@ -33,7 +33,9 @@ bower install
 sails lift
 ```
 
-- or create `local.js` script end set environment variables, e.g. `start.sh`:
+- or create `local.js` script:
+
+For debuging create bash script where you set local env variables:
 
 ```shell
 #!/bin/bash
@@ -50,10 +52,15 @@ export FACEBOOK_APP_ID='FACEBOOK_APP_ID'
 export FACEBOOK_APP_SECRET='FACEBOOK_APP_SECRET'
 export FACEBOOK_API_VERSION='2.6'
 export JWT_SECRET='RANDOMSTRING'
+export S3_KEY=''
+export S3_SECRET=''
+export S3_BUCKET=''
+export S3_ROOT=''
+export S3_REGION=''
 export NODE_ENV=development
 export STREAMS=true
 
-sails lift
+sails lift --verbose
 ```
 
 ### Setup SSL
@@ -83,6 +90,14 @@ In `local.js`, e.g. use redis
 ```
 
 More info on `local.js` file in  [sailsjs.org documentation](http://sailsjs.org/#!/documentation/anatomy/myApp/config/local.js.html).
+
+## Production
+
+Copy `process.default.yml` to `process.yml`, configure env variables and star via pm2.
+
+```shell
+pm2 start process.yml
+```
 
 ## What works
 - [x] administration

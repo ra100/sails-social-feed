@@ -1,0 +1,32 @@
+apps:
+  - script   : app.js
+    name     : shoutbox
+    instances: 1
+    exec_mode: cluster
+    watch    :
+      - www
+      - api
+    args     : --no-grunt
+    env      :
+      NODE_ENV                : production
+      BASE_URL                : PLACEHOLDER
+      ORIGIN                  : PLACEHOLDER
+      APP_NAME                : Shoutbox
+      ADMIN_NAME              : admin
+      ADMIN_PASSWORD          : admin123
+      ADMIN_EMAIL             : admin@thissite.com
+      GOOGLE_CLIENT_ID        : PLACEHOLDER
+      GOOGLE_CLIENT_SECRET    : PLACEHOLDER
+      FACEBOOK_APP_ID         : PLACEHOLDER
+      FACEBOOK_APP_SECRET     : PLACEHOLDER
+      FACEBOOK_API_VERSION    : 2.6
+      TWITTER_CONSUMER_KEY    : PLACEHOLDER
+      TWITTER_CONSUMER_SECRET : PLACEHOLDER
+      JWT_SECRET              : PLACEHOLDER
+      S3_KEY                  : PLACEHOLDER
+      S3_SECRET               : PLACEHOLDER
+      S3_BUCKET               : PLACEHOLDER
+      S3_ROOT                 : PLACEHOLDER
+      S3_REGION               : PLACEHOLDER
+      PORT                    : 1338
+      STREAMS                 : true
