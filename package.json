@@ -116,8 +116,9 @@
     "grunt-shell": "^1.1.2",
     "minifyify": "^7.3.2",
     "mocha": "^2.3.4",
+    "sails-apidocs": "https://github.com/sukharenko/sails-apidocs",
     "sails-hook-autoreload": "^0.13.1",
-    "sails-apidocs": "https://github.com/sukharenko/sails-apidocs"
+    "winston": "^2.2.0"
   },
   "snyk": true
 }
