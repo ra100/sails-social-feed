@@ -38,7 +38,8 @@ module.exports.passport = {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       scope: ['email', 'public_profile'], /* email is necessary for login behavior */
-      callbackURL: process.env.BASE_URL + '/auth/facebook/callback'
+      callbackURL: process.env.BASE_URL + '/auth/facebook/callback',
+      enableProof: true
     }
   },
 
@@ -49,7 +50,8 @@ module.exports.passport = {
     options: {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.BASE_URL + '/auth/google/callback'
+      callbackURL: process.env.BASE_URL + '/auth/google/callback',
+      scope: ['profile', 'email']
     }
   },
 

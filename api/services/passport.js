@@ -1,6 +1,16 @@
 var path = require('path'),
   url = require('url'),
-  passport = require('passport');
+  passport = require('passport'),
+  FB = require('fb');
+var {
+  Facebook,
+  FacebookApiException
+} = require('fb'),
+  fb = new Facebook({
+    version: sails.config.auth.facebook_api_version,
+    appId: sails.config.auth.facebook_app_id,
+    appSecret: sails.config.auth.facebook_app_secret,
+  });
 
 /**
  * Passport Service
@@ -84,9 +94,14 @@ passport.connect = function (req, query, profile, next) {
   if (profile.hasOwnProperty('emails')) {
     user.email = profile.emails[0].value;
   }
+  if (profile.hasOwnProperty('email')) {
+    user.email = profile.email;
+  }
   // If the profile object contains a username, add it to the user.
   if (profile.hasOwnProperty('username')) {
     user.username = profile.username + '_' + profile.provider;
+  } else if (typeof profile.id !== 'undefined') {
+    user.username = profile.id + '_' + profile.provider;
   }
 
   if (profile.provider == 'twitter') {
@@ -98,11 +113,27 @@ passport.connect = function (req, query, profile, next) {
     };
   }
 
+  if (profile.provider == 'google') {
+    user.displayname = profile.displayName;
+    user.picture = profile.photos[0].value;
+    user.meta = {
+      displayname: profile.displayName
+    };
+  }
+
   if (profile.provider == 'facebook') {
     user.displayname = profile.displayName;
-    user.picture = profile.picture.data.url;
+    user.username = profile._json.id + '_' + profile.provider;
     user.meta = {
-      name: profile.username,
+      id: profile._json.id,
+      displayname: profile.displayName
+    };
+  }
+
+  if (profile.provider == 'instagram') {
+    user.displayname = profile.displayName;
+    user.picture = profile._json.data.profile_picture;
+    user.meta = {
       displayname: profile.displayName
     };
   }
@@ -114,33 +145,100 @@ passport.connect = function (req, query, profile, next) {
     return next(new Error('Neither a username nor email was available'));
   }
 
-  Passport.findOne({
-    provider: provider,
-    identifier: query.identifier.toString()
-  }, function (err, passport) {
-    if (err) {
-      return next(err);
+  return new Promise((resolve, reject) => {
+    if (profile.provider == 'facebook') {
+      fb = FB.withAccessToken(query.tokens.accessToken);
+      fb.api(
+        '/me',
+        'GET', {
+          'fields': 'picture{url}'
+        },
+        (res) => {
+          if (res.picture) {
+            user.picture = res.picture.data.url;
+          }
+          return resolve(user);
+        });
+    } else {
+      return resolve(user);
     }
+  }).then((user) => {
 
-    if (!req.user) {
-      // Scenario: A new user is attempting to sign up using a third-party
-      //           authentication provider.
-      // Action:   Create a new user and assign them a passport.
-      if (!passport) {
-        User.create(user, function (err, user) {
-          if (err) {
-            if (err.code === 'E_VALIDATION') {
-              if (err.invalidAttributes.email) {
-                req.flash('error', 'Error.Passport.Email.Exists');
-              } else {
-                req.flash('error', 'Error.Passport.User.Exists');
+    Passport.findOne({
+      provider: provider,
+      identifier: query.identifier.toString()
+    }, function (err, passport) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!req.user) {
+        // Scenario: A new user is attempting to sign up using a third-party
+        //           authentication provider.
+        // Action:   Create a new user and assign them a passport.
+        if (!passport) {
+          User.create(user, function (err, user) {
+            if (err) {
+              if (err.code === 'E_VALIDATION') {
+                if (err.invalidAttributes.email) {
+                  req.flash('error', 'Error.Passport.Email.Exists');
+                } else {
+                  req.flash('error', 'Error.Passport.User.Exists');
+                }
               }
+
+              return next(err);
             }
 
-            return next(err);
-          }
+            query.user = user.id;
 
-          query.user = user.id;
+            Passport.create(query, function (err, passport) {
+              // If a passport wasn't created, bail out
+              if (err) {
+                return next(err);
+              }
+
+              next(err, user);
+            });
+          });
+          // Scenario: An existing user is trying to log in using an already
+          //           connected passport.
+          // Action:   Get the user associated with the passport.
+        } else {
+          // If the tokens have changed since the last session, update them
+          if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
+            passport.tokens = query.tokens;
+          }
+          // Save any updates to the Passport before moving on
+          passport.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+
+            // Fetch the user associated with the Passport
+            User.update({
+              where: {
+                id: passport.user
+              }
+            }, user).then((u) => {
+              return User.findOne({
+                where: {
+                  id: passport.user
+                },
+                populate: ['groups', 'roles']
+              });
+            }).then((u) => {
+              sails.log.debug(u);
+              next(null, u);
+            }).catch(next);
+          });
+        }
+      } else {
+        // Scenario: A user is currently logged in and trying to connect a new
+        //           passport.
+        // Action:   Create and assign a new passport to the user.
+        if (!passport) {
+          query.user = req.user.id;
 
           Passport.create(query, function (err, passport) {
             // If a passport wasn't created, bail out
@@ -148,61 +246,14 @@ passport.connect = function (req, query, profile, next) {
               return next(err);
             }
 
-            next(err, user);
-          });
-        });
-        // Scenario: An existing user is trying to log in using an already
-        //           connected passport.
-        // Action:   Get the user associated with the passport.
-      } else {
-        // If the tokens have changed since the last session, update them
-        if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
-          passport.tokens = query.tokens;
+            next(err, req.user);
+          }); // Scenario: The user is a nutjob or spammed the back-button.
+          // Action:   Simply pass along the already established session.;
+        } else {
+          next(null, req.user);
         }
-        // Save any updates to the Passport before moving on
-        passport.save(function (err) {
-          if (err) {
-            return next(err);
-          }
-
-          // Fetch the user associated with the Passport
-          User.update({
-            where: {
-              id: passport.user
-            }
-          }, user).then((u) => {
-            return User.findOne({
-              where: {
-                id: passport.user
-              },
-              populate: ['groups', 'roles']
-            });
-          }).then((u) => {
-            sails.log.debug(u);
-            next(null, u);
-          }).catch(next);
-        });
       }
-    } else {
-      // Scenario: A user is currently logged in and trying to connect a new
-      //           passport.
-      // Action:   Create and assign a new passport to the user.
-      if (!passport) {
-        query.user = req.user.id;
-
-        Passport.create(query, function (err, passport) {
-          // If a passport wasn't created, bail out
-          if (err) {
-            return next(err);
-          }
-
-          next(err, req.user);
-        }); // Scenario: The user is a nutjob or spammed the back-button.
-        // Action:   Simply pass along the already established session.;
-      } else {
-        next(null, req.user);
-      }
-    }
+    });
   });
 };
 
@@ -311,7 +362,9 @@ passport.loadStrategies = function () {
     if (key === 'local') {
       // Since we need to allow users to login using both usernames as well as
       // emails, we'll set the username field to something more generic.
-      _.extend(options, {usernameField: 'identifier'});
+      _.extend(options, {
+        usernameField: 'identifier'
+      });
 
       //Let users override the username and passwordField from the options
       _.extend(options, strategies[key].options || {});
@@ -342,16 +395,16 @@ passport.loadStrategies = function () {
       var baseUrl = sails.getBaseurl();
 
       switch (protocol) {
-        case 'oauth':
-        case 'oauth2':
-          options.callbackURL = url.resolve(baseUrl, callback);
-          break;
+      case 'oauth':
+      case 'oauth2':
+        options.callbackURL = url.resolve(baseUrl, callback);
+        break;
 
-        case 'openid':
-          options.returnURL = url.resolve(baseUrl, callback);
-          options.realm = baseUrl;
-          options.profile = true;
-          break;
+      case 'openid':
+        options.returnURL = url.resolve(baseUrl, callback);
+        options.realm = baseUrl;
+        options.profile = true;
+        break;
       }
 
       // Merge the default options with any options defined in the config. All
@@ -376,9 +429,7 @@ passport.disconnect = function (req, res, next) {
     query = {};
 
   query.user = user.id;
-  query[provider === 'local'
-      ? 'protocol'
-      : 'provider'] = provider;
+  query[provider === 'local' ? 'protocol' : 'provider'] = provider;
 
   Passport.findOne(query, function (err, passport) {
     if (err) {

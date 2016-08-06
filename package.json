@@ -22,6 +22,7 @@
     "doxx": "^2.0.0",
     "ejs": "^2.5.1",
     "eslint-plugin-react": "^5.2.2",
+    "fb": "^1.1.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-cli": "^1.2.0",
