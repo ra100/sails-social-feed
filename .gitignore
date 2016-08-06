@@ -132,3 +132,4 @@ assets/app/build
 assets/app/locales/assets
 
 process.yml
+.remote-sync.json
