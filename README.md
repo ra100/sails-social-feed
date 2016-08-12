@@ -1,4 +1,7 @@
 # Social feed
+
+[![Known Vulnerabilities](https://snyk.io/test/github/ra100/sails-social-feed/badge.svg)](https://snyk.io/test/github/ra100/sails-social-feed)
+
 [Sails](http://sailsjs.org) application to collect messages from social networks and publish to more social streams.
 
 Used technologies:
