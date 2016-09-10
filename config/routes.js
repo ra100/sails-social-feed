@@ -67,4 +67,7 @@ module.exports.routes = {
   'get /auth/:provider/:action': 'AuthController.callback',
 
   'get /oembed/youtube': 'OembedController.youtube',
+
+  'get /facebook/callback' : 'FacebookController.callback',
+  'post /facebook/callback': 'FacebookController.update'
 };

@@ -37,7 +37,6 @@ module.exports = {
    * Submit message by logged in user
    */
   submit: function (req, res) {
-    sails.log.debug(req);
     var message = {
       message: req.param('message'),
       stream: req.param('stream'),

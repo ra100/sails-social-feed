@@ -41,7 +41,8 @@ module.exports = {
       email = req.param('email'),
       roles = req.param('roles'),
       groups = req.param('groups'),
-      image = req.param('image');
+      image = req.param('image'),
+      blocked = req.param('blocked');
 
     updated = {};
     if (username != undefined && username.length > 0) {
@@ -61,6 +62,9 @@ module.exports = {
     }
     if (image != undefined) {
       updated.image = image;
+    }
+    if (blocked != undefined) {
+      updated.blocked = blocked;
     }
 
     socialFeed.isAdmin(req.user.id, req, function (err, u) {

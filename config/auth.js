@@ -4,6 +4,7 @@ module.exports.auth = {
   facebook_app_id: process.env.FACEBOOK_APP_ID,
   facebook_app_secret: process.env.FACEBOOK_APP_SECRET,
   facebook_api_version: process.env.FACEBOOK_API_VERSION,
+  facebook_webhook_token: process.env.FACEBOOK_WEBHOOK_TOKEN,
   google_client_if: process.env.GOOGLE_CLIENT_ID,
   google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
   instagram_client_id: process.env.INSTAGRAM_CLIENT_ID,
