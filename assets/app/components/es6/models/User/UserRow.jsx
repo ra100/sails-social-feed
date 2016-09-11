@@ -16,6 +16,16 @@ const messages = defineMessages({
     description: 'Delete user button',
     defaultMessage: 'Delete'
   },
+  block: {
+    id: 'button.block',
+    description: 'Block user button',
+    defaultMessage: 'Block'
+  },
+  activate: {
+    id: 'button.activate',
+    description: 'Activate user button',
+    defaultMessage: 'Activate'
+  },
   deleteMessage: {
     id: 'modal.delete.message',
     description: 'Delete user modal message',
@@ -52,9 +62,10 @@ class UserRow extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      deleted: false
+      deleted: false,
+      blocked: this.props.user.blocked
     };
-    this._bind('_remove', '_edit', 'handleDestroyResponse');
+    this._bind('_remove', '_edit', '_block', '_activate', 'handleUpdateResponse', 'handleDestroyResponse');
   }
 
   componentDidMount() {
@@ -79,6 +90,35 @@ class UserRow extends Component {
 
   _edit() {
     this.context.history.push('/user/' + this.props.user.id + '/edit');
+  }
+
+  _block() {
+    let {socket} = this.context;
+    let payload = {
+      blocked: true,
+      _csrf: _csrf
+    };
+    socket.post('/users/update/' + this.props.user.id, payload, this.handleUpdateResponse);
+  }
+
+  _activate() {
+    let {socket} = this.context;
+    let payload = {
+      blocked: false,
+      _csrf: _csrf
+    };
+    socket.post('/users/update/' + this.props.user.id, payload, this.handleUpdateResponse);
+  }
+
+  handleUpdateResponse(data, res) {
+    if (!this._isMounted) {
+      return;
+    }
+    if (res.statusCode == 200) {
+      this.setState({blocked: res.body.blocked});
+    } else {
+      notify.show(res.body, 'error');
+    }
   }
 
   handleDestroyResponse(data, res) {
@@ -136,6 +176,14 @@ class UserRow extends Component {
           {groups}
         </td>
         <td>
+          {p.u ?
+            this.state.blocked === true ?
+              <Button bsStyle="danger" onTouchTap={this._activate}><FormattedMessage {...messages.activate}/></Button>
+              :
+              <Button bsStyle="danger" onTouchTap={this._block}><FormattedMessage {...messages.block}/></Button>
+            : null
+          }
+          <br/>
           <EditToolbar edit={p.u ? this._edit : null} remove={p.d ? this._remove: null} cancel={false}/>
         </td>
       </tr>

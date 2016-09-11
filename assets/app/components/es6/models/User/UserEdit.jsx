@@ -8,6 +8,7 @@ import {
   ControlLabel,
   HelpBlock,
   FormControl,
+  Checkbox,
   PageHeader,
   ButtonToolbar,
   Alert
@@ -85,6 +86,11 @@ const messages = defineMessages({
     description: 'Groups label',
     defaultMessage: 'Groups'
   },
+  userFieldBlockedLabel: {
+    id: 'user.field.blocked.label',
+    description: 'blocked label',
+    defaultMessage: 'Blocked'
+  },
   saved: {
     id: 'user.saved.notify',
     description: 'Saved user notification',
@@ -131,13 +137,14 @@ class UserEdit extends Component {
       password: '',
       email: '',
       upload: null,
+      blocked: false,
 
       user: null,
       edit: false,
       error: null,
       allow: true
     };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse', '_handleUploadChange');
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse', '_handleUploadChange', '_handleBlockedChange');
   }
 
   componentDidMount() {
@@ -247,6 +254,7 @@ class UserEdit extends Component {
         username: data.username,
         displayname: data.displayname,
         email: data.email,
+        blocked: data.blocked,
         roles: roles,
         groups: groups,
         error: null,
@@ -320,6 +328,7 @@ class UserEdit extends Component {
         displayname: this.state.displayname,
         password: this.state.password,
         email: this.state.email,
+        blocked: this.state.blocked || false,
         roles: getSelected(this.state.roles),
         groups: getSelected(this.state.groups),
         _csrf: _csrf
@@ -339,6 +348,7 @@ class UserEdit extends Component {
         displayname: this.state.displayname,
         password: this.state.password,
         email: this.state.email,
+        blocked: this.state.blocked || false,
         _csrf: _csrf
       };
       if (this.context.user.permissions.user.all.u) {
@@ -451,6 +461,10 @@ class UserEdit extends Component {
     this.setState({email: event.target.value});
   }
 
+  _handleBlockedChange(event) {
+    this.setState({blocked: this.refs.blocked.checked});
+  }
+
   _handleRolesChange(event) {
     let val = event[0].value;
     let sel = event[0].selected;
@@ -556,6 +570,11 @@ class UserEdit extends Component {
       <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4"/>
     </div>;
 
+    let fieldBlocked = <FormGroup controlId="blocked" className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.userFieldBlockedLabel}/></ControlLabel>
+      <Checkbox onChange={this._handleBlockedChange} checked={this.state.blocked || false} inputRef={(ref) => {this.refs.blocked = ref;}}></Checkbox>
+    </FormGroup>;
+
     let create = null;
     let update = null;
     let remove = null;
@@ -583,6 +602,7 @@ class UserEdit extends Component {
             {fieldEmail}
             {fieldRoles}
             {fieldGroups}
+            {fieldBlocked}
           </form>
           <EditToolbar create={create} update={update} remove={remove}/>
         </Col>
