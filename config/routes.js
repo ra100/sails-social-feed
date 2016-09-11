@@ -49,8 +49,15 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
   'get /login': 'AuthController.login',
-  'get /logout': 'AuthController.logout',
-  'post /logout': 'AuthController.logout',
+  '/logout': {
+    target: 'AuthController.logout',
+    cors: {
+      origin: '*',
+      methods: 'GET, POST',
+      securityLevel: 1,
+      headers: ['content-type', 'X-CSRF-Token', 'X-Requested-With'],
+    }
+  },
   // 'get /register': 'AuthController.register',
 
   'post /auth/local': 'AuthController.ajaxCallback',

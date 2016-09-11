@@ -55,7 +55,10 @@ var AuthController = {
     }
 
     // Render the `auth/login.ext` view
-    res.view({providers: providers, errors: req.flash('error')});
+    res.view({
+      providers: providers,
+      errors: req.flash('error')
+    });
   },
 
   /**
@@ -80,6 +83,12 @@ var AuthController = {
     // mark the user as logged out for auth purposes
     req.session.authenticated = false;
 
+    if (req.xhr) {
+      return res.ok({
+        status: 'ok'
+      });
+    }
+
     res.redirect('/');
   },
 
@@ -99,7 +108,9 @@ var AuthController = {
    * @param {Object} res
    */
   register: function (req, res) {
-    res.view({errors: req.flash('error')});
+    res.view({
+      errors: req.flash('error')
+    });
   },
 
   /**
@@ -136,6 +147,7 @@ var AuthController = {
       }
       return res.redirect('/');
     }
+
     function tryAgain(err) {
 
       // Only certain error messages are returned via req.flash('error', someError)
@@ -214,14 +226,26 @@ var AuthController = {
       var flashError = req.flash('error')[0];
 
       if (err && !flashError) {
-        res.json({'status': 'error', 'message': req.__('Error.Passport.Generic'), error: 'Error.Passport.Generic'});
+        res.json({
+          'status': 'error',
+          'message': req.__('Error.Passport.Generic'),
+          error: 'Error.Passport.Generic'
+        });
       } else if (flashError) {
-        res.json({'status': 'error', 'message': req.__(flashError), 'error': flashError});
+        res.json({
+          'status': 'error',
+          'message': req.__(flashError),
+          'error': flashError
+        });
       }
     }
 
     if (req.session.authenticated) {
-      return res.jsonx({'status': 'error', 'message': req.__('Error.Passport.Already.Authenticated'), error: 'Error.Passport.Already.Authenticated'});
+      return res.jsonx({
+        'status': 'error',
+        'message': req.__('Error.Passport.Already.Authenticated'),
+        error: 'Error.Passport.Already.Authenticated'
+      });
     }
 
     passport.callback(req, res, function (err, user, challenges, statuses) {
@@ -239,7 +263,10 @@ var AuthController = {
 
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
-        res.json({'status': 'ok', 'message': req.__('Status.Passport.Logged')});
+        res.json({
+          'status': 'ok',
+          'message': req.__('Status.Passport.Logged')
+        });
       });
     });
   },
