@@ -1,5 +1,5 @@
 import {Component, PropTypes} from 'react';
-import {Col, Row, Grid, PageHeader, Table} from 'react-bootstrap';
+import {Col, Row, Grid, PageHeader, Table, Pagination} from 'react-bootstrap';
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
 import Forbidden from './../../Forbidden';
 import NotFound from './../../NotFound';
@@ -53,9 +53,10 @@ class Users extends Component {
       status: 0,
       error: null,
       page: 0,
-      perPage: 30
+      per_page: 30,
+      count: 0
     };
-    this._bind('_loadData', 'handleResponse');
+    this._bind('_loadData', 'handleResponse', 'handleCountResponse');
   }
 
   componentDidMount() {
@@ -81,6 +82,15 @@ class Users extends Component {
     }
   }
 
+  handleCountResponse(data,res) {
+    if (!this._isMounted) {
+      return;
+    }
+    if (!res.error) {
+      this.setState({count: res.body.count});
+    }
+  }
+
   _loadData() {
     if (!this._isMounted) {
       return;
@@ -91,10 +101,13 @@ class Users extends Component {
       populate: 'roles,groups'
     };
     socket.get('/users', query, this.handleResponse);
+    socket.get('/users/count', this.handleCount);
   }
 
   render() {
     const {formatMessage} = this.props.intl;
+
+    let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.count / this.state.per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>;
 
     switch (this.state.status) {
       case 403:
@@ -113,6 +126,7 @@ class Users extends Component {
                 <FormattedMessage {...messages.usersTitle}/>
               </PageHeader>
               <Col xs={12}>
+                {pager}
                 <Table striped hover condensed responsive>
                   <thead>
                     <tr>
@@ -129,6 +143,7 @@ class Users extends Component {
                     })}
                   </tbody>
                 </Table>
+                {pager}
               </Col>
             </Row>
           );

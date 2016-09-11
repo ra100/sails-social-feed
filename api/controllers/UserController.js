@@ -190,5 +190,16 @@ module.exports = {
       permissions.addPermissions(matchingRecord, 'user', req.user);
       res.ok(matchingRecord);
     });
+  },
+
+  /**
+   * Return total count of users
+   */
+  count(req, res) {
+    User.count().then((count) => {
+      return res.json({count: count});
+    }).catch((err) => {
+      res.negotiate(err);
+    });
   }
 };
