@@ -42,7 +42,8 @@ module.exports = {
       stream: req.param('stream'),
       author: {
         name: req.user.displayname,
-        picture: req.user.picture
+        picture: req.user.picture,
+        id: req.user.id
       }
     };
     if (typeof req.param('image') !== 'undefined') {

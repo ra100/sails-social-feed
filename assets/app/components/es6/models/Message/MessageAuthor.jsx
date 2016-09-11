@@ -8,7 +8,6 @@ class MessageAuthor extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this._bind();
   }
 
   render() {
@@ -28,7 +27,12 @@ class MessageAuthor extends Component {
         </span>;
         break;
       case 'admin':
-        a = <span className="author">{author.name}</span>;
+        a = <span className="author">
+          <img height="48" width="48" src={author.picture} className="user-picture"/>
+          <a className="user-name" href={'#/user/' + author.id}>
+            {author.name}
+          </a>
+        </span>;
         break;
     }
 
