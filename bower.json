@@ -1,5 +1,5 @@
 {
-  "name": "socialFeed",
+  "name": "sails-social-feed",
   "version": "0.0.0",
   "authors": [
     "ra100"
@@ -9,8 +9,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "sails.io.js": "*",
-    "bootstrap-sass": "~3.3.6",
-    "bootstrap-material-design": "*"
+    "bootstrap-material-design": "^0.5.10",
+    "bootstrap-sass": "^3.3.7",
+    "sails.io.js": "*"
   }
 }

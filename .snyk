@@ -59,6 +59,52 @@ ignore:
     - sails > sails-hook-sockets > socket.io > engine.io > accepts > negotiator:
         reason: no upgrade or patch
         expires: '2016-07-24T13:23:06.632Z'
+  'npm:connect:20130701':
+    - core-monitor > connect:
+        reason: None given
+        expires: '2016-11-20T15:52:43.298Z'
+    - core-monitor > monitor-dashboard > connect:
+        reason: None given
+        expires: '2016-11-20T15:52:43.298Z'
+  'npm:uglify-js:20150824':
+    - core-monitor > monitor > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.298Z'
+    - core-monitor > monitor > socket.io > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.298Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.299Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.299Z'
+  'npm:uglify-js:20151024':
+    - core-monitor > monitor > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.299Z'
+    - core-monitor > monitor > socket.io > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.299Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.299Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io > socket.io-client > uglify-js:
+        reason: None given
+        expires: '2016-11-20T15:52:43.299Z'
+  'npm:ws:20160624':
+    - core-monitor > monitor > socket.io-client > ws:
+        reason: None given
+        expires: '2016-11-20T15:52:43.299Z'
+    - core-monitor > monitor > socket.io > socket.io-client > ws:
+        reason: None given
+        expires: '2016-11-20T15:52:43.300Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io-client > ws:
+        reason: None given
+        expires: '2016-11-20T15:52:43.300Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io > socket.io-client > ws:
+        reason: None given
+        expires: '2016-11-20T15:52:43.300Z'
 patch:
   'npm:marked:20150520':
     - doxx > marked:
@@ -129,6 +175,8 @@ patch:
   'npm:ws:20160624':
     - socket.io-client > engine.io-client > ws:
         patched: '2016-07-08T13:24:31.413Z'
+      sails > sails-hook-sockets > socket.io > engine.io > ws:
+        patched: '2016-10-21T15:48:47.707Z'
     - sails > sails-hook-sockets > socket.io-client > engine.io-client > ws:
         patched: '2016-07-08T13:24:31.413Z'
     - sails > sails-hook-sockets > socket.io > socket.io-client > engine.io-client > ws:
@@ -157,8 +205,17 @@ patch:
         patched: '2016-08-02T11:05:36.125Z'
   'npm:negotiator:20160616':
     - sails > express > connect > serve-index > accepts > negotiator:
-        patched: '2016-08-12T16:52:12.498Z'
+        patched: '2016-10-21T15:48:47.707Z'
     - sails > sails-hook-sockets > socket.io > engine.io > accepts > negotiator:
-        patched: '2016-08-12T16:52:12.498Z'
+        patched: '2016-10-21T15:48:47.707Z'
     - sails > express > connect > compression > accepts > negotiator:
-        patched: '2016-08-12T16:52:12.498Z'
+        patched: '2016-10-21T15:48:47.707Z'
+  'npm:ws:20160104':
+    - core-monitor > monitor > socket.io-client > ws:
+        patched: '2016-10-21T15:48:47.707Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io-client > ws:
+        patched: '2016-10-21T15:48:47.707Z'
+    - core-monitor > monitor-dashboard > monitor > socket.io > socket.io-client > ws:
+        patched: '2016-10-21T15:48:47.707Z'
+    - core-monitor > monitor > socket.io > socket.io-client > ws:
+        patched: '2016-10-21T15:48:47.707Z'
