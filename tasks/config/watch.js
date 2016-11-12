@@ -39,7 +39,7 @@ module.exports = function (grunt) {
     options: {
       livereload: true
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
-};
+  grunt.loadNpmTasks('grunt-contrib-watch')
+}

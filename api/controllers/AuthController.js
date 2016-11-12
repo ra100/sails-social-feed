@@ -32,33 +32,33 @@ var AuthController = {
    */
   login: function (req, res) {
     var strategies = sails.config.passport,
-      providers = {};
+      providers = {}
 
     // Get a list of available providers for use in your templates.
     Object.keys(strategies).forEach(function (key) {
       if (key === 'local') {
-        return;
+        return
       }
 
       providers[key] = {
         name: strategies[key].name,
         slug: key
-      };
-    });
+      }
+    })
 
     if (req.session.authenticated) {
-      var user = req.user;
+      var user = req.user
       if (typeof user.roles == 'undefined' || user.roles.length == 0) {
-        return res.view('pop');
+        return res.view('pop')
       }
-      return res.redirect('/');
+      return res.redirect('/')
     }
 
     // Render the `auth/login.ext` view
     res.view({
       providers: providers,
       errors: req.flash('error')
-    });
+    })
   },
 
   /**
@@ -77,19 +77,19 @@ var AuthController = {
    */
   logout: function (req, res) {
     if (req.logout) {
-      req.logout();
+      req.logout()
     }
 
     // mark the user as logged out for auth purposes
-    req.session.authenticated = false;
+    req.session.authenticated = false
 
     if (req.xhr) {
       return res.ok({
         status: 'ok'
-      });
+      })
     }
 
-    res.redirect('/');
+    res.redirect('/')
   },
 
   /**
@@ -110,7 +110,7 @@ var AuthController = {
   register: function (req, res) {
     res.view({
       errors: req.flash('error')
-    });
+    })
   },
 
   /**
@@ -120,7 +120,7 @@ var AuthController = {
    * @param {Object} res
    */
   provider: function (req, res) {
-    passport.endpoint(req, res);
+    passport.endpoint(req, res)
   },
 
   /**
@@ -141,11 +141,11 @@ var AuthController = {
    */
   callback: function (req, res) {
     if (req.session.authenticated) {
-      var user = req.user;
+      var user = req.user
       if (typeof user.roles == 'undefined' || user.roles.length == 0) {
-        return res.view('pop');
+        return res.view('pop')
       }
-      return res.redirect('/');
+      return res.redirect('/')
     }
 
     function tryAgain(err) {
@@ -153,52 +153,52 @@ var AuthController = {
       // Only certain error messages are returned via req.flash('error', someError)
       // because we shouldn't expose internal authorization errors to the user.
       // We do return a generic error and the original request body.
-      var flashError = req.flash('error')[0];
+      var flashError = req.flash('error')[0]
 
       if (err && !flashError) {
-        req.flash('error', 'Error.Passport.Generic');
+        req.flash('error', 'Error.Passport.Generic')
       } else if (flashError) {
-        req.flash('error', flashError);
+        req.flash('error', flashError)
       }
-      req.flash('form', req.body);
+      req.flash('form', req.body)
 
       // If an error was thrown, redirect the user to the
       // login, register or disconnect action initiator view.
       // These views should take care of rendering the error messages.
-      var action = req.param('action');
+      var action = req.param('action')
 
       switch (action) {
         case 'register':
-          res.redirect('/register');
-          break;
+          res.redirect('/register')
+          break
         case 'disconnect':
-          res.redirect('back');
-          break;
+          res.redirect('back')
+          break
         default:
-          res.redirect('/login');
+          res.redirect('/login')
       }
     }
 
     passport.callback(req, res, function (err, user, challenges, statuses) {
       if (err || !user) {
-        return tryAgain(challenges);
+        return tryAgain(challenges)
       }
 
       req.login(user, function (err) {
         if (err) {
-          return tryAgain(err);
+          return tryAgain(err)
         }
 
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
-        req.session.authenticated = true;
+        req.session.authenticated = true
         if (typeof user.roles == 'undefined' || user.roles.length == 0) {
-          return res.view('pop');
+          return res.view('pop')
         }
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
-        res.redirect('/');
-      });
-    });
+        res.redirect('/')
+      })
+    })
   },
 
   /**
@@ -223,20 +223,20 @@ var AuthController = {
       // Only certain error messages are returned via req.flash('error', someError)
       // because we shouldn't expose internal authorization errors to the user.
       // We do return a generic error and the original request body.
-      var flashError = req.flash('error')[0];
+      var flashError = req.flash('error')[0]
 
       if (err && !flashError) {
         res.json({
           'status': 'error',
           'message': req.__('Error.Passport.Generic'),
           error: 'Error.Passport.Generic'
-        });
+        })
       } else if (flashError) {
         res.json({
           'status': 'error',
           'message': req.__(flashError),
           'error': flashError
-        });
+        })
       }
     }
 
@@ -245,30 +245,30 @@ var AuthController = {
         'status': 'error',
         'message': req.__('Error.Passport.Already.Authenticated'),
         error: 'Error.Passport.Already.Authenticated'
-      });
+      })
     }
 
     passport.callback(req, res, function (err, user, challenges, statuses) {
       if (err || !user) {
-        return returnError(challenges);
+        return returnError(challenges)
       }
 
       req.login(user, function (err) {
         if (err) {
-          return returnError(err);
+          return returnError(err)
         }
 
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
-        req.session.authenticated = true;
+        req.session.authenticated = true
 
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
         res.json({
           'status': 'ok',
           'message': req.__('Status.Passport.Logged')
-        });
-      });
-    });
+        })
+      })
+    })
   },
 
   /**
@@ -278,7 +278,7 @@ var AuthController = {
    * @param {Object} res
    */
   disconnect: function (req, res) {
-    passport.disconnect(req, res);
+    passport.disconnect(req, res)
   },
 
   /**
@@ -286,42 +286,42 @@ var AuthController = {
    * if login not found, create new registration
    */
   emaillogin(req, res) {
-    var user = req.param('user');
+    var user = req.param('user')
     if (typeof user !== 'object') {
-      return res.forbidden();
+      return res.forbidden()
     }
-    var email = user.email.toLowerCase();
-    req.body.password = email;
-    req.body.username = email;
-    req.body.identifier = email;
-    req.body.email = email;
-    req.body.displayname = user.name;
+    var email = user.email.toLowerCase()
+    req.body.password = email
+    req.body.username = email
+    req.body.identifier = email
+    req.body.email = email
+    req.body.displayname = user.name
     // TODO FIX THIS
     passport.callback(req, res, function (err, user, challenges, statuses) {
       if (user !== false) {
         req.login(user, function (err) {
           if (err) {
-            return res.negotiate(err);
+            return res.negotiate(err)
           }
-          req.session.authenticated = true;
-          return res.json(user);
-        });
+          req.session.authenticated = true
+          return res.json(user)
+        })
       } else {
         sails.services.passport.protocols.local.register(req, res, (err, user) => {
           if (err) {
-            return res.negotiate(err);
+            return res.negotiate(err)
           }
           req.login(user, function (err) {
             if (err) {
-              return res.negotiate(err);
+              return res.negotiate(err)
             }
-            req.session.authenticated = true;
-            return res.json(user);
-          });
-        });
+            req.session.authenticated = true
+            return res.json(user)
+          })
+        })
       }
-    });
+    })
   }
-};
+}
 
-module.exports = AuthController;
+module.exports = AuthController

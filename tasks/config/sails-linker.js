@@ -12,8 +12,8 @@
  *
  */
 module.exports = function (grunt) {
-  var pipeline = require('../pipeline');
-  var version = grunt.file.readJSON('package.json').version;
+  var pipeline = require('../pipeline')
+  var version = grunt.file.readJSON('package.json').version
 
   grunt.config.set('sails-linker', {
     devJs: {
@@ -275,7 +275,7 @@ module.exports = function (grunt) {
     // 	    'assets/js/build/**/*.js'	: ['assets/js/app.js']
     // 	}
     // }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-sails-linker');
-};
+  grunt.loadNpmTasks('grunt-sails-linker')
+}

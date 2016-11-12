@@ -1,4 +1,4 @@
-var bcrypt = require('bcryptjs');
+var bcrypt = require('bcryptjs')
 
 /**
  * Hash a passport password.
@@ -9,11 +9,11 @@ var bcrypt = require('bcryptjs');
 function hashPassword (passport, next) {
   if (passport.password) {
     bcrypt.hash(passport.password, 10, function (err, hash) {
-      passport.password = hash;
-      next(err, passport);
-    });
+      passport.password = hash
+      next(err, passport)
+    })
   } else {
-    next(null, passport);
+    next(null, passport)
   }
 }
 
@@ -82,7 +82,7 @@ var Passport = {
      * @param {Function} next
      */
     validatePassword: function (password, next) {
-      bcrypt.compare(password, this.password, next);
+      bcrypt.compare(password, this.password, next)
     }
 
   },
@@ -94,7 +94,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeCreate: function (passport, next) {
-    hashPassword(passport, next);
+    hashPassword(passport, next)
   },
 
   /**
@@ -104,8 +104,8 @@ var Passport = {
    * @param {Function} next
    */
   beforeUpdate: function (passport, next) {
-    hashPassword(passport, next);
+    hashPassword(passport, next)
   }
-};
+}
 
-module.exports = Passport;
+module.exports = Passport

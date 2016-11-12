@@ -1,81 +1,81 @@
-var CONST_ES6_BUILD_PATH = './build/';
+var CONST_ES6_BUILD_PATH = './build/'
 
-import React from 'react';
-import {render} from 'react-dom';
-import {createHashHistory} from 'history';
+import React from 'react'
+import {render} from 'react-dom'
+import {createHashHistory} from 'history'
 // import createHashHistory from 'history/lib/createHashHistory';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import {IntlProvider} from 'react-intl';
-import socketIOClient from 'socket.io-client';
-import sailsIOClient from 'sails.io.js';
-import _ from 'lodash/core';
-import Root from './build/Root';
-import permissions from './permissions';
-import 'jquery-browserify';
-import 'arrive';
-import 'bootstrap_material_design';
-import 'ripples';
+import injectTapEventPlugin from 'react-tap-event-plugin'
+import {IntlProvider} from 'react-intl'
+import socketIOClient from 'socket.io-client'
+import sailsIOClient from 'sails.io.js'
+import _ from 'lodash/core'
+import Root from './build/Root'
+import permissions from './permissions'
+import 'jquery-browserify'
+import 'arrive'
+import 'bootstrap_material_design'
+import 'ripples'
 
 $(function () {
-  $.material.init();
-});
+  $.material.init()
+})
 
 // load csrf token
-window._csrf = $('meta[name="csrf-token"]').attr('content');
+window._csrf = $('meta[name="csrf-token"]').attr('content')
 // prepare sails socket
-let io = sailsIOClient(socketIOClient);
-window.socket = io.socket;
+let io = sailsIOClient(socketIOClient)
+window.socket = io.socket
 // _csrf token refresh
 socket.on('connect', function() {
   $.get('/csrfToken').success(function(data) {
-    _csrf = data._csrf;
-  });
-});
+    _csrf = data._csrf
+  })
+})
 // debug
-window.React = React;
+window.React = React
 
-let language = readCookie('language');
+let language = readCookie('language')
 let langs = {
   en: require('./locales/en'),
   cs: require('./locales/cs')
-};
+}
 if (language == '' || langs[language] == undefined) {
-  language = 'en';
+  language = 'en'
 }
 
-injectTapEventPlugin();
+injectTapEventPlugin()
 
-const history = createHashHistory();
+const history = createHashHistory()
 
 var user = {
   setUser: function (u) {
-    _.extend(this, u);
+    _.extend(this, u)
   },
   clearUser: function () {
-    delete this.username;
-    delete this.roles;
-    delete this.permissions;
+    delete this.username
+    delete this.roles
+    delete this.permissions
   }
-};
+}
 
 // check login status
 socket.get('/users/me', function (data, jwr) {
   if (jwr.statusCode == 200) {
-    user.setUser(data);
-    user.permissions = {};
+    user.setUser(data)
+    user.permissions = {}
     _.forEach(user.roles, function (v, k) {
-      let perm = permissions[v.name];
-      user.permissions = $.extend(true, user.permissions, perm);
-    });
+      let perm = permissions[v.name]
+      user.permissions = $.extend(true, user.permissions, perm)
+    })
   }
   render(
     <IntlProvider locale={language} messages={langs[language].messages}>
-    <Root history={history} user={user} socket={io.socket}/>
-  </IntlProvider>, document.getElementById('app'));
+      <Root history={history} user={user} socket={io.socket}/>
+    </IntlProvider>, document.getElementById('app'))
   if (jwr.statusCode == 403) {
-    history.push('/login');
+    history.push('/login')
   }
-});
+})
 
 /**
 * Read cookie value
@@ -83,8 +83,8 @@ socket.get('/users/me', function (data, jwr) {
 * @return {string}      cookie value
 */
 function readCookie(name) {
-  name = name.replace(/([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+  name = name.replace(/([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, '\\$1')
   var regex = new RegExp('(?:^|;)\\s?' + name + '=(.*?)(?:;|$)', 'i'),
-    match = document.cookie.match(regex);
-  return match && unescape(match[1]);
+    match = document.cookie.match(regex)
+  return match && unescape(match[1])
 }

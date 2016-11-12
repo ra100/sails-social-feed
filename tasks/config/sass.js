@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         loadPath: 'assets/vendor/bootstrap-sass/assets/stylesheets'
       }
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-contrib-sass');
-};
+  grunt.loadNpmTasks('grunt-contrib-sass')
+}

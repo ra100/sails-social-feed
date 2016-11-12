@@ -1,4 +1,4 @@
-var perms = require('../../assets/app/permissions.js');
+var perms = require('../../assets/app/permissions.js')
 
 /**
  * Add permissions to object based on user role, group and ownership.
@@ -10,38 +10,38 @@ module.exports = {
       r: false,
       u: false,
       d: false
-    };
+    }
     for (var i in user.roles) {
       if (typeof user.roles[i] == 'object') {
-        var role = user.roles[i].name;
-        p = perms[role][model];
+        var role = user.roles[i].name
+        p = perms[role][model]
         if ((model == 'user' && obj.id == user.id) || (model != 'user' && obj.owner && obj.owner.id == user.id)) {
-          sails.log.verbose('Permissions IS OWNER');
-          result = this.joinPermissions(result, p.own);
+          sails.log.verbose('Permissions IS OWNER')
+          result = this.joinPermissions(result, p.own)
         } else if (this.hasGroups(obj, user)) {
-          sails.log.verbose('Permissions HAS GROUP');
-          result = this.joinPermissions(result, p.group);
+          sails.log.verbose('Permissions HAS GROUP')
+          result = this.joinPermissions(result, p.group)
         } else {
-          sails.log.verbose('Permissions IS NOTHING');
-          result = this.joinPermissions(result, p.all);
+          sails.log.verbose('Permissions IS NOTHING')
+          result = this.joinPermissions(result, p.all)
         }
       }
     }
-    obj.permissions = result;
+    obj.permissions = result
   },
   hasGroups(obj, user) {
-    var ug = [];
+    var ug = []
     for (var group of user.groups) {
       if (typeof group == 'object') {
-        ug.push(group.id);
+        ug.push(group.id)
       }
     }
     for (var group of obj.groups) {
       if (ug.indexOf(group.id) >= 0) {
-        return true;
+        return true
       }
     }
-    return false;
+    return false
   },
   joinPermissions(o, e) {
     return {
@@ -49,11 +49,11 @@ module.exports = {
       r: e.r || o.r,
       u: e.u || o.u,
       d: e.d || o.d
-    };
+    }
   },
   setPermissions(objects, model, user) {
     for (var i in objects) {
-      this.addPermissions(objects[i], model, user);
+      this.addPermissions(objects[i], model, user)
     }
   }
-};
+}

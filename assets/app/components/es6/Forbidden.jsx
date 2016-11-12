@@ -1,6 +1,6 @@
-import {Component, PropTypes} from 'react';
-import {Alert, PageHeader, Row} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
+import {Component, PropTypes} from 'react'
+import {Alert, PageHeader, Row} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
 
 const messages = defineMessages({
   forbidden: {
@@ -18,19 +18,19 @@ const messages = defineMessages({
     description: 'Page title for permission denied',
     defaultMessage: 'Permission denied'
   }
-});
+})
 
 class Forbidden extends Component {
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       title: props.title
-    };
+    }
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     return (
       <Row>
         <PageHeader>
@@ -41,12 +41,12 @@ class Forbidden extends Component {
           <p><FormattedMessage {...messages.forbidden}/></p>
         </Alert>
       </Row>
-    );
+    )
   }
 }
 
 Forbidden.propTypes = {
   title: PropTypes.string
-};
+}
 
-export default injectIntl(Forbidden);
+export default injectIntl(Forbidden)

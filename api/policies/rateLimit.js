@@ -7,21 +7,21 @@
  */
 module.exports = function (req, res, next) {
   if (typeof req.session.limit == 'undefined') {
-    req.session.limit = [new Date()];
-    return next();
+    req.session.limit = [new Date()]
+    return next()
   } else {
-    req.session.limit.push(new Date());
+    req.session.limit.push(new Date())
     if (req.session.limit.length <= 15) {
-      return next();
+      return next()
     }
     if (new Date() - new Date(req.session.limit[0]) > (60 * 60 * 1000)) { // 15 per hour
-      req.session.limit.shift();
-      return next();
+      req.session.limit.shift()
+      return next()
     } else {
-      req.session.limit.pop();
-      sails.log.debug('Limit hit', req.session.limit);
-      return res.tooManyRequests({message: res.__('Error.Too.Many.Requests')});
+      req.session.limit.pop()
+      sails.log.debug('Limit hit', req.session.limit)
+      return res.tooManyRequests({message: res.__('Error.Too.Many.Requests')})
     }
   }
-  return next();
-};
+  return next()
+}

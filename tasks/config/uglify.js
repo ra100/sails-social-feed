@@ -11,8 +11,8 @@
  */
 module.exports = function (grunt) {
 
-  var version = grunt.file.readJSON('package.json').version;
-  var pipeline = require('../pipeline');
+  var version = grunt.file.readJSON('package.json').version
+  var pipeline = require('../pipeline')
 
   grunt.config.set('uglify', {
     dist: {
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
         // }
       }
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-};
+  grunt.loadNpmTasks('grunt-contrib-uglify')
+}

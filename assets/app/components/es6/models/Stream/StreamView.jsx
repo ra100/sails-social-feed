@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes} from 'react'
 import {
   Col,
   Row,
@@ -8,17 +8,17 @@ import {
   Label,
   Table,
   Pagination
-} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './../../Forbidden';
-import NotFound from './../../NotFound';
-import Error from './../../Error';
-import Loading from './../../Loading';
-import EditToolbar from './../../EditToolbar';
-import FeedRow from './../Feed/FeedRow';
-import MessageNewModal from './../Message/MessageNewModal';
-import MessageRow from './../Message/MessageRow';
-import array from 'lodash/array';
+} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import Forbidden from './../../Forbidden'
+import NotFound from './../../NotFound'
+import Error from './../../Error'
+import Loading from './../../Loading'
+import EditToolbar from './../../EditToolbar'
+import FeedRow from './../Feed/FeedRow'
+import MessageNewModal from './../Message/MessageNewModal'
+import MessageRow from './../Message/MessageRow'
+import array from 'lodash/array'
 
 const messages = defineMessages({
   streamFieldUniqueNameLabel: {
@@ -131,16 +131,16 @@ const messages = defineMessages({
     description: 'Message feed author label',
     defaultMessage: 'Author'
   }
-});
+})
 
 class StreamView extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       stream: null,
       messages: [],
@@ -152,36 +152,36 @@ class StreamView extends Component {
       items_per_page: 20,
       messages_count: 0,
       streamId: 0
-    };
-    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage', 'handleMessagesLoad', 'processSocketStream', 'processMessage', 'hideMessageModal', '_handlePagination', 'handleCountLoad', 'openReply');
+    }
+    this._bind('_edit', 'handleLoad', 'load', 'renderFeeds', 'addMessage', 'handleMessagesLoad', 'processSocketStream', 'processMessage', 'hideMessageModal', '_handlePagination', 'handleCountLoad', 'openReply')
   }
 
   componentDidMount() {
-    this._isMounted = true;
+    this._isMounted = true
     this.setState({
       streamId: this.props.params.streamId
-    }, this.load);
+    }, this.load)
   }
 
   load(nextProps) {
     if (!this._isMounted) {
-      return;
+      return
     }
-    let {socket} = this.context;
+    let {socket} = this.context
     let query = {
       populate: 'feeds,groups,owner'
-    };
-    socket.get('/streams/' + this.state.streamId, query, this.handleLoad);
-    socket.get('/streams/messagecount/' + this.state.streamId, this.handleCountLoad);
-    this.loadMessages();
-    socket.on('stream', this.processSocketStream);
+    }
+    socket.get('/streams/' + this.state.streamId, query, this.handleLoad)
+    socket.get('/streams/messagecount/' + this.state.streamId, this.handleCountLoad)
+    this.loadMessages()
+    socket.on('stream', this.processSocketStream)
   }
 
   loadMessages() {
     if (!this._isMounted) {
-      return;
+      return
     }
-    let {socket} = this.context;
+    let {socket} = this.context
     let messages_query = {
       sort: 'created DESC',
       limit: this.state.items_per_page,
@@ -190,16 +190,16 @@ class StreamView extends Component {
         'relatedMessage', 'parentMessage'
       ],
       all: true
-    };
-    socket.get('/streams/messages/' + this.state.streamId, messages_query, this.handleMessagesLoad);
+    }
+    socket.get('/streams/messages/' + this.state.streamId, messages_query, this.handleMessagesLoad)
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this.context.socket.off('stream', this.processSocketStream);
-    this.context.socket.get('/streams/unsubscribe');
-    this.context.socket.get('/feeds/unsubscribe');
-    this.context.socket.get('/messages/unsubscribe');
+    this._isMounted = false
+    this.context.socket.off('stream', this.processSocketStream)
+    this.context.socket.get('/streams/unsubscribe')
+    this.context.socket.get('/feeds/unsubscribe')
+    this.context.socket.get('/messages/unsubscribe')
   }
 
   componentWillReceiveProps(nextProps) {
@@ -209,117 +209,117 @@ class StreamView extends Component {
         status: 0,
         error: null,
         streamId: nextProps.params.streamId
-      }, this.load);
+      }, this.load)
     }
   }
 
   handleLoad(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, stream: null});
+      this.setState({status: res.statusCode, error: res.body, stream: null})
     } else {
-      this.setState({status: res.statusCode, error: null, stream: data});
+      this.setState({status: res.statusCode, error: null, stream: data})
     }
   }
 
   handleCountLoad(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
-    this.setState({messages_count: data.count});
+    this.setState({messages_count: data.count})
   }
 
   handleMessagesLoad(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, messages: null});
+      this.setState({status: res.statusCode, error: res.body, messages: null})
     } else {
-      this.setState({status: res.statusCode, error: null, messages: data});
+      this.setState({status: res.statusCode, error: null, messages: data})
     }
   }
 
   _edit() {
-    this.context.history.push('/stream/' + this.state.stream.id + '/edit');
+    this.context.history.push('/stream/' + this.state.stream.id + '/edit')
   }
 
   _handlePagination(page, event) {
     this.setState({
       page: (page - 1)
-    }, this.loadMessages);
+    }, this.loadMessages)
   }
 
   hideMessageModal() {
-    this.setState({newMessageShow: false});
+    this.setState({newMessageShow: false})
   }
 
   addMessage(event) {
-    let rpl = this.state.reply_id;
-    this.setState({newMessageShow: true, reply_id: rpl});
+    let rpl = this.state.reply_id
+    this.setState({newMessageShow: true, reply_id: rpl})
   }
 
   openReply(parentId) {
-    this.setState({newMessageShow: true, reply_id: parentId});
+    this.setState({newMessageShow: true, reply_id: parentId})
   }
 
   processSocketStream(event) {
     if (event.id != this.state.streamId) {
-      return;
+      return
     }
     switch (event.verb) {
       case 'addedTo':
         if (event.added) {
-          this.processMessage(event.added);
+          this.processMessage(event.added)
         } else {
           this.context.socket.get('/messages/' + event.addedId, {
             populate: ''
-          }, this.processMessage);
+          }, this.processMessage)
         }
-        break;
+        break
       case 'messaged':
         if (event.data.action !== undefined && event.data.action == 'destroyed') {
           let ms = this.state.messages.filter(function (r) {
-            return r.id !== event.data.id;
-          });
-          this.setState({messages: ms});
+            return r.id !== event.data.id
+          })
+          this.setState({messages: ms})
         }
-        break;
+        break
       case 'removedFrom':
       default:
-        console.debug(event);
-        break;
+        console.debug(event)
+        break
     }
   }
 
   processMessage(data, res) {
-    let m = data;
-    let ms = this.state.messages;
+    let m = data
+    let ms = this.state.messages
     if (ms.length === 0) {
-      ms.push(m);
-      this.setState({messages: ms});
-      return;
+      ms.push(m)
+      this.setState({messages: ms})
+      return
     }
     let i = array.findIndex(ms, function (o) {
-      return o.id == m.id;
-    });
+      return o.id == m.id
+    })
     if (i >= 0) {
-      ms[i] = m;
+      ms[i] = m
     } else {
       if (array.head(ms).created < m.created) {
-        let tmp = array.reverse(ms);
-        tmp.push(m);
-        ms = array.take(array.reverse(tmp), 20);
+        let tmp = array.reverse(ms)
+        tmp.push(m)
+        ms = array.take(array.reverse(tmp), 20)
       }
     }
-    this.setState({messages: ms});
+    this.setState({messages: ms})
   }
 
   renderFeeds() {
     if (this.state.stream.feeds.length == 0) {
-      return null;
+      return null
     }
     return (
       <Col xs={12}>
@@ -334,50 +334,50 @@ class StreamView extends Component {
           </thead>
           <tbody>
             {this.state.stream.feeds.map(function (feed, i) {
-              return <FeedRow feed={feed} key={i}/>;
+              return <FeedRow feed={feed} key={i}/>
             })}
           </tbody>
         </Table>
       </Col>
-    );
+    )
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
 
     switch (this.state.status) {
       case 403:
-        return (<Forbidden/>);
-        break;
+        return (<Forbidden/>)
+        break
 
       case 404:
-        return (<NotFound/>);
-        break;
+        return (<NotFound/>)
+        break
 
       case 200:
         if (this.state.stream !== null) {
-          let {stream} = this.state;
-          let feeds = this.renderFeeds();
-          let pub = <i className="material-icons">check_box_outline_blank</i>;
+          let {stream} = this.state
+          let feeds = this.renderFeeds()
+          let pub = <i className="material-icons">check_box_outline_blank</i>
           if (stream.published) {
-            pub = <i className="material-icons">check_box</i>;
+            pub = <i className="material-icons">check_box</i>
           }
-          let display = <i className="material-icons">check_box_outline_blank</i>;
+          let display = <i className="material-icons">check_box_outline_blank</i>
           if (stream.display) {
-            display = <i className="material-icons">check_box</i>;
+            display = <i className="material-icons">check_box</i>
           }
           let newMessageButton = <Button bsStyle="primary" onTouchTap={this.addMessage} value={123}>
             <i className="material-icons">add_circle</i>
-            <FormattedMessage {...messages.addButton}/></Button>;
-          let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>;
-          let openReply = this.openReply;
+            <FormattedMessage {...messages.addButton}/></Button>
+          let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
+          let openReply = this.openReply
 
-          let msgs = null;
+          let msgs = null
 
           if (this.state.messages.length > 0) {
             msgs = this.state.messages.map(function (message, i) {
-              return <MessageRow message={message} key={message.id} replyCallback={openReply}/>;
-            });
+              return <MessageRow message={message} key={message.id} replyCallback={openReply}/>
+            })
           }
 
           return (
@@ -420,7 +420,7 @@ class StreamView extends Component {
               <Col xs={3}><FormattedMessage {...messages.streamFieldGroupsLabel}/></Col>
               <Col xs={9}>
                 {stream.groups.map(function (group, i) {
-                  return <Label key={i}>{group.name}</Label>;
+                  return <Label key={i}>{group.name}</Label>
                 })}
               </Col>
 
@@ -454,18 +454,18 @@ class StreamView extends Component {
                 {pager}
               </Col>
             </Row>
-          );
+          )
         } else {
-          return null;
+          return null
         }
-        break;
+        break
 
       case 0:
-        return (<Loading/>);
-        break;
+        return (<Loading/>)
+        break
 
       default:
-        return (<Error error={this.state.error}/>);
+        return (<Error error={this.state.error}/>)
     }
   }
 }
@@ -474,6 +474,6 @@ StreamView.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(StreamView);
+export default injectIntl(StreamView)

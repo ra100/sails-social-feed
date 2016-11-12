@@ -1,36 +1,36 @@
-import {Router, Route, Redirect} from 'react-router';
-import {Component, PropTypes} from 'react';
-import App from './App';
-import Home from './Home';
-import Login from './Login';
-import Streams from './models/Stream/Streams';
-import StreamEdit from './models/Stream/StreamEdit';
-import StreamView from './models/Stream/StreamView';
-import FeedEdit from './models/Feed/FeedEdit';
-import Groups from './models/Group/Groups';
-import GroupEdit from './models/Group/GroupEdit';
-import GroupView from './models/Group/GroupView';
-import Users from './models/User/Users';
-import UserEdit from './models/User/UserEdit';
-import UserView from './models/User/UserView';
+import {Router, Route, Redirect} from 'react-router'
+import {Component, PropTypes} from 'react'
+import App from './App'
+import Home from './Home'
+import Login from './Login'
+import Streams from './models/Stream/Streams'
+import StreamEdit from './models/Stream/StreamEdit'
+import StreamView from './models/Stream/StreamView'
+import FeedEdit from './models/Feed/FeedEdit'
+import Groups from './models/Group/Groups'
+import GroupEdit from './models/Group/GroupEdit'
+import GroupView from './models/Group/GroupView'
+import Users from './models/User/Users'
+import UserEdit from './models/User/UserEdit'
+import UserView from './models/User/UserView'
 
 class Root extends Component {
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       history: props.history,
       user: props.user,
       socket: props.socket
-    };
+    }
   }
 
   getChildContext() {
-    return {user: this.state.user, socket: this.state.socket, history: this.state.history};
+    return {user: this.state.user, socket: this.state.socket, history: this.state.history}
   }
 
   render() {
-    const {history} = this.props;
+    const {history} = this.props
     return (
       <Router history={history}>
         <Route component={App}>
@@ -66,7 +66,7 @@ class Root extends Component {
         </Route>
         <Route path="/login" component={Login}></Route>
       </Router>
-    );
+    )
   }
 }
 
@@ -74,12 +74,12 @@ Root.propTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 Root.childContextTypes = {
   history: PropTypes.object,
   user: PropTypes.object,
   socket: PropTypes.object
-};
+}
 
-module.exports = Root;
+module.exports = Root

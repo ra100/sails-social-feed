@@ -3,4 +3,4 @@ module.exports = {
     'login.button.title': 'Login',
     'login.login.field': 'Username'
   }
-};
+}

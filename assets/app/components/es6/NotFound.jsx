@@ -1,6 +1,6 @@
-import {Component} from 'react';
-import {Alert, Row, PageHeader} from 'react-bootstrap';
-import {FormattedMessage, defineMessages,} from 'react-intl';
+import {Component} from 'react'
+import {Alert, Row, PageHeader} from 'react-bootstrap'
+import {FormattedMessage, defineMessages,} from 'react-intl'
 
 const messages = defineMessages({
   itemNotFoundTitle: {
@@ -13,7 +13,7 @@ const messages = defineMessages({
     description: 'Page not found message',
     defaultMessage: 'We are sorry, requested item was not found.',
   },
-});
+})
 
 class NotFound extends Component {
   render() {
@@ -26,8 +26,8 @@ class NotFound extends Component {
           <p><FormattedMessage {...messages.itemNotFoundMessage}/></p>
         </Alert>
       </Row>
-    );
+    )
   }
 }
 
-export default NotFound;
+export default NotFound

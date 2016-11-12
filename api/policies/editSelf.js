@@ -7,15 +7,15 @@
  */
 module.exports = function (req, res, next) {
 
-  var uid = req.user.id;
-  var edituid = req.param('id');
+  var uid = req.user.id
+  var edituid = req.param('id')
   if (uid == edituid) {
-    return next();
+    return next()
   };
   socialFeed.isAdmin(uid, req, function(err, user) {
     if (err) {
-      return res.forbidden(err);
+      return res.forbidden(err)
     }
-    next();
-  });
-};
+    next()
+  })
+}

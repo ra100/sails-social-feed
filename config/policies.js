@@ -105,4 +105,4 @@ module.exports.policies = {
   FacebookController: {
     '*': [true]
   }
-};
+}

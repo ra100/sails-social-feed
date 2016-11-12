@@ -11,11 +11,11 @@ module.exports = {
    */
   unsubscribe: function(req, res, next) {
     if (!req.isSocket) {
-      return res.badRequest();
+      return res.badRequest()
     } else {
-      var id = req.param('id') ? req.param('id') : '';
-      socialFeed.unsubscribe(req, res, 'role', id);
+      var id = req.param('id') ? req.param('id') : ''
+      socialFeed.unsubscribe(req, res, 'role', id)
     }
   }
-};
+}
 

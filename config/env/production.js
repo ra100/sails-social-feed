@@ -55,4 +55,4 @@ module.exports = {
   baseurl: process.env.BASE_URL,
   streams: process.env.STREAMS || false
 
-};
+}

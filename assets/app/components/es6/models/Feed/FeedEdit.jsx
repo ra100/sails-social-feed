@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes} from 'react'
 import {
   Alert,
   Col,
@@ -11,15 +11,15 @@ import {
   Checkbox,
   PageHeader,
   ButtonToolbar
-} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './../../Forbidden';
-import EditToolbar from './../../EditToolbar';
-import {notify} from 'react-notify-toast';
-import Multiselect from 'react-bootstrap-multiselect';
-import Dropdown from 'react-input-enhancements';
-import _ from 'lodash/core';
-import array from 'lodash/array';
+} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import Forbidden from './../../Forbidden'
+import EditToolbar from './../../EditToolbar'
+import {notify} from 'react-notify-toast'
+import Multiselect from 'react-bootstrap-multiselect'
+import Dropdown from 'react-input-enhancements'
+import _ from 'lodash/core'
+import array from 'lodash/array'
 
 const messages = defineMessages({
   feedTitle: {
@@ -107,27 +107,27 @@ const messages = defineMessages({
     description: 'Feed Enabled label',
     defaultMessage: 'Enabled'
   }
-});
+})
 
 const getSelected = function (data) {
-  let i;
-  let selected = [];
+  let i
+  let selected = []
   for (i in data) {
     if (data[i].selected) {
-      selected.push(data[i].value);
+      selected.push(data[i].value)
     }
   }
-  return selected;
-};
+  return selected
+}
 
 class FeedCreate extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       definition: {
         type: {
@@ -157,142 +157,142 @@ class FeedCreate extends Component {
       edit: false,
       allow: true,
       view: false
-    };
-    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', '_handleEnabledChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load');
+    }
+    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', '_handleEnabledChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load')
   }
 
   componentDidMount() {
-    this._isMounted = true;
-    this.load();
+    this._isMounted = true
+    this.load()
   }
 
   load(nextProps) {
     if (!this._isMounted) {
-      return;
+      return
     }
-    let {socket} = this.context;
-    let roles = this.context.user.roles;
-    let feedId = this.props.params.feedId;
+    let {socket} = this.context
+    let roles = this.context.user.roles
+    let feedId = this.props.params.feedId
     if (nextProps) {
-      feedId = nextProps.params.feedId;
+      feedId = nextProps.params.feedId
     }
     let isAdmin = function () {
-      let i;
+      let i
       for (i in roles) {
         if (roles[i].name == 'admin') {
-          return true;
+          return true
         };
       };
-      return false;
-    };
+      return false
+    }
     if (isAdmin()) {
       socket.get('/groups', {
         sort: 'name'
-      }, this.handleGroups);
+      }, this.handleGroups)
       socket.get('/streams', {
         sort: 'name'
-      }, this.handleStreams);
+      }, this.handleStreams)
     } else {
       socket.get('/users/' + this.context.user.id + '/groups', {
         sort: 'name'
-      }, this.handleGroups);
+      }, this.handleGroups)
       socket.get('/users/' + this.context.user.id + '/streams', {
         sort: 'name'
-      }, this.handleStreams);
+      }, this.handleStreams)
     }
-    socket.get('/feeds/definition', this.handleDefinition);
+    socket.get('/feeds/definition', this.handleDefinition)
     if (typeof feedId !== 'undefined') {
       let query = {
         populate: 'owner,groups,stream'
-      };
-      socket.get('/feeds/' + this.props.params.feedId, query, this.handleLoad);
+      }
+      socket.get('/feeds/' + this.props.params.feedId, query, this.handleLoad)
     } else {
-      socket.get('/feeds/cancreate', this.handleCanCreate);
+      socket.get('/feeds/cancreate', this.handleCanCreate)
     }
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this.context.socket.get('/feeds/unsubscribe');
+    this._isMounted = false
+    this.context.socket.get('/feeds/unsubscribe')
   }
 
   handleCanCreate(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true});
+      this.setState({allow: true})
     } else {
-      this.setState({allow: false});
+      this.setState({allow: false})
     }
   }
 
   handleLoad(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
       if (data.permissions.c) {
-        this.setState({edit: true, allow: true});
+        this.setState({edit: true, allow: true})
       } else {
-        this.setState({edit: false, allow: true});
-        return;
+        this.setState({edit: false, allow: true})
+        return
       }
       if (!data.permissions.r) {
-        return;
+        return
       }
-      let i;
-      let owner = [];
-      let stream = [];
-      let groups = [];
+      let i
+      let owner = []
+      let stream = []
+      let groups = []
       if (this.state.owner.length == 0 && data.owner) {
-        owner.push({value: data.owner.id, label: data.owner.username, selected: true});
+        owner.push({value: data.owner.id, label: data.owner.username, selected: true})
       } else {
-        owner = this.state.owner;
-        let j;
+        owner = this.state.owner
+        let j
         for (j in owner) {
           if (owner[j].value == data.owner.id) {
-            owner[j].selected = true;
+            owner[j].selected = true
           } else {
-            owner[j].selected = false;
+            owner[j].selected = false
           }
         }
       }
 
       if (this.state.stream.length == 0 && data.stream) {
-        stream.push({value: data.stream.id, label: data.stream.name, selected: true});
+        stream.push({value: data.stream.id, label: data.stream.name, selected: true})
       } else {
-        stream = this.state.stream;
-        let j;
+        stream = this.state.stream
+        let j
         for (j in stream) {
           if (stream[j].value == data.stream.id) {
-            stream[j].selected = true;
+            stream[j].selected = true
           } else {
-            stream[j].selected = false;
+            stream[j].selected = false
           }
         }
       }
 
       for (i in data.groups) {
-        groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
+        groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true})
       }
       if (this.state.groups) {
-        groups = array.unionBy(this.state.groups, groups, 'value');
+        groups = array.unionBy(this.state.groups, groups, 'value')
       }
       for (i in data.groups) {
-        let j;
+        let j
         for (j in groups) {
           if (groups[j].value == data.groups[i].id) {
-            groups[j].selected = true;
+            groups[j].selected = true
           };
         }
       }
 
-      let auth = null;
+      let auth = null
       if (data.auth) {
-        auth = false;
+        auth = false
         if (data.auth.valid) {
-          auth = true;
+          auth = true
         }
       }
 
@@ -309,100 +309,100 @@ class FeedCreate extends Component {
         error: null,
         edit: true,
         auth: auth
-      });
-      this.refs.stream.syncData();
-      this.refs.owner.syncData();
-      this.refs.groups.syncData();
+      })
+      this.refs.stream.syncData()
+      this.refs.owner.syncData()
+      this.refs.groups.syncData()
     } else {
-      this.setState({status: res.statusCode, error: res.body, feed: null});
+      this.setState({status: res.statusCode, error: res.body, feed: null})
     }
   }
 
   handleDefinition(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (data.type !== undefined) {
-      this.setState({definition: data});
+      this.setState({definition: data})
     }
   }
 
   handleGroups(data, res) {
     if (!this._isMounted || res.statusCode !== 200) {
-      return;
+      return
     }
-    let selected = getSelected(this.state.groups);
-    let groups = [];
-    let i;
+    let selected = getSelected(this.state.groups)
+    let groups = []
+    let i
     for (i in data) {
-      let group = data[i];
+      let group = data[i]
       socket.get('/groups/' + group.id + '/users', {
         sort: 'name'
-      }, this.handleUsers);
+      }, this.handleUsers)
       groups.push({
         value: group.id,
         label: group.name,
         selected: (_.indexOf(selected, group.id) > -1)
-      });
+      })
     }
-    this.setState({groups: groups});
+    this.setState({groups: groups})
     if (this.refs.groups) {
-      this.refs.groups.syncData();
+      this.refs.groups.syncData()
     }
   }
 
   handleStreams(data, res) {
     if (!this._isMounted || res.statusCode !== 200) {
-      return;
+      return
     }
-    let selected = getSelected(this.state.stream);
+    let selected = getSelected(this.state.stream)
     if (selected.length == 0 && data.length == 1) {
-      selected.push(data[0].id);
+      selected.push(data[0].id)
     }
-    let streams = [];
-    let i;
+    let streams = []
+    let i
     for (i in data) {
-      let stream = data[i];
+      let stream = data[i]
       streams.push({
         value: stream.id,
         label: [stream.name, ' ', '[', stream.uniqueName, ']'].join(''),
         selected: (selected.indexOf(stream.id) > -1)
-      });
+      })
     }
-    let s = array.unionBy(this.state.stream, streams, 'value');
-    this.setState({stream: s});
+    let s = array.unionBy(this.state.stream, streams, 'value')
+    this.setState({stream: s})
     if (this.refs.stream) {
-      this.refs.stream.syncData();
+      this.refs.stream.syncData()
     }
   }
 
   handleUsers(data, res) {
     if (!this._isMounted || res.statusCode !== 200) {
-      return;
+      return
     }
-    let selected = getSelected(this.state.owner);
+    let selected = getSelected(this.state.owner)
     if (selected.length == 0) {
-      selected.push(this.context.user.id);
+      selected.push(this.context.user.id)
     }
-    let users = [];
-    let i;
+    let users = []
+    let i
     for (i in data) {
-      let user = data[i];
+      let user = data[i]
       users.push({
         value: user.id,
         label: user.username,
         selected: (selected.indexOf(user.id) > -1)
-      });
+      })
     }
-    let u = array.unionBy(this.state.owner, users, 'value');
-    this.setState({owner: u});
+    let u = array.unionBy(this.state.owner, users, 'value')
+    this.setState({owner: u})
     if (this.refs.owner) {
-      this.refs.owner.syncData();
+      this.refs.owner.syncData()
     }
   }
 
   _save() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (this._validateAll()) {
       socket.post('/feeds/create', {
         name: this.state.name,
@@ -413,12 +413,12 @@ class FeedCreate extends Component {
         groups: getSelected(this.state.groups),
         owner: getSelected(this.state.owner)[0],
         _csrf: _csrf
-      }, this.handleSaveResponse);
+      }, this.handleSaveResponse)
     }
   }
 
   _update() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (this._validateAll()) {
       let payload = {
         name: this.state.name,
@@ -426,182 +426,182 @@ class FeedCreate extends Component {
         config: this.state.config,
         enabled: this.state.enabled,
         _csrf: _csrf
-      };
-      if (this.context.user.permissions.feed.group.u) {
-        payload.owner = getSelected(this.state.owner)[0];
       }
       if (this.context.user.permissions.feed.group.u) {
-        payload.groups = getSelected(this.state.groups);
+        payload.owner = getSelected(this.state.owner)[0]
       }
       if (this.context.user.permissions.feed.group.u) {
-        payload.stream = getSelected(this.state.stream)[0];
+        payload.groups = getSelected(this.state.groups)
       }
-      socket.post('/feeds/update/' + this.props.params.feedId, payload, this.handleSaveResponse);
+      if (this.context.user.permissions.feed.group.u) {
+        payload.stream = getSelected(this.state.stream)[0]
+      }
+      socket.post('/feeds/update/' + this.props.params.feedId, payload, this.handleSaveResponse)
     }
   }
 
   _remove() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (!this.state.deleted) {
       socket.post('/feeds/destroy/' + this.props.params.feedId, {
         _csrf: _csrf
-      }, this.handleDestroyResponse);
+      }, this.handleDestroyResponse)
     }
   }
 
   _validateAll() {
-    let ok = true;
-    let bs = this.state.bsStyle;
+    let ok = true
+    let bs = this.state.bsStyle
     _.forEach([
       'name', 'type', 'config'
     ], function (field, key) {
       if (this.state[field] == null || this.state[field].length == 0) {
-        bs[field] = 'error';
-        ok = false;
+        bs[field] = 'error'
+        ok = false
       } else {
-        bs[field] = 'success';
+        bs[field] = 'success'
       }
-    }.bind(this));
+    }.bind(this))
     _.forEach([
       'stream', 'owner', 'groups'
     ], function (field, key) {
       if (this.state[field] == null || getSelected(this.state[field]) == 0) {
-        bs[field] = 'has-error';
-        ok = false;
+        bs[field] = 'has-error'
+        ok = false
       } else {
-        bs[field] = 'has-success';
+        bs[field] = 'has-success'
       }
-    }.bind(this));
-    this.setState({bsStyle: bs});
-    return ok;
+    }.bind(this))
+    this.setState({bsStyle: bs})
+    return ok
   }
 
   handleSaveResponse(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (res.statusCode == 500) {
-      notify.show('Error 500', 'error');
-      return;
+      notify.show('Error 500', 'error')
+      return
     }
     if (res.statusCode == 403) {
-      notify.show(res.body, 'error');
-      return;
+      notify.show(res.body, 'error')
+      return
     }
 
     if (data.code == 'E_VALIDATION') {
-      this.setState({error: data.details});
+      this.setState({error: data.details})
     } else if (data.id != undefined) {
-      notify.show(formatMessage(messages.saved), 'success');
-      this.setState({error: null});
-      let id = data.id;
-      this.context.history.push('/stream/' + getSelected(this.state.stream)[0]);
+      notify.show(formatMessage(messages.saved), 'success')
+      this.setState({error: null})
+      let id = data.id
+      this.context.history.push('/stream/' + getSelected(this.state.stream)[0])
     }
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true});
-      notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.context.history.goBack();
+      this.setState({deleted: true})
+      notify.show(formatMessage(messages.deletedSuccess), 'success')
+      this.context.history.goBack()
     } else {
-      notify.show(res.body, 'error');
+      notify.show(res.body, 'error')
     }
   }
 
   _handleTypeChange(event) {
-    this.setState({type: event.target.value});
+    this.setState({type: event.target.value})
   }
 
   _handleConfigChange(event) {
-    this.setState({config: event.target.value});
+    this.setState({config: event.target.value})
   }
 
   _handleNameChange(event) {
-    this.setState({name: event.target.value});
+    this.setState({name: event.target.value})
   }
 
   _handleStreamChange(event) {
-    let val = event[0].value;
-    let sel = event[0].selected;
-    let i;
-    let stream = [];
+    let val = event[0].value
+    let sel = event[0].selected
+    let i
+    let stream = []
     for (i in this.state.stream) {
-      stream[i] = this.state.stream[i];
+      stream[i] = this.state.stream[i]
       if (stream[i].value == val) {
-        stream[i].selected = sel;
+        stream[i].selected = sel
       } else {
-        stream[i].selected = false;
+        stream[i].selected = false
       }
     }
-    this.setState({stream: stream});
+    this.setState({stream: stream})
   }
 
   _handleGroupsChange(event) {
-    let val = event[0].value;
-    let sel = event[0].selected;
-    let i;
-    let groups = [];
+    let val = event[0].value
+    let sel = event[0].selected
+    let i
+    let groups = []
     for (i in this.state.groups) {
-      groups[i] = this.state.groups[i];
+      groups[i] = this.state.groups[i]
       if (groups[i].value == val) {
-        groups[i].selected = sel;
+        groups[i].selected = sel
       }
     }
-    this.setState({groups: groups});
+    this.setState({groups: groups})
   }
 
   _handleOwnerChange(event) {
-    let val = event[0].value;
-    let sel = event[0].selected;
-    let i;
-    let owner = [];
+    let val = event[0].value
+    let sel = event[0].selected
+    let i
+    let owner = []
     for (i in this.state.owner) {
-      owner[i] = this.state.owner[i];
+      owner[i] = this.state.owner[i]
       if (owner[i].value == val) {
-        owner[i].selected = sel;
+        owner[i].selected = sel
       } else {
-        owner[i].selected = false;
+        owner[i].selected = false
       }
     }
-    this.setState({owner: owner});
+    this.setState({owner: owner})
   }
 
   _handleEnabledChange(event) {
-    this.setState({enabled: this.enabled.checked});
+    this.setState({enabled: this.enabled.checked})
   }
 
   _handleAuth(event) {
-    let {socket} = this.context;
-    socket.get('/feeds/authorize/' + this.state.feed.id, this.handleAuthResponse);
+    let {socket} = this.context
+    socket.get('/feeds/authorize/' + this.state.feed.id, this.handleAuthResponse)
   }
 
   handleAuthResponse(data, res) {
     if (res.statusCode == 200) {
-      location.href = data.redirect;
+      location.href = data.redirect
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
-      this.load(nextProps);
+      this.load(nextProps)
     }
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
 
     if (!this.state.allow) {
-      return (<Forbidden/>);
+      return (<Forbidden/>)
     }
 
-    let errorMessage = null;
+    let errorMessage = null
     if (this.state.error != null) {
       errorMessage = <Alert bsStyle="danger">
         <p>{this.state.error}</p>
-      </Alert>;
+      </Alert>
     }
 
     let fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle.name}>
@@ -610,7 +610,7 @@ class FeedCreate extends Component {
         <FormControl type="text" value={this.state.name} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.feedFieldNamePlaceholder)}/>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
     let fieldConfig = <FormGroup controlId="config" className="col-xs-12" validationState={this.state.bsStyle.config}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldConfigLabel)}</ControlLabel>
@@ -618,7 +618,7 @@ class FeedCreate extends Component {
         <FormControl type="text" value={this.state.config} onChange={this._handleConfigChange} ref="config" placeholder={formatMessage(messages.feedFieldConfigPlaceholder)}/>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
     let fieldType = <FormGroup controlId="config" className="col-xs-12" validationState={this.state.bsStyle.type}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldTypeLabel)}</ControlLabel>
@@ -626,14 +626,14 @@ class FeedCreate extends Component {
         <FormControl componentClass="select" value={this.state.type} onChange={this._handleTypeChange}>
           <option value="">{formatMessage(messages.feedFieldTypePlaceholder)}</option>
           {this.state.definition.type.enum.map(function (val, i) {
-            return <option value={val} key={i}>{val}</option>;
+            return <option value={val} key={i}>{val}</option>
           })}
         </FormControl>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
-    let streamClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.stream;
+    let streamClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.stream
     let fieldStream = <div className={streamClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.feedFieldStreamLabel}/>
@@ -641,9 +641,9 @@ class FeedCreate extends Component {
       <div className="col-xs-12 col-sm-5">
         <Multiselect onChange={this._handleStreamChange} data={this.state.stream} ref="stream"/>
       </div>
-    </div>;
+    </div>
 
-    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.groups;
+    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.groups
     let fieldGroups = <div className={groupsClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.feedFieldGroupsLabel}/>
@@ -651,9 +651,9 @@ class FeedCreate extends Component {
       <div className="col-xs-12 col-sm-5">
         <Multiselect onChange={this._handleGroupsChange} data={this.state.groups} multiple ref="groups"/>
       </div>
-    </div>;
+    </div>
 
-    let ownerClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.owner;
+    let ownerClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.owner
     let fieldOwner = <div className={ownerClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.feedFieldOwnerLabel}/>
@@ -661,41 +661,41 @@ class FeedCreate extends Component {
       <div className="col-xs-12 col-sm-5">
         <Multiselect onChange={this._handleOwnerChange} data={this.state.owner} ref="owner"/>
       </div>
-    </div>;
+    </div>
 
-    let authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldAuthLabel}/></Button>;
+    let authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldAuthLabel}/></Button>
     if (this.state.auth !== null) {
-      authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldReAuthLabel}/></Button>;
+      authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldReAuthLabel}/></Button>
     }
     if (!this.state.edit || ['twitter_user', 'twitter_hashtag'].indexOf(this.state.type) < 0) {
-      authButton = null;
+      authButton = null
     }
 
     let fieldEnabled = <FormGroup controlId="enabled" className="col-xs-12">
       <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.feedFieldEnabledLabel}/></ControlLabel>
       <Checkbox onChange={this._handleEnabledChange} checked={this.state.enabled} inputRef={(ref) => {
-        this.enabled = ref;
+        this.enabled = ref
       }}></Checkbox>
-    </FormGroup>;
+    </FormGroup>
 
-    let create = null;
-    let update = null;
-    let remove = null;
-    let title = null;
+    let create = null
+    let update = null
+    let remove = null
+    let title = null
 
     if (this.state.edit) {
-      update = this._update;
-      remove = this._remove;
-      title = <FormattedMessage {...messages.feedEditTitle}/>;
+      update = this._update
+      remove = this._remove
+      title = <FormattedMessage {...messages.feedEditTitle}/>
     } else {
-      create = this._save;
-      title = <FormattedMessage {...messages.feedTitle}/>;
+      create = this._save
+      title = <FormattedMessage {...messages.feedTitle}/>
     }
 
     if (this.state.view) {
-      update = null;
-      create = null;
-      remove = null;
+      update = null
+      create = null
+      remove = null
     }
 
     return (
@@ -718,7 +718,7 @@ class FeedCreate extends Component {
           <EditToolbar create={create} update={update} remove={remove}/>
         </Col>
       </Row>
-    );
+    )
   }
 }
 
@@ -726,6 +726,6 @@ FeedCreate.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(FeedCreate);
+export default injectIntl(FeedCreate)

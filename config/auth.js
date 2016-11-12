@@ -11,4 +11,4 @@ module.exports.auth = {
   instagram_client_secret: process.env.INSTAGRAM_CLIENT_SECRET,
   soundcloud_client_id: process.env.SOUNDCLOUD_CLIENT_ID,
   soundcloud_client_secret: process.env.SOUNDCLOUD_CLIENT_SECRET,
-};
+}

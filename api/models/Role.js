@@ -23,12 +23,12 @@ module.exports = {
   },
 
   beforeCreate: function (values, next) {
-    delete values._csrf;
-    next();
+    delete values._csrf
+    next()
   },
 
   beforeUpdate: function (values, next) {
-    delete values._csrf;
-    next();
+    delete values._csrf
+    next()
   }
-};
+}

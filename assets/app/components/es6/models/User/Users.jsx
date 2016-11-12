@@ -1,11 +1,11 @@
-import {Component, PropTypes} from 'react';
-import {Col, Row, Grid, PageHeader, Table, Pagination} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './../../Forbidden';
-import NotFound from './../../NotFound';
-import Loading from './../../Loading';
-import UserRow from './UserRow';
-import _ from 'lodash/core';
+import {Component, PropTypes} from 'react'
+import {Col, Row, Grid, PageHeader, Table, Pagination} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import Forbidden from './../../Forbidden'
+import NotFound from './../../NotFound'
+import Loading from './../../Loading'
+import UserRow from './UserRow'
+import _ from 'lodash/core'
 
 const messages = defineMessages({
   usersTitle: {
@@ -38,16 +38,16 @@ const messages = defineMessages({
     description: 'Table header action',
     defaultMessage: 'Action'
   }
-});
+})
 
 class Users extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       users: null,
       status: 0,
@@ -55,68 +55,68 @@ class Users extends Component {
       page: 0,
       per_page: 30,
       count: 0
-    };
-    this._bind('_loadData', 'handleResponse', 'handleCountResponse');
+    }
+    this._bind('_loadData', 'handleResponse', 'handleCountResponse')
   }
 
   componentDidMount() {
-    this._isMounted = true;
-    this._loadData();
+    this._isMounted = true
+    this._loadData()
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this.context.socket.get('/users/unsubscribe');
-    this.context.socket.get('/groups/unsubscribe');
-    this.context.socket.get('/roles/unsubscribe');
+    this._isMounted = false
+    this.context.socket.get('/users/unsubscribe')
+    this.context.socket.get('/groups/unsubscribe')
+    this.context.socket.get('/roles/unsubscribe')
   }
 
   handleResponse(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, users: null});
+      this.setState({status: res.statusCode, error: res.body, users: null})
     } else {
-      this.setState({status: res.statusCode, error: null, users: data});
+      this.setState({status: res.statusCode, error: null, users: data})
     }
   }
 
   handleCountResponse(data,res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (!res.error) {
-      this.setState({count: res.body.count});
+      this.setState({count: res.body.count})
     }
   }
 
   _loadData() {
     if (!this._isMounted) {
-      return;
+      return
     }
-    let {socket} = this.context;
+    let {socket} = this.context
     let query = {
       skip: this.state.page * this.state.perPage,
       populate: 'roles,groups'
-    };
-    socket.get('/users', query, this.handleResponse);
-    socket.get('/users/count', this.handleCount);
+    }
+    socket.get('/users', query, this.handleResponse)
+    socket.get('/users/count', this.handleCount)
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
 
-    let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.count / this.state.per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>;
+    let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.count / this.state.per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
 
     switch (this.state.status) {
       case 403:
-        return (<Forbidden/>);
-        break;
+        return (<Forbidden/>)
+        break
 
       case 404:
-        return (<NotFound/>);
-        break;
+        return (<NotFound/>)
+        break
 
       case 200:
         if (this.state.users !== null) {
@@ -139,23 +139,23 @@ class Users extends Component {
                   </thead>
                   <tbody>
                     {this.state.users.map(function (user, i) {
-                      return <UserRow user={user} key={i}/>;
+                      return <UserRow user={user} key={i}/>
                     })}
                   </tbody>
                 </Table>
                 {pager}
               </Col>
             </Row>
-          );
+          )
         }
-        break;
+        break
 
       case 0:
-        return (<Loading/>);
-        break;
+        return (<Loading/>)
+        break
 
       default:
-        return (<Error error={this.state.error}/>);
+        return (<Error error={this.state.error}/>)
     }
   }
 }
@@ -164,6 +164,6 @@ Users.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(Users);
+export default injectIntl(Users)

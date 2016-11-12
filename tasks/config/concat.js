@@ -21,7 +21,7 @@ module.exports = function (grunt) {
       src: require('../pipeline').cssFilesToInject,
       dest: '.tmp/public/concat/production.css'
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
-};
+  grunt.loadNpmTasks('grunt-contrib-concat')
+}

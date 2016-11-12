@@ -1,9 +1,9 @@
-import {Component, PropTypes} from 'react';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import {Button} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
-import {notify} from 'react-notify-toast';
-import EditToolbar from './../../EditToolbar';
+import {Component, PropTypes} from 'react'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import {Button} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
+import {notify} from 'react-notify-toast'
+import EditToolbar from './../../EditToolbar'
 
 const messages = defineMessages({
   edit: {
@@ -46,65 +46,65 @@ const messages = defineMessages({
     description: 'Info that groups has beed deleted',
     defaultMessage: 'Group has beed deleted.'
   }
-});
+})
 
 class GroupRow extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       deleted: false
-    };
-    this._bind('_remove', '_edit', 'handleDestroyResponse');
+    }
+    this._bind('_remove', '_edit', 'handleDestroyResponse')
   }
 
   componentDidMount() {
-    this._isMounted = true;
+    this._isMounted = true
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
   }
 
   _remove() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (!this.state.deleted) {
       socket.post('/groups/destroy/' + this.props.group.id, {
         _csrf: _csrf
-      }, this.handleDestroyResponse);
+      }, this.handleDestroyResponse)
     }
   }
 
   _edit() {
-    this.context.history.push('/group/' + this.props.group.id + '/edit');
+    this.context.history.push('/group/' + this.props.group.id + '/edit')
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true});
-      notify.show(formatMessage(messages.deletedSuccess), 'success');
+      this.setState({deleted: true})
+      notify.show(formatMessage(messages.deletedSuccess), 'success')
     } else {
-      notify.show(res.body, 'error');
+      notify.show(res.body, 'error')
     }
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
-    let {group} = this.props;
+    const {formatMessage} = this.props.intl
+    let {group} = this.props
     if (this.state.deleted) {
       return (
         <tr key={group.id}>
           <td colSpan="2" className="danger"><FormattedMessage {...messages.deleted}/></td>
         </tr>
-      );
+      )
     }
     return (
       <tr key={group.id}>
@@ -117,7 +117,7 @@ class GroupRow extends Component {
           <EditToolbar edit={this._edit} remove={this._remove} cancel={false}/>
         </td>
       </tr>
-    );
+    )
   }
 }
 
@@ -125,10 +125,10 @@ GroupRow.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 GroupRow.propTypes = {
   group: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(GroupRow);
+export default injectIntl(GroupRow)

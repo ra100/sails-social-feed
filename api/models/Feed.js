@@ -55,52 +55,52 @@ module.exports = {
   },
 
   beforeCreate: function (values, next) {
-    delete values._csrf;
-    next();
+    delete values._csrf
+    next()
   },
 
   afterCreate: function (newlyInsertedRecord, next) {
     if (newlyInsertedRecord.type.indexOf('twitter') >= 0) {
-      twitterStreaming.restart();
+      twitterStreaming.restart()
     }
-    next();
+    next()
   },
 
   beforeUpdate: function (values, next) {
-    delete values._csrf;
+    delete values._csrf
     Feed.findOne({id: values.id}).then((feed) => {
       if (values.type == 'twitter_user') {
         if (feed.config == values.config && typeof feed.meta !== 'undefined' && feed.meta.uid !== 0) {
-          return next();
+          return next()
         }
         return twitterStreaming.findUid(values.config).then((uid) => {
           values.meta = {
             uid: uid
-          };
-          next();
+          }
+          next()
         }).catch((err) => {
           values.meta = {
             uid: 0
-          };
-          next();
-        });
+          }
+          next()
+        })
       } else {
-        next();
+        next()
       }
-    }).catch(next);
+    }).catch(next)
   },
 
   afterUpdate: function (updatedRecord, next) {
     if (updatedRecord.type.indexOf('twitter') >= 0) {
-      twitterStreaming.restart();
+      twitterStreaming.restart()
     }
-    next();
+    next()
   },
 
   afterDestroy: function (destroyedRecords, next) {
     if (destroyedRecords[0].type.indexOf('twitter') >= 0) {
-      twitterStreaming.restart();
+      twitterStreaming.restart()
     }
-    next();
+    next()
   }
-};
+}

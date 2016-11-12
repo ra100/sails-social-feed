@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes} from 'react'
 import {
   td,
   Row,
@@ -6,15 +6,15 @@ import {
   PageHeader,
   Alert,
   Label
-} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './../../Forbidden';
-import NotFound from './../../NotFound';
-import Error from './../../Error';
-import Loading from './../../Loading';
-import EditToolbar from './../../EditToolbar';
-import _ from 'lodash/core';
+} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import Forbidden from './../../Forbidden'
+import NotFound from './../../NotFound'
+import Error from './../../Error'
+import Loading from './../../Loading'
+import EditToolbar from './../../EditToolbar'
+import _ from 'lodash/core'
 
 const messages = defineMessages({
   streamFieldUniqueNameLabel: {
@@ -42,40 +42,40 @@ const messages = defineMessages({
     description: 'Owner label',
     defaultMessage: 'Owner'
   }
-});
+})
 
 class StreamRow extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
-    this._bind('_edit');
+    super(props, context)
+    this._bind('_edit')
   }
 
   componentDidMount() {
-    this._isMounted = true;
+    this._isMounted = true
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
   }
 
   _edit() {
-    this.context.history.push('/stream/' + this.props.stream.id + '/edit');
+    this.context.history.push('/stream/' + this.props.stream.id + '/edit')
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
-    let {stream} = this.props;
+    const {formatMessage} = this.props.intl
+    let {stream} = this.props
 
     let link = <LinkContainer to={'/stream/' + stream.id}>
       <Button bsStyle="link">{stream.name}</Button>
-    </LinkContainer>;
+    </LinkContainer>
     if (!stream.permissions.u) {
-      link = <strong>{stream.name}</strong>;
+      link = <strong>{stream.name}</strong>
     }
 
     return (
@@ -104,7 +104,7 @@ class StreamRow extends Component {
 
         <td>
           {stream.groups.map(function (group, i) {
-            return <Label key={i}>{group.name}</Label>;
+            return <Label key={i}>{group.name}</Label>
           })}
         </td>
         <td>
@@ -113,7 +113,7 @@ class StreamRow extends Component {
             : null} cancel={false}/>
         </td>
       </tr>
-    );
+    )
   }
 }
 
@@ -121,10 +121,10 @@ StreamRow.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 StreamRow.propTypes = {
   stream: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(StreamRow);
+export default injectIntl(StreamRow)

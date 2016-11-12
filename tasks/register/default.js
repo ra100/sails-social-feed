@@ -4,5 +4,5 @@ module.exports = function (grunt) {
     'compileAssets',
     'linkAssets',
     'watch',
-  ]);
-};
+  ])
+}

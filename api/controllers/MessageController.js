@@ -5,18 +5,18 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var striptags = require('striptags');
-var bcrypt = require('bcryptjs');
+var striptags = require('striptags')
+var bcrypt = require('bcryptjs')
 
 module.exports = {
   cancreate: function (req, res) {
-    res.ok({status: 'ok'});
+    res.ok({status: 'ok'})
   },
   canmodify: function (req, res) {
-    res.ok({status: 'ok'});
+    res.ok({status: 'ok'})
   },
   candestroy: function (req, res) {
-    res.ok({status: 'ok'});
+    res.ok({status: 'ok'})
   },
 
   /**
@@ -24,12 +24,12 @@ module.exports = {
    */
   unsubscribe: function (req, res, next) {
     if (!req.isSocket) {
-      return res.badRequest();
+      return res.badRequest()
     } else {
       var id = req.param('id')
         ? req.param('id')
-        : '';
-      socialFeed.unsubscribe(req, res, 'message', id);
+        : ''
+      socialFeed.unsubscribe(req, res, 'message', id)
     }
   },
 
@@ -45,17 +45,17 @@ module.exports = {
         picture: req.user.picture,
         id: req.user.id
       }
-    };
+    }
     if (typeof req.param('image') !== 'undefined') {
-      message.image = req.param('image');
+      message.image = req.param('image')
     }
     if (typeof req.param('parent') !== 'undefined') {
-      message.isResponse = true;
-      message.relatedMessage = req.param('parent');
+      message.isResponse = true
+      message.relatedMessage = req.param('parent')
     }
     Message.create(message).then((message) => {
       // TODO add relatedMessage
-      res.json({status: 'ok', 'message': message});
-    }).catch(res.negotiate);
+      res.json({status: 'ok', 'message': message})
+    }).catch(res.negotiate)
   }
-};
+}

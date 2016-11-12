@@ -1,7 +1,7 @@
-import {Component, PropTypes} from 'react';
-import {Button, ButtonToolbar} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import ButtonModal from './ButtonModal';
+import {Component, PropTypes} from 'react'
+import {Button, ButtonToolbar} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import ButtonModal from './ButtonModal'
 
 const messages = defineMessages({
   cancelButton: {
@@ -49,53 +49,53 @@ const messages = defineMessages({
     description: 'Delete item modal cancel button',
     defaultMessage: 'Cancel'
   }
-});
+})
 
 class EditToolbar extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
-    this._bind('_cancel');
+    super(props, context)
+    this._bind('_cancel')
   }
 
   _cancel() {
     if (typeof this.props.cancelCallback == 'function') {
-      this.props.cancelCallback();
+      this.props.cancelCallback()
     } else {
-      this.context.history.goBack();
+      this.context.history.goBack()
     }
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     let edit = null,
       create = null,
       update = null,
       remove = null,
-      cancel = null;
+      cancel = null
 
     if (this.props.cancel != false) {
-      cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>;
+      cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>
     }
 
     if (this.props.update) {
-      update = <Button bsStyle="success" onTouchTap={this.props.update}><FormattedMessage {...messages.saveButton}/></Button>;
+      update = <Button bsStyle="success" onTouchTap={this.props.update}><FormattedMessage {...messages.saveButton}/></Button>
     }
 
     if (this.props.create) {
-      create = <Button bsStyle="success" onTouchTap={this.props.create}><FormattedMessage {...messages.createButton}/></Button>;
+      create = <Button bsStyle="success" onTouchTap={this.props.create}><FormattedMessage {...messages.createButton}/></Button>
     }
 
     if (this.props.remove) {
-      remove = <ButtonModal title={formatMessage(messages.deleteButton)} modalTitle={formatMessage(messages.deleteTitle)} message={formatMessage(messages.deleteMessage)} confirm={formatMessage(messages.modalConfirm)} cancel={formatMessage(messages.modalCancel)} bsStyle="danger" confirmAction={this.props.remove}/>;
+      remove = <ButtonModal title={formatMessage(messages.deleteButton)} modalTitle={formatMessage(messages.deleteTitle)} message={formatMessage(messages.deleteMessage)} confirm={formatMessage(messages.modalConfirm)} cancel={formatMessage(messages.modalCancel)} bsStyle="danger" confirmAction={this.props.remove}/>
     }
 
     if (this.props.edit) {
-      edit = <Button bsStyle="primary" onTouchTap={this.props.edit}><FormattedMessage {...messages.editButton}/></Button>;
+      edit = <Button bsStyle="primary" onTouchTap={this.props.edit}><FormattedMessage {...messages.editButton}/></Button>
     }
 
     return (
@@ -106,7 +106,7 @@ class EditToolbar extends Component {
         {remove}
         {cancel}
       </ButtonToolbar>
-    );
+    )
   }
 }
 
@@ -114,7 +114,7 @@ EditToolbar.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 EditToolbar.propTypes = {
   edit: PropTypes.func,
@@ -123,7 +123,7 @@ EditToolbar.propTypes = {
   remove: PropTypes.func,
   cancelCallback: PropTypes.func,
   cancel: PropTypes.bool
-};
+}
 
 EditToolbar.defaultTypes = {
   edit: null,
@@ -132,6 +132,6 @@ EditToolbar.defaultTypes = {
   remove: null,
   cancelCallback: null,
   cancel: true
-};
+}
 
-export default injectIntl(EditToolbar);
+export default injectIntl(EditToolbar)

@@ -18,4 +18,4 @@ module.exports = {
 , openid : require('./openid')
 , bearer : require('./bearer')  
 , cas    : require('./cas')
-};
+}

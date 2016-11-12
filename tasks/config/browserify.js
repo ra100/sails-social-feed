@@ -12,8 +12,8 @@
  */
 module.exports = function (grunt) {
 
-  var version = grunt.file.readJSON('package.json').version;
-  var pipeline = require('../pipeline');
+  var version = grunt.file.readJSON('package.json').version
+  var pipeline = require('../pipeline')
   var external = [
     'react',
     'react-dom',
@@ -33,7 +33,7 @@ module.exports = function (grunt) {
     'jquery-browserify',
     'bootstrap_material_design',
     'ripples'
-  ];
+  ]
 
   grunt.config.set('browserify', {
     dev: {
@@ -105,7 +105,7 @@ module.exports = function (grunt) {
         }
       }
     },
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-browserify');
-};
+  grunt.loadNpmTasks('grunt-browserify')
+}

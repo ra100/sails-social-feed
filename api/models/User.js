@@ -1,4 +1,4 @@
-var crypto = require('crypto');
+var crypto = require('crypto')
 
 module.exports = {
 
@@ -53,34 +53,34 @@ module.exports = {
   },
 
   beforeCreate: function (values, next) {
-    delete values._csrf;
+    delete values._csrf
     if (values.image) {
       storageService.uploadAvatar(values.image).then((versions) => {
-        var picture = {};
-        values.picture = versions[0].url;
-        delete values.image;
-        next();
-      }).catch(next);
+        var picture = {}
+        values.picture = versions[0].url
+        delete values.image
+        next()
+      }).catch(next)
     } else {
       if (values.email) {
-        var hashmd5 = crypto.createHash('md5').update(values.email).digest('hex');
-        values.picture = 'https://www.gravatar.com/avatar/' + hashmd5 + '.jpg?s=48';
+        var hashmd5 = crypto.createHash('md5').update(values.email).digest('hex')
+        values.picture = 'https://www.gravatar.com/avatar/' + hashmd5 + '.jpg?s=48'
       }
-      next();
+      next()
     }
   },
 
   beforeUpdate: function (values, next) {
-    delete values._csrf;
+    delete values._csrf
     if (values.image) {
       storageService.uploadAvatar(values.image).then((versions) => {
-        var picture = {};
-        values.picture = versions[0].url;
-        delete values.image;
-        next();
-      }).catch(next);
+        var picture = {}
+        values.picture = versions[0].url
+        delete values.image
+        next()
+      }).catch(next)
     } else {
-      next();
+      next()
     }
   },
 
@@ -89,9 +89,9 @@ module.exports = {
    */
   afterDestroy: function (destroyedRecords, next) {
     Promise.all(destroyedRecords.map((user) => {
-      return Passport.destroy({user: user.id});
+      return Passport.destroy({user: user.id})
     })).then(() => {
-      next();
-    }).catch(next);
+      next()
+    }).catch(next)
   }
-};
+}

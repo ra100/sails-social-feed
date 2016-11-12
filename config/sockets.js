@@ -103,7 +103,7 @@ module.exports.sockets = {
   ***************************************************************************/
   beforeConnect: function (handshake, cb) {
     // `true` allows the connection
-    return cb(null, true);
+    return cb(null, true)
 
     // (`false` would reject the connection)
   },
@@ -118,7 +118,7 @@ module.exports.sockets = {
   ***************************************************************************/
   afterDisconnect: function (session, socket, cb) {
     // By default: do nothing.
-    return cb();
+    return cb()
   },
 
   /***************************************************************************
@@ -132,4 +132,4 @@ module.exports.sockets = {
   ***************************************************************************/
   // transports: ["polling", "websocket"]
 
-};
+}

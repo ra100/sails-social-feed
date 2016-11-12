@@ -1,11 +1,11 @@
-import {Component, PropTypes} from 'react';
-import {Col, Row, Grid, PageHeader, Table} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './../../Forbidden';
-import NotFound from './../../NotFound';
-import Loading from './../../Loading';
-import StreamRow from './StreamRow';
-import _ from 'lodash/core';
+import {Component, PropTypes} from 'react'
+import {Col, Row, Grid, PageHeader, Table} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import Forbidden from './../../Forbidden'
+import NotFound from './../../NotFound'
+import Loading from './../../Loading'
+import StreamRow from './StreamRow'
+import _ from 'lodash/core'
 
 const messages = defineMessages({
   streamsTitle: {
@@ -48,70 +48,70 @@ const messages = defineMessages({
     description: 'Table header action',
     defaultMessage: 'Action'
   }
-});
+})
 
 class Streams extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       streams: null,
       status: 0,
       error: null,
       page: 0,
       perPage: 30
-    };
-    this._bind('_loadData', 'handleResponse');
+    }
+    this._bind('_loadData', 'handleResponse')
   }
 
   componentDidMount() {
-    this._isMounted = true;
-    this._loadData();
+    this._isMounted = true
+    this._loadData()
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this.context.socket.get('/streams/unsubscribe');
+    this._isMounted = false
+    this.context.socket.get('/streams/unsubscribe')
   }
 
   handleResponse(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, streams: null});
+      this.setState({status: res.statusCode, error: res.body, streams: null})
     } else {
-      this.setState({status: res.statusCode, streams: data, error: null});
+      this.setState({status: res.statusCode, streams: data, error: null})
     }
   }
 
   _loadData() {
     if (!this._isMounted) {
-      return;
+      return
     }
-    let {socket} = this.context;
+    let {socket} = this.context
     let query = {
       skip: this.state.page * this.state.perPage,
       populate: 'groups,owner'
-    };
-    socket.get('/streams', query, this.handleResponse);
+    }
+    socket.get('/streams', query, this.handleResponse)
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
 
     switch (this.state.status) {
       case 403:
-        return (<Forbidden/>);
-        break;
+        return (<Forbidden/>)
+        break
 
       case 404:
-        return (<NotFound/>);
-        break;
+        return (<NotFound/>)
+        break
 
       case 200:
         if (this.state.streams !== null) {
@@ -136,25 +136,25 @@ class Streams extends Component {
                   <tbody>
                     {this.state.streams.map(function (stream, i) {
                       if (stream.permissions.r) {
-                        return <StreamRow stream={stream} key={i}/>;
+                        return <StreamRow stream={stream} key={i}/>
                       } else {
-                        return null;
+                        return null
                       }
                     })}
                   </tbody>
                 </Table>
               </Col>
             </Row>
-          );
+          )
         }
-        break;
+        break
 
       case 0:
-        return (<Loading/>);
-        break;
+        return (<Loading/>)
+        break
 
       default:
-        return (<Error error={this.state.error}/>);
+        return (<Error error={this.state.error}/>)
     }
   }
 }
@@ -163,6 +163,6 @@ Streams.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(Streams);
+export default injectIntl(Streams)

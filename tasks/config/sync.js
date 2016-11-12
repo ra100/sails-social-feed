@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         }
       ]
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-sync');
-};
+  grunt.loadNpmTasks('grunt-sync')
+}

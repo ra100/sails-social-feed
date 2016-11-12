@@ -1,5 +1,5 @@
-var fs = require('fs');
-var path = require('path');
+var fs = require('fs')
+var path = require('path')
 /**
  * grunt/pipeline.js
  *
@@ -14,20 +14,20 @@ var path = require('path');
 // Browserify task work before copying the files in the .tmp folder
 // so the path sould be something like .tmp/public/js/app.js
 // just change assets/ for .tmp/public/ and then the same path as always
-var browserifyMainFile = './assets/app/app.js';
-var appRootDir = browserifyMainFile.substring(0, browserifyMainFile.lastIndexOf('/'));
+var browserifyMainFile = './assets/app/app.js'
+var appRootDir = browserifyMainFile.substring(0, browserifyMainFile.lastIndexOf('/'))
 
 //This is the path which tyhe bablify task will look to for transcompiling ES6->ES5
-var es6To5SrcJSDir     = appRootDir+'/components/es6';
-var es6To5BuildPath    = appRootDir+'/build/';
-var packagesToInstall  = ['grunt-shell', 'grunt-browserify', 'grunt-babel', 'react-bootstrap', 'react', 'babel'];
+var es6To5SrcJSDir     = appRootDir+'/components/es6'
+var es6To5BuildPath    = appRootDir+'/build/'
+var packagesToInstall  = ['grunt-shell', 'grunt-browserify', 'grunt-babel', 'react-bootstrap', 'react', 'babel']
 // CSS files to inject in order
 //
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
   'styles/**/*.css'
-];
+]
 
 
 // Client-side javascript files to inject in order
@@ -39,7 +39,7 @@ var jsFilesToInject = [
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
   'app/**/*.js'
-];
+]
 
 
 // Client-side HTML templates are injected using the sources below
@@ -53,23 +53,23 @@ var jsFilesToInject = [
 // for information on customizing and installing new tasks.
 var templateFilesToInject = [
   'templates/**/*.html'
-];
+]
 
 // Prefix relative paths to source files so they point to the proper locations
 // (i.e. where the other Grunt tasks spit them out, or in some cases, where
 // they reside in the first place)
 module.exports.cssFilesToInject = cssFilesToInject.map(function(path) {
-  return '.tmp/public/' + path;
-});
+  return '.tmp/public/' + path
+})
 module.exports.jsFilesToInject = jsFilesToInject.map(function(path) {
-  return '.tmp/public/' + path;
-});
+  return '.tmp/public/' + path
+})
 module.exports.templateFilesToInject = templateFilesToInject.map(function(path) {
-  return 'assets/' + path;
-});
+  return 'assets/' + path
+})
 // Browserify main file path
-module.exports.browserifyMainFile = browserifyMainFile;
-module.exports.es6To5SrcJSDir = es6To5SrcJSDir;
-module.exports.es6To5BuildPath = es6To5BuildPath;
-module.exports.appRootDir = appRootDir;
-module.exports.packagesToInstall = packagesToInstall;
+module.exports.browserifyMainFile = browserifyMainFile
+module.exports.es6To5SrcJSDir = es6To5SrcJSDir
+module.exports.es6To5BuildPath = es6To5BuildPath
+module.exports.appRootDir = appRootDir
+module.exports.packagesToInstall = packagesToInstall

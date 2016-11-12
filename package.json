@@ -94,7 +94,9 @@
     "test": "snyk test && node ./node_modules/mocha/bin/mocha --opts test/mocha.opts test/bootstrap.test.js test/integration/**/*.test.coffee",
     "docs": "node ./node_modules/sails-apidocs/gendocs.js",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect",
+    "lint": "eslint --ext=js --ext=jsx api/ assets/ config/ tasks/",
+    "lint:fix": "eslint --fix --ext=js --ext=jsx api/ assets/ config/ tasks/"
   },
   "main": "app.js",
   "repository": {

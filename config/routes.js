@@ -77,4 +77,4 @@ module.exports.routes = {
 
   'get /facebook/callback' : 'FacebookController.callback',
   'post /facebook/callback': 'FacebookController.update'
-};
+}

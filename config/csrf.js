@@ -62,4 +62,4 @@ module.exports.csrf = {
   grantTokenViaAjax: true,
   protectionEnabled: true,
   origin: process.env.ORIGIN
-};
+}

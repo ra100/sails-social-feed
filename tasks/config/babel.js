@@ -1,5 +1,5 @@
 module.exports = function (grunt) {
-  var pipeline = require('../pipeline');
+  var pipeline = require('../pipeline')
 
   grunt.config.set('shell', {
     es6To5: {
@@ -13,7 +13,7 @@ module.exports = function (grunt) {
         'babel assets/app/app.jsx --out-file assets/app/app.js'
       ].join('&&')
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-shell');
-};
+  grunt.loadNpmTasks('grunt-shell')
+}

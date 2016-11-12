@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes} from 'react'
 import {
   Col,
   Row,
@@ -12,13 +12,13 @@ import {
   PageHeader,
   ButtonToolbar,
   Alert
-} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './../../Forbidden';
-import EditToolbar from './../../EditToolbar';
-import {notify} from 'react-notify-toast';
-import Multiselect from 'react-bootstrap-multiselect';
-import _ from 'lodash/core';
+} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import Forbidden from './../../Forbidden'
+import EditToolbar from './../../EditToolbar'
+import {notify} from 'react-notify-toast'
+import Multiselect from 'react-bootstrap-multiselect'
+import _ from 'lodash/core'
 
 const messages = defineMessages({
   userTitle: {
@@ -101,27 +101,27 @@ const messages = defineMessages({
     description: 'Info that groups has beed deleted',
     defaultMessage: 'Group has beed deleted.'
   }
-});
+})
 
 const getSelected = function (data) {
-  let i;
-  let selected = [];
+  let i
+  let selected = []
   for (i in data) {
     if (data[i].selected) {
-      selected.push(data[i].value);
+      selected.push(data[i].value)
     }
   }
-  return selected;
-};
+  return selected
+}
 
 class UserEdit extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       bsStyle_username: null,
       bsStyle_displayname: null,
@@ -143,107 +143,107 @@ class UserEdit extends Component {
       edit: false,
       error: null,
       allow: true
-    };
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse', '_handleUploadChange', '_handleBlockedChange');
+    }
+    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse', '_handleUploadChange', '_handleBlockedChange')
   }
 
   componentDidMount() {
-    this._isMounted = true;
-    this.load();
+    this._isMounted = true
+    this.load()
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this.context.socket.get('/users/unsubscribe');
-    this.context.socket.get('/groups/unsubscribe');
-    this.context.socket.get('/roles/unsubscribe');
+    this._isMounted = false
+    this.context.socket.get('/users/unsubscribe')
+    this.context.socket.get('/groups/unsubscribe')
+    this.context.socket.get('/roles/unsubscribe')
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.userId !== this.props.params.userId) {
-      this.setState({user: null, status: 0, error: null});
-      this.load(nextProps);
+      this.setState({user: null, status: 0, error: null})
+      this.load(nextProps)
     }
   }
 
   handleCanCreate(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true});
+      this.setState({allow: true})
     } else {
-      this.setState({allow: false});
+      this.setState({allow: false})
     }
   }
 
   handleCanModify(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true, edit: true});
-      let {socket} = this.context;
-      socket.get('/users/' + this.props.params.userId, this.handleLoad);
+      this.setState({allow: true, edit: true})
+      let {socket} = this.context
+      socket.get('/users/' + this.props.params.userId, this.handleLoad)
     } else {
-      this.setState({allow: false});
+      this.setState({allow: false})
     }
   }
 
   load(nextProps) {
-    let {socket} = this.context;
-    let userId = this.props.params.userId;
+    let {socket} = this.context
+    let userId = this.props.params.userId
     if (nextProps) {
-      userId = nextProps.params.userId;
+      userId = nextProps.params.userId
     }
     socket.get('/roles', {
       populate: 'none'
-    }, this.handleRoles);
+    }, this.handleRoles)
     socket.get('/groups', {
       populate: 'none',
       sort: 'name'
-    }, this.handleGroups);
+    }, this.handleGroups)
     if (typeof userId !== 'undefined') {
-      socket.get('/users/canmodify/' + userId, this.handleCanModify);
+      socket.get('/users/canmodify/' + userId, this.handleCanModify)
     } else {
-      socket.get('/users/cancreate', this.handleCanCreate);
+      socket.get('/users/cancreate', this.handleCanCreate)
     }
   }
 
   handleLoad(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      let i;
-      let roles = [];
-      let groups = [];
+      let i
+      let roles = []
+      let groups = []
       if (this.state.roles == null) {
         for (i in data.roles) {
-          roles.push({value: data.roles[i].id, label: data.roles[i].name, selected: true});
+          roles.push({value: data.roles[i].id, label: data.roles[i].name, selected: true})
         }
       } else {
-        roles = this.state.roles;
+        roles = this.state.roles
         for (i in data.roles) {
-          let j;
+          let j
           for (j in roles) {
             if (roles[j].value == data.roles[i].id) {
-              roles[j].selected = true;
+              roles[j].selected = true
             };
           }
         }
       }
       if (this.state.groups == null) {
         for (i in data.groups) {
-          groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true});
+          groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true})
         }
       } else {
-        groups = this.state.groups;
+        groups = this.state.groups
         for (i in data.groups) {
-          let j;
+          let j
           for (j in groups) {
             if (groups[j].value == data.groups[i].id) {
-              groups[j].selected = true;
+              groups[j].selected = true
             };
           }
         }
@@ -259,50 +259,50 @@ class UserEdit extends Component {
         groups: groups,
         error: null,
         edit: true
-      });
-      this.refs.roles.syncData();
-      this.refs.groups.syncData();
+      })
+      this.refs.roles.syncData()
+      this.refs.groups.syncData()
     } else {
-      this.setState({status: res.statusCode, error: res.body, user: null});
+      this.setState({status: res.statusCode, error: res.body, user: null})
     }
   }
 
   handleRoles(data, res) {
     if (!this._isMounted || res.statusCode !== 200) {
-      return;
+      return
     }
-    let selected = getSelected(this.state.roles);
-    let roles = [];
-    let i;
+    let selected = getSelected(this.state.roles)
+    let roles = []
+    let i
     for (i in data) {
-      let role = data[i];
+      let role = data[i]
       roles.push({
         value: role.id,
         label: role.name,
         selected: (_.indexOf(selected, role.id) > -1)
-      });
+      })
     }
-    this.setState({roles: roles});
-    this.refs.roles.syncData();
+    this.setState({roles: roles})
+    this.refs.roles.syncData()
   }
 
   handleGroups(data, res) {
     if (!this._isMounted || res.statusCode !== 200) {
-      return;
+      return
     }
-    let selected = getSelected(this.state.groups);
-    let groups = [];
-    let i;
+    let selected = getSelected(this.state.groups)
+    let groups = []
+    let i
     for (i in data) {
-      let group = data[i];
+      let group = data[i]
       groups.push({
         value: group.id,
         label: group.name,
         selected: (_.indexOf(selected, group.id) > -1)
-      });
+      })
     }
-    this.setState({groups: groups});
-    this.refs.groups.syncData();
+    this.setState({groups: groups})
+    this.refs.groups.syncData()
   }
 
   _handleUploadChange(event) {
@@ -312,16 +312,16 @@ class UserEdit extends Component {
           data: event.target.files[0],
           name: event.target.files[0].name
         }
-      });
+      })
     } else {
       this.setState({
         upload: null
-      });
+      })
     }
   }
 
   _save() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (this._validateAll()) {
       let payload = {
         username: this.state.username,
@@ -332,16 +332,16 @@ class UserEdit extends Component {
         roles: getSelected(this.state.roles),
         groups: getSelected(this.state.groups),
         _csrf: _csrf
-      };
-      if (this.state.upload !== null) {
-        payload.image = this.state.upload;
       }
-      socket.post('/users/create', payload, this.handleSaveResponse);
+      if (this.state.upload !== null) {
+        payload.image = this.state.upload
+      }
+      socket.post('/users/create', payload, this.handleSaveResponse)
     }
   }
 
   _update() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (this._validateAll()) {
       let payload = {
         username: this.state.username,
@@ -350,161 +350,161 @@ class UserEdit extends Component {
         email: this.state.email,
         blocked: this.state.blocked || false,
         _csrf: _csrf
-      };
-      if (this.context.user.permissions.user.all.u) {
-        payload.roles = getSelected(this.state.roles);
       }
       if (this.context.user.permissions.user.all.u) {
-        payload.groups = getSelected(this.state.groups);
+        payload.roles = getSelected(this.state.roles)
+      }
+      if (this.context.user.permissions.user.all.u) {
+        payload.groups = getSelected(this.state.groups)
       }
       if (this.state.upload !== null) {
-        payload.image = this.state.upload;
+        payload.image = this.state.upload
       }
-      socket.post('/users/update/' + this.props.params.userId, payload, this.handleSaveResponse);
+      socket.post('/users/update/' + this.props.params.userId, payload, this.handleSaveResponse)
     }
   }
 
   _remove() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (!this.state.deleted) {
       socket.post('/users/destroy/' + this.props.params.userId, {
         _csrf: _csrf
-      }, this.handleDestroyResponse);
+      }, this.handleDestroyResponse)
     }
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true});
-      notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.context.history.goBack();
+      this.setState({deleted: true})
+      notify.show(formatMessage(messages.deletedSuccess), 'success')
+      this.context.history.goBack()
     } else {
-      notify.show(res.body, 'error');
+      notify.show(res.body, 'error')
     }
   }
 
   handleSaveResponse(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (res.statusCode == 500) {
-      notify.show('Error 500', 'error');
-      return;
+      notify.show('Error 500', 'error')
+      return
     }
     if (res.statusCode == 403) {
-      notify.show(res.body, 'error');
-      return;
+      notify.show(res.body, 'error')
+      return
     }
 
     if (data.code == 'E_VALIDATION') {
-      this.setState({error: data.details});
+      this.setState({error: data.details})
     } else if (data.id != undefined) {
-      notify.show(formatMessage(messages.saved), 'success');
-      this.setState({error: null});
-      let id = data.id;
-      this.context.history.push('/user/' + id);
+      notify.show(formatMessage(messages.saved), 'success')
+      this.setState({error: null})
+      let id = data.id
+      this.context.history.push('/user/' + id)
     }
   }
 
   _validateAll() {
-    let passed = true;
+    let passed = true
     if (this.state.username.length == 0) {
-      this.setState({bsStyle_username: 'error'});
-      passed = false;
+      this.setState({bsStyle_username: 'error'})
+      passed = false
     } else {
-      this.setState({bsStyle_username: 'success'});
+      this.setState({bsStyle_username: 'success'})
     }
     if (this.state.displayname.length == 0) {
-      this.setState({bsStyle_displayname: 'error'});
-      passed = false;
+      this.setState({bsStyle_displayname: 'error'})
+      passed = false
     } else {
-      this.setState({bsStyle_displayname: 'success'});
+      this.setState({bsStyle_displayname: 'success'})
     }
     if ((!this.state.edit && this.state.password == '') || (this.state.password != '' && this.state.password.length < 6)) {
-      this.setState({bsStyle_password: 'error'});
-      passed = false;
+      this.setState({bsStyle_password: 'error'})
+      passed = false
     } else {
-      this.setState({bsStyle_password: 'success'});
+      this.setState({bsStyle_password: 'success'})
     }
     if (!this.state.email || this.state.email.length < 3) {
-      this.setState({bsStyle_email: 'error'});
-      passed = false;
+      this.setState({bsStyle_email: 'error'})
+      passed = false
     } else {
-      this.setState({bsStyle_email: 'success'});
+      this.setState({bsStyle_email: 'success'})
     }
-    let s = getSelected(this.state.roles);
+    let s = getSelected(this.state.roles)
     if (s.length == 0) {
-      this.setState({bsStyle_roles: 'has-error'});
-      passed = false;
+      this.setState({bsStyle_roles: 'has-error'})
+      passed = false
     } else {
-      this.setState({bsStyle_roles: null});
+      this.setState({bsStyle_roles: null})
     }
 
-    return passed;
+    return passed
   }
 
   _handleNameChange(event) {
-    this.setState({username: event.target.value});
+    this.setState({username: event.target.value})
   }
 
   _handleDisplaynameChange(event) {
-    this.setState({displayname: event.target.value});
+    this.setState({displayname: event.target.value})
   }
 
   _handlePasswordChange(event) {
-    this.setState({password: event.target.value});
+    this.setState({password: event.target.value})
   }
 
   _handleEmailChange(event) {
-    this.setState({email: event.target.value});
+    this.setState({email: event.target.value})
   }
 
   _handleBlockedChange(event) {
-    this.setState({blocked: this.refs.blocked.checked});
+    this.setState({blocked: this.refs.blocked.checked})
   }
 
   _handleRolesChange(event) {
-    let val = event[0].value;
-    let sel = event[0].selected;
-    let i;
-    let roles = [];
+    let val = event[0].value
+    let sel = event[0].selected
+    let i
+    let roles = []
     for (i in this.state.roles) {
-      roles[i] = this.state.roles[i];
+      roles[i] = this.state.roles[i]
       if (roles[i].value == val) {
-        roles[i].selected = sel;
+        roles[i].selected = sel
       }
     }
-    this.setState({roles: roles});
+    this.setState({roles: roles})
   }
 
   _handleGroupsChange(event) {
-    let val = event[0].value;
-    let sel = event[0].selected;
-    let i;
-    let groups = [];
+    let val = event[0].value
+    let sel = event[0].selected
+    let i
+    let groups = []
     for (i in this.state.groups) {
-      groups[i] = this.state.groups[i];
+      groups[i] = this.state.groups[i]
       if (groups[i].value == val) {
-        groups[i].selected = sel;
+        groups[i].selected = sel
       }
     }
-    this.setState({groups: groups});
+    this.setState({groups: groups})
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
 
     if (!this.state.allow) {
-      return (<Forbidden/>);
+      return (<Forbidden/>)
     }
 
-    let errorMessage = null;
+    let errorMessage = null
     if (this.state.error != null) {
       errorMessage = <Alert bsStyle="danger">
         <p>{this.state.error}</p>
-      </Alert>;
+      </Alert>
     }
 
     let fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle_username}>
@@ -513,7 +513,7 @@ class UserEdit extends Component {
         <FormControl type="text" value={this.state.username} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.userFieldNamePlaceholder)}/>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
     let fieldDisplayname = <FormGroup controlId="displayname" className="col-xs-12" validationState={this.state.bsStyle_displayname}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldDisplaynameLabel)}</ControlLabel>
@@ -521,7 +521,7 @@ class UserEdit extends Component {
         <FormControl type="text" value={this.state.displayname} onChange={this._handleDisplaynameChange} ref="displayname" placeholder={formatMessage(messages.userFieldDisplaynamePlaceholder)}/>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
     let fieldPassword = <FormGroup controlId="password" className="col-xs-12" validationState={this.state.bsStyle_password}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldPasswordLabel)}</ControlLabel>
@@ -529,7 +529,7 @@ class UserEdit extends Component {
         <FormControl type="password" value={this.state.password} onChange={this._handlePasswordChange} ref="password" placeholder={formatMessage(messages.userFieldPasswordPlaceholder)}/>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
     let fieldEmail = <FormGroup controlId="email" className="col-xs-12" validationState={this.state.bsStyle_email}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldEmailLabel)}</ControlLabel>
@@ -537,9 +537,9 @@ class UserEdit extends Component {
         <FormControl type="email" value={this.state.email} onChange={this._handleEmailChange} ref="email" placeholder={formatMessage(messages.userFieldEmailPlaceholder)}/>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
-    let rolesClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_roles;
+    let rolesClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_roles
     let fieldRoles = <div className={rolesClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldRolesLabel}/>
@@ -547,9 +547,9 @@ class UserEdit extends Component {
       <div className="col-xs-12 col-sm-5">
         <Multiselect onChange={this._handleRolesChange} data={this.state.roles} multiple ref="roles"/>
       </div>
-    </div>;
+    </div>
 
-    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups;
+    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups
     let fieldGroups = <div className={groupsClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldGroupsLabel}/>
@@ -557,10 +557,10 @@ class UserEdit extends Component {
       <div className="col-xs-12 col-sm-5">
         <Multiselect onChange={this._handleGroupsChange} data={this.state.groups} multiple ref="groups"/>
       </div>
-    </div>;
-    let picture = null;
+    </div>
+    let picture = null
     if (this.state.user !== null && this.state.user.picture) {
-      picture = <img src={this.state.user.picture}/>;
+      picture = <img src={this.state.user.picture}/>
     }
     let fieldUpload = <div className="avatar-upload">
       <label className="control-label col-xs-12 col-sm-2">
@@ -568,25 +568,25 @@ class UserEdit extends Component {
       </label>
       {picture}
       <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4"/>
-    </div>;
+    </div>
 
     let fieldBlocked = <FormGroup controlId="blocked" className="col-xs-12">
       <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.userFieldBlockedLabel}/></ControlLabel>
-      <Checkbox onChange={this._handleBlockedChange} checked={this.state.blocked || false} inputRef={(ref) => {this.refs.blocked = ref;}}></Checkbox>
-    </FormGroup>;
+      <Checkbox onChange={this._handleBlockedChange} checked={this.state.blocked || false} inputRef={(ref) => {this.refs.blocked = ref}}></Checkbox>
+    </FormGroup>
 
-    let create = null;
-    let update = null;
-    let remove = null;
-    let title = null;
+    let create = null
+    let update = null
+    let remove = null
+    let title = null
 
     if (this.state.edit) {
-      update = this._update;
-      remove = this._remove;
-      title = <FormattedMessage {...messages.userEditTitle}/>;
+      update = this._update
+      remove = this._remove
+      title = <FormattedMessage {...messages.userEditTitle}/>
     } else {
-      create = this._save;
-      title = <FormattedMessage {...messages.userTitle}/>;
+      create = this._save
+      title = <FormattedMessage {...messages.userTitle}/>
     }
 
     return (
@@ -607,7 +607,7 @@ class UserEdit extends Component {
           <EditToolbar create={create} update={update} remove={remove}/>
         </Col>
       </Row>
-    );
+    )
   }
 }
 
@@ -615,10 +615,10 @@ UserEdit.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 UserEdit.propTypes = {
   userId: PropTypes.number
-};
+}
 
-export default injectIntl(UserEdit);
+export default injectIntl(UserEdit)

@@ -1,5 +1,5 @@
-import {Component, PropTypes} from 'react';
-import {LinkContainer} from 'react-router-bootstrap';
+import {Component, PropTypes} from 'react'
+import {LinkContainer} from 'react-router-bootstrap'
 import {
   Button,
   Navbar,
@@ -7,9 +7,9 @@ import {
   NavItem,
   NavDropdown,
   MenuItem
-} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import _ from 'lodash/core';
+} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import _ from 'lodash/core'
 
 /**
  * App navbar
@@ -75,76 +75,76 @@ const messages = defineMessages({
     description: 'View Users button',
     defaultMessage: 'Users'
   }
-});
+})
 
 class Navigation extends Component {
 
   constructor(props, context) {
-    super(props, context);
-    this._logout = this._logout.bind(this);
+    super(props, context)
+    this._logout = this._logout.bind(this)
   }
 
   _logout() {
-    var _self = this;
+    var _self = this
     this.context.socket.get('/logout', (data, res) => {
       if (res.statusCode == 200 || res.statusCode == 302) {
-        _self.context.user.clearUser();
-        _self.props.history.push('/login');
+        _self.context.user.clearUser()
+        _self.props.history.push('/login')
       } else {
-        console.error(res);
+        console.error(res)
       }
-    });
+    })
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
-    const {permissions} = this.context.user;
+    const {formatMessage} = this.props.intl
+    const {permissions} = this.context.user
 
-    let logoutButton = <NavItem eventKey={1} onTouchTap={this._logout.bind(this)}><FormattedMessage {...messages.logout}/></NavItem>;
+    let logoutButton = <NavItem eventKey={1} onTouchTap={this._logout.bind(this)}><FormattedMessage {...messages.logout}/></NavItem>
 
     if (this.context.user.username == undefined) {
       logoutButton = <LinkContainer to={'/login'}>
         <NavItem><FormattedMessage {...messages.login}/></NavItem>
-      </LinkContainer>;
+      </LinkContainer>
     }
 
-    let createMenu = null;
-    let viewStreams = null;
-    let viewGroups = null;
-    let viewUsers = null;
+    let createMenu = null
+    let viewStreams = null
+    let viewGroups = null
+    let viewUsers = null
     if (permissions) {
       if (permissions.stream && permissions.stream.own.c) {
         let createStream = <LinkContainer to={'/create/stream'}>
           <MenuItem>
             <FormattedMessage {...messages.stream}/>
           </MenuItem>
-        </LinkContainer>;
+        </LinkContainer>
 
-        let createFeed = null;
+        let createFeed = null
         if (permissions.feed && permissions.feed.own.c) {
           createFeed = <LinkContainer to={'/create/feed'}>
             <MenuItem>
               <FormattedMessage {...messages.feed}/>
             </MenuItem>
-          </LinkContainer>;
+          </LinkContainer>
         };
 
-        let createGroup = null;
+        let createGroup = null
         if (permissions.group && permissions.group.all.c) {
           createGroup = <LinkContainer to={'/create/group'}>
             <MenuItem>
               <FormattedMessage {...messages.group}/>
             </MenuItem>
-          </LinkContainer>;
+          </LinkContainer>
         };
 
-        let createUser = null;
+        let createUser = null
         if (permissions.user && permissions.user.all.c) {
           createUser = <LinkContainer to={'/create/user'}>
             <MenuItem>
               <FormattedMessage {...messages.user}/>
             </MenuItem>
-          </LinkContainer>;
+          </LinkContainer>
         };
 
         createMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.create)}>
@@ -152,14 +152,14 @@ class Navigation extends Component {
           {createFeed}
           <MenuItem divider/> {createGroup}
           {createUser}
-        </NavDropdown>;
+        </NavDropdown>
 
         if (permissions.stream && permissions.stream.own.r) {
           viewStreams = <LinkContainer to={'/streams'}>
             <MenuItem>
               <FormattedMessage {...messages.streams}/>
             </MenuItem>
-          </LinkContainer>;
+          </LinkContainer>
         };
 
         if (permissions.group && permissions.group.own.r) {
@@ -167,7 +167,7 @@ class Navigation extends Component {
             <MenuItem>
               <FormattedMessage {...messages.groups}/>
             </MenuItem>
-          </LinkContainer>;
+          </LinkContainer>
         };
 
         if (permissions.user && permissions.user.own.r) {
@@ -175,7 +175,7 @@ class Navigation extends Component {
             <MenuItem>
               <FormattedMessage {...messages.users}/>
             </MenuItem>
-          </LinkContainer>;
+          </LinkContainer>
         };
       }
     }
@@ -198,23 +198,23 @@ class Navigation extends Component {
           {logoutButton}
         </Nav>
       </Navbar.Collapse>
-    </Navbar>;
+    </Navbar>
 
     return (
       <div>
         {navbar}
       </div>
-    );
+    )
   }
 }
 
 Navigation.contextTypes = {
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 Navigation.propTypes = {
   history: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(Navigation);
+export default injectIntl(Navigation)

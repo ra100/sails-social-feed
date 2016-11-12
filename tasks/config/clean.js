@@ -10,7 +10,7 @@
  * 		https://github.com/gruntjs/grunt-contrib-clean
  */
 module.exports = function (grunt) {
-  var pipeline = require('../pipeline');
+  var pipeline = require('../pipeline')
 
   grunt.config.set('clean', {
     options: { force: true },
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
       pipeline.es6To5BuildPath + '/**/*.js'
     ],
     build: ['www']
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-};
+  grunt.loadNpmTasks('grunt-contrib-clean')
+}

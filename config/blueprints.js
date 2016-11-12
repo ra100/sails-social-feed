@@ -120,4 +120,4 @@ module.exports.blueprints = {
   // DELETE /foos/:id?
   pluralize: true
 
-};
+}

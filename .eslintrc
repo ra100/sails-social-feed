@@ -13,11 +13,11 @@
     "__SERVER__": true
   },
   "rules": {
-    "strict": [2, "never"],
-    "semi": 2,
-    "indent": [2, 2, {"SwitchCase": 1}],
-    "quotes": [2, "single"],
-    "no-labels": 1
+    "strict": ["warn", "never"],
+    "semi": ["warn", "never"],
+    "indent": ["error", 2, {"SwitchCase": 1}],
+    "quotes": ["error", "single"],
+    "no-labels": "error"
   },
   "ecmaFeatures": {
     "blockBindings": true,

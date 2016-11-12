@@ -14,7 +14,7 @@
 
 module.exports = function (grunt) {
 
-  var templateFilesToInject = ['templates/**/*.html'];
+  var templateFilesToInject = ['templates/**/*.html']
 
   grunt.config.set('jst', {
     dev: {
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
         '.tmp/public/jst.js': require('../pipeline').templateFilesToInject
       }
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-contrib-jst');
-};
+  grunt.loadNpmTasks('grunt-contrib-jst')
+}

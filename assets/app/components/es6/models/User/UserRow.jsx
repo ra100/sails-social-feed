@@ -1,9 +1,9 @@
-import {Component, PropTypes} from 'react';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import {Button, Label} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
-import EditToolbar from './../../EditToolbar';
-import {notify} from 'react-notify-toast';
+import {Component, PropTypes} from 'react'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import {Button, Label} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
+import EditToolbar from './../../EditToolbar'
+import {notify} from 'react-notify-toast'
 
 const messages = defineMessages({
   edit: {
@@ -51,111 +51,111 @@ const messages = defineMessages({
     description: 'Info that users has beed deleted',
     defaultMessage: 'This user has beed deleted.'
   }
-});
+})
 
 class UserRow extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       deleted: false,
       blocked: this.props.user.blocked
-    };
-    this._bind('_remove', '_edit', '_block', '_activate', 'handleUpdateResponse', 'handleDestroyResponse');
+    }
+    this._bind('_remove', '_edit', '_block', '_activate', 'handleUpdateResponse', 'handleDestroyResponse')
   }
 
   componentDidMount() {
-    this._isMounted = true;
+    this._isMounted = true
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this.context.socket.get('/users/unsubscribe');
-    this.context.socket.get('/groups/unsubscribe');
-    this.context.socket.get('/roles/unsubscribe');
+    this._isMounted = false
+    this.context.socket.get('/users/unsubscribe')
+    this.context.socket.get('/groups/unsubscribe')
+    this.context.socket.get('/roles/unsubscribe')
   }
 
   _remove() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (!this.state.deleted) {
       socket.post('/users/destroy/' + this.props.user.id, {
         _csrf: _csrf
-      }, this.handleDestroyResponse);
+      }, this.handleDestroyResponse)
     }
   }
 
   _edit() {
-    this.context.history.push('/user/' + this.props.user.id + '/edit');
+    this.context.history.push('/user/' + this.props.user.id + '/edit')
   }
 
   _block() {
-    let {socket} = this.context;
+    let {socket} = this.context
     let payload = {
       blocked: true,
       _csrf: _csrf
-    };
-    socket.post('/users/update/' + this.props.user.id, payload, this.handleUpdateResponse);
+    }
+    socket.post('/users/update/' + this.props.user.id, payload, this.handleUpdateResponse)
   }
 
   _activate() {
-    let {socket} = this.context;
+    let {socket} = this.context
     let payload = {
       blocked: false,
       _csrf: _csrf
-    };
-    socket.post('/users/update/' + this.props.user.id, payload, this.handleUpdateResponse);
+    }
+    socket.post('/users/update/' + this.props.user.id, payload, this.handleUpdateResponse)
   }
 
   handleUpdateResponse(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({blocked: res.body.blocked});
+      this.setState({blocked: res.body.blocked})
     } else {
-      notify.show(res.body, 'error');
+      notify.show(res.body, 'error')
     }
   }
 
   handleDestroyResponse(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true});
+      this.setState({deleted: true})
     } else {
-      notify.show(res.body, 'error');
+      notify.show(res.body, 'error')
     }
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
-    let {user} = this.props;
-    let p = user.permissions;
+    const {formatMessage} = this.props.intl
+    let {user} = this.props
+    let p = user.permissions
     if (this.state.deleted) {
       return (
         <tr key={user.id}>
           <td colSpan="2" bsStyle="danger"><FormattedMessage {...messages.deleted}/></td>
         </tr>
-      );
+      )
     }
 
-    let groups = null;
+    let groups = null
     if (user.groups) {
       groups = user.groups.map(function (group, i) {
-        return <Label key={i}>{group.name}</Label>;
-      });
+        return <Label key={i}>{group.name}</Label>
+      })
     };
 
     let username = <LinkContainer to={'/user/' + user.id}>
       <Button bsStyle="link">{user.username}</Button>
-    </LinkContainer>;
+    </LinkContainer>
     if (!p.r) {
-      username = <strong>{user.username}</strong>;
+      username = <strong>{user.username}</strong>
     }
     return (
       <tr key={user.id}>
@@ -169,7 +169,7 @@ class UserRow extends Component {
         </td>
         <td>
           {user.roles.map(function (role, i) {
-            return <Label key={i}>{role.name}</Label>;
+            return <Label key={i}>{role.name}</Label>
           })}
         </td>
         <td>
@@ -187,7 +187,7 @@ class UserRow extends Component {
           <EditToolbar edit={p.u ? this._edit : null} remove={p.d ? this._remove: null} cancel={false}/>
         </td>
       </tr>
-    );
+    )
   }
 }
 
@@ -195,10 +195,10 @@ UserRow.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 UserRow.propTypes = {
   user: PropTypes.object.isRequired
-};
+}
 
-export default injectIntl(UserRow);
+export default injectIntl(UserRow)

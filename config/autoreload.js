@@ -6,4 +6,4 @@ module.exports.autoreload = {
   ],
   ignored: [// Ignore all files with .ts extension
     '**.ts']
-};
+}

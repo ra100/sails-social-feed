@@ -27,4 +27,4 @@ module.exports = {
   appname: process.env.APP_NAME,
   baseurl: process.env.BASE_URL,
   streams: process.env.STREAMS || false
-};
+}

@@ -1,38 +1,38 @@
-import {Component, PropTypes} from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import {Component, PropTypes} from 'react'
+import {Button, Modal} from 'react-bootstrap'
 
 class ButtonModal extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       show: false
-    };
-    this._bind('open', 'close', 'confirm');
+    }
+    this._bind('open', 'close', 'confirm')
   }
 
   close() {
-    this.setState({show: false});
+    this.setState({show: false})
   }
 
   open() {
-    this.setState({show: true});
+    this.setState({show: true})
   }
 
   confirm() {
-    this.props.confirmAction();
-    this.close();
+    this.props.confirmAction()
+    this.close()
   }
 
   render() {
-    let bsSize = null;
-    let button = <Button bsStyle={this.props.bsStyle} onClick={this.open}>{this.props.title}</Button>;
+    let bsSize = null
+    let button = <Button bsStyle={this.props.bsStyle} onClick={this.open}>{this.props.title}</Button>
     if (this.props.bsSize != null) {
-      button = <Button bsStyle={this.props.bsStyle} bsSize={this.props.bsSize} onClick={this.open}>{this.props.title}</Button>;
+      button = <Button bsStyle={this.props.bsStyle} bsSize={this.props.bsSize} onClick={this.open}>{this.props.title}</Button>
     };
     return (
       <span>
@@ -50,7 +50,7 @@ class ButtonModal extends Component {
           </Modal.Footer>
         </Modal>
       </span>
-    );
+    )
   }
 }
 
@@ -63,7 +63,7 @@ ButtonModal.propTypes = {
   cancel: PropTypes.string,
   bsStyle: PropTypes.string,
   bsSize: PropTypes.string
-};
+}
 
 ButtonModal.defaultProps = {
   title: '',
@@ -74,6 +74,6 @@ ButtonModal.defaultProps = {
   cancel: 'Cancel',
   bsStyle: 'primary',
   bsSize: null
-};
+}
 
-export default ButtonModal;
+export default ButtonModal

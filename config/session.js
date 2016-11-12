@@ -88,4 +88,4 @@ module.exports.session = {
   // ssl: false,
   // stringify: true
 
-};
+}

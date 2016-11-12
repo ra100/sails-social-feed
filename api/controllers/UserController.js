@@ -4,17 +4,17 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-var actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
+var actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil')
 
 module.exports = {
   cancreate: function (req, res) {
-    res.ok({status: 'ok'});
+    res.ok({status: 'ok'})
   },
   canmodify: function (req, res) {
-    res.ok({status: 'ok'});
+    res.ok({status: 'ok'})
   },
   candestroy: function (req, res) {
-    res.ok({status: 'ok'});
+    res.ok({status: 'ok'})
   },
 
   /**
@@ -23,11 +23,11 @@ module.exports = {
   create: function (req, res, next) {
     sails.services.passport.protocols.local.register(req, res, function (err, user) {
       if (err) {
-        return res.serverError(err);
+        return res.serverError(err)
       }
-      sails.log.verbose(user);
-      return res.ok(user);
-    });
+      sails.log.verbose(user)
+      return res.ok(user)
+    })
   },
 
   /**
@@ -42,41 +42,41 @@ module.exports = {
       roles = req.param('roles'),
       groups = req.param('groups'),
       image = req.param('image'),
-      blocked = req.param('blocked');
+      blocked = req.param('blocked')
 
-    updated = {};
+    updated = {}
     if (username != undefined && username.length > 0) {
-      updated.username = username;
+      updated.username = username
     }
     if (displayname != undefined && displayname.length > 0) {
-      updated.displayname = displayname;
+      updated.displayname = displayname
     }
     if (email != undefined && email.length > 0) {
-      updated.email = email;
+      updated.email = email
     }
     if (roles != undefined && roles.length > 0) {
-      updated.roles = roles;
+      updated.roles = roles
     }
     if (groups != undefined && groups.length > 0) {
-      updated.groups = groups;
+      updated.groups = groups
     }
     if (image != undefined) {
-      updated.image = image;
+      updated.image = image
     }
     if (blocked != undefined) {
-      updated.blocked = blocked;
+      updated.blocked = blocked
     }
 
     socialFeed.isAdmin(req.user.id, req, function (err, u) {
       if (err && updated.roles) {
-        return res.forbidden(err);
+        return res.forbidden(err)
       }
 
       User.update({
         id: uid
       }, updated).exec(function (err, user) {
         if (err) {
-          return res.negotiate(err);
+          return res.negotiate(err)
         }
         if (password != undefined && password.length > 6) {
           Passport.update({
@@ -84,43 +84,43 @@ module.exports = {
             protocol: 'local'
           }, {password: password}).exec(function (err, passport) {
             if (err) {
-              return res.serverError(err);
+              return res.serverError(err)
             }
-            res.ok(user[0]);
-          });
+            res.ok(user[0])
+          })
         } else {
-          res.ok(user[0]);
+          res.ok(user[0])
         }
-      });
-    });
+      })
+    })
   },
 
   /**
    * @override
    */
   destroy: function (req, res, next) {
-    var uid = req.params.id;
+    var uid = req.params.id
     if (uid == 1) {
-      return res.forbidden();
+      return res.forbidden()
     } else {
       User.destroy({id: uid}).exec(function (err) {
         if (err) {
-          return res.negotiate(err);
+          return res.negotiate(err)
         }
-        return res.ok();
-      });
+        return res.ok()
+      })
     }
   },
 
   me: function (req, res) {
-    var user = req.user;
+    var user = req.user
     if (user == undefined) {
-      return res.json();
+      return res.json()
     }
     User.findOne({id: user.id}).populate('roles').populate('groups').exec(function (e, r) {
-      user = r;
-      return res.jsonx({username: user.username, roles: user.roles, id: user.id, displayname: user.displayname, picture: user.picture, meta: user.meta});
-    });
+      user = r
+      return res.jsonx({username: user.username, roles: user.roles, id: user.id, displayname: user.displayname, picture: user.picture, meta: user.meta})
+    })
   },
 
   /**
@@ -128,10 +128,10 @@ module.exports = {
    */
   unsubscribe: function(req, res, next) {
     if (!req.isSocket) {
-      return res.badRequest();
+      return res.badRequest()
     } else {
-      var id = req.param('id') ? req.param('id') : '';
-      socialFeed.unsubscribe(req, res, 'user', id);
+      var id = req.param('id') ? req.param('id') : ''
+      socialFeed.unsubscribe(req, res, 'user', id)
     }
   },
 
@@ -140,32 +140,32 @@ module.exports = {
    */
   find(req, res) {
     // Look up the model
-    var Model = actionUtil.parseModel(req);
+    var Model = actionUtil.parseModel(req)
 
     // If an `id` param was specified, use the findOne blueprint action
     // to grab the particular instance with its primary key === the value
     // of the `id` param.   (mainly here for compatibility for 0.9, where
     // there was no separate `findOne` action)
     if (actionUtil.parsePk(req)) {
-      return require('./findOne')(req, res);
+      return require('./findOne')(req, res)
     }
 
-    var criteria = actionUtil.parseCriteria(req);
+    var criteria = actionUtil.parseCriteria(req)
     // Lookup for records that match the specified criteria
-    var query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req));
-    query = actionUtil.populateRequest(query, req);
+    var query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req))
+    query = actionUtil.populateRequest(query, req)
     query.exec(function found(err, matchingRecords) {
       if (err) {
-        return res.serverError(err);
+        return res.serverError(err)
       }
       // Only `.watch()` for new instances of the model if
       // `autoWatch` is enabled.
-      permissions.setPermissions(matchingRecords, 'user', req.user);
+      permissions.setPermissions(matchingRecords, 'user', req.user)
 
       res.ok(matchingRecords.filter((value) => {
-        return value.permissions.r;
-      }));
-    });
+        return value.permissions.r
+      }))
+    })
   },
 
   /**
@@ -174,22 +174,22 @@ module.exports = {
    */
   findOne(req, res) {
 
-    var Model = actionUtil.parseModel(req);
-    var pk = actionUtil.requirePk(req);
+    var Model = actionUtil.parseModel(req)
+    var pk = actionUtil.requirePk(req)
 
-    var query = Model.findOne(pk);
-    query = actionUtil.populateRequest(query, req);
+    var query = Model.findOne(pk)
+    query = actionUtil.populateRequest(query, req)
     query.exec(function found(err, matchingRecord) {
       if (err) {
-        return res.serverError(err);
+        return res.serverError(err)
       }
       if (!matchingRecord) {
-        return res.notFound('No record found with the specified `id`.');
+        return res.notFound('No record found with the specified `id`.')
       }
 
-      permissions.addPermissions(matchingRecord, 'user', req.user);
-      res.ok(matchingRecord);
-    });
+      permissions.addPermissions(matchingRecord, 'user', req.user)
+      res.ok(matchingRecord)
+    })
   },
 
   /**
@@ -197,9 +197,9 @@ module.exports = {
    */
   count(req, res) {
     User.count().then((count) => {
-      return res.json({count: count});
+      return res.json({count: count})
     }).catch((err) => {
-      res.negotiate(err);
-    });
+      res.negotiate(err)
+    })
   }
-};
+}

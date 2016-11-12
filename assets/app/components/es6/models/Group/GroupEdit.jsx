@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react';
+import {Component, PropTypes} from 'react'
 import {
   Col,
   Row,
@@ -10,12 +10,12 @@ import {
   PageHeader,
   ButtonToolbar,
   Alert
-} from 'react-bootstrap';
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl';
-import Forbidden from './../../Forbidden';
-import EditToolbar from './../../EditToolbar';
-import {notify} from 'react-notify-toast';
-import _ from 'lodash/core';
+} from 'react-bootstrap'
+import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import Forbidden from './../../Forbidden'
+import EditToolbar from './../../EditToolbar'
+import {notify} from 'react-notify-toast'
+import _ from 'lodash/core'
 
 const messages = defineMessages({
   groupTitle: {
@@ -48,16 +48,16 @@ const messages = defineMessages({
     description: 'Info that groups has beed deleted',
     defaultMessage: 'Group has beed deleted.'
   }
-});
+})
 
 class GroupEdit extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       bsStyle: {
         name: null
@@ -68,156 +68,156 @@ class GroupEdit extends Component {
       edit: false,
       error: null,
       allow: true
-    };
-    this._bind('_save', '_update', '_remove', 'load', '_handleNameChange', '_validateAll', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleDestroyResponse');
+    }
+    this._bind('_save', '_update', '_remove', 'load', '_handleNameChange', '_validateAll', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleDestroyResponse')
   }
 
   componentDidMount() {
-    this._isMounted = true;
-    this.load();
+    this._isMounted = true
+    this.load()
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this.context.socket.get('/groups/unsubscribe');
+    this._isMounted = false
+    this.context.socket.get('/groups/unsubscribe')
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.params.groupId !== this.props.params.groupId) {
-      this.setState({group: null, status: 0, error: null});
-      this.load(nextProps);
+      this.setState({group: null, status: 0, error: null})
+      this.load(nextProps)
     }
   }
 
   handleCanCreate(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true});
+      this.setState({allow: true})
     } else {
-      this.setState({allow: false});
+      this.setState({allow: false})
     }
   }
 
   handleCanModify(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true, edit: true});
-      let {socket} = this.context;
-      socket.get('/groups/' + this.props.params.groupId, this.handleLoad);
+      this.setState({allow: true, edit: true})
+      let {socket} = this.context
+      socket.get('/groups/' + this.props.params.groupId, this.handleLoad)
     } else {
-      this.setState({allow: false});
+      this.setState({allow: false})
     }
   }
 
   load(nextProps) {
     if (!this._isMounted) {
-      return;
+      return
     }
-    let {socket} = this.context;
-    let groupId = this.props.params.groupId;
+    let {socket} = this.context
+    let groupId = this.props.params.groupId
     if (nextProps) {
-      groupId = nextProps.params.groupId;
+      groupId = nextProps.params.groupId
     }
     if (typeof groupId !== 'undefined') {
-      socket.get('/groups/canmodify/' + groupId, this.handleCanModify);
+      socket.get('/groups/canmodify/' + groupId, this.handleCanModify)
     } else {
-      socket.get('/groups/cancreate', this.handleCanCreate);
+      socket.get('/groups/cancreate', this.handleCanCreate)
     }
   }
 
   handleLoad(data, res) {
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({status: res.statusCode, group: data, error: null});
+      this.setState({status: res.statusCode, group: data, error: null})
     } else {
-      this.setState({status: res.statusCode, error: res.body, group: null});
+      this.setState({status: res.statusCode, error: res.body, group: null})
     }
   }
 
   _save() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (this._validateAll()) {
       socket.post('/groups', {
         name: this.state.group.name,
         _csrf: _csrf
-      }, this.handleSaveResponse);
+      }, this.handleSaveResponse)
     }
   }
 
   _update() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (this._validateAll()) {
       socket.put('/groups/' + this.props.params.groupId, {
         name: this.state.group.name,
         _csrf: _csrf
-      }, this.handleSaveResponse);
+      }, this.handleSaveResponse)
     }
   }
 
   _remove() {
-    let {socket} = this.context;
+    let {socket} = this.context
     if (!this.state.deleted) {
       socket.delete('/groups/' + this.props.params.groupId, {
         _csrf: _csrf
-      }, this.handleDestroyResponse);
+      }, this.handleDestroyResponse)
     }
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (!this._isMounted) {
-      return;
+      return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true});
-      notify.show(formatMessage(messages.deletedSuccess), 'success');
-      this.context.history.goBack();
+      this.setState({deleted: true})
+      notify.show(formatMessage(messages.deletedSuccess), 'success')
+      this.context.history.goBack()
     } else {
-      notify.show(res.body, 'error');
+      notify.show(res.body, 'error')
     }
   }
 
   handleSaveResponse(data) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (data.code == 'E_VALIDATION') {
       this.setState({
         error: data.details,
         bsStyle: {
           name: 'error'
         }
-      });
+      })
     } else if (data.id != undefined) {
-      notify.show(formatMessage(messages.saved), 'success');
-      this.setState({error: null});
-      let id = data.id;
-      this.context.history.push('/group/' + id);
+      notify.show(formatMessage(messages.saved), 'success')
+      this.setState({error: null})
+      let id = data.id
+      this.context.history.push('/group/' + id)
     }
   }
 
   _validateAll() {
-    let passed = true;
+    let passed = true
     if (this.state.group.name.length == 0) {
       this.setState({
         bsStyle: {
           name: 'error'
         }
-      });
-      passed = false;
+      })
+      passed = false
     } else {
       this.setState({
         bsStyle: {
           name: 'success'
         }
-      });
+      })
     }
 
-    return passed;
+    return passed
   }
 
   _handleNameChange(event) {
@@ -225,21 +225,21 @@ class GroupEdit extends Component {
       group: {
         name: event.target.value
       }
-    });
+    })
   }
 
   render() {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
 
     if (!this.state.allow) {
-      return (<Forbidden/>);
+      return (<Forbidden/>)
     }
 
-    let errorMessage = null;
+    let errorMessage = null
     if (this.state.error != null) {
       errorMessage = <Alert bsStyle="danger">
         <p>{this.state.error}</p>
-      </Alert>;
+      </Alert>
     }
 
     let fieldName = 
@@ -249,20 +249,20 @@ class GroupEdit extends Component {
         <FormControl type="text" value={this.state.group.name} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.groupFieldNamePlaceholder)}/>
         <FormControl.Feedback/>
       </Col>
-    </FormGroup>;
+    </FormGroup>
 
-    let create = null;
-    let update = null;
-    let remove = null;
-    let title = null;
+    let create = null
+    let update = null
+    let remove = null
+    let title = null
 
     if (this.state.edit) {
-      update = this._update;
-      remove = this._remove;
-      title = <FormattedMessage {...messages.groupEditTitle}/>;
+      update = this._update
+      remove = this._remove
+      title = <FormattedMessage {...messages.groupEditTitle}/>
     } else {
-      create = this._save;
-      title = <FormattedMessage {...messages.groupTitle}/>;
+      create = this._save
+      title = <FormattedMessage {...messages.groupTitle}/>
     }
 
     return (
@@ -276,7 +276,7 @@ class GroupEdit extends Component {
           <EditToolbar create={create} update={update} remove={remove}/>
         </Col>
       </Row>
-    );
+    )
   }
 }
 
@@ -284,10 +284,10 @@ GroupEdit.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 GroupEdit.propTypes = {
   groupId: PropTypes.number
-};
+}
 
-export default injectIntl(GroupEdit);
+export default injectIntl(GroupEdit)

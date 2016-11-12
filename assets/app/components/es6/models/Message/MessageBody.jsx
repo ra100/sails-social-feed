@@ -1,11 +1,11 @@
-import {Component, PropTypes} from 'react';
-import {FormControl} from 'react-bootstrap';
-import EditToolbar from './../../EditToolbar';
-import {notify} from 'react-notify-toast';
-import {formatMessage, defineMessages, injectIntl} from 'react-intl';
+import {Component, PropTypes} from 'react'
+import {FormControl} from 'react-bootstrap'
+import EditToolbar from './../../EditToolbar'
+import {notify} from 'react-notify-toast'
+import {formatMessage, defineMessages, injectIntl} from 'react-intl'
 
-const hashLink = 'https://twitter.com/hashtag/HASHTAG';
-const userLink = 'https://twitter.com/USER';
+const hashLink = 'https://twitter.com/hashtag/HASHTAG'
+const userLink = 'https://twitter.com/USER'
 
 const messages = defineMessages({
   saved: {
@@ -18,148 +18,148 @@ const messages = defineMessages({
     description: 'Deleted notification',
     defaultMessage: 'Message has been deleted'
   }
-});
+})
 
 class MessageBody extends Component {
 
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this));
+    methods.forEach((method) => this[method] = this[method].bind(this))
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       message: '',
       edit: false
-    };
-    this._bind('renderMedia', 'renderTwitterMedia', 'renderAdminMedia', 'handleEdit', 'update', 'cancel', 'remove', '_handleMessageChange', 'handleDelete');
+    }
+    this._bind('renderMedia', 'renderTwitterMedia', 'renderAdminMedia', 'handleEdit', 'update', 'cancel', 'remove', '_handleMessageChange', 'handleDelete')
   }
 
   componentDidMount() {
-    this.setState({message: this.props.message.message});
+    this.setState({message: this.props.message.message})
   }
 
   handleEdit() {
-    this.setState({'edit': true});
+    this.setState({'edit': true})
   }
 
   update() {
-    this.setState({edit: false});
+    this.setState({edit: false})
     socket.put('/messages/' + this.props.message.id, {
       _csrf: _csrf,
       message: this.state.message
-    }, this.handleUpdate);
+    }, this.handleUpdate)
   }
 
   cancel() {
-    this.setState({message: this.props.message.message, edit: false});
+    this.setState({message: this.props.message.message, edit: false})
   }
 
   remove() {
     socket.delete('/messages', {
       _csrf: _csrf,
       id: this.props.message.id
-    }, this.handleDelete);
+    }, this.handleDelete)
   }
 
   handleUpdate(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (res.statusCode == 500) {
-      notify.show('Error 500', 'error');
-      return;
+      notify.show('Error 500', 'error')
+      return
     }
     if (res.statusCode == 403) {
-      notify.show(res.body, 'error');
-      return;
+      notify.show(res.body, 'error')
+      return
     }
-    notify.show(formatMessage(messages.saved), 'success');
-    this.setState({edit: false});
+    notify.show(formatMessage(messages.saved), 'success')
+    this.setState({edit: false})
   }
 
   handleDelete(data, res) {
-    const {formatMessage} = this.props.intl;
+    const {formatMessage} = this.props.intl
     if (res.statusCode == 500) {
-      notify.show('Error 500', 'error');
-      return;
+      notify.show('Error 500', 'error')
+      return
     }
     if (res.statusCode == 403) {
-      notify.show(res.body, 'error');
-      return;
+      notify.show(res.body, 'error')
+      return
     }
-    notify.show(formatMessage(messages.deleted), 'success');
-    this.setState({message: 'DELETED', edit: false});
+    notify.show(formatMessage(messages.deleted), 'success')
+    this.setState({message: 'DELETED', edit: false})
   }
 
   _handleMessageChange(event) {
-    this.setState({message: event.target.value});
+    this.setState({message: event.target.value})
   }
 
   renderMedia() {
-    const {type} = this.props;
+    const {type} = this.props
     switch (type) {
       case 'twitter':
-        return this.renderTwitterMedia();
+        return this.renderTwitterMedia()
       case 'admin':
-        return this.renderAdminMedia();
+        return this.renderAdminMedia()
       default:
-        return null;
+        return null
     }
   }
 
   renderTwitterMedia() {
-    const {meta} = this.props;
+    const {meta} = this.props
     if (meta == null || typeof meta.media == 'undefined') {
-      return null;
+      return null
     }
-    let med = meta.media;
+    let med = meta.media
     if (typeof meta.media_ext !== 'undefined') {
-      med = meta.media_ext;
+      med = meta.media_ext
     }
     let m = med.map((media, i) => {
       switch (media.type) {
         case 'photo':
           return <a key={media.id} href={media.expanded_url} target="_blank">
             <img src={media.media_url_https} width={media.sizes.small.w / 3} height={media.sizes.small.h / 3}/>
-          </a>;
+          </a>
         default:
-          return null;
+          return null
       }
-    });
+    })
     return <div className="media">
       {m}
-    </div>;
+    </div>
   }
 
   renderAdminMedia() {
     if (!this.props.message.picture) {
-      return null;
+      return null
     }
-    let {picture} = this.props.message;
+    let {picture} = this.props.message
     return <a href={picture.original.path} target="_blank">
       <img src={picture.thumb.path} width={picture.thumb.width} height={picture.thumb.height}/>
-    </a>;
+    </a>
   }
 
   render() {
-    let {editable} = this.props;
-    let {edit} = this.state;
-    let text = null;
-    let buttons = null;
+    let {editable} = this.props
+    let {edit} = this.state
+    let text = null
+    let buttons = null
     if (editable) {
       if (edit) {
         text = <div>
           <FormControl componentClass="textarea" value={this.state.message} onChange={this._handleMessageChange} ref="message"/>
-        </div>;
-        buttons = <EditToolbar update={this.update} remove={this.remove} cancelCallback={this.cancel}/>;
+        </div>
+        buttons = <EditToolbar update={this.update} remove={this.remove} cancelCallback={this.cancel}/>
       } else {
-        text = <span className="text editable" onClick={this.handleEdit}>{this.props.message.message}</span>;
+        text = <span className="text editable" onClick={this.handleEdit}>{this.props.message.message}</span>
       }
     } else {
-      text = <span className="text">{this.props.message.message}</span>;
+      text = <span className="text">{this.props.message.message}</span>
     }
     return (
       <div>{text}{buttons}{this.renderMedia()}</div>
-    );
+    )
   }
 }
 
@@ -167,18 +167,18 @@ MessageBody.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
 MessageBody.propTypes = {
   message: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   meta: PropTypes.object,
   editable: PropTypes.bool
-};
+}
 
 MessageBody.defaultTypes = {
   meta: null,
   editable: false
-};
+}
 
-export default injectIntl(MessageBody);
+export default injectIntl(MessageBody)

@@ -8,5 +8,5 @@ module.exports = function (grunt) {
     'browserify:vendorDev',
     'browserify:dev',
     'coffee:dev',
-  ]);
-};
+  ])
+}

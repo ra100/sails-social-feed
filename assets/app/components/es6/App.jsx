@@ -1,7 +1,7 @@
-import {Component, PropTypes} from 'react';
-import {Grid} from 'react-bootstrap';
-import Navigation from './Navigation';
-import Notifications from 'react-notify-toast';
+import {Component, PropTypes} from 'react'
+import {Grid} from 'react-bootstrap'
+import Navigation from './Navigation'
+import Notifications from 'react-notify-toast'
 
 /**
  * File with basic App layout and routes
@@ -9,7 +9,7 @@ import Notifications from 'react-notify-toast';
 class App extends Component {
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
   }
 
   render() {
@@ -21,7 +21,7 @@ class App extends Component {
           {this.props.children}
         </Grid>
       </div>
-    );
+    )
   }
 }
 
@@ -29,6 +29,6 @@ App.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-};
+}
 
-module.exports = App;
+module.exports = App

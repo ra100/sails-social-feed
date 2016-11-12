@@ -10,7 +10,7 @@ module.exports = function (grunt) {
       },
       src: ['test/**/*.js']
     }
-  });
+  })
 
-  grunt.loadNpmTasks('grunt-mocha-test');
-};
+  grunt.loadNpmTasks('grunt-mocha-test')
+}
