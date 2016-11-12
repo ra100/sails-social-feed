@@ -76,5 +76,6 @@ module.exports.routes = {
   'get /oembed/youtube': 'OembedController.youtube',
 
   'get /facebook/callback' : 'FacebookController.callback',
-  'post /facebook/callback': 'FacebookController.update'
+  'post /facebook/callback': 'FacebookController.update',
+  'get /facebook/token' : 'FacebookController.token'
 }

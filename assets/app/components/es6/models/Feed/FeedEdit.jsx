@@ -667,7 +667,7 @@ class FeedCreate extends Component {
     if (this.state.auth !== null) {
       authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldReAuthLabel}/></Button>
     }
-    if (!this.state.edit || ['twitter_user', 'twitter_hashtag'].indexOf(this.state.type) < 0) {
+    if (!this.state.edit || !['twitter_user', 'twitter_hashtag', 'facebook_user', 'facebook_page'].includes(this.state.type)) {
       authButton = null
     }
 

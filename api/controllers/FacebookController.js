@@ -4,7 +4,6 @@
  * @description :: Server-side logic for managing Facebooks
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
 module.exports = {
   callback: function (req, res) {
     var mode = req.param('hub.mode')

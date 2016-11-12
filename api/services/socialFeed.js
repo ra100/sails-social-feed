@@ -1,5 +1,7 @@
-var _ = require('lodash')
-var oauth = require('oauth')
+const _ = require('lodash')
+const oauth = require('oauth')
+const request = require('superagent')
+const { Facebook } = require('fb')
 
 /**
  * socialFeed service, to provide functions used in different parts of code
@@ -143,7 +145,7 @@ module.exports = {
     let id = req.param('id')
     let oauth_token = req.param('oauth_token')
     let oauth_verifier = req.param('oauth_verifier')
-    var oa = new oauth.OAuth('https://api.twitter.com/oauth/request_token', 'https://api.twitter.com/oauth/access_token', sails.config.auth.twitter_consumer_key, sails.config.auth.twitter_consumer_secret, '1.0', sails.config.baseurl + + '/feeds/twitter/' + id, 'HMAC-SHA1')
+    var oa = new oauth.OAuth('https://api.twitter.com/oauth/request_token', 'https://api.twitter.com/oauth/access_token', sails.config.auth.twitter_consumer_key, sails.config.auth.twitter_consumer_secret, '1.0', sails.config.baseurl + '/feeds/twitter/' + id, 'HMAC-SHA1')
     Feed.findOne(id).then(function (feed) {
       if (!feed.auth.oauth_token_secret) {
         return res.serverError()
@@ -177,5 +179,68 @@ module.exports = {
     }).catch(function (err) {
       return res.serverError(err)
     })
+  },
+
+  authFacebook: (req, res) => {
+    const id = req.param('id')
+    return res.ok({
+      redirect: `https://www.facebook.com/v${sails.config.auth.facebook_api_version}/dialog/oauth?client_id=${sails.config.auth.facebook_app_id}&redirect_uri=${sails.config.baseurl}/feeds/facebook?feed=${id}&scope=publish_pages`})
+  },
+
+  authFacebookTokens: (req, res, next) => {
+    const id = req.param('feed')
+    const code = req.param('code')
+    request.get( `https://graph.facebook.com/v${sails.config.auth.facebook_api_version}/oauth/access_token`)
+      .query({
+        client_id: sails.config.auth.facebook_app_id,
+        redirect_uri: `${sails.config.baseurl}/feeds/facebook?feed=${id}`,
+        client_secret: sails.config.auth.facebook_app_secret,
+        code: code})
+      .end((err, response) => {
+        if (err || !response.ok) {
+          return res.serverError(err)
+        }
+        if (!response.body.access_token) {
+          return res.serverError('Token not found')
+        }
+        const access_token = response.body.access_token
+        // Load feed
+        Feed.findOne(id).then(feed => {
+          if (!feed) {
+            return res.notFound(req._('Error.Feed.NotFound'))
+          }
+          const pageId = feed.config
+          const fb = new Facebook({
+            version: `v${sails.config.auth.facebook_api_version}`,
+            appId: sails.config.auth.facebook_app_id,
+            appSecret: sails.config.auth.facebook_app_secret
+          })
+          fb.setAccessToken(access_token)
+          // get page access token
+          fb.api(`/${pageId}?fields=access_token`, 'get', {}, result => {
+            sails.log.verbose('Page access', result)
+            const page_token = result.access_token
+            fb.setAccessToken(page_token)
+            // subscribe webhook to page
+            fb.api(`/${pageId}/subscribed_apps`, 'post', {}, result => {
+              sails.log.verbose('Facebook webhook subscribe', result)
+              if (!result.success) {
+                return res.serverError(result)
+              }
+              const auth = {
+                valid: true,
+                access_token: page_token
+              }
+              return Feed.update(id, {auth: auth}).then(f => {
+                sails.log.verbose('Feed saved', f)
+              })
+            })
+          })
+        }).catch(err => {
+          return res.negotiate(err)
+        }).then(() => {
+          return res.redirect('/#/feed/' + id)
+        })
+      })
   }
 }

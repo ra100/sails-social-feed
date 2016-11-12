@@ -58,8 +58,15 @@ module.exports = {
   /**
    * twitter auth callback
    */
-  twitter: function (req, res, next) {
+  twitter(req, res, next) {
     socialFeed.authTwitterTokens(req, res)
+  },
+
+  /**
+   * facebook auth callback
+   */
+  facebook(req, res, next) {
+    socialFeed.authFacebookTokens(req, res, next)
   },
 
   /**

@@ -43,3 +43,9 @@ html {
 tr .form-group {
     margin: 0;
 }
+
+.multiselect-native-select {
+  select {
+    display: none;
+  }
+}

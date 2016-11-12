@@ -15,12 +15,12 @@ module.exports = {
       type: 'string',
       enum: [
         'facebook_page',
-        'facebook_user',
+        // 'facebook_user',
         'twitter_user',
         'twitter_hashtag',
-        'youtube_profile',
-        'soundcloud_profile',
-        'instagram_profile',
+        // 'youtube_profile',
+        // 'soundcloud_profile',
+        // 'instagram_profile',
         'form',
         'admin'
       ]
