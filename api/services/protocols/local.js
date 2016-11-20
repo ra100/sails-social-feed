@@ -53,6 +53,8 @@ exports.register = function (req, res, next) {
     newuser.displayname = displayname
   }
 
+  sails.log.silly('New User:', newuser)
+
   User.create(newuser, function (err, user) {
     if (err) {
       if (err.code === 'E_VALIDATION') {
@@ -76,6 +78,7 @@ exports.register = function (req, res, next) {
       accessToken: token
     }, function (err, passport) {
       if (err) {
+        sails.log.error('Passport creation error', err)
         if (err.code === 'E_VALIDATION') {
           req.flash('error', 'Error.Passport.Password.Invalid')
         }

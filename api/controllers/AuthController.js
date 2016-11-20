@@ -249,6 +249,7 @@ var AuthController = {
     }
 
     passport.callback(req, res, function (err, user, challenges, statuses) {
+      sails.log.silly(err, user, challenges, statuses)
       if (err || !user) {
         return returnError(challenges)
       }

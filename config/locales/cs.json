@@ -1,2 +1,15 @@
 {
+	"Error.Passport.Generic": "Error.Passport.Generic",
+	"Error.Passport.Username.NotFound": "Error.Passport.Username.NotFound",
+	"Error.Passport.Password.Wrong": "Error.Passport.Password.Wrong",
+	"Status.Passport.Logged": "Status.Passport.Logged",
+	"Error.Passport.Already.Authenticated": "Error.Passport.Already.Authenticated",
+	"Error.Not.Admin": "Error.Not.Admin",
+	"Error.Not.Editor": "Error.Not.Editor",
+	"Error.Not.InGroup": "Error.Not.InGroup",
+	"Error.Stream.Not.Found": "Error.Stream.Not.Found",
+	"Error.Passport.Password.NotSet": "Error.Passport.Password.NotSet",
+	"You have been authenticated": "You have been authenticated",
+	"Error.Too.Many.Requests": "Error.Too.Many.Requests",
+	"Error.Passport.Password.Invalid": "Chyba hesla"
 }
