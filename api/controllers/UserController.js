@@ -117,9 +117,9 @@ module.exports = {
     if (user == undefined) {
       return res.json()
     }
-    User.findOne({id: user.id}).populate('roles').populate('groups').exec(function (e, r) {
+    User.findOne({id: user.id}).populate('roles').populate('groups').populate('passports').exec(function (e, r) {
       user = r
-      return res.jsonx({username: user.username, roles: user.roles, id: user.id, displayname: user.displayname, picture: user.picture, meta: user.meta})
+      return res.jsonx({username: user.username, roles: user.roles, id: user.id, displayname: user.displayname, picture: user.picture, meta: user.meta, protocol: user.passports[0].protocol})
     })
   },
 
