@@ -68,7 +68,7 @@ module.exports = {
          * TODO
          * Different for every feed type
          *
-         * {likes, shares, comments}
+         * {likes, shares, comments, media}
          */
     },
     parentMessage: {
@@ -105,7 +105,7 @@ module.exports = {
       Feed.findOne(values.feed).populate('stream').then(function (feed) {
         values.stream = feed.stream.id
         values.feedType = feed.type
-        values.published = feed.stream.display
+        values.published = (values.published === false) ? false : feed.stream.display
         next()
       }).catch(function (err) {
         next(err)
@@ -114,7 +114,7 @@ module.exports = {
       return Stream.findOne(values.stream).then(function (stream) {
         if (typeof values.author === 'object') {
           values.feedType = 'form'
-          values.published = stream.display
+          values.published = (values.published === false) ? false : stream.display
           return next()
         }
         return User.findOne({id: values.author}).then(function (user) {

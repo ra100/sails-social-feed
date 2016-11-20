@@ -69,23 +69,34 @@ module.exports = {
   beforeUpdate: function (values, next) {
     delete values._csrf
     Feed.findOne({id: values.id}).then((feed) => {
-      if (values.type == 'twitter_user') {
-        if (feed.config == values.config && typeof feed.meta !== 'undefined' && feed.meta.uid !== 0) {
-          return next()
-        }
-        return twitterStreaming.findUid(values.config).then((uid) => {
-          values.meta = {
-            uid: uid
+      switch(values.type) {
+        case 'twitter_user':
+          if (feed.config == values.config && typeof feed.meta !== 'undefined' && feed.meta.uid !== 0) {
+            return next()
           }
-          next()
-        }).catch((err) => {
-          values.meta = {
-            uid: 0
+          return twitterStreaming.findUid(values.config).then((uid) => {
+            values.meta = {
+              uid: uid
+            }
+            next()
+          }).catch((err) => {
+            values.meta = {
+              uid: 0
+            }
+            next()
+          })
+          break
+
+        case 'facebook_page':
+        case 'facebook_user':
+          if (feed.config !== values.config) {
+            // remove old subscribtion
+            facebookUpdate.unsubscribe(feed, values, next)
           }
+          break
+
+        default:
           next()
-        })
-      } else {
-        next()
       }
     }).catch(next)
   },

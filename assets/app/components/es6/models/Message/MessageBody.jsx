@@ -32,7 +32,7 @@ class MessageBody extends Component {
       message: '',
       edit: false
     }
-    this._bind('renderMedia', 'renderTwitterMedia', 'renderAdminMedia', 'handleEdit', 'update', 'cancel', 'remove', '_handleMessageChange', 'handleDelete')
+    this._bind('renderMedia', 'renderTwitterMedia', 'renderFacebookMedia', 'renderAdminMedia', 'handleEdit', 'update', 'cancel', 'remove', '_handleMessageChange', 'handleDelete')
   }
 
   componentDidMount() {
@@ -99,6 +99,8 @@ class MessageBody extends Component {
     switch (type) {
       case 'twitter':
         return this.renderTwitterMedia()
+      case 'facebook':
+        return this.renderFacebookMedia()
       case 'admin':
         return this.renderAdminMedia()
       default:
@@ -125,6 +127,25 @@ class MessageBody extends Component {
           return null
       }
     })
+    return <div className="media">
+      {m}
+    </div>
+  }
+
+  renderFacebookMedia() {
+    const {meta} = this.props
+    const type = this.props.message.mediaType
+    if (type === 'video') {
+      return <div dangerouslySetInnerHTML={{__html: meta.video.format[1].embed_html}}></div>
+    }
+    let m = null
+    if (type === 'album') {
+      m = meta.media[0].subattachments.data.map((photo) => {
+        return <a key={photo.target.id} href={photo.target.url} target="_blank">
+          <img src={photo.media.image.src} width={photo.media.image.width / 4} height={photo.media.image.height / 4}/>
+        </a>
+      })
+    }
     return <div className="media">
       {m}
     </div>

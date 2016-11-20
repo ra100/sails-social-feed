@@ -198,10 +198,10 @@ module.exports = {
         code: code})
       .end((err, response) => {
         if (err || !response.ok) {
-          return res.serverError(err)
+          return next(err)
         }
         if (!response.body.access_token) {
-          return res.serverError('Token not found')
+          return next('Token not found')
         }
         const access_token = response.body.access_token
         // Load feed
@@ -225,7 +225,9 @@ module.exports = {
             fb.api(`/${pageId}/subscribed_apps`, 'post', {}, result => {
               sails.log.verbose('Facebook webhook subscribe', result)
               if (!result.success) {
-                return res.serverError(result)
+                return Feed.update(id, {auth: {valid: false}}).then(f => {
+                  sails.log.verbose('Feed saved', JSON.stringify(f))
+                })
               }
               const auth = {
                 valid: true,

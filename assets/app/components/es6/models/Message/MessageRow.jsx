@@ -143,6 +143,9 @@ class MessageRow extends Component {
       case 'twitter_hashtag':
       case 'twitter_user':
         return 'twitter'
+      case 'facebook_page':
+      case 'facebook_user':
+        return 'facebook'
       case 'admin':
         return 'admin'
       default:

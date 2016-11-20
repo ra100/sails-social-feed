@@ -19,6 +19,7 @@ module.exports = {
   },
 
   update: function (req, res) {
+    facebookUpdate.update(req.body)
     return res.ok()
   }
 }

@@ -61,5 +61,6 @@
 module.exports.csrf = {
   grantTokenViaAjax: true,
   protectionEnabled: true,
-  origin: process.env.ORIGIN
+  origin: process.env.ORIGIN,
+  routesDisabled: '/facebook/callback'
 }

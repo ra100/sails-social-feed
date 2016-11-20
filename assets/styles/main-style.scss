@@ -49,3 +49,8 @@ tr .form-group {
     display: none;
   }
 }
+
+.checkbox .checkbox-material .check,
+label.checkbox-inline .checkbox-material .check {
+  border: 2px solid rgba(0, 0, 0, .54);
+}

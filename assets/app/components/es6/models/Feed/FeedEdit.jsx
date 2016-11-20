@@ -663,8 +663,11 @@ class FeedCreate extends Component {
       </div>
     </div>
 
-    let authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldAuthLabel}/></Button>
-    if (this.state.auth !== null) {
+    let authButton = <Button
+      className={(this.state.auth !== null && this.state.auth === false)
+        ? 'btn-danger' : ''}
+      onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldAuthLabel}/></Button>
+    if (this.state.auth !== null && this.state.auth) {
       authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldReAuthLabel}/></Button>
     }
     if (!this.state.edit || !['twitter_user', 'twitter_hashtag', 'facebook_user', 'facebook_page'].includes(this.state.type)) {

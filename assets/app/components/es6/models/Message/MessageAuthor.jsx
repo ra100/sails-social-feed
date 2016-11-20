@@ -26,6 +26,15 @@ class MessageAuthor extends Component {
           <span className="user-handle">@{author.handle}</span>
         </span>
         break
+      case 'facebook':
+        a = <span className="author">
+          <a href={author.url} target="_blank">
+            <img height="48" width="48" src={author.picture} className="user-picture"/>
+          </a>
+          <a className="user-name" href={author.url} target="_blank">{author.name}
+          </a>
+        </span>
+        break
       case 'admin':
         a = <span className="author">
           <img height="48" width="48" src={author.picture} className="user-picture"/>
