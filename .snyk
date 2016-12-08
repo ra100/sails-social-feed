@@ -1,4 +1,4 @@
-version: v1.5.2
+version: v1.5.0
 ignore:
   'npm:minimatch:20160620':
     - sails > grunt > minimatch:
@@ -175,8 +175,6 @@ patch:
   'npm:ws:20160624':
     - socket.io-client > engine.io-client > ws:
         patched: '2016-07-08T13:24:31.413Z'
-      sails > sails-hook-sockets > socket.io > engine.io > ws:
-        patched: '2016-10-21T15:48:47.707Z'
     - sails > sails-hook-sockets > socket.io-client > engine.io-client > ws:
         patched: '2016-07-08T13:24:31.413Z'
     - sails > sails-hook-sockets > socket.io > socket.io-client > engine.io-client > ws:
@@ -203,6 +201,8 @@ patch:
         patched: '2016-08-02T11:05:36.125Z'
     - sails > sails-hook-sockets > socket.io > socket.io-client > engine.io-client > ws:
         patched: '2016-08-02T11:05:36.125Z'
+    - sails > sails-hook-sockets > socket.io > engine.io > ws:
+        patched: '2016-10-21T15:48:47.707Z'
   'npm:negotiator:20160616':
     - sails > express > connect > serve-index > accepts > negotiator:
         patched: '2016-10-21T15:48:47.707Z'
@@ -219,3 +219,6 @@ patch:
         patched: '2016-10-21T15:48:47.707Z'
     - core-monitor > monitor > socket.io > socket.io-client > ws:
         patched: '2016-10-21T15:48:47.707Z'
+  'npm:ejs:20161128':
+    - sails > ejs:
+        patched: '2016-12-08T15:19:23.386Z'
