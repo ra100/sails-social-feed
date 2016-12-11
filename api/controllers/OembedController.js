@@ -9,15 +9,18 @@ var request = require('superagent')
 module.exports = {
   youtube: function (req, res) {
     var url = req.param('url')
-    if (typeof url == 'string') {
-      request.get('https://www.youtube.com/oembed?format=json&url=' + url).end((err, result) => {
-        if (err || !result.ok) {
-          return res.serverError(err)
-        }
-        return res.json(result.body)
-      })
-    } else {
+    if (typeof url !== 'string') {
       return res.badRequest()
     }
+    Oembed.findOne({url: url}).then(oembed => {
+      if (oembed) {
+        return res.json(oembed.json)
+      }
+      return request.get('https://www.youtube.com/oembed?format=json&url=' + url)
+    }).then(result => {
+      return res.json(result.body)
+    }).catch(err => {
+      return res.serverError(err)
+    })
   }
 }

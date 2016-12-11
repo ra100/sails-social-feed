@@ -102,6 +102,7 @@ module.exports = {
       values.created = new Date()
     }
     if (values.feed) {
+      // @FIXME sometimes message gets not published
       Feed.findOne(values.feed).populate('stream').then(function (feed) {
         values.stream = feed.stream.id
         values.feedType = feed.type
@@ -112,11 +113,13 @@ module.exports = {
       })
     } else if (values.stream) {
       return Stream.findOne(values.stream).then(function (stream) {
+        // @TODO needs to be changed, so it works with logged users
         if (typeof values.author === 'object') {
           values.feedType = 'form'
           values.published = (values.published === false) ? false : stream.display
           return next()
         }
+        // @TODO should check if user is stream admin
         return User.findOne({id: values.author}).then(function (user) {
           values.feedType = 'admin'
           values.published = true
@@ -177,6 +180,7 @@ module.exports = {
       delete values._csrf
       Stream.publishAdd(values.stream, 'messages', values)
     } else {
+      // @TODO @FIXME
       Stream.publishAdd(values.stream, 'messages', values)
     }
     sails.log.debug('Related message value: ', values.parentMessage)
