@@ -106,7 +106,7 @@ module.exports = {
       Feed.findOne(values.feed).populate('stream').then(function (feed) {
         values.stream = feed.stream.id
         values.feedType = feed.type
-        values.published = (values.published === false) ? false : feed.stream.display
+        values.published = (values.published === false && feed.type.includes('facebook')) ? false : feed.stream.display
         next()
       }).catch(function (err) {
         next(err)
@@ -116,7 +116,7 @@ module.exports = {
         // @TODO needs to be changed, so it works with logged users
         if (typeof values.author === 'object') {
           values.feedType = 'form'
-          values.published = (values.published === false) ? false : stream.display
+          values.published = stream.display
           return next()
         }
         // @TODO should check if user is stream admin
