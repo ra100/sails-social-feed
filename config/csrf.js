@@ -65,6 +65,7 @@ module.exports.csrf = {
   routesDisabled: [
     '/facebook/callback',
     '/auth/local',
-    '/auth/:provider'
+    '/auth/:provider',
+    '/messages/submit'
   ]
 }
