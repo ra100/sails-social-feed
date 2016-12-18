@@ -66,6 +66,7 @@ module.exports.csrf = {
     '/facebook/callback',
     '/auth/local',
     '/auth/:provider',
+    '/auth/:provider/:action',
     '/messages/submit'
   ]
 }

@@ -27,7 +27,7 @@ module.exports.policies = {
 
   // '*': true,
   '*': [
-    // 'localize',
+    'localize',
     // 'basicAuth',
     'passport',
     'sessionAuth',
@@ -39,67 +39,67 @@ module.exports.policies = {
     // 'CriteriaPolicy',
   ],
 
-  '/login': [true],
-  '/register': ['passport', 'sessionAuth', 'isAdmin'],
+  '/login': ['localize', true],
+  '/register': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
 
   AuthController: {
-    '*': ['passport']
+    '*': ['localize', 'passport']
   },
 
   UserController: {
-    'me': ['passport', 'sessionAuth'],
-    'view': ['passport', 'sessionAuth'],
-    'create': ['passport', 'sessionAuth', 'isAdmin'],
-    'update': ['passport', 'sessionAuth', 'editSelf'],
-    'destroy': ['passport', 'sessionAuth', 'isAdmin'],
-    'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
-    'canmodify': ['passport', 'sessionAuth', 'editSelf'],
-    'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
+    'me': ['localize', 'passport', 'sessionAuth'],
+    'view': ['localize', 'passport', 'sessionAuth'],
+    'create': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'update': ['localize', 'passport', 'sessionAuth', 'editSelf'],
+    'destroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'cancreate': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'canmodify': ['localize', 'passport', 'sessionAuth', 'editSelf'],
+    'candestroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'unsubscribe': [true]
   },
 
   StreamController: {
-    'definition': ['passport', 'sessionAuth', 'isEditor'],
-    'cancreate': ['passport', 'sessionAuth', 'isEditor'],
-    'canmodify': ['passport', 'sessionAuth', 'isOwner'],
-    'create': ['passport', 'sessionAuth', 'isEditor'],
-    'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'public': [true],
-    'unsubscribe': [true],
-    'messages': [true]
+    'definition': ['localize', 'passport', 'sessionAuth', 'isEditor'],
+    'cancreate': ['localize', 'passport', 'sessionAuth', 'isEditor'],
+    'canmodify': ['localize', 'passport', 'sessionAuth', 'isOwner'],
+    'create': ['localize', 'passport', 'sessionAuth', 'isEditor'],
+    'view': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'update': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'destroy': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'public': ['localize', true],
+    'unsubscribe': ['localize', true],
+    'messages': ['localize', true]
   },
 
   MessageController: {
-    'submit': ['passport', 'sessionAuth', 'rateLimit'],
-    'unsubscribe': [true],
-    '*': ['passport', 'sessionAuth', 'isEditor']
+    'submit': ['localize', 'passport', 'sessionAuth', 'rateLimit'],
+    'unsubscribe': ['localize', true],
+    '*': ['localize', 'passport', 'sessionAuth', 'isEditor']
   },
 
   FeedController: {
-    'definition': ['passport', 'sessionAuth', 'isEditor'],
-    'cancreate': ['passport', 'sessionAuth', 'isEditor'],
-    'canmodify': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'create': ['passport', 'sessionAuth', 'isEditor'],
-    'view': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'update': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'destroy': ['passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'unsubscribe': [true]
+    'definition': ['localize', 'passport', 'sessionAuth', 'isEditor'],
+    'cancreate': ['localize', 'passport', 'sessionAuth', 'isEditor'],
+    'canmodify': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'create': ['localize', 'passport', 'sessionAuth', 'isEditor'],
+    'view': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'update': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'destroy': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'unsubscribe': ['localize', true]
   },
 
   GroupController: {
-    'view': ['passport', 'sessionAuth'],
-    'create': ['passport', 'sessionAuth', 'isAdmin'],
-    'destroy': ['passport', 'sessionAuth', 'isAdmin'],
-    'cancreate': ['passport', 'sessionAuth', 'isAdmin'],
-    'canmodify': ['passport', 'sessionAuth', 'isAdmin'],
-    'candestroy': ['passport', 'sessionAuth', 'isAdmin'],
-    'unsubscribe': [true]
+    'view': ['localize', 'passport', 'sessionAuth'],
+    'create': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'destroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'cancreate': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'canmodify': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'candestroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'unsubscribe': ['localize', true]
   },
 
   OembedController: {
-    '*': [true]
+    '*': ['localize', true]
   },
 
   FacebookController: {

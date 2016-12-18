@@ -103,7 +103,7 @@ module.exports = {
     }
     if (values.feed) {
       // @FIXME sometimes message gets not published
-      Feed.findOne(values.feed).populate('stream').then(function (feed) {
+      Feed.findOne(values.feed).populate('stream').then(feed => {
         values.stream = feed.stream.id
         values.feedType = feed.type
         values.published = (values.published === false && feed.type.includes('facebook')) ? false : feed.stream.display
@@ -112,20 +112,18 @@ module.exports = {
         next(err)
       })
     } else if (values.stream) {
-      return Stream.findOne(values.stream).then(function (stream) {
-        // @TODO needs to be changed, so it works with logged users
-        if (typeof values.author === 'object') {
-          values.feedType = 'form'
-          values.published = stream.display
-          return next()
-        }
+      return Stream.findOne(values.stream).populate('groups').then(stream => {
+        const uid = (typeof values.author === 'object') ? values.author.id : values.author
         // @TODO should check if user is stream admin
-        return User.findOne({id: values.author}).then(function (user) {
-          values.feedType = 'admin'
+        return User.findOne({id: uid}).populate('groups').then(user => {
+          values.feedType = (stream.groups.find(g => {
+            return user.groups.find(ug => g.id === ug.id)
+          })) ? 'admin' : 'form'
           values.published = true
           values.author = {
             name: user.displayname,
-            picture: user.picture
+            picture: user.picture,
+            id: user.id
           }
           next()
         })
