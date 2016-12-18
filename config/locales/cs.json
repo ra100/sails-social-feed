@@ -12,4 +12,5 @@
 	"Error.Stream.Not.Found": "Error.Stream.Not.Found",
 	"You have been authenticated": "You have been authenticated",
 	"Error.Too.Many.Requests": "Error.Too.Many.Requests",
+	"Error.User.Blocked": "Vás účet byl zablokován"
 }

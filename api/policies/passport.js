@@ -26,6 +26,12 @@ module.exports = function (req, res, next) {
   passport.initialize()(req, res, function () {
     // Use the built-in sessions
     passport.session()(req, res, function () {
+
+      if (req.user && req.user.blocked === true) {
+        req.session.authenticated = false
+        return res.forbidden({ error: req.__('Error.User.Blocked') })
+      }
+
       // Make the user available throughout the frontend
       res.locals.user = req.user
 
