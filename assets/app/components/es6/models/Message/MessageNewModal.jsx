@@ -121,7 +121,7 @@ class MessageNewModal extends Component {
     if (this.state.upload !== null) {
       payload.image = this.state.upload
     }
-    if (typeof this.props.parentId !== 'undefined') {
+    if (typeof this.props.parentId !== 'undefined' && this.props.parentId !== '') {
       payload.isResponse = true
       payload.parentMessage = this.props.parentId
     }
