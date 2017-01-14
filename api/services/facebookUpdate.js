@@ -40,7 +40,7 @@ const status = (status, feedId) => {
           feed: feed.id,
           message: status.message || '',
           uuid: uuid,
-          created: new Date(status.created_time * 1000),
+          created: status.created_time ? new Date(status.created_time * 1000) : new Date(),
           link: '',
           author: {},
           metadata: {likes: 0, comments: 0, media: null},
