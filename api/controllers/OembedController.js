@@ -80,9 +80,10 @@ const fetchUrl = url => {
 }
 
 const checkFblink = url =>
-  fbpostPatterns.filter((prev, curr) =>
-    url.match(curr)
-  ).length > 0
+  fbpostPatterns.filter(item => {
+    const match = url.match(item)
+    return match && match.length > 0
+  }).length > 0
 
 const fetchFacebook = url =>
   request.get(`https://www.facebook.com/plugins/post/oembed.json/?url=${url}`)
@@ -108,7 +109,15 @@ const fetchFacebook = url =>
         })
     })
   })
+  .catch(err => {
+    if (err.status === 404) {
+      return { provider_name: 'NotAvailable' }
+    }
+  })
   .then(data => {
+    if (data.provider_name) {
+      return data
+    }
     return new Promise((resolve, reject) => {
       sails.log.verbose('FB results:', data)
       if (data.type !== 'photo') {
@@ -123,7 +132,9 @@ const fetchFacebook = url =>
     })
     return data
   })
-  .catch(sails.log.error)
+  .catch(err => {
+    throw err
+  })
 
 const getFBdetails = (type, id) => {
   const types = {
@@ -208,13 +219,12 @@ module.exports = {
 
           if (res.error) {
             sails.log.warn(res.error)
-            fetchUrl(url).then(data => {
+            return resolve(fetchUrl(url).then(data => {
               Oembed.create({url, json: data}).then(oe => {
                 sails.log.verbose('Extraction saved', oe)
               })
-              resolve(data)
-            })
-            return
+              return data
+            }))
           }
 
           sails.log.verbose(res)
