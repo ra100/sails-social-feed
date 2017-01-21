@@ -17,6 +17,7 @@ const fb = new Facebook({
 fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.facebook_app_secret}`)
 
 const permalinkPattern = /permalink\S*fbid=(\d+)\S*;id=(\d+)/g
+const postIdPattern = /\/posts\/(\d+)/g
 const fbpostPatterns = [
   /^https:\/\/www\.facebook\.com\/[^\/]+\/posts\/.*/g,
   /^https:\/\/www\.facebook\.com\/[^\/]+\/photos\/.*/g,
@@ -87,44 +88,52 @@ const checkFblink = url =>
 
 const fetchFacebook = url =>
   request.get(`https://www.facebook.com/plugins/post/oembed.json/?url=${url}`)
-  // .send({url: url, format: 'json'})
   .then(res => {
-    sails.log.verbose('FB Oembed', res.text)
-    const div = JSON.parse(res.text).html
-    const match = permalinkPattern.exec(div)
-    if (!match || !match.length > 2 || !match[2]) {
-      return {provider_name: 'NotAvailable'}
+    const data = JSON.parse(res.text)
+    let match = permalinkPattern.exec(data.html)
+    if (match && !match.length > 2 && !match[2]) {
+      return {fbid: match[1], id: match[2]}
     }
-    const fbid = match[1]
-    const id = match[2]
-    sails.log.verbose('fbid: ', fbid, 'id: ', id)
+
+    // get page ID
     return new Promise((resolve, reject) => {
-      fb.api(`/${id}_${fbid}`, 'get', {fields: ['type', 'id']},
-        (result, error) => {
-          if (error) {
-            return reject(error)
-          }
-          sails.log.verbose(result)
-          resolve(result)
-        })
+      fb.api(`/${data.author_url}`, (result, error) => {
+        if (error) {
+          sails.log.error(error)
+          return resolve(data)
+        }
+        sails.log.verbose(result)
+        const match = postIdPattern.exec(data.html)
+        if (!match || !match.length > 1) {
+          return {provider_name: 'NotAvailable'}
+        }
+        resolve({fbid: result.id, id: match[1]})
+      })
     })
   })
-  .catch(err => {
-    if (err.status === 404) {
-      return { provider_name: 'NotAvailable' }
+  .then(result => {
+    if (result.provider_name) {
+      return result
     }
+    const id = `${result.fbid}_${result.id}`
+    sails.log.verbose('id: ', id)
+    // get object type
+    return new Promise((resolve, reject) => {
+      fb.api(`/${id}`, 'get', {fields: ['type', 'id']},
+      (result, error) => {
+        if (error) {
+          return reject(error)
+        }
+        sails.log.verbose(result)
+        resolve(result)
+      })
+    })
   })
   .then(data => {
     if (data.provider_name) {
       return data
     }
-    return new Promise((resolve, reject) => {
-      sails.log.verbose('FB results:', data)
-      if (data.type !== 'photo') {
-        return reject()
-      }
-      resolve(getFBdetails(data.type, data.id))
-    })
+    return getFBdetails(data.type, data.id)
   })
   .then(data => {
     Oembed.create({url, json: data}).then(oe => {
@@ -133,23 +142,58 @@ const fetchFacebook = url =>
     return data
   })
   .catch(err => {
+    if (err.status === 404) {
+      return { provider_name: 'NotAvailable' }
+    }
     throw err
   })
 
 const getFBdetails = (type, id) => {
-  const types = {
-    photo: id =>
+  const getPhotoData = id =>
+    new Promise((resolve, reject) => {
+      sails.log.verbose('Facebook ID', id)
+      fb.api(`/${id}`, 'get', {fields: [
+        'images',
+        'link',
+        'height',
+        'width',
+        'from{id,name,picture,link}',
+        'name',
+        'picture',
+        'id']},
+        (result, err) => {
+          if (err) {
+            return reject(err)
+          }
+          sails.log.verbose(result)
+          resolve({
+            provider_name: 'Facebook',
+            provider_url: 'https://www.facebook.com',
+            author_name: result.from.name,
+            author_url: result.from.link,
+            author_id: result.from.id,
+            title: result.name,
+            media_id: result.id,
+            images: result.images,
+            width: result.width,
+            height: result.height,
+            url: result.link
+          })
+        })
+    })
+
+  const getStatusData = id =>
       new Promise((resolve, reject) => {
-        const fbi = id.split('_')[1]
-        sails.log.verbose('Facebook ID', fbi)
-        fb.api(`/${fbi}`, 'get', {fields: [
-          'images',
+        sails.log.verbose('Facebook ID', id)
+        fb.api(`/${id}`, 'get', {fields: [
+          'message',
           'link',
           'height',
           'width',
           'from{id,name,picture,link}',
           'name',
           'picture',
+          'permalink_url',
           'id']},
           (result, err) => {
             if (err) {
@@ -164,13 +208,14 @@ const getFBdetails = (type, id) => {
               author_id: result.from.id,
               title: result.name,
               media_id: result.id,
-              images: result.images,
-              width: result.width,
-              height: result.height,
-              url: result.link
+              url: result.permalink_url,
+              text: result.message
             })
           })
       })
+  const types = {
+    photo: getPhotoData,
+    status: getStatusData
   }
   if (!types[type]) {
     return new Promise((resolve, reject) => ({error: 'Fb Type not found'}))
