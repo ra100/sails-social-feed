@@ -16,6 +16,9 @@ const fb = new Facebook({
 })
 fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.facebook_app_secret}`)
 
+const FB_TYPE_POST = 'post'
+const FB_TYPE_VIDEO = 'video'
+
 const permalinkPattern = /permalink\S*fbid=(\d+)\S*;id=(\d+)/g
 const postIdPattern = /\/posts\/(\d+)/g
 const fbpostPatterns = [
@@ -29,6 +32,8 @@ const fbpostPatterns = [
   /^https:\/\/www\.facebook\.com\/questions\/.*/g,
   /^https:\/\/www\.facebook\.com\/notes\/.*/g
 ]
+const fbvideoPattern =
+  /^https:\/\/www\.facebook\.com\/(?:[^\/]+\/videos\/|video.php\?(?:id|v)=)(\d+)\.*/g
 
 const EmbedEngine = urlEmbed.EmbedEngine
 const Embed =  urlEmbed.Embed
@@ -80,16 +85,39 @@ const fetchUrl = url => {
   })
 }
 
+/**
+ * Check if link is FB post
+ * @param  {string} url [description]
+ * @return {boolean}     [description]
+ */
 const checkFblink = url =>
   fbpostPatterns.filter(item => {
     const match = url.match(item)
     return match && match.length > 0
   }).length > 0
 
-const fetchFacebook = url =>
-  request.get(`https://www.facebook.com/plugins/post/oembed.json/?url=${url}`)
+/**
+ * Check if link is FB video
+ * @param  {string} url [description]
+ * @return {boolean}     [description]
+ */
+const checkFbvideo = url =>
+  url.match(fbvideoPattern) && url.match(fbvideoPattern).length > 0
+
+const fetchFacebook = (url, type) =>
+  request.get(`https://www.facebook.com/plugins/${type}/oembed.json/?url=${url}`)
   .then(res => {
+    // Extract IDs from url
+    let postId = false
+    if (type === FB_TYPE_VIDEO) {
+      let m = fbvideoPattern.exec(url)
+      sails.log.verbose('Matched video url', m)
+      if (m && m.length > 1) {
+        postId = m[1]
+      }
+    }
     const data = JSON.parse(res.text)
+    // Extract IDs from permalink
     let match = permalinkPattern.exec(data.html)
     if (match && !match.length > 2 && !match[2]) {
       return {fbid: match[1], id: match[2]}
@@ -103,11 +131,14 @@ const fetchFacebook = url =>
           return resolve(data)
         }
         sails.log.verbose(result)
-        const match = postIdPattern.exec(data.html)
-        if (!match || !match.length > 1) {
-          return {provider_name: 'NotAvailable'}
+        if (!postId) {
+          const match = postIdPattern.exec(data.html)
+          if (!match || !match.length > 1) {
+            return {provider_name: 'NotAvailable'}
+          }
+          postId = match[1]
         }
-        resolve({fbid: result.id, id: match[1]})
+        resolve({fbid: result.id, id: postId})
       })
     })
   })
@@ -115,7 +146,7 @@ const fetchFacebook = url =>
     if (result.provider_name) {
       return result
     }
-    const id = `${result.fbid}_${result.id}`
+    let id = `${result.fbid}_${result.id}`
     sails.log.verbose('id: ', id)
     // get object type
     return new Promise((resolve, reject) => {
@@ -213,9 +244,43 @@ const getFBdetails = (type, id) => {
             })
           })
       })
+
+  const getVideoData = id =>
+    new Promise((resolve, reject) => {
+      sails.log.verbose('Facebook ID', id)
+      // permalink_url,title,description,embed_html,from{name,link,id,picture},source
+      fb.api(`/${id}`, 'get', {fields: [
+        'source',
+        'permalink_url',
+        'message',
+        'from{id,name,picture,link}',
+        'attachments{media}',
+        'id']},
+        (result, err) => {
+          if (err) {
+            return reject(err)
+          }
+          sails.log.verbose(JSON.stringify(result))
+          resolve({
+            provider_name: 'Facebook',
+            provider_url: 'https://www.facebook.com',
+            author_name: result.from.name,
+            author_url: result.from.link,
+            author_id: result.from.id,
+            title: result.message,
+            media_id: result.id,
+            image: result.attachments.data[0].media.image.src,
+            width: result.attachments.data[0].media.image.width,
+            height: result.attachments.data[0].media.image.height,
+            url: result.permalink_url,
+            html: `<iframe src=\"https://www.facebook.com/video/embed?video_id=${id.split('_')[1]}\" width=\"${result.attachments.data[0].media.image.width}\" height=\"${result.attachments.data[0].media.image.height}\" frameborder=\"0\"></iframe>"`
+          })
+        })
+    })
   const types = {
     photo: getPhotoData,
-    status: getStatusData
+    status: getStatusData,
+    video: getVideoData
   }
   if (!types[type]) {
     return new Promise((resolve, reject) => ({error: 'Fb Type not found'}))
@@ -254,10 +319,12 @@ module.exports = {
         return oembed.json
       }
       return new Promise((resolve, reject) => {
-        const check = checkFblink(url)
         if (checkFblink(url)) {
           sails.log.verbose('FBlink found', url)
-          return fetchFacebook(url).then(resolve).catch(reject)
+          return fetchFacebook(url, FB_TYPE_POST).then(resolve).catch(reject)
+        } else if (checkFbvideo(url)) {
+          sails.log.verbose('FBvideo found', url)
+          return fetchFacebook(url, FB_TYPE_VIDEO).then(resolve).catch(reject)
         }
         const embed = new Embed(url, embedOptions)
         engine.getEmbed(embed, res => {
