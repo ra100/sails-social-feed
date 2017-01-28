@@ -19,6 +19,7 @@ fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.face
 const FB_TYPE_POST = 'post'
 const FB_TYPE_VIDEO = 'video'
 
+const storyPattern = /permalink(?:\.php\?)+\S*fbid=(\d+)\S*(?:;|&)id=(\d+)/g
 const permalinkPattern = /permalink\S*fbid=(\d+)\S*;id=(\d+)/g
 const postIdPattern = /\/posts\/(\d+)/g
 const fbpostPatterns = [
@@ -42,7 +43,7 @@ const engine = new EmbedEngine({
   referrer: sails.config.baseurl
 })
 engine.registerDefaultProviders()
-const embedOptions = {
+const EMBED_OPTONS = {
   maxHeight: 300
 }
 
@@ -117,6 +118,7 @@ const fetchFacebook = (url, type) =>
       }
     }
     const data = JSON.parse(res.text)
+    sails.log.verbose('FB oembed data', data)
     // Extract IDs from permalink
     let match = permalinkPattern.exec(data.html)
     if (match && !match.length > 2 && !match[2]) {
@@ -133,6 +135,7 @@ const fetchFacebook = (url, type) =>
         sails.log.verbose(result)
         if (!postId) {
           const match = postIdPattern.exec(data.html)
+          sails.log.verbose('Post ID match', match)
           if (!match || !match.length > 1) {
             return {provider_name: 'NotAvailable'}
           }
@@ -141,6 +144,23 @@ const fetchFacebook = (url, type) =>
         resolve({fbid: result.id, id: postId})
       })
     })
+  })
+  // try to extract fb ids even when embed is not available
+  .catch(err => {
+    if (err.status == 404) {
+      sails.log.verbose('Oembed not found try extract')
+      let match = storyPattern.exec(url)
+      sails.log.verbose('Finding FB ids in url', match)
+      if (match && match.length > 2) {
+        return {fbid: match[2], id: match[1]}
+      } else {
+        return new Promise((resolve, reject) => {
+          reject(err)
+        })
+      }
+    } else {
+      throw err
+    }
   })
   .then(result => {
     if (result.provider_name) {
@@ -164,6 +184,7 @@ const fetchFacebook = (url, type) =>
     if (data.provider_name) {
       return data
     }
+    sails.log.verbose('FB details', data)
     return getFBdetails(data.type, data.id)
   })
   .then(data => {
@@ -173,6 +194,7 @@ const fetchFacebook = (url, type) =>
     return data
   })
   .catch(err => {
+    sails.log.verbose('FB Oembed not found', JSON.stringify(err))
     if (err.status === 404) {
       return { provider_name: 'NotAvailable' }
     }
@@ -184,31 +206,32 @@ const getFBdetails = (type, id) => {
     new Promise((resolve, reject) => {
       sails.log.verbose('Facebook ID', id)
       fb.api(`/${id}`, 'get', {fields: [
-        'images',
+        'attachments',
         'link',
-        'height',
-        'width',
         'from{id,name,picture,link}',
-        'name',
-        'picture',
+        'message',
+        'full_picture',
         'id']},
         (result, err) => {
           if (err) {
             return reject(err)
           }
           sails.log.verbose(result)
+          const image = result.attachments && result.attachments.data && result.attachments.data[0] && result.attachments.data[0].media && result.attachments.data[0].media.image || {}
           resolve({
             provider_name: 'Facebook',
             provider_url: 'https://www.facebook.com',
             author_name: result.from.name,
             author_url: result.from.link,
             author_id: result.from.id,
-            title: result.name,
+            title: result.message,
             media_id: result.id,
-            images: result.images,
-            width: result.width,
-            height: result.height,
-            url: result.link
+            full_picture: result.full_picture,
+            image: image.src,
+            width: image.width,
+            height: image.height,
+            url: result.link,
+            type: type
           })
         })
     })
@@ -240,7 +263,8 @@ const getFBdetails = (type, id) => {
               title: result.name,
               media_id: result.id,
               url: result.permalink_url,
-              text: result.message
+              text: result.message,
+              type: type
             })
           })
       })
@@ -255,32 +279,98 @@ const getFBdetails = (type, id) => {
         'message',
         'from{id,name,picture,link}',
         'attachments{media}',
-        'id']},
+        'id',
+        'link']},
         (result, err) => {
           if (err) {
             return reject(err)
           }
           sails.log.verbose(JSON.stringify(result))
-          resolve({
+          let html = ''
+          // facebook video
+          if (result.source.includes('fbcdn')) {
+            const image = result.attachments && result.attachments.data && result.attachments.data[0] && result.attachments.data[0].media && result.attachments.data[0].media.image || {}
+            return resolve({
+              provider_name: 'Facebook',
+              provider_url: 'https://www.facebook.com',
+              author_name: result.from && result.from.name,
+              author_url: result.from && result.from.link,
+              author_id: result.from && result.from.id,
+              title: result.message,
+              media_id: result.id,
+              image: image.src,
+              width: image.width,
+              height: image.height,
+              url: result.permalink_url,
+              html: `<iframe src=\"https://www.facebook.com/video/embed?video_id=${id.split('_')[1]}\" width=\"${image.width}\" height=\"${image.height}\" frameborder=\"0\"></iframe>"`,
+              type: type
+            })
+          }
+          // link to youtube video
+          if (result.source.includes('youtube')) {
+            const embed = new Embed(result.link, EMBED_OPTONS)
+            engine.getEmbed(embed, res => {
+              sails.log.verbose(JSON.stringify(res))
+              return resolve(Object.assign(res.data, {
+                provider_name: 'Facebook',
+                provider_url: 'https://www.facebook.com',
+                author_name: result.from.name,
+                author_url: result.from.link,
+                author_id: result.from.id,
+                title: result.message,
+                media_id: result.id,
+                url: result.permalink_url,
+                type: 'youtube'
+              }))
+            })
+          }
+        })
+    })
+
+  const getLinkData = id =>
+    new Promise((resolve, reject) => {
+      sails.log.verbose('Facebook ID', id)
+      // permalink_url,title,description,embed_html,from{name,link,id,picture},source
+      fb.api(`/${id}`, 'get', {fields: [
+        'source',
+        'permalink_url',
+        'message',
+        'from{id,name,picture,link}',
+        'attachments{media,description,title}',
+        'id',
+        'link']},
+        (result, err) => {
+          if (err) {
+            return reject(err)
+          }
+          sails.log.verbose(JSON.stringify(result))
+          let html = ''
+          const d = result.attachments && result.attachments.data && result.attachments.data[0] || {}
+          return resolve({
             provider_name: 'Facebook',
             provider_url: 'https://www.facebook.com',
-            author_name: result.from.name,
-            author_url: result.from.link,
-            author_id: result.from.id,
+            author_name: result.from && result.from.name,
+            author_url: result.from && result.from.link,
+            author_id: result.from && result.from.id,
             title: result.message,
             media_id: result.id,
-            image: result.attachments.data[0].media.image.src,
-            width: result.attachments.data[0].media.image.width,
-            height: result.attachments.data[0].media.image.height,
+            image: d.media && d.media.image && d.media.image.src,
+            width: d.media && d.media.image && d.media.image.width,
+            height: d.media && d.media.image && d.media.image.height,
             url: result.permalink_url,
-            html: `<iframe src=\"https://www.facebook.com/video/embed?video_id=${id.split('_')[1]}\" width=\"${result.attachments.data[0].media.image.width}\" height=\"${result.attachments.data[0].media.image.height}\" frameborder=\"0\"></iframe>"`
+            link_description: d.description,
+            link_url: result.link,
+            link_title: d.title,
+            type
           })
         })
     })
+
   const types = {
     photo: getPhotoData,
     status: getStatusData,
-    video: getVideoData
+    video: getVideoData,
+    link: getLinkData
   }
   if (!types[type]) {
     return new Promise((resolve, reject) => ({error: 'Fb Type not found'}))
@@ -316,6 +406,7 @@ module.exports = {
     Oembed.findOne({where: {url: url}})
     .then(oembed => {
       if (oembed) {
+        sails.log.verbose('Embed found in cache')
         return oembed.json
       }
       return new Promise((resolve, reject) => {
@@ -326,7 +417,7 @@ module.exports = {
           sails.log.verbose('FBvideo found', url)
           return fetchFacebook(url, FB_TYPE_VIDEO).then(resolve).catch(reject)
         }
-        const embed = new Embed(url, embedOptions)
+        const embed = new Embed(url, EMBED_OPTONS)
         engine.getEmbed(embed, res => {
 
           if (res.error) {
