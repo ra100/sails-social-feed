@@ -96,7 +96,52 @@ module.exports = {
         'mediaType',
         'relatedMessage',
         'parentMessage',
-        'isResponse'
+        'isResponse',
+        'published',
+        'reviewed'
+      ]
+    }
+    if (all) {
+      criteria.where = {
+        stream: req.param('id'),
+      }
+    }
+    return Message.find(criteria).populate(populate).then((messages) => {
+      if (req.isSocket) {
+        Stream.subscribe(req, [req.param('id')])
+      }
+      res.json(messages)
+    }).catch(res.serverError)
+  },
+
+  adminMessages(req, res) {
+    let limit = req.param('limit') || 10
+    let skip = req.param('skip') || 0
+    let all = req.param('all') || false
+    let populate = req.param('populate') || ['relatedMessage', 'parentMessage']
+    let criteria = {
+      where: {
+        stream: req.param('id'),
+        isResponse: false
+      },
+      sort: 'created DESC',
+      limit: limit,
+      skip: skip,
+      select: [
+        'feedType',
+        'message',
+        'id',
+        'created',
+        'link',
+        'metadata',
+        'author',
+        'picture',
+        'mediaType',
+        'relatedMessage',
+        'parentMessage',
+        'isResponse',
+        'published',
+        'reviewed'
       ]
     }
     if (all) {

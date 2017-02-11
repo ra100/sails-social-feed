@@ -49,9 +49,9 @@ module.exports = {
     if (typeof req.param('image') !== 'undefined') {
       message.image = req.param('image')
     }
-    if (typeof req.param('parent') !== 'undefined') {
+    if (typeof req.param('relatedMessage') !== 'undefined') {
       message.isResponse = true
-      message.relatedMessage = req.param('parent')
+      message.relatedMessage = req.param('relatedMessage')
     }
     Message.create(message).then((message) => {
       // TODO add relatedMessage

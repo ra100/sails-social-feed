@@ -68,7 +68,8 @@ module.exports.policies = {
     'destroy': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'public': ['localize', true],
     'unsubscribe': ['localize', true],
-    'messages': ['localize', true]
+    'messages': ['localize', true],
+    'adminMessages': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
   },
 
   MessageController: {
