@@ -25,19 +25,19 @@ module.exports.policies = {
    *                                                                          *
    ***************************************************************************/
 
-  // '*': true,
-  '*': [
-    'localize',
-    // 'basicAuth',
-    'passport',
-    'sessionAuth',
-    // 'ModelPolicy',
-    // 'AuditPolicy',
-    // 'OwnerPolicy',
-    // 'PermissionPolicy',
-    // 'RolePolicy',
-    // 'CriteriaPolicy',
-  ],
+  '*': false,
+  // '*': [
+  //   'localize',
+  //   // 'basicAuth',
+  //   'passport',
+  //   'sessionAuth',
+  //   // 'ModelPolicy',
+  //   // 'AuditPolicy',
+  //   // 'OwnerPolicy',
+  //   // 'PermissionPolicy',
+  //   // 'RolePolicy',
+  //   // 'CriteriaPolicy',
+  // ],
 
   '/login': ['localize', true],
   '/register': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
@@ -47,8 +47,8 @@ module.exports.policies = {
   },
 
   UserController: {
+    '*': ['localize', 'passport', 'sessionAuth'],
     'me': ['localize', 'passport', 'sessionAuth'],
-    'view': ['localize', 'passport', 'sessionAuth'],
     'create': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'update': ['localize', 'passport', 'sessionAuth', 'editSelf'],
     'destroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
@@ -59,38 +59,38 @@ module.exports.policies = {
   },
 
   StreamController: {
+    '*': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'definition': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'cancreate': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'canmodify': ['localize', 'passport', 'sessionAuth', 'isOwner'],
     'create': ['localize', 'passport', 'sessionAuth', 'isEditor'],
-    'view': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'update': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'destroy': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'public': ['localize', true],
     'unsubscribe': ['localize', true],
     'messages': ['localize', true],
-    'adminMessages': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'adminMessages': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner']
   },
 
   MessageController: {
+    '*': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'submit': ['localize', 'passport', 'sessionAuth', 'rateLimit'],
     'unsubscribe': ['localize', true],
-    '*': ['localize', 'passport', 'sessionAuth', 'isEditor']
   },
 
   FeedController: {
+    '*': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'definition': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'cancreate': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'canmodify': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'create': ['localize', 'passport', 'sessionAuth', 'isEditor'],
-    'view': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'update': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'destroy': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'unsubscribe': ['localize', true]
   },
 
   GroupController: {
-    'view': ['localize', 'passport', 'sessionAuth'],
+    '*': ['localize', 'passport', 'sessionAuth'],
     'create': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'destroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'cancreate': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
