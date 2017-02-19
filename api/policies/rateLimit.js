@@ -11,9 +11,10 @@ module.exports = function (req, res, next) {
     return next()
   } else {
     req.session.limit.push(new Date())
-    if (req.session.limit.length <= 15) {
+    if (req.session.limit.length <= 30) {
       return next()
     }
+    sails.log.verbose('Session requests limit', req.session.limit)
     if (new Date() - new Date(req.session.limit[0]) > (60 * 60 * 1000)) { // 15 per hour
       req.session.limit.shift()
       return next()
