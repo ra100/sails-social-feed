@@ -94,7 +94,7 @@ module.exports = {
    * Automatically fill some values
    */
   beforeValidate: function (values, next) {
-    sails.log.debug('BeforeValidate message values:', values)
+    // sails.log.debug('BeforeValidate message values:', values)
     if (values.id) {
       return next()
     }
@@ -183,14 +183,12 @@ module.exports = {
       Stream.publishAdd(values.stream, 'messages', values)
     }
     sails.log.debug('Related message value: ', values.parentMessage)
-    // if (values.relatedMessage) {
-    //   Message.findOne(values.relatedMessage).then((message) => {
-    //     message.relatedMessage.add(values.id);
-    //     return message.save();
-    //   }).then(next).catch(next);
-    // } else {
+    if (values.parentMessage) {
+      Message.findOne(values.parentMessage).then(message => {
+        Stream.publishAdd(values.stream, 'messages', message)
+      })
+    }
     next()
-    // }
   },
 
   /**
