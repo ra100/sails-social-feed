@@ -6,39 +6,41 @@ var avatarClient = new Upload(sails.config.image.s3_bucket, sails.config.image.a
 
 module.exports = {
   uploadImage: function (file) {
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
       storageService.saveTmp(file).then((filename) => {
         client.upload(filename, {}, (err, versions, meta) => {
           if (err) {
-            return rej(err)
+            return reject(err)
           }
-          res(versions)
+          fs.unlink(filename, sails.log.verbose)
+          return resolve(versions)
         })
       })
     })
   },
   uploadAvatar: function (file) {
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
       storageService.saveTmp(file).then((filename) => {
         avatarClient.upload(filename, {}, (err, versions, meta) => {
           if (err) {
-            return rej(err)
+            return reject(err)
           }
-          res(versions)
+          fs.unlink(filename, sails.log.verbose)
+          return resolve(versions)
         })
       })
     })
   },
   saveTmp: function (file) {
-    return new Promise((res, rej) => {
-      var filename = '/tmp/' + uuid.v4() + file.name
+    return new Promise((resolve, reject) => {
+      var filename = sails.config.image.tmp + uuid.v4() + file.name
       fs.writeFile(filename, file.data, (err) => {
         if (err) {
           sails.log.err('Error saving temp file', err)
-          return rej(err)
+          return reject(err)
         }
         sails.log.debug('Temporary image saved', filename)
-        res(filename)
+        return resolve(filename)
       })
     })
   }

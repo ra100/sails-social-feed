@@ -3,6 +3,7 @@
  */
 module.exports.image = {
   s3_bucket: process.env.S3_BUCKET,
+  tmp: '/tmp/',
   options: {
     aws: {
       region: process.env.S3_REGION,

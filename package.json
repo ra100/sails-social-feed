@@ -31,7 +31,7 @@
     "grunt-contrib-coffee": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-cssmin": "^2.0.0",
     "grunt-contrib-jst": "^1.0.0",
     "grunt-contrib-less": "^1.4.0",
     "grunt-contrib-sass": "^1.0.0",
@@ -118,7 +118,7 @@
     "chai": "^3.5.0",
     "dedupify": "^0.1.0",
     "eslint": "^3.15.0",
-    "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-react": "^6.10.0",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-mocha-test": "^0.13.2",
@@ -129,5 +129,9 @@
     "sails-hook-autoreload": "^0.13.1",
     "winston": "^2.3.1"
   },
-  "snyk": true
+  "snyk": true,
+  "engines": {
+    "node": ">= 7.0.0",
+    "npm": ">= 4.0.0"
+  }
 }
