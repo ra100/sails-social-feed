@@ -379,8 +379,8 @@ const twitterStreamingClass = function() {
   this.findHashtag = (hashtags, feeds) => {
     for (let i in hashtags) {
       const h = hashtags[i]
-      if (feeds['#' + h.texthis.toLowerCase()] !== undefined) {
-        return feeds['#' + h.texthis.toLowerCase()]
+      if (feeds['#' + h.text.toLowerCase()] !== undefined) {
+        return feeds['#' + h.text.toLowerCase()]
       }
     }
     return null
