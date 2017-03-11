@@ -77,5 +77,8 @@ module.exports.routes = {
   'get /oembed/embed': 'OembedController.embed',
 
   'get /facebook/callback' : 'FacebookController.callback',
-  'post /facebook/callback': 'FacebookController.update'
+  'post /facebook/callback': 'FacebookController.update',
+
+  'get /instagram/callback' : 'InstagramController.callback',
+  'post /instagram/callback': 'InstagramController.update'
 }

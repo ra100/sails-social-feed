@@ -105,5 +105,9 @@ module.exports.policies = {
 
   FacebookController: {
     '*': [true]
+  },
+
+  InstagramController: {
+    '*': [true]
   }
 }

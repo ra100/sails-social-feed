@@ -70,6 +70,13 @@ module.exports = {
   },
 
   /**
+   * instagram auth callback
+   */
+  instagram(req, res, next) {
+    socialFeed.authInstagramTokens(req, res, next)
+  },
+
+  /**
    * Override default find and add permissions key
    */
   find(req, res) {
@@ -110,7 +117,6 @@ module.exports = {
   },
 
   findOne(req, res) {
-
     var Model = actionUtil.parseModel(req)
     var pk = actionUtil.requirePk(req)
 

@@ -9,6 +9,7 @@ module.exports.auth = {
   google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
   instagram_client_id: process.env.INSTAGRAM_CLIENT_ID,
   instagram_client_secret: process.env.INSTAGRAM_CLIENT_SECRET,
+  instagram_webhook_token: process.env.INSTAGRAM_WEBHOOK_TOKEN,
   soundcloud_client_id: process.env.SOUNDCLOUD_CLIENT_ID,
   soundcloud_client_secret: process.env.SOUNDCLOUD_CLIENT_SECRET,
 }

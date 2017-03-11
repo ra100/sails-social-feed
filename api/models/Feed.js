@@ -20,7 +20,8 @@ module.exports = {
         'twitter_hashtag',
         // 'youtube_profile',
         // 'soundcloud_profile',
-        // 'instagram_profile',
+        'instagram_user',
+        'instagram_tag',
         'form',
         'admin'
       ]
@@ -91,8 +92,23 @@ module.exports = {
         case 'facebook_user':
           if (feed.config !== values.config) {
             // remove old subscribtion
-            facebookUpdate.unsubscribe(feed, values, next)
+            return facebookUpdate.unsubscribe(feed, values, next)
           }
+          next()
+          break
+
+        case 'instagram_user':
+        case 'instagram_tag':
+          if (!feed.config || !values.enabled) {
+            // remove old subscribtion
+            return instagramUpdate.unsubscribe(feed, values, next)
+          }
+          if ((feed.config !== values.config ||
+            values.enabled !== feed.enabled) &&
+            values.enabled) {
+            return instagramUpdate.subscribe(feed, values, next)
+          }
+          next()
           break
 
         default:
