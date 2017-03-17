@@ -119,7 +119,7 @@ module.exports = {
           values.feedType = (stream.groups.find(g => {
             return user.groups.find(ug => g.id === ug.id)
           })) ? 'admin' : 'form'
-          values.published = true
+          values.published = values.feedType === 'admin' ? true : stream.display
           values.author = {
             name: user.displayname,
             picture: user.picture,
