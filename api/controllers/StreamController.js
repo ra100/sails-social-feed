@@ -47,23 +47,23 @@ module.exports = {
     };
     Stream.findOne({
       where: where,
-      select: ['id', 'name']
+      select: ['id', 'name', 'display']
     }).populate('feeds').then((stream) => {
       if (!stream) {
         res.json(404, {error: req.__('Error.Stream.Not.Found')})
       } else {
-        var feeds = stream.feeds
-        var i = _.findIndex(feeds, {type: 'form'})
-        if (i >= 0) {
-          stream.form = feeds[i].id
-        } else {
-          stream.form = null
-        }
+        stream.form = stream.feeds
+          .filter(feed => feed.type === 'form' && feed.enabled)
+          .map(feed => feed.id)
         stream.feeds = undefined
         if (req.isSocket) {
           sails.sockets.join(req, 'stream_' + stream.id)
         }
-        res.json({form: stream.form, id: stream.id})
+        res.json({
+          form: stream.form,
+          id: stream.id,
+          moderated: !stream.display
+        })
       }
     }).catch((err) => {
       res.serverError(err)
