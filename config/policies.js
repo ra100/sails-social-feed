@@ -99,6 +99,16 @@ module.exports.policies = {
     'unsubscribe': ['localize', true]
   },
 
+  RoleController: {
+    '*': ['localize', 'passport', 'sessionAuth'],
+    'create': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'destroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'cancreate': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'canmodify': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'candestroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
+    'unsubscribe': ['localize', true]
+  },
+
   OembedController: {
     '*': ['localize', true]
   },

@@ -271,18 +271,13 @@ class UserEdit extends Component {
     if (!this._isMounted || res.statusCode !== 200) {
       return
     }
-    let selected = getSelected(this.state.roles)
-    let roles = []
-    let i
-    for (i in data) {
-      let role = data[i]
-      roles.push({
-        value: role.id,
-        label: role.name,
-        selected: (_.indexOf(selected, role.id) > -1)
-      })
-    }
-    this.setState({roles: roles})
+    const selected = getSelected(this.state.roles)
+    const roles = data.map(role => ({
+      value: role.id,
+      label: role.name,
+      selected: selected.includes(role.id)
+    }))
+    this.setState({roles})
     this.refs.roles.syncData()
   }
 
