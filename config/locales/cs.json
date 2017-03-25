@@ -12,5 +12,6 @@
 	"Error.Stream.Not.Found": "Stream neexistuje",
 	"You have been authenticated": "Byli jste přihlášeni",
 	"Error.Too.Many.Requests": "Error.Too.Many.Requests",
-	"Error.User.Blocked": "Vás účet byl zablokován"
+	"Error.User.Blocked": "Vás účet byl zablokován",
+	"Error.Passport.Email.NotFound": "Email nenalezen"
 }
