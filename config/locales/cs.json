@@ -5,7 +5,7 @@
 	"Error.Passport.Password.NotSet": "Nezadali jste heslo",
 	"Error.Passport.Password.Wrong": "Nesprávné heslo",
 	"Status.Passport.Logged": "Přihlášení úspěšné",
-	"Error.Passport.Already.Authenticated": "Již jste přihlášen",
+	"Error.Passport.Already.Authenticated": "Error.Passport.Already.Authenticated",
 	"Error.Not.Admin": "Nemáte roli admina",
 	"Error.Not.Editor": "Nemáte roli editora",
 	"Error.Not.InGroup": "Není ve vaší skupině",
