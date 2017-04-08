@@ -27,7 +27,7 @@ module.exports = function (req, res, next) {
     // Use the built-in sessions
     passport.session()(req, res, function () {
 
-      if (req.user && req.user.blocked === true) {
+      if (req.user && req.user.blocked && req.session.authenticated) {
         req.session.authenticated = false
         return res.forbidden({ error: req.__('Error.User.Blocked') })
       }

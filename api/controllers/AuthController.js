@@ -48,6 +48,10 @@ var AuthController = {
 
     if (req.session.authenticated) {
       var user = req.user
+      if (user.blocked) {
+        req.session.authenticated = false
+        return res.forbidden({ error: req.__('Error.User.Blocked') })
+      }
       if (typeof user.roles == 'undefined' || user.roles.length == 0) {
         return res.view('pop')
       }
@@ -140,6 +144,11 @@ var AuthController = {
    * @param {Object} res
    */
   callback: function (req, res) {
+    if (req.user && req.user.blocked) {
+      req.session.authenticated = false
+      return res.forbidden({ error: req.__('Error.User.Blocked') })
+    }
+
     if (req.session.authenticated) {
       var user = req.user
       if (typeof user.roles == 'undefined' || user.roles.length == 0) {
@@ -188,7 +197,10 @@ var AuthController = {
         if (err) {
           return tryAgain(err)
         }
-
+        if (user.blocked) {
+          req.session.authenticated = false
+          return res.forbidden({ error: req.__('Error.User.Blocked') })
+        }
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
         req.session.authenticated = true
         if (typeof user.roles == 'undefined' || user.roles.length == 0) {
@@ -257,6 +269,11 @@ var AuthController = {
       req.login(user, function (err) {
         if (err) {
           return returnError(err)
+        }
+
+        if (user.blocked) {
+          req.session.authenticated = false
+          return res.forbidden({ error: req.__('Error.User.Blocked') })
         }
 
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
