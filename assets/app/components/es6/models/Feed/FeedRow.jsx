@@ -74,6 +74,11 @@ class FeedRow extends Component {
     if (feed.enabled) {
       en = <i className="material-icons">check_box</i>
     }
+
+    let show = <i className="material-icons">check_box_outline_blank</i>
+    if (feed.display) {
+      show = <i className="material-icons">check_box</i>
+    }
     return (
       <tr key={feed.id}>
         <td>
@@ -81,6 +86,9 @@ class FeedRow extends Component {
           <LinkContainer to={'/feed/' + feed.id}>
             <Button bsStyle="link">{feed.name}</Button>
           </LinkContainer>
+        </td>
+        <td>
+          {show}
         </td>
         <td>
           {feed.type}

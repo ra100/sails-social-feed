@@ -52,7 +52,16 @@ module.exports = {
     enabled: {
       type: 'boolean',
       defaultsTo: true
-    }
+    },
+    /**
+     * Default display state for message
+     * false hide
+     * true show
+     */
+    display: {
+      type: 'boolean',
+      defaultsTo: false
+    },
   },
 
   beforeCreate: function (values, next) {

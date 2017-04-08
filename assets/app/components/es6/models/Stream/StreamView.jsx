@@ -71,6 +71,11 @@ const messages = defineMessages({
     description: 'Feed Name label',
     defaultMessage: 'Name'
   },
+  feedFieldDisplayLabel: {
+    id: 'feed.field.display.label',
+    description: 'Feed Display label',
+    defaultMessage: 'Default publish'
+  },
   feedFieldConfigLabel: {
     id: 'feed.field.config.label',
     description: 'Feed Config label',
@@ -327,6 +332,7 @@ class StreamView extends Component {
           <thead>
             <tr>
               <th><FormattedMessage {...messages.feedFieldNameLabel}/></th>
+              <th><FormattedMessage {...messages.feedFieldDisplayLabel}/></th>
               <th><FormattedMessage {...messages.feedFieldTypeLabel}/></th>
               <th><FormattedMessage {...messages.feedFieldConfigLabel}/></th>
               <th><FormattedMessage {...messages.action}/></th>

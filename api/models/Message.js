@@ -106,7 +106,7 @@ module.exports = {
       Feed.findOne(values.feed).populate('stream').then(feed => {
         values.stream = feed.stream.id
         values.feedType = feed.type
-        values.published = (values.published === false && feed.type.includes('facebook')) ? false : feed.stream.display
+        values.published = (values.published === false && feed.type.includes('facebook')) ? false : feed.display
         next()
       }).catch(function (err) {
         next(err)
