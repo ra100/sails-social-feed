@@ -103,35 +103,40 @@ module.exports = {
     }
     if (values.feed) {
       // @FIXME sometimes message gets not published
-      Feed.findOne(values.feed).populate('stream').then(feed => {
+      return Feed.findOne(values.feed)
+      .populate('stream')
+      .populate('groups')
+      .then(feed => {
         values.stream = feed.stream.id
         values.feedType = feed.type
         values.published = (values.published === false && feed.type.includes('facebook')) ? false : feed.display
-        next()
-      }).catch(function (err) {
-        next(err)
+        if (feed.type === 'form') {
+          const uid = (typeof values.author === 'object')
+            ? values.author.id
+            : values.author
+          return User.findOne({id: uid}).populate('groups').then(user => {
+            values.feedType = (feed.groups.find(g => {
+              return user.groups.find(ug => g.id === ug.id)
+            })) ? 'admin' : 'form'
+            values.published = values.feedType === 'admin'
+              ? true
+              : feed.display
+            values.reviewed = values.feedType === 'admin'
+            values.author = {
+              name: user.displayname,
+              picture: user.picture,
+              id: user.id
+            }
+            return next()
+          })
+        }
+        return next()
       })
-    } else if (values.stream) {
-      return Stream.findOne(values.stream).populate('groups').then(stream => {
-        const uid = (typeof values.author === 'object') ? values.author.id : values.author
-        // @TODO should check if user is stream admin
-        return User.findOne({id: uid}).populate('groups').then(user => {
-          values.feedType = (stream.groups.find(g => {
-            return user.groups.find(ug => g.id === ug.id)
-          })) ? 'admin' : 'form'
-          values.published = values.feedType === 'admin' ? true : stream.display
-          values.author = {
-            name: user.displayname,
-            picture: user.picture,
-            id: user.id
-          }
-          next()
-        })
-      }).catch(function (err) {
-        next(err)
+      .catch(function (err) {
+        return next(err)
       })
     } else {
-      next()
+      return next()
     }
   },
 

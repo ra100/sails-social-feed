@@ -40,6 +40,7 @@ module.exports = {
     var message = {
       message: req.param('message'),
       stream: req.param('stream'),
+      feed: req.param('feed'),
       author: {
         name: req.user.displayname,
         picture: req.user.picture,
@@ -53,9 +54,14 @@ module.exports = {
       message.isResponse = true
       message.parentMessage = req.param('parentMessage')
     }
-    Message.create(message).then((message) => {
-      // TODO add relatedMessage
-      res.json({status: 'ok', 'message': message})
-    }).catch(res.negotiate)
+    return Feed.findOne(req.param('feed')).then(feed => {
+      if (feed && (!feed.type === 'form' || !feed.enabled)) {
+        return res.forbidden()
+      }
+      return Message.create(message).then((message) => {
+        // TODO add relatedMessage
+        res.json({status: 'ok', 'message': message})
+      }).catch(res.negotiate)
+    })
   }
 }
