@@ -1,5 +1,15 @@
 import {Component, PropTypes} from 'react'
-import {Col, Row, Grid, PageHeader, Table, Pagination} from 'react-bootstrap'
+import {
+  Col,
+  Row,
+  Grid,
+  PageHeader,
+  Table,
+  Pagination,
+  FormGroup,
+  ControlLabel,
+  FormControl
+} from 'react-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
 import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
@@ -37,6 +47,11 @@ const messages = defineMessages({
     id: 'user.action',
     description: 'Table header action',
     defaultMessage: 'Action'
+  },
+  filter: {
+    id: 'user.filter',
+    description: 'label for fulltext filter of users',
+    defaultMessage: 'Filter'
   }
 })
 
@@ -54,9 +69,10 @@ class Users extends Component {
       error: null,
       page: 0,
       per_page: 30,
-      count: 0
+      count: 0,
+      filter: ''
     }
-    this._bind('_loadData', 'handleResponse', 'handleCountResponse')
+    this._bind('_loadData', 'handleResponse', 'handleCountResponse', '_filterData', '_handleFilterChange')
   }
 
   componentDidMount() {
@@ -95,19 +111,48 @@ class Users extends Component {
     if (!this._isMounted) {
       return
     }
-    let {socket} = this.context
-    let query = {
+    const {socket} = this.context
+    const query = {
       skip: this.state.page * this.state.perPage,
       populate: 'roles,groups'
     }
     socket.get('/users', query, this.handleResponse)
-    socket.get('/users/count', this.handleCount)
+    socket.get('/users/count', this.handleCountResponse)
+  }
+
+  _handleFilterChange(event) {
+    this.setState({filter: event.target.value})
+    this._filterData(event.target.value)
+  }
+
+  _filterData(filter) {
+    if (!this._isMounted) {
+      return
+    }
+    const filterValue = filter || event.target.value
+    if (!filterValue) {
+      return this._loadData()
+    }
+    const query = {
+      populate: 'roles,groups',
+      fulltext: filterValue
+    }
+    const {socket} = this.context
+    socket.get('/users', query, this.handleResponse)
   }
 
   render() {
     const {formatMessage} = this.props.intl
 
-    let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.count / this.state.per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
+    const pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.count / this.state.per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
+
+    const filter = <FormGroup controlId="filter" className="col-xs-12">
+      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.filter)}</ControlLabel>
+      <Col xs={12} sm={5}>
+        <FormControl type="text" value={this.state.filter} onChange={this._handleFilterChange} ref="filter"/>
+        <FormControl.Feedback/>
+      </Col>
+    </FormGroup>
 
     switch (this.state.status) {
       case 403:
@@ -126,6 +171,7 @@ class Users extends Component {
                 <FormattedMessage {...messages.usersTitle}/>
               </PageHeader>
               <Col xs={12}>
+                {filter}
                 {pager}
                 <Table striped hover condensed responsive>
                   <thead>

@@ -140,7 +140,7 @@ module.exports = {
    */
   find(req, res) {
     // Look up the model
-    var Model = actionUtil.parseModel(req)
+    const Model = actionUtil.parseModel(req)
 
     // If an `id` param was specified, use the findOne blueprint action
     // to grab the particular instance with its primary key === the value
@@ -150,9 +150,31 @@ module.exports = {
       return require('./findOne')(req, res)
     }
 
-    var criteria = actionUtil.parseCriteria(req)
+    let criteria = actionUtil.parseCriteria(req)
+    if (req.param('fulltext')) {
+      const fulltext = req.param('fulltext')
+      criteria = {
+        or: [
+          {
+            'username': {
+              'contains': fulltext
+            }
+          },
+          {
+            'email': {
+              'contains': fulltext
+            }
+          },
+          {
+            'displayname': {
+              'contains': fulltext
+            }
+          }
+        ]
+      }
+    }
     // Lookup for records that match the specified criteria
-    var query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req))
+    let query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req))
     query = actionUtil.populateRequest(query, req)
     query.exec(function found(err, matchingRecords) {
       if (err) {
