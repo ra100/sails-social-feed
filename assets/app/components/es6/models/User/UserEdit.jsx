@@ -405,6 +405,8 @@ class UserEdit extends Component {
 
   _validateAll() {
     let passed = true
+    const social = ['_facebook', '_twitter', '_instagram', '_soundcloud']
+      .filter(soc => this.state.username.indexOf(soc) > -1).length > 0
     if (this.state.username.length == 0) {
       this.setState({bsStyle_username: 'error'})
       passed = false
@@ -417,13 +419,13 @@ class UserEdit extends Component {
     } else {
       this.setState({bsStyle_displayname: 'success'})
     }
-    if ((!this.state.edit && this.state.password == '') || (this.state.password != '' && this.state.password.length < 6)) {
+    if (!social && ((!this.state.edit && this.state.password == '') || (this.state.password != '' && this.state.password.length < 6))) {
       this.setState({bsStyle_password: 'error'})
       passed = false
     } else {
       this.setState({bsStyle_password: 'success'})
     }
-    if (!this.state.email || this.state.email.length < 3) {
+    if (!social && (!this.state.email || this.state.email.length < 3)) {
       this.setState({bsStyle_email: 'error'})
       passed = false
     } else {
@@ -490,6 +492,8 @@ class UserEdit extends Component {
 
   render() {
     const {formatMessage} = this.props.intl
+    const social = ['_facebook', '_twitter', '_instagram', '_soundcloud']
+      .filter(soc => this.state.username.indexOf(soc) > -1).length > 0
 
     if (!this.state.allow) {
       return (<Forbidden/>)
@@ -502,40 +506,40 @@ class UserEdit extends Component {
       </Alert>
     }
 
-    let fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle_username}>
+    const fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle_username}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldNameLabel)}</ControlLabel>
       <Col xs={12} sm={5}>
-        <FormControl type="text" value={this.state.username} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.userFieldNamePlaceholder)}/>
+        <FormControl type="text" value={this.state.username} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.userFieldNamePlaceholder)} disabled={social}/>
         <FormControl.Feedback/>
       </Col>
     </FormGroup>
 
-    let fieldDisplayname = <FormGroup controlId="displayname" className="col-xs-12" validationState={this.state.bsStyle_displayname}>
+    const fieldDisplayname = <FormGroup controlId="displayname" className="col-xs-12" validationState={this.state.bsStyle_displayname}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldDisplaynameLabel)}</ControlLabel>
       <Col xs={12} sm={5}>
-        <FormControl type="text" value={this.state.displayname} onChange={this._handleDisplaynameChange} ref="displayname" placeholder={formatMessage(messages.userFieldDisplaynamePlaceholder)}/>
+        <FormControl type="text" value={this.state.displayname} onChange={this._handleDisplaynameChange} ref="displayname" placeholder={formatMessage(messages.userFieldDisplaynamePlaceholder)} disabled={social}/>
         <FormControl.Feedback/>
       </Col>
     </FormGroup>
 
-    let fieldPassword = <FormGroup controlId="password" className="col-xs-12" validationState={this.state.bsStyle_password}>
+    const fieldPassword = <FormGroup controlId="password" className="col-xs-12" validationState={this.state.bsStyle_password}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldPasswordLabel)}</ControlLabel>
       <Col xs={12} sm={5}>
-        <FormControl type="password" value={this.state.password} onChange={this._handlePasswordChange} ref="password" placeholder={formatMessage(messages.userFieldPasswordPlaceholder)}/>
+        <FormControl type="password" value={this.state.password} onChange={this._handlePasswordChange} ref="password" placeholder={formatMessage(messages.userFieldPasswordPlaceholder)} disabled={social}/>
         <FormControl.Feedback/>
       </Col>
     </FormGroup>
 
-    let fieldEmail = <FormGroup controlId="email" className="col-xs-12" validationState={this.state.bsStyle_email}>
+    const fieldEmail = <FormGroup controlId="email" className="col-xs-12" validationState={this.state.bsStyle_email}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldEmailLabel)}</ControlLabel>
       <Col xs={12} sm={5}>
-        <FormControl type="email" value={this.state.email} onChange={this._handleEmailChange} ref="email" placeholder={formatMessage(messages.userFieldEmailPlaceholder)}/>
+        <FormControl type="email" value={this.state.email} onChange={this._handleEmailChange} ref="email" placeholder={formatMessage(messages.userFieldEmailPlaceholder)} disabled={social}/>
         <FormControl.Feedback/>
       </Col>
     </FormGroup>
 
-    let rolesClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_roles
-    let fieldRoles = <div className={rolesClass}>
+    const rolesClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_roles
+    const fieldRoles = <div className={rolesClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldRolesLabel}/>
       </label>
@@ -544,8 +548,8 @@ class UserEdit extends Component {
       </div>
     </div>
 
-    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups
-    let fieldGroups = <div className={groupsClass}>
+    const groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups
+    const fieldGroups = <div className={groupsClass}>
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldGroupsLabel}/>
       </label>
@@ -557,15 +561,15 @@ class UserEdit extends Component {
     if (this.state.user !== null && this.state.user.picture) {
       picture = <img src={this.state.user.picture}/>
     }
-    let fieldUpload = <div className="avatar-upload">
+    const fieldUpload = <div className="avatar-upload">
       <label className="control-label col-xs-12 col-sm-2">
         <FormattedMessage {...messages.userFieldAvatarLabel}/>
       </label>
       {picture}
-      <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4"/>
+      <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4" disabled={social}/>
     </div>
 
-    let fieldBlocked = <FormGroup controlId="blocked" className="col-xs-12">
+    const fieldBlocked = <FormGroup controlId="blocked" className="col-xs-12">
       <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.userFieldBlockedLabel}/></ControlLabel>
       <Checkbox onChange={this._handleBlockedChange} checked={this.state.blocked || false} inputRef={(ref) => {this.refs.blocked = ref}}></Checkbox>
     </FormGroup>
