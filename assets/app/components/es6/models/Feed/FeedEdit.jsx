@@ -80,7 +80,7 @@ const messages = defineMessages({
   feedFieldAuthLabel: {
     id: 'feed.field.auth.label',
     description: 'Auth label',
-    defaultMessage: 'Authenticate'
+    defaultMessage: 'No access - Authenticate Now'
   },
   feedFieldReAuthLabel: {
     id: 'feed.field.reauth.label',
