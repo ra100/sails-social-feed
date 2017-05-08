@@ -181,7 +181,7 @@ class Login extends Component {
             {alert}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this._login} bsStyle='success'><FormattedMessage {...messages.buttonLogin}/></Button>
+            <Button onClick={this._login} bsStyle='success' disabled={this.state.password.length === 0}><FormattedMessage {...messages.buttonLogin}/></Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>
