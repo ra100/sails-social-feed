@@ -21,7 +21,7 @@ module.exports = {
         // 'youtube_profile',
         // 'soundcloud_profile',
         'instagram_user',
-        'instagram_tag',
+        // 'instagram_tag',
         'form',
         'admin'
       ]
@@ -108,10 +108,6 @@ module.exports = {
 
         case 'instagram_user':
         case 'instagram_tag':
-          if (!feed.config || !values.enabled) {
-            // remove old subscribtion
-            return instagramUpdate.unsubscribe(feed, values, next)
-          }
           if ((feed.config !== values.config ||
             values.enabled !== feed.enabled) &&
             values.enabled) {

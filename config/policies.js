@@ -114,10 +114,10 @@ module.exports.policies = {
   },
 
   FacebookController: {
-    '*': [true]
+    '*': true
   },
 
   InstagramController: {
-    '*': [true]
+    '*': true
   }
 }

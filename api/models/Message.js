@@ -20,7 +20,7 @@ module.exports = {
     },
     message: {
       type: 'mediumtext',
-      required: true
+      required: false
     },
     uuid: {
       type: 'text',
@@ -109,7 +109,11 @@ module.exports = {
       .then(feed => {
         values.stream = feed.stream.id
         values.feedType = feed.type
-        values.published = (values.published === false && feed.type.includes('facebook')) ? false : feed.display
+        values.published = feed.display
+        /*
+         * (values.published === false && feed.type.includes('facebook')) ? false : feed.display
+         */
+        sails.log.verbose('Message values to save', values)
         if (feed.type === 'form') {
           const uid = (typeof values.author === 'object')
             ? values.author.id

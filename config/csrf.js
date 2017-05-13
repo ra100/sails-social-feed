@@ -67,6 +67,7 @@ module.exports.csrf = {
     '/auth/local',
     '/auth/:provider',
     '/auth/:provider/:action',
-    '/messages/submit'
+    '/messages/submit',
+    '/instagram/callback'
   ]
 }

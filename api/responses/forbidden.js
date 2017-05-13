@@ -24,9 +24,9 @@ module.exports = function forbidden (data, options) {
 
   // Log error to console
   if (data !== undefined) {
-    sails.log.verbose('Sending 403 ("Forbidden") response: \n',data)
+    sails.log.verbose('Sending 403 ("Forbidden") response: \n', data, 'for path: ', req.originalUrl)
   }
-  else sails.log.verbose('Sending 403 ("Forbidden") response')
+  else sails.log.verbose('Sending 403 ("Forbidden") response for path: ', req.originalUrl)
 
   // Only include errors in response if application environment
   // is not set to 'production'.  In production, we shouldn't
