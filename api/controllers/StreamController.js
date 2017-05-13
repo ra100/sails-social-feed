@@ -71,11 +71,12 @@ module.exports = {
   },
 
   messages(req, res) {
-    let limit = req.param('limit') || 10
-    let skip = req.param('skip') || 0
-    let all = req.param('all') || false
-    let populate = req.param('populate') || ['relatedMessage', 'parentMessage']
-    let criteria = {
+    const limit = req.param('limit') || 10
+    const skip = req.param('skip') || 0
+    const all = req.param('all') || false
+    const timestamp = req.param('timestamp') || false
+    const populate = req.param('populate') || ['relatedMessage', 'parentMessage']
+    const criteria = {
       where: {
         stream: req.param('id'),
         isResponse: false,
@@ -98,13 +99,17 @@ module.exports = {
         'parentMessage',
         'isResponse',
         'published',
-        'reviewed'
+        'reviewed',
+        'updatedAt'
       ]
     }
     if (all) {
       criteria.where = {
         stream: req.param('id'),
       }
+    }
+    if (timestamp) {
+      criteria.where.updatedAt = {'>': timestamp}
     }
     return Message.find(criteria).populate(populate).then((messages) => {
       if (req.isSocket) {
@@ -115,11 +120,12 @@ module.exports = {
   },
 
   adminMessages(req, res) {
-    let limit = req.param('limit') || 10
-    let skip = req.param('skip') || 0
-    let all = req.param('all') || false
-    let populate = req.param('populate') || ['relatedMessage', 'parentMessage']
-    let criteria = {
+    const limit = req.param('limit') || 10
+    const skip = req.param('skip') || 0
+    const all = req.param('all') || false
+    const timestamp = req.param('timestamp') || false
+    const populate = req.param('populate') || ['relatedMessage', 'parentMessage']
+    const criteria = {
       where: {
         stream: req.param('id'),
         isResponse: false
@@ -141,13 +147,17 @@ module.exports = {
         'parentMessage',
         'isResponse',
         'published',
-        'reviewed'
+        'reviewed',
+        'updatedAt'
       ]
     }
     if (all) {
       criteria.where = {
         stream: req.param('id'),
       }
+    }
+    if (timestamp) {
+      criteria.where.updatedAt = {'>': timestamp}
     }
     return Message.find(criteria).populate(populate).then((messages) => {
       if (req.isSocket) {
