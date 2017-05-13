@@ -133,10 +133,10 @@ class MessageBody extends Component {
   }
 
   renderFacebookMedia() {
-    const {meta} = this.props
-    const type = this.props.message.mediaType
+    const {meta, message} = this.props
+    const type = message && message.mediaType
     if (type === 'video') {
-      return <div dangerouslySetInnerHTML={{__html: meta.video.format[1].embed_html}}></div>
+      return <div dangerouslySetInnerHTML={{__html: meta.video.format && meta.video.format[1].embed_html}}></div>
     }
     let m = null
     if (type === 'album') {
