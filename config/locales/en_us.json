@@ -12,6 +12,6 @@
         "You have been authenticated": "You have been authenticated",
         "Error.Too.Many.Requests": "Error.Too.Many.Requests",
         "Error.Passport.Password.Invalid": "Error.Passport.Password.Invalid",
-        "Error.Passport.Email.NotFound": "Email nenalezen",
+        "Error.Passport.Email.NotFound": "Error.Passport.Email.NotFound",
         "Error.User.Blocked": "Error.User.Blocked"
 }

@@ -119,7 +119,62 @@ module.exports = {
     }
     User.findOne({id: user.id}).populate('roles').populate('groups').populate('passports').exec(function (e, r) {
       user = r
-      return res.jsonx({username: user.username, roles: user.roles, id: user.id, displayname: user.displayname, picture: user.picture, meta: user.meta, protocol: user.passports[0].protocol})
+      return res.jsonx({
+        username: user.username,
+        roles: user.roles,
+        id: user.id,
+        displayname: user.displayname,
+        picture: user.picture,
+        meta: user.meta,
+        protocol: user.passports[0].protocol,
+        email: user.email})
+    })
+  },
+
+  updateme: (req, res) => {
+    const uid = req.user.id
+    const displayname = req.param('displayname')
+    const image = req.param('image')
+    const password = req.param('password')
+
+    updated = {}
+    if (displayname && displayname.length > 0) {
+      updated.displayname = displayname
+    }
+    if (image) {
+      updated.image = image
+    }
+
+    sails.log.verbose(updated)
+
+    User.update({
+      id: uid
+    }, updated).exec((err, user) => {
+      if (err) {
+        return res.negotiate(err)
+      }
+      if (password != undefined && password.length > 6) {
+        return Passport.hasPassword(password, (err, hashedPassword) => {
+          if (err) {
+            return res.serverError(err)
+          }
+          return Passport.update({
+            user: uid,
+            protocol: 'local',
+            password: hashedPassword
+          }, {password: password}).exec((err, passport) => {
+            if (err) {
+              return res.serverError(err)
+            }
+            if (user.length === 0) {
+              return res.serverError(req.__('Error.Passport.Password.Invalid'))
+            }
+            res.ok(user[0])
+          })
+        })
+      }
+
+      return res.ok(user[0])
     })
   },
 
