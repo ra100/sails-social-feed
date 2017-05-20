@@ -61,7 +61,7 @@ module.exports = {
 
   isAdmin: function (uid, req, next) {
     User.find({id: uid}).populate('roles', {name: 'admin'}).exec(function (e, r) {
-      if (r[0].roles.length > 0) {
+      if (r && r[0].roles.length > 0) {
         return next(null, r[0])
       } else {
         return next(req.__('Error.Not.Admin'), r[0])

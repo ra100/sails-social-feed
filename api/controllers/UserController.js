@@ -4,7 +4,8 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-var actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil')
+const actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil')
+const bcrypt = require('bcryptjs')
 
 module.exports = {
   cancreate: function (req, res) {
@@ -136,6 +137,8 @@ module.exports = {
     const displayname = req.param('displayname')
     const image = req.param('image')
     const password = req.param('password')
+    const oldPassword = req.param('oldPassword')
+    const email = req.param('email')
 
     updated = {}
     if (displayname && displayname.length > 0) {
@@ -144,37 +147,62 @@ module.exports = {
     if (image) {
       updated.image = image
     }
+    if (email != undefined && email.length > 0) {
+      updated.email = email
+    }
 
     sails.log.verbose(updated)
 
-    User.update({
-      id: uid
-    }, updated).exec((err, user) => {
-      if (err) {
-        return res.negotiate(err)
-      }
-      if (password != undefined && password.length > 6) {
-        return Passport.hasPassword(password, (err, hashedPassword) => {
+    return Promise.all([
+      new Promise((resolve, reject) => {
+        User.update({
+          id: uid
+        }, updated).exec((err, user) => {
           if (err) {
-            return res.serverError(err)
+            return reject(err)
           }
-          return Passport.update({
-            user: uid,
-            protocol: 'local',
-            password: hashedPassword
-          }, {password: password}).exec((err, passport) => {
-            if (err) {
-              return res.serverError(err)
-            }
-            if (user.length === 0) {
-              return res.serverError(req.__('Error.Passport.Password.Invalid'))
-            }
-            res.ok(user[0])
-          })
+          return resolve(user[0])
         })
-      }
-
-      return res.ok(user[0])
+      }),
+      new Promise((resolve, reject) => {
+        if (password && password.length > 6) {
+          sails.log.verbose('Try password change')
+          return Passport.findOne({
+            user: uid,
+            protocol: 'local'
+          }).then(passport => {
+            sails.log.verbose('Passport found', passport)
+            return new Promise((resolve1, reject1) => {
+              passport.validatePassword(oldPassword, (err, result) => {
+                if (err) {
+                  sails.log.error('Password validation error', err)
+                  return reject1(err)
+                }
+                if (!result) {
+                  sails.log.verbose('Passport check', result)
+                  return reject1(req.__('Error.Passport.Password.Wrong'))
+                }
+                sails.log.verbose('Passport check passed')
+                Passport.update({
+                  user: uid,
+                  protocol: 'local'
+                }, {password: password}).exec((err, result) => {
+                  if (err) {
+                    return reject1(err)
+                  }
+                  return resolve1()
+                })
+              })
+            }).catch(reject)
+          })
+        }
+        return resolve()
+      })
+    ]
+    ).then(results => {
+      return res.ok()
+    }).catch(err => {
+      return res.negotiate(err)
     })
   },
 

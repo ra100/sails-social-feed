@@ -12,4 +12,5 @@ module.exports.auth = {
   instagram_webhook_token: process.env.INSTAGRAM_WEBHOOK_TOKEN,
   soundcloud_client_id: process.env.SOUNDCLOUD_CLIENT_ID,
   soundcloud_client_secret: process.env.SOUNDCLOUD_CLIENT_SECRET,
+  salt: process.env.SALT
 }
