@@ -98,6 +98,9 @@ const status = (status, feedId) => {
 
 const reaction = (status, feedId) => {
   Message.findOne({uuid: {endsWith: status.post_id}}).then(message => {
+    if (!message) {
+      return Promise.reject('Message not found', status.post_id)
+    }
     if (status.verb === 'add') {
       message.metadata.likes += 1
     } else if (status.verb === 'remove') {
@@ -108,7 +111,7 @@ const reaction = (status, feedId) => {
         return message
       })
     }
-    return new Promise(resolve => {resolve(message)})
+    return Promise.resolve(message)
   })
   .then(message => {
     Message.update({where: {uuid: {endsWith: status.post_id}}, limit: 1}, message).then(updatedMessages => {
@@ -119,6 +122,9 @@ const reaction = (status, feedId) => {
 
 const comment = (status, feedId) => {
   Message.findOne({uuid: {endsWith: status.post_id}}).then(message => {
+    if (!message) {
+      return Promise.reject('Message not found', status.post_id)
+    }
     if (status.verb === 'add') {
       message.metadata.comments += 1
     } else if (status.verb === 'remove') {
@@ -129,7 +135,7 @@ const comment = (status, feedId) => {
         return message
       })
     }
-    return new Promise(resolve => {resolve(message)})
+    return Promise.resolve(message)
   })
   .then(message => {
     Message.update({where: {uuid: {endsWith: status.post_id}}, limit: 1}, message).then(updatedMessages => {
