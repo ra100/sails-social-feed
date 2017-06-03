@@ -5,7 +5,6 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 const actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil')
-const bcrypt = require('bcryptjs')
 
 module.exports = {
   cancreate: function (req, res) {

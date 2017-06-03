@@ -420,7 +420,7 @@ class StreamView extends Component {
 
               <Col xs={3}><FormattedMessage {...messages.streamFieldOwnerLabel}/></Col>
               <Col xs={9}>
-                <strong>{stream.owner.username}</strong>
+                <strong>{stream.owner && stream.owner.username}</strong>
               </Col>
 
               <Col xs={3}><FormattedMessage {...messages.streamFieldGroupsLabel}/></Col>

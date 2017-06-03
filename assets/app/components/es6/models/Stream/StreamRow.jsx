@@ -99,7 +99,7 @@ class StreamRow extends Component {
         </td>
 
         <td>
-          <strong>{stream.owner.username}</strong>
+          <strong>{stream.owner && stream.owner.username}</strong>
         </td>
 
         <td>
