@@ -18,6 +18,7 @@ fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.face
 
 const FB_TYPE_POST = 'post'
 const FB_TYPE_VIDEO = 'video'
+const FB_TYPE_ALBUM = 'album'
 
 const storyPattern = /permalink(?:\.php\?)+\S*fbid=(\d+)\S*(?:;|&)id=(\d+)/g
 const permalinkPattern = /permalink\S*fbid=(\d+)\S*;id=(\d+)/g
@@ -35,6 +36,7 @@ const fbpostPatterns = [
 ]
 const fbvideoPattern =
   /^https:\/\/www\.facebook\.com\/(?:[^\/]+\/videos\/|video.php\?(?:id|v)=)(\d+)\.*/g
+const fbalbumPattern = /facebook.*album_id=(\d*)/g
 
 const EmbedEngine = urlEmbed.EmbedEngine
 const Embed =  urlEmbed.Embed
@@ -98,6 +100,14 @@ const checkFblink = url =>
   }).length > 0
 
 /**
+ * Check if link is FB album
+ * @param  {string} url [description]
+ * @return {boolean}     [description]
+ */
+const checkFbalbum = url =>
+  url.match(fbalbumPattern) && url.match(fbalbumPattern).length > 0
+
+/**
  * Check if link is FB video
  * @param  {string} url [description]
  * @return {boolean}     [description]
@@ -117,7 +127,11 @@ const fetchFacebook = (url, type) =>
         postId = m[1]
       }
     }
-    const data = JSON.parse(res.text)
+    try {
+      const data = JSON.parse(res.text)
+    } catch (e) {
+      return Promise.reject({status: 404, error: e})
+    }
     sails.log.verbose('FB oembed data', data)
     // Extract IDs from permalink
     let match = permalinkPattern.exec(data.html)
@@ -154,6 +168,12 @@ const fetchFacebook = (url, type) =>
       if (match && match.length > 2) {
         return {fbid: match[2], id: match[1]}
       } else {
+        if (type === FB_TYPE_ALBUM) {
+          match = fbalbumPattern.exec(url)
+          if (match && match.length > 1) {
+            return {id: match[1]}
+          }
+        }
         return new Promise((resolve, reject) => {
           reject(err)
         })
@@ -167,6 +187,9 @@ const fetchFacebook = (url, type) =>
       return result
     }
     let id = `${result.fbid}_${result.id}`
+    if (type === FB_TYPE_ALBUM) {
+      return {type: FB_TYPE_ALBUM, id: result.id}
+    }
     sails.log.verbose('id: ', id)
     // get object type
     return new Promise((resolve, reject) => {
@@ -366,11 +389,47 @@ const getFBdetails = (type, id) => {
         })
     })
 
+  const getAlbumData = id =>
+    new Promise((resolve, reject) => {
+      sails.log.verbose('Facebook ID', id)
+      // permalink_url,title,description,embed_html,from{name,link,id,picture},source
+      fb.api(`/${id}`, 'get', {fields: [
+        'description',
+        'name',
+        'photos{link,images}',
+        'from{id,link,name}',
+        'id',
+        'link']},
+        (result, err) => {
+          if (err) {
+            return reject(err)
+          }
+          sails.log.verbose(JSON.stringify(result))
+          let html = ''
+          return resolve({
+            provider_name: 'Facebook',
+            provider_url: 'https://www.facebook.com',
+            author_name: result.from && result.from.name,
+            author_url: result.from && result.from.link,
+            author_id: result.from && result.from.id,
+            title: result.name,
+            media_id: result.id,
+            url: result.link,
+            link_description: result.description,
+            link_url: result.link,
+            link_title: result.name,
+            media: result.photos.data,
+            type
+          })
+        })
+    })
+
   const types = {
     photo: getPhotoData,
     status: getStatusData,
     video: getVideoData,
-    link: getLinkData
+    link: getLinkData,
+    album: getAlbumData
   }
   if (!types[type]) {
     return new Promise((resolve, reject) => ({error: 'Fb Type not found'}))
@@ -416,6 +475,9 @@ module.exports = {
         } else if (checkFbvideo(url)) {
           sails.log.verbose('FBvideo found', url)
           return fetchFacebook(url, FB_TYPE_VIDEO).then(resolve).catch(reject)
+        } else if (checkFbalbum(url)) {
+          sails.log.verbose('FBalbum found', url)
+          return fetchFacebook(url, FB_TYPE_ALBUM).then(resolve).catch(reject)
         }
         const embed = new Embed(url, EMBED_OPTONS)
         engine.getEmbed(embed, res => {
