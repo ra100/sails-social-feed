@@ -113,7 +113,7 @@ module.exports = {
         /*
          * (values.published === false && feed.type.includes('facebook')) ? false : feed.display
          */
-        sails.log.verbose('Message values to save', values)
+        sails.log.verbose('Message values to save', {...values, image: values.image ? 'image present' : null})
         if (feed.type === 'form') {
           const uid = (typeof values.author === 'object')
             ? values.author.id
@@ -182,7 +182,11 @@ module.exports = {
    * Send publishAdd message to sockets, when new message is published
    */
   afterCreate: function (values, next) {
-    sails.log.verbose(values)
+    const toLog = {values}
+    if (toLog.image) {
+      toLog.image = 'image present'
+    }
+    sails.log.verbose(toLog)
     if (values.published) {
       delete values._csrf
       Stream.publishAdd(values.stream, 'messages', values)

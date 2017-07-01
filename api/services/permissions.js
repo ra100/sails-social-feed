@@ -13,8 +13,8 @@ module.exports = {
     }
     for (var i in user.roles) {
       if (typeof user.roles[i] == 'object') {
-        var role = user.roles[i].name
-        p = perms[role][model]
+        const role = user.roles[i].name
+        const p = perms[role][model]
         if ((model == 'user' && obj.id == user.id) || (model != 'user' && obj.owner && obj.owner.id == user.id)) {
           sails.log.verbose('Permissions IS OWNER')
           result = this.joinPermissions(result, p.own)

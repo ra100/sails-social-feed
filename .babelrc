@@ -5,6 +5,7 @@
     ["react-intl", {
       "messagesDir": "./assets/app/locales/",
       "enforceDescriptions": false
-  }]
+    }],
+    "transform-object-rest-spread"
   ]
 }
