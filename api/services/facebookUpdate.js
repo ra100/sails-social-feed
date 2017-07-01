@@ -29,13 +29,8 @@ const status = (status, feedId) => {
       }
       const uuid = `${feed.stream.id}_${status.post_id}`
       return Message.findOne({uuid: uuid}).then(msg => {
-        if (msg) {
-          exists = true
-          msg.published = (status.published === 1)
-          return msg
-        }
-        return message = {
-          stream: feed.stream,
+        const message = {
+          stream: feed.stream.id,
           feedType: feed.type,
           feed: feed.id,
           message: status.message || '',
@@ -47,6 +42,16 @@ const status = (status, feedId) => {
           mediaType: 'text',
           published: (status.published === 1)
         }
+        if (msg) {
+          exists = true
+          if (msg.reviewed) {
+            message.published = msg.published
+          } else {
+            message.published = feed.display
+          }
+        }
+        sails.log.verbose('Fb message', status.verb, JSON.stringify(message))
+        return message
       })
     })
     .then(message => {

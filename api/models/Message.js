@@ -95,11 +95,12 @@ module.exports = {
    */
   beforeValidate: function (values, next) {
     // sails.log.debug('BeforeValidate message values:', values)
+    const newValues = {...values}
     if (values.id) {
       return next()
     }
     if (!values.created) {
-      values.created = new Date()
+      newValues.created = new Date()
     }
     if (values.feed) {
       // @FIXME sometimes message gets not published
@@ -107,39 +108,47 @@ module.exports = {
       .populate('stream')
       .populate('groups')
       .then(feed => {
-        values.stream = feed.stream.id
-        values.feedType = feed.type
-        values.published = feed.display
-        /*
-         * (values.published === false && feed.type.includes('facebook')) ? false : feed.display
-         */
-        sails.log.verbose('Message values to save', {...values, image: values.image ? 'image present' : null})
+        newValues.stream = feed.stream.id
+        newValues.feedType = feed.type
+        newValues.published = feed.display
+        if (feed.type.includes('facebook')) {
+          if (!values.reviewed) {
+            newValues.published = feed.display
+          }
+          if (!values.published) {
+            newValues.published = false
+          }
+        }
+        sails.log.verbose('Message values to save', {...newValues, image: newValues.image ? 'image present' : null})
         if (feed.type === 'form') {
-          const uid = (typeof values.author === 'object')
-            ? values.author.id
-            : values.author
+          const uid = (typeof newValues.author === 'object')
+            ? newValues.author.id
+            : newValues.author
           return User.findOne({id: uid}).populate('groups').then(user => {
-            values.feedType = (feed.groups.find(g => {
+            newValues.feedType = (feed.groups.find(g => {
               return user.groups.find(ug => g.id === ug.id)
             })) ? 'admin' : 'form'
-            values.published = values.feedType === 'admin'
+            newValues.published = newValues.feedType === 'admin'
               ? true
               : feed.display
-            values.reviewed = values.feedType === 'admin'
-            values.author = {
+            newValues.reviewed = newValues.feedType === 'admin'
+            newValues.author = {
               name: user.displayname,
               picture: user.picture,
               id: user.id
             }
+            values = newValues
             return next()
           })
         }
+        values = newValues
         return next()
       })
       .catch(function (err) {
         return next(err)
       })
     } else {
+      values = newValues
       return next()
     }
   },
@@ -208,16 +217,16 @@ module.exports = {
    * Send remove message to sockets if message has been upublished
    */
   beforeUpdate: function (values, next) {
-    if (values.published !== undefined && !values.published) {
-      delete values._csrf
-      if (values.stream) {
-        Stream.publishRemove(values.stream, 'messages', values.id)
-      } else {
-        Message.findOne(values.id).exec(function (err, message) {
-          Stream.publishRemove(message.stream, 'messages', message.id)
-        })
-      }
-    }
+    // if (values.published !== undefined && !values.published) {
+    //   delete values._csrf
+    //   if (values.stream) {
+    //     Stream.publishRemove(values.stream, 'messages', values.id)
+    //   } else {
+    //     Message.findOne(values.id).exec(function (err, message) {
+    //       Stream.publishRemove(message.stream, 'messages', message.id)
+    //     })
+    //   }
+    // }
     next()
   },
 
@@ -226,12 +235,14 @@ module.exports = {
    * when message has been changed and is publushed
    */
   afterUpdate: function (values, next) {
-    // if (values.published) {
     delete values._csrf
     Message.findOne(values.id).exec(function (err, message) {
+      // if (message.published) {
       Stream.publishAdd(message.stream, 'messages', message)
+      // } else {
+      //   Stream.publishRemove(values.stream, 'messages', values.id)
+      // }
     })
-    // }
     next()
   },
 

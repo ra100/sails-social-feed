@@ -165,7 +165,7 @@ class FeedCreate extends Component {
       allow: true,
       view: false
     }
-    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', '_handleEnabledChange', '_handleDisplayChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load')
+    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', '_handleEnabledChange', '_handleDisplayChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load', 'handleGroupStreams')
   }
 
   componentDidMount() {
@@ -183,7 +183,7 @@ class FeedCreate extends Component {
     if (nextProps) {
       feedId = nextProps.match.params.feedId
     }
-    let isAdmin = function () {
+    const isAdmin = () => {
       let i
       for (i in roles) {
         if (roles[i].name == 'admin') {
@@ -203,9 +203,13 @@ class FeedCreate extends Component {
       socket.get('/users/' + this.context.user.id + '/groups', {
         sort: 'name'
       }, this.handleGroups)
-      socket.get('/users/' + this.context.user.id + '/streams', {
-        sort: 'name'
-      }, this.handleStreams)
+      socket.get('/groups', {
+        sort: 'name',
+        where: {
+          name: this.context.user.groups
+        },
+        populate: 'streams'
+      }, this.handleGroupStreams)
     }
     socket.get('/feeds/definition', this.handleDefinition)
     if (typeof feedId !== 'undefined') {
@@ -363,22 +367,42 @@ class FeedCreate extends Component {
     if (!this._isMounted || res.statusCode !== 200) {
       return
     }
-    let selected = getSelected(this.state.stream)
+    const selected = getSelected(this.state.stream)
     if (selected.length == 0 && data.length == 1) {
       selected.push(data[0].id)
     }
-    let streams = []
+    const streams = []
     let i
     for (i in data) {
-      let stream = data[i]
+      const stream = data[i]
       streams.push({
         value: stream.id,
         label: [stream.name, ' ', '[', stream.uniqueName, ']'].join(''),
         selected: (selected.indexOf(stream.id) > -1)
       })
     }
-    let s = array.unionBy(this.state.stream, streams, 'value')
+    const s = array.unionBy(this.state.stream, streams, 'value')
     this.setState({stream: s})
+    if (this.refs.stream) {
+      this.refs.stream.syncData()
+    }
+  }
+
+  handleGroupStreams(data, res) {
+    if (!this._isMounted || res.statusCode !== 200) {
+      return
+    }
+    const selected = getSelected(this.state.stream)
+    const streams = array.uniqBy(data.reduce((acc, val) =>
+      acc.concat(val.streams.map(stream => ({
+        value: stream.id,
+        label: [stream.name, ' ', '[', stream.uniqueName, ']'].join(''),
+        selected: (selected.indexOf(stream.id) > -1)
+      }))), []), 'value')
+    if (streams.length === 1) {
+      streams[0].selected = true
+    }
+    this.setState({stream: streams})
     if (this.refs.stream) {
       this.refs.stream.syncData()
     }
