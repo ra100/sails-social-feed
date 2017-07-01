@@ -96,7 +96,7 @@ const status = (status, feedId) => {
   }
 }
 
-const reaction = (status, feedId) => {
+const reaction = (status, feedId) =>
   Message.findOne({uuid: {endsWith: status.post_id}}).then(message => {
     if (!message) {
       return Promise.reject('Message not found', status.post_id)
@@ -118,9 +118,8 @@ const reaction = (status, feedId) => {
       sails.log.verbose('Messages updated:', updatedMessages)
     })
   })
-}
 
-const comment = (status, feedId) => {
+const comment = (status, feedId) =>
   Message.findOne({uuid: {endsWith: status.post_id}}).then(message => {
     if (!message) {
       return Promise.reject('Message not found', status.post_id)
@@ -142,7 +141,6 @@ const comment = (status, feedId) => {
       sails.log.verbose('Messages updated:', updatedMessages)
     })
   })
-}
 
 const getReactions = id => {
   fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.facebook_app_secret}`)
@@ -276,9 +274,11 @@ const update = body => {
           status(change.value, id)
           break
         case 'reaction':
-          reaction(change.value, id)
+          reaction(change.value, id).catch(sails.log.error)
+          break
         case 'comment':
-          comment(change.value, id)
+          comment(change.value, id).catch(sails.log.error)
+          break
         default: return
       }
     })

@@ -126,7 +126,7 @@
     "minifyify": "^7.3.4",
     "mocha": "^3.2.0",
     "sails-apidocs": "git+https://github.com/sukharenko/sails-apidocs.git",
-    "sails-hook-autoreload": "^1.0.0",
+    "sails-hook-autoreload": "^0.14.1",
     "winston": "^2.3.1"
   },
   "snyk": true,

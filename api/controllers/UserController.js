@@ -139,7 +139,7 @@ module.exports = {
     const oldPassword = req.param('oldPassword')
     const email = req.param('email')
 
-    updated = {}
+    const updated = {}
     if (displayname && displayname.length > 0) {
       updated.displayname = displayname
     }
@@ -149,8 +149,8 @@ module.exports = {
     if (email != undefined && email.length > 0) {
       updated.email = email
     }
-
-    sails.log.verbose(updated)
+    const toLog = {...updated, image: updated.image ? 'image present' : null}
+    sails.log.verbose(toLog)
 
     return Promise.all([
       new Promise((resolve, reject) => {
