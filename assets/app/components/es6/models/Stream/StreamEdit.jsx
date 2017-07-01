@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Alert,
   Col,
@@ -167,7 +168,7 @@ class StreamEdit extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.streamId !== this.props.params.streamId) {
+    if (nextProps.match.params.streamId !== this.props.match.params.streamId) {
       this.setState({stream: null, status: 0, error: null})
       this.load(nextProps)
     }
@@ -194,7 +195,7 @@ class StreamEdit extends Component {
       let query = {
         populate: 'owner,groups'
       }
-      socket.get('/streams/' + this.props.params.streamId, query, this.handleLoad)
+      socket.get('/streams/' + this.props.match.params.streamId, query, this.handleLoad)
     } else {
       this.setState({allow: false})
     }
@@ -206,9 +207,9 @@ class StreamEdit extends Component {
     }
     let {socket} = this.context
     let roles = this.context.user.roles
-    let streamId = this.props.params.streamId
+    let streamId = this.props.match.params.streamId
     if (nextProps) {
-      streamId = nextProps.params.streamId
+      streamId = nextProps.match.params.streamId
     }
     let isAdmin = function () {
       let i
@@ -388,14 +389,14 @@ class StreamEdit extends Component {
       if (this.context.user.permissions.stream.group.u) {
         payload.groups = getSelected(this.state.groups)
       }
-      socket.put('/streams/' + this.props.params.streamId, payload, this.handleSaveResponse)
+      socket.put('/streams/' + this.props.match.params.streamId, payload, this.handleSaveResponse)
     }
   }
 
   _remove() {
     let {socket} = this.context
     if (!this.state.deleted) {
-      socket.delete('/streams/' + this.props.params.streamId, {
+      socket.delete('/streams/' + this.props.match.params.streamId, {
         _csrf: _csrf
       }, this.handleDestroyResponse)
     }

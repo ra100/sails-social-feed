@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Button, ButtonToolbar} from 'react-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
 import ButtonModal from './ButtonModal'
@@ -79,15 +80,15 @@ class EditToolbar extends Component {
       cancel = null
 
     if (this.props.cancel != false) {
-      cancel = <Button bsStyle="primary" onTouchTap={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>
+      cancel = <Button bsStyle="primary" onClick={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>
     }
 
     if (this.props.update) {
-      update = <Button bsStyle="success" onTouchTap={this.props.update}><FormattedMessage {...messages.saveButton}/></Button>
+      update = <Button bsStyle="success" onClick={this.props.update}><FormattedMessage {...messages.saveButton}/></Button>
     }
 
     if (this.props.create) {
-      create = <Button bsStyle="success" onTouchTap={this.props.create}><FormattedMessage {...messages.createButton}/></Button>
+      create = <Button bsStyle="success" onClick={this.props.create}><FormattedMessage {...messages.createButton}/></Button>
     }
 
     if (this.props.remove) {
@@ -95,7 +96,7 @@ class EditToolbar extends Component {
     }
 
     if (this.props.edit) {
-      edit = <Button bsStyle="primary" onTouchTap={this.props.edit}><FormattedMessage {...messages.editButton}/></Button>
+      edit = <Button bsStyle="primary" onClick={this.props.edit}><FormattedMessage {...messages.editButton}/></Button>
     }
 
     return (

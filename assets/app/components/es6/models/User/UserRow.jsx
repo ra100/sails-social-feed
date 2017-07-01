@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
 import {Button, Label} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
@@ -178,9 +179,9 @@ class UserRow extends Component {
         <td>
           {p.u ?
             this.state.blocked === true ?
-              <Button bsStyle="danger" onTouchTap={this._activate}><FormattedMessage {...messages.activate}/></Button>
+              <Button bsStyle="danger" onClick={this._activate}><FormattedMessage {...messages.activate}/></Button>
               :
-              <Button bsStyle="danger" onTouchTap={this._block}><FormattedMessage {...messages.block}/></Button>
+              <Button bsStyle="danger" onClick={this._block}><FormattedMessage {...messages.block}/></Button>
             : null
           }
           <br/>

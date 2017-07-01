@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {LinkContainer} from 'react-router-bootstrap'
 import {
   Button,
@@ -85,11 +86,10 @@ class Navigation extends Component {
   }
 
   _logout() {
-    var _self = this
     this.context.socket.get('/logout', (data, res) => {
       if (res.statusCode == 200 || res.statusCode == 302) {
-        _self.context.user.clearUser()
-        _self.props.history.push('/login')
+        this.context.user.clearUser()
+        this.props.history.push('/login')
       } else {
         console.error(res)
       }
@@ -100,7 +100,7 @@ class Navigation extends Component {
     const {formatMessage} = this.props.intl
     const {permissions} = this.context.user
 
-    let logoutButton = <NavItem eventKey={1} onTouchTap={this._logout.bind(this)}><FormattedMessage {...messages.logout}/></NavItem>
+    let logoutButton = <NavItem eventKey={1} onClick={this._logout.bind(this)}><FormattedMessage {...messages.logout}/></NavItem>
 
     if (this.context.user.username == undefined) {
       logoutButton = <LinkContainer to={'/login'}>
@@ -211,10 +211,6 @@ class Navigation extends Component {
 Navigation.contextTypes = {
   user: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired
-}
-
-Navigation.propTypes = {
-  history: PropTypes.object.isRequired
 }
 
 export default injectIntl(Navigation)

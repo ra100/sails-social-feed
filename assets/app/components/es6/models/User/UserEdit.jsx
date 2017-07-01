@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Col,
   Row,
@@ -160,7 +161,7 @@ class UserEdit extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.userId !== this.props.params.userId) {
+    if (nextProps.match.match.params.userId !== this.props.match.match.params.userId) {
       this.setState({user: null, status: 0, error: null})
       this.load(nextProps)
     }
@@ -184,7 +185,7 @@ class UserEdit extends Component {
     if (res.statusCode == 200) {
       this.setState({allow: true, edit: true})
       let {socket} = this.context
-      socket.get('/users/' + this.props.params.userId, this.handleLoad)
+      socket.get('/users/' + this.props.match.match.params.userId, this.handleLoad)
     } else {
       this.setState({allow: false})
     }
@@ -192,9 +193,9 @@ class UserEdit extends Component {
 
   load(nextProps) {
     let {socket} = this.context
-    let userId = this.props.params.userId
+    let userId = this.props.match.match.params.userId
     if (nextProps) {
-      userId = nextProps.params.userId
+      userId = nextProps.match.match.params.userId
     }
     socket.get('/roles', {
       populate: 'none'
@@ -355,14 +356,14 @@ class UserEdit extends Component {
       if (this.state.upload !== null) {
         payload.image = this.state.upload
       }
-      socket.post('/users/update/' + this.props.params.userId, payload, this.handleSaveResponse)
+      socket.post('/users/update/' + this.props.match.match.params.userId, payload, this.handleSaveResponse)
     }
   }
 
   _remove() {
     let {socket} = this.context
     if (!this.state.deleted) {
-      socket.post('/users/destroy/' + this.props.params.userId, {
+      socket.post('/users/destroy/' + this.props.match.match.params.userId, {
         _csrf: _csrf
       }, this.handleDestroyResponse)
     }

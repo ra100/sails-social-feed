@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Col,
   Row,
@@ -62,7 +63,7 @@ class UserView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.userId !== this.props.params.userId) {
+    if (nextProps.match.params.userId !== this.props.match.params.userId) {
       this.setState({user: null, status: 0, error: null})
       this.load(nextProps)
     }
@@ -76,9 +77,9 @@ class UserView extends Component {
     let query = {
       populate: 'roles,passports,streams,feeds,groups'
     }
-    let userId = this.props.params.userId
+    let userId = this.props.match.params.userId
     if (nextProps) {
-      userId = nextProps.params.userId
+      userId = nextProps.match.params.userId
     }
     socket.get('/users/' + userId, query, this.handleLoad)
   }

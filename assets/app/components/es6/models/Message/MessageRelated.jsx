@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import MessageRow from './MessageRow'
 import {formatMessage, defineMessages, injectIntl} from 'react-intl'
 

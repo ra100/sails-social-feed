@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Col,
   Row,
@@ -45,9 +46,9 @@ class GroupView extends Component {
       return
     }
     let {socket} = this.context
-    let groupId = this.props.params.groupId
+    let groupId = this.props.match.params.groupId
     if (nextProps) {
-      groupId = nextProps.params.groupId
+      groupId = nextProps.match.params.groupId
     }
     socket.get('/groups/' + groupId, this.handleLoad)
   }
@@ -58,7 +59,7 @@ class GroupView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.groupId !== this.props.params.groupId) {
+    if (nextProps.match.params.groupId !== this.props.match.params.groupId) {
       this.setState({group: null, status: 0, error: null})
       this.load(nextProps)
     }
@@ -67,7 +68,7 @@ class GroupView extends Component {
   _remove() {
     let {socket} = this.context
     if (!this.state.deleted) {
-      socket.post('/groups/destroy/' + this.props.params.groupId, {
+      socket.post('/groups/destroy/' + this.props.match.params.groupId, {
         _csrf: _csrf
       }, this.handleDestroyResponse)
     }

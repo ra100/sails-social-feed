@@ -18,7 +18,6 @@ module.exports = function (grunt) {
     'react',
     'react-dom',
     'react-intl',
-    'react-tap-event-plugin',
     'react-bootstrap',
     'react-bootstrap-multiselect',
     'react-router',

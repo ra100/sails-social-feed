@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Alert,
   Col,
@@ -178,9 +179,9 @@ class FeedCreate extends Component {
     }
     let {socket} = this.context
     let roles = this.context.user.roles
-    let feedId = this.props.params.feedId
+    let feedId = this.props.match.params.feedId
     if (nextProps) {
-      feedId = nextProps.params.feedId
+      feedId = nextProps.match.params.feedId
     }
     let isAdmin = function () {
       let i
@@ -211,7 +212,7 @@ class FeedCreate extends Component {
       let query = {
         populate: 'owner,groups,stream'
       }
-      socket.get('/feeds/' + this.props.params.feedId, query, this.handleLoad)
+      socket.get('/feeds/' + this.props.match.params.feedId, query, this.handleLoad)
     } else {
       socket.get('/feeds/cancreate', this.handleCanCreate)
     }
@@ -445,14 +446,14 @@ class FeedCreate extends Component {
       if (this.context.user.permissions.feed.group.u) {
         payload.stream = getSelected(this.state.stream)[0]
       }
-      socket.post('/feeds/update/' + this.props.params.feedId, payload, this.handleSaveResponse)
+      socket.post('/feeds/update/' + this.props.match.params.feedId, payload, this.handleSaveResponse)
     }
   }
 
   _remove() {
     let {socket} = this.context
     if (!this.state.deleted) {
-      socket.post('/feeds/destroy/' + this.props.params.feedId, {
+      socket.post('/feeds/destroy/' + this.props.match.params.feedId, {
         _csrf: _csrf
       }, this.handleDestroyResponse)
     }

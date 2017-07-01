@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Col,
   Row,
@@ -164,7 +165,7 @@ class StreamView extends Component {
   componentDidMount() {
     this._isMounted = true
     this.setState({
-      streamId: this.props.params.streamId
+      streamId: this.props.match.params.streamId
     }, this.load)
   }
 
@@ -208,12 +209,12 @@ class StreamView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.streamId !== this.props.params.streamId) {
+    if (nextProps.match.params.streamId !== this.props.match.params.streamId) {
       this.setState({
         stream: null,
         status: 0,
         error: null,
-        streamId: nextProps.params.streamId
+        streamId: nextProps.match.params.streamId
       }, this.load)
     }
   }
@@ -372,7 +373,7 @@ class StreamView extends Component {
           if (stream.display) {
             display = <i className="material-icons">check_box</i>
           }
-          let newMessageButton = <Button bsStyle="primary" onTouchTap={this.addMessage} value={123}>
+          let newMessageButton = <Button bsStyle="primary" onClick={this.addMessage} value={123}>
             <i className="material-icons">add_circle</i>
             <FormattedMessage {...messages.addButton}/></Button>
           let pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.messages_count / this.state.items_per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
@@ -438,7 +439,7 @@ class StreamView extends Component {
               <Col xs={12}>
                 <h3><FormattedMessage {...messages.streamFieldMessagesLabel}/></h3>
                 {newMessageButton}
-                <MessageNewModal ref="newModal" streamId={this.props.params.streamId} show={this.state.newMessageShow} onHide={this.hideMessageModal} parentId={this.state.reply_id}/>
+                <MessageNewModal ref="newModal" streamId={this.props.match.params.streamId} show={this.state.newMessageShow} onHide={this.hideMessageModal} parentId={this.state.reply_id}/>
               </Col>
               <Col xs={12}>
                 {pager}

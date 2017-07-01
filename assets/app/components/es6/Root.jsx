@@ -1,6 +1,8 @@
-import {Router, Route, Redirect} from 'react-router'
-import {Component, PropTypes} from 'react'
-import App from './App'
+import {Router, Route, Switch, Redirect} from 'react-router'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
+import {Grid} from 'react-bootstrap'
+import Navigation from './Navigation'
 import Home from './Home'
 import Login from './Login'
 import Streams from './models/Stream/Streams'
@@ -18,53 +20,40 @@ class Root extends Component {
 
   constructor(props, context) {
     super(props, context)
-    this.state = {
-      history: props.history,
-      user: props.user,
-      socket: props.socket
-    }
   }
 
   getChildContext() {
-    return {user: this.state.user, socket: this.state.socket, history: this.state.history}
+    return {user: this.props.user, socket: this.props.socket, history: this.props.history}
   }
 
   render() {
     const {history} = this.props
     return (
       <Router history={history}>
-        <Route component={App}>
-          <Redirect from="/" to="/home"/>
-          <Route path="/home" component={Home}></Route>
-          <Route path="/create">
-            <Route path="stream" component={StreamEdit}></Route>
-            <Route path="feed" component={FeedEdit}></Route>
-            <Route path="group" component={GroupEdit}></Route>
-            <Route path="user" component={UserEdit}></Route>
-          </Route>
-          <Route path="/stream">
-            <Route path=":streamId" component={StreamView}></Route>
-            <Route path=":streamId/edit" component={StreamEdit}></Route>
-          </Route>
-          <Route path="/feed">
-            <Route path=":feedId" component={FeedEdit}></Route>
-            <Route path=":feedId/edit" component={FeedEdit}></Route>
-          </Route>
-          <Route path="/group">
-            <Route path=":groupId" component={GroupView}></Route>
-            <Route path=":groupId/edit" component={GroupEdit}></Route>
-          </Route>
-          <Route path="/user">
-            <Route path=":userId" component={UserView}></Route>
-            <Route path=":userId/edit" component={UserEdit}></Route>
-          </Route>
-          <Route path="/view">
-            <Route path="/streams" component={Streams}></Route>
-            <Route path="/users" component={Users}></Route>
-            <Route path="/groups" component={Groups}></Route>
-          </Route>
-        </Route>
-        <Route path="/login" component={Login}></Route>
+        <div>
+          <Navigation history={history}/>
+          <Grid>
+            <Switch>
+              <Route exact path="/" render={() => <Redirect to="/home"/>} component={Home}/>
+              <Route path="/login" component={Login}/>
+              <Route path="/create/stream" component={StreamEdit}/>
+              <Route path="/create/feed" component={FeedEdit}/>
+              <Route path="/create/group" component={GroupEdit}/>
+              <Route path="/create/user" component={UserEdit}/>
+              <Route path="/stream/:streamId/edit" component={StreamEdit}/>
+              <Route path="/stream/:streamId" component={StreamView}/>
+              <Route path="/feed/:feedId/edit" component={FeedEdit}/>
+              <Route path="/feed/:feedId" component={FeedEdit}/>
+              <Route path="/group/:groupId/edit" component={GroupEdit}/>
+              <Route path="/group/:groupId" component={GroupView}/>
+              <Route path="/user/:userId/edit" component={UserEdit}/>
+              <Route path="/user/:userId" component={UserView}/>
+              <Route path="/streams" component={Streams}/>
+              <Route path="/users" component={Users}/>
+              <Route path="/groups" component={Groups}/>
+            </Switch>
+          </Grid>
+        </div>
       </Router>
     )
   }

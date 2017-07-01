@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Col,
   Row,
@@ -83,7 +84,7 @@ class GroupEdit extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.groupId !== this.props.params.groupId) {
+    if (nextProps.match.params.groupId !== this.props.match.params.groupId) {
       this.setState({group: null, status: 0, error: null})
       this.load(nextProps)
     }
@@ -107,7 +108,7 @@ class GroupEdit extends Component {
     if (res.statusCode == 200) {
       this.setState({allow: true, edit: true})
       let {socket} = this.context
-      socket.get('/groups/' + this.props.params.groupId, this.handleLoad)
+      socket.get('/groups/' + this.props.match.params.groupId, this.handleLoad)
     } else {
       this.setState({allow: false})
     }
@@ -118,9 +119,9 @@ class GroupEdit extends Component {
       return
     }
     let {socket} = this.context
-    let groupId = this.props.params.groupId
+    let groupId = this.props.match.params.groupId
     if (nextProps) {
-      groupId = nextProps.params.groupId
+      groupId = nextProps.match.params.groupId
     }
     if (typeof groupId !== 'undefined') {
       socket.get('/groups/canmodify/' + groupId, this.handleCanModify)
@@ -153,7 +154,7 @@ class GroupEdit extends Component {
   _update() {
     let {socket} = this.context
     if (this._validateAll()) {
-      socket.put('/groups/' + this.props.params.groupId, {
+      socket.put('/groups/' + this.props.match.params.groupId, {
         name: this.state.group.name,
         _csrf: _csrf
       }, this.handleSaveResponse)
@@ -163,7 +164,7 @@ class GroupEdit extends Component {
   _remove() {
     let {socket} = this.context
     if (!this.state.deleted) {
-      socket.delete('/groups/' + this.props.params.groupId, {
+      socket.delete('/groups/' + this.props.match.params.groupId, {
         _csrf: _csrf
       }, this.handleDestroyResponse)
     }

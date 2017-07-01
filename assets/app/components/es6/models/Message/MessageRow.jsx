@@ -1,4 +1,5 @@
-import {Component, PropTypes} from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Row, Button, PageHeader, Checkbox, Label} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl, FormattedDate, FormattedTime} from 'react-intl'

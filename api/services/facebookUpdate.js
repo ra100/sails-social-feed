@@ -1,4 +1,4 @@
-const { Facebook } = require('fb')
+const {Facebook} = require('fb')
 const fb = new Facebook({
   version: `v${sails.config.auth.facebook_api_version}`,
   appId: sails.config.auth.facebook_app_id,

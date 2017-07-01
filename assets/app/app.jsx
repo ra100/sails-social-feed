@@ -3,13 +3,11 @@ var CONST_ES6_BUILD_PATH = './build/'
 import React from 'react'
 import {render} from 'react-dom'
 import {createHashHistory} from 'history'
-// import createHashHistory from 'history/lib/createHashHistory';
-import injectTapEventPlugin from 'react-tap-event-plugin'
 import {IntlProvider} from 'react-intl'
 import socketIOClient from 'socket.io-client'
 import sailsIOClient from 'sails.io.js'
 import _ from 'lodash/core'
-import Root from './build/Root'
+import App from './build/App'
 import permissions from './permissions'
 import 'jquery-browserify'
 import 'arrive'
@@ -43,8 +41,6 @@ if (language == '' || langs[language] == undefined) {
   language = 'en'
 }
 
-injectTapEventPlugin()
-
 const history = createHashHistory()
 
 var user = {
@@ -70,7 +66,7 @@ socket.get('/users/me', function (data, jwr) {
   }
   render(
     <IntlProvider locale={language} messages={langs[language].messages}>
-      <Root history={history} user={user} socket={io.socket}/>
+      <App history={history} user={user} socket={io.socket}/>
     </IntlProvider>, document.getElementById('app'))
   if (jwr.statusCode == 403) {
     history.push('/login')
