@@ -5,6 +5,8 @@ const fb = new Facebook({
   appSecret: sails.config.auth.facebook_app_secret
 })
 
+const TIMELINE_PHOTOS = 'Timeline Photos'
+
 const status = (status, feedId) => {
   const itemType = status.item
   if (status.verb === 'remove') {
@@ -40,7 +42,12 @@ const status = (status, feedId) => {
           author: {},
           metadata: {likes: 0, comments: 0, media: null},
           mediaType: 'text',
-          published: (status.published === 1)
+          published: (!!status.published)
+        }
+        // Special behaviour for Albums
+        if (status.album_id) {
+          status.post_id = `${feedId}_${status.album_id}`
+          message.published = feed.display
         }
         if (msg) {
           exists = true
@@ -54,8 +61,23 @@ const status = (status, feedId) => {
         return message
       })
     })
+    // photo album check
     .then(message => {
-      const authorPromise = getUserDetails(status.sender_id)
+      if (!['photo', 'video'].includes(status.item)) {
+        sails.log.verbose('Not Photo/Video continue')
+        return message
+      }
+      sails.log.verbose('Photo/Video check if album')
+      const photoId = status.photo_id || status.video_id
+      return checkAlbum(photoId).then(r => {
+        if (r) {
+          return message
+        }
+        return Promise.reject('Not standalone photo')
+      })
+    })
+    .then(message => {
+      const authorPromise = getUserDetails(feedId) // feedId force author to be page
       const metaPromise = getMeta(status.post_id)
       const videoPromise = getVideoEmbed(status)
       return Promise.all([authorPromise, metaPromise, videoPromise]).then(values => {
@@ -155,7 +177,7 @@ const getReactions = id => {
         return reject(result)
       }
       sails.log.silly('Reactions summary', result.summary)
-      resolve(result.summary.total_count)
+      return resolve(result.summary.total_count)
     })
   })
 }
@@ -167,7 +189,7 @@ const getComments = id => {
       if (!result.summary) {
         return reject(result)
       }
-      resolve(result.summary.total_count)
+      return resolve(result.summary.total_count)
     })
   })
 }
@@ -177,9 +199,9 @@ const getUserDetails = id => {
   return new Promise((resolve, reject) => {
     fb.api(`/${id}`, 'get', {fields: ['name', 'picture', 'link']}, result => {
       if (!result.id) {
-        reject({error: 'Error getting User Details', result})
+        return reject({error: 'Error getting User Details', result})
       }
-      resolve({
+      return resolve({
         name: result.name,
         handle: result.id,
         url: result.link,
@@ -195,7 +217,7 @@ const getMeta = id => {
   return new Promise((resolve, reject) => {
     fb.api(`/${id}`, 'get', {fields: ['permalink_url', 'message', 'attachments']}, result => {
       if (!result.id) {
-        reject({error: result})
+        return reject({error: result})
       }
       let type = 'text'
       if (result.attachments) {
@@ -216,12 +238,34 @@ const getMeta = id => {
           }
         })
       }
-      resolve({
+      return resolve({
         link: result.permalink_url,
         metadata: (result.attachments) ? result.attachments.data : null,
         message: result.message,
         mediaType: type
       })
+    })
+  })
+}
+
+/**
+ * Check if photo/video is from timeline photos album or not
+ */
+const checkAlbum = id => {
+  fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.facebook_app_secret}`)
+  return new Promise((resolve, reject) => {
+    fb.api(`/${id}`, 'get', {fields: ['album']}, result => {
+      if (!result.id) {
+        return reject({error: result})
+      }
+      const albumName = result.album && result.album.name
+      if (!albumName) {
+        return resolve(true)
+      }
+      if (albumName.toLowerCase() === TIMELINE_PHOTOS.toLocaleLowerCase()) {
+        return resolve(true)
+      }
+      return resolve(false)
     })
   })
 }
@@ -272,10 +316,11 @@ const update = body => {
     e.changes.forEach(change => {
       switch(change.value.item) {
         case 'status':
-        case 'photo':
         case 'share':
-        case 'video':
         case 'post':
+        case 'photo':
+        case 'video':
+        case 'album':
           status(change.value, id)
           break
         case 'reaction':
