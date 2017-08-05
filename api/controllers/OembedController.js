@@ -49,6 +49,17 @@ const EMBED_OPTONS = {
   maxHeight: 300
 }
 
+const saveOembed = (url, json) => {
+  return Oembed.findOne({url}).then(oembed => {
+    if (oembed) {
+      return sails.log.verbose('Oembed already in DB')
+    }
+    return Oembed.create({url, json}).then(oe => {
+      sails.log.verbose('Oembed saved', oe)
+    })
+  })
+}
+
 const fetchUrl = url => {
   return new Promise((resolve, reject) => {
     const client = new MetaInspector(url, {
@@ -211,9 +222,7 @@ const fetchFacebook = (url, type) =>
     return getFBdetails(data.type, data.id)
   })
   .then(data => {
-    Oembed.create({url, json: data}).then(oe => {
-      sails.log.verbose('Extraction saved', oe)
-    })
+    saveOembed(url, data)
     return data
   })
   .catch(err => {
@@ -450,7 +459,7 @@ module.exports = {
       }
       return request.get('https://www.youtube.com/oembed?format=json&url=' + url)
     }).then(result => {
-      Oembed.create({url, json: result.body})
+      saveOembed(url, result.body)
       return res.json(result.body)
     }).catch(err => {
       return res.serverError(err)
@@ -485,18 +494,14 @@ module.exports = {
           if (res.error) {
             sails.log.warn(res.error)
             return resolve(fetchUrl(url).then(data => {
-              Oembed.create({url, json: data}).then(oe => {
-                sails.log.verbose('Extraction saved', oe)
-              })
+              saveOembed(url, data)
               return data
             }))
           }
 
           sails.log.verbose(res)
 
-          Oembed.create({url, json: res.data}).then(oe => {
-            sails.log.verbose('Oembed saved', oe)
-          })
+          saveOembed(url, res.data)
           .catch(sails.log.error)
 
           resolve(res.data)
