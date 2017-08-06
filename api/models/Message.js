@@ -196,12 +196,11 @@ module.exports = {
       toLog.image = 'image present'
     }
     sails.log.verbose(toLog)
+    delete values._csrf
     if (values.published) {
-      delete values._csrf
       Stream.publishAdd(values.stream, 'messages', values)
     } else {
       // @TODO @FIXME
-      delete values._csrf
       Stream.publishAdd(values.stream, 'messages', values)
     }
     sails.log.debug('Related message value: ', values.parentMessage)

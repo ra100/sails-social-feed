@@ -24,6 +24,7 @@ const status = (status, feedId) => {
   }
   // Create or update message
   let exists = false
+  let published = false
   if (['add', 'edited'].includes(status.verb)) {
     Feed.findOne({where: {config: feedId, enabled: true}}).populate('stream').then(feed => {
       if (!feed) {
@@ -41,20 +42,20 @@ const status = (status, feedId) => {
           link: '',
           author: {},
           metadata: {likes: 0, comments: 0, media: null},
-          mediaType: 'text',
-          published: (!!status.published)
+          mediaType: 'text'
         }
+        published = (!!status.published)
         // Special behaviour for Albums
         if (status.album_id) {
           status.post_id = `${feedId}_${status.album_id}`
-          message.published = feed.display
+          published = feed.display
         }
         if (msg) {
           exists = true
           if (msg.reviewed) {
-            message.published = msg.published
+            published = msg.published
           } else {
-            message.published = feed.display
+            published = feed.display
           }
         }
         sails.log.verbose('Fb message', status.verb, JSON.stringify(message))
@@ -89,7 +90,8 @@ const status = (status, feedId) => {
         message.metadata.video = video
         message.link = meta.link
         message.mediaType = meta.mediaType
-        message.message = meta.message || ''
+        message.message = meta.message || '',
+        message.published = (meta.is_published && published)
         return message
       })
     })
@@ -215,7 +217,7 @@ const getUserDetails = id => {
 const getMeta = id => {
   fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.facebook_app_secret}`)
   return new Promise((resolve, reject) => {
-    fb.api(`/${id}`, 'get', {fields: ['permalink_url', 'message', 'attachments']}, result => {
+    fb.api(`/${id}`, 'get', {fields: ['permalink_url', 'message', 'attachments', 'is_published']}, result => {
       if (!result.id) {
         return reject({error: result})
       }
