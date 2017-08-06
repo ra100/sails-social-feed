@@ -85,6 +85,9 @@ const status = (status, feedId) => {
         const author = values[0]
         const meta = values[1]
         const video = values[2]
+        if (meta.from !== feedId) {
+          return Promise.reject('Post from fan, not page')
+        }
         message.author = author
         message.metadata.media = meta.metadata
         message.metadata.video = video
@@ -112,7 +115,7 @@ const status = (status, feedId) => {
         sails.log.verbose('Message created id:', createdMessage.id)
         sails.log.silly(createdMessage)
       })
-      .catch(function (err) {
+      .catch(err => {
         if (err) {
           if (err.code == 'E_VALIDATION') {
             throw {message: 'UUID already exists', error: err}
@@ -217,7 +220,7 @@ const getUserDetails = id => {
 const getMeta = id => {
   fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.facebook_app_secret}`)
   return new Promise((resolve, reject) => {
-    fb.api(`/${id}`, 'get', {fields: ['permalink_url', 'message', 'attachments', 'is_published']}, result => {
+    fb.api(`/${id}`, 'get', {fields: ['permalink_url', 'message', 'attachments', 'is_published', 'from']}, result => {
       if (!result.id) {
         return reject({error: result})
       }
@@ -244,7 +247,9 @@ const getMeta = id => {
         link: result.permalink_url,
         metadata: (result.attachments) ? result.attachments.data : null,
         message: result.message,
-        mediaType: type
+        mediaType: type,
+        is_published: result.is_published,
+        from: result.from.id
       })
     })
   })
