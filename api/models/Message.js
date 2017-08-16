@@ -95,12 +95,11 @@ module.exports = {
    */
   beforeValidate: function (values, next) {
     // sails.log.debug('BeforeValidate message values:', values)
-    const newValues = {...values}
     if (values.id) {
       return next()
     }
     if (!values.created) {
-      newValues.created = new Date()
+      values.created = new Date()
     }
     if (values.feed) {
       // @FIXME sometimes message gets not published
@@ -108,53 +107,52 @@ module.exports = {
       .populate('stream')
       .populate('groups')
       .then(feed => {
-        newValues.stream = feed.stream.id
-        newValues.feedType = feed.type
-        newValues.published = feed.display
+        values.stream = feed.stream.id
+        values.feedType = feed.type
+        values.published = feed.display
         if (feed.type.includes('facebook')) {
           if (!values.reviewed) {
-            newValues.published = feed.display
+            values.published = feed.display
           }
           if (!values.published) {
-            newValues.published = false
+            values.published = false
           }
         }
-        sails.log.verbose('Message values to save', {...newValues, image: newValues.image ? 'image present' : null})
+        sails.log.verbose('Message values to save', {...values, image: undefined, imageLog: values.image && 'image present'})
         if (feed.type === 'form') {
-          const uid = (typeof newValues.author === 'object')
-            ? newValues.author.id
-            : newValues.author
+          const uid = (typeof values.author === 'object')
+            ? values.author.id
+            : values.author
           return User.findOne({id: uid}).populate('groups').then(user => {
-            newValues.feedType = (feed.groups.find(g => {
-              return user.groups.find(ug => g.id === ug.id)
-            })) ? 'admin' : 'form'
-            newValues.published = newValues.feedType === 'admin'
+            values.feedType = (feed.groups.find(g =>
+              user.groups.find(ug => g.id === ug.id)
+            )) ? 'admin' : 'form'
+            values.published = values.feedType === 'admin'
               ? true
               : feed.display
-            newValues.reviewed = newValues.feedType === 'admin'
-            newValues.author = {
+            values.reviewed = values.feedType === 'admin'
+            values.author = {
               name: user.displayname,
               picture: user.picture,
               id: user.id
             }
-            values = newValues
+            sails.log.verbose('Transformed message values', JSON.stringify(values))
             return next()
           })
         }
-        values = newValues
         return next()
       })
       .catch(function (err) {
         return next(err)
       })
     } else {
-      values = newValues
       return next()
     }
   },
 
   beforeCreate: function (values, next) {
     if (values.image) {
+      sails.log.verbose({...values, image: ''})
       storageService.uploadImage(values.image).then((versions) => {
         var picture = {}
         picture.original = {
@@ -191,11 +189,8 @@ module.exports = {
    * Send publishAdd message to sockets, when new message is published
    */
   afterCreate: function (values, next) {
-    const toLog = {values}
-    if (toLog.image) {
-      toLog.image = 'image present'
-    }
-    sails.log.verbose(toLog)
+    sails.log.verbose({...values, image: undefined, imageLog: values.image && 'image present'})
+    sails.log.verbose('Original values', values)
     delete values._csrf
     if (values.published) {
       Stream.publishAdd(values.stream, 'messages', values)

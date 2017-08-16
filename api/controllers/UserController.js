@@ -149,8 +149,8 @@ module.exports = {
     if (email != undefined && email.length > 0) {
       updated.email = email
     }
-    const toLog = {...updated, image: updated.image ? 'image present' : null}
-    sails.log.verbose(toLog)
+
+    sails.log.verbose({...updated, image: undefined, imageLog: updated.image ? 'image present' : null})
 
     return Promise.all([
       new Promise((resolve, reject) => {
