@@ -86,7 +86,7 @@ var AuthController = {
 
     // mark the user as logged out for auth purposes
     req.session.authenticated = false
-    req.session.destroy()
+    req.session.csrfSecret = null
 
     if (req.xhr) {
       return res.ok({
