@@ -44,7 +44,7 @@ module.exports = {
       image = req.param('image'),
       blocked = req.param('blocked')
 
-    updated = {}
+    const updated = {}
     if (username != undefined && username.length > 0) {
       updated.username = username
     }
