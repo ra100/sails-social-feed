@@ -64,7 +64,7 @@ module.exports = {
       if (r && r[0].roles.length > 0) {
         return next(null, r[0])
       } else {
-        return next(req.__('Error.Not.Admin'), r[0])
+        return next({error: req.__('Error.Not.Admin')}, r[0])
       }
     })
   },
@@ -74,7 +74,7 @@ module.exports = {
       if (r[0].roles.length > 0) {
         return next(null, r)
       } else {
-        return next(req.__('Error.Not.Editor'), r)
+        return next({error: req.__('Error.Not.Editor')}, r)
       }
     })
   },
@@ -95,13 +95,13 @@ module.exports = {
       }
       User.findOne({id: uid}).populate('groups').exec(function (err, user) {
         if (err) {
-          return next(req.__('Error.Unexpected'), obj)
+          return next({error: req.__('Error.Unexpected')}, obj)
         }
         var intersection = _.intersectionBy(obj.groups, user.groups, 'id')
         if (intersection.length > 0) {
           return next(null, obj)
         } else {
-          return next(req.__('Error.Not.InGroup'), obj)
+          return next({error: req.__('Error.Not.InGroup')}, obj)
         }
       })
     })
