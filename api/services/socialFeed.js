@@ -183,8 +183,9 @@ module.exports = {
 
   authFacebook: (req, res) => {
     const id = req.param('id')
+    sails.log.verbose('Redirecting to FB auth page')
     return res.ok({
-      redirect: `https://www.facebook.com/v${sails.config.auth.facebook_api_version}/dialog/oauth?client_id=${sails.config.auth.facebook_app_id}&redirect_uri=${sails.config.baseurl}/feeds/facebook?feed=${id}&scope=publish_pages`})
+      redirect: `https://www.facebook.com/v${sails.config.auth.facebook_api_version}/dialog/oauth?client_id=${sails.config.auth.facebook_app_id}&redirect_uri=${sails.config.baseurl}/feeds/facebook?feed=${id}&scope=manage_pages`})
   },
 
   authFacebookTokens: (req, res, next) => {
@@ -204,6 +205,7 @@ module.exports = {
           return next('Token not found')
         }
         const access_token = response.body.access_token
+        sails.log.verbose('FB oAuth access token', access_token)
         // Load feed
         Feed.findOne(id).then(feed => {
           if (!feed) {
@@ -217,10 +219,11 @@ module.exports = {
           })
           fb.setAccessToken(access_token)
           // get page access token
-          fb.api(`/${pageId}?fields=access_token`, 'get', {}, result => {
-            sails.log.verbose('Page access', result)
-            const page_token = result.access_token
-            fb.setAccessToken(page_token)
+          fb.api('/me/accounts', 'get', {}, result => {
+            sails.log.verbose('FB Page access', result)
+            const page = result.data.find(p => p.id + '' === pageId + '')
+            sails.log.verbose('FB found page', page)
+            fb.setAccessToken(page && page.access_token)
             // subscribe webhook to page
             fb.api(`/${pageId}/subscribed_apps`, 'post', {}, result => {
               sails.log.verbose('Facebook webhook subscribe', result)
@@ -231,7 +234,7 @@ module.exports = {
               }
               const auth = {
                 valid: true,
-                access_token: page_token
+                access_token: page && page.access_token
               }
               return Feed.update(id, {auth: auth}).then(f => {
                 sails.log.verbose('Feed saved', f)
