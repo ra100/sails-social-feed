@@ -49,6 +49,7 @@ module.exports.policies = {
   UserController: {
     '*': ['localize', 'passport', 'sessionAuth'],
     'me': ['localize', 'passport', 'sessionAuth'],
+    'updateme': ['localize', 'passport', 'sessionAuth'],
     'create': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'update': ['localize', 'passport', 'sessionAuth', 'editSelf'],
     'destroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
