@@ -63,68 +63,68 @@ const status = (status, feedId) => {
       })
     })
     // photo album check
-    .then(message => {
-      if (!['photo', 'video'].includes(status.item)) {
-        sails.log.verbose('Not Photo/Video continue')
-        return message
-      }
-      sails.log.verbose('Photo/Video check if album')
-      const photoId = status.photo_id || status.video_id
-      return checkAlbum(photoId).then(r => {
-        if (r) {
+      .then(message => {
+        if (!['photo', 'video'].includes(status.item)) {
+          sails.log.verbose('Not Photo/Video continue')
           return message
         }
-        return Promise.reject('Not standalone photo')
-      })
-    })
-    .then(message => {
-      const authorPromise = getUserDetails(feedId) // feedId force author to be page
-      const metaPromise = getMeta(status.post_id)
-      const videoPromise = getVideoEmbed(status)
-      return Promise.all([authorPromise, metaPromise, videoPromise]).then(values => {
-        const author = values[0]
-        const meta = values[1]
-        const video = values[2]
-        if (meta.from !== feedId) {
-          return Promise.reject('Post from fan, not page')
-        }
-        message.author = author
-        message.metadata.media = meta.metadata
-        message.metadata.video = video
-        message.link = meta.link
-        message.mediaType = meta.mediaType
-        message.message = meta.message || '',
-        message.published = (meta.is_published && published)
-        return message
-      })
-    })
-    .then(message => {
-      if (exists) {
-        return Message.update({uuid: message.uuid}, message).then(messages => {
-          if (messages.length > 0) {
-            sails.log.verbose('Message updated id:', messages[0].id)
-          } else {
-            sails.log.warn('Message not found during update:', message.uuid)
+        sails.log.verbose('Photo/Video check if album')
+        const photoId = status.photo_id || status.video_id
+        return checkAlbum(photoId).then(r => {
+          if (r) {
+            return message
           }
+          return Promise.reject('Not standalone photo')
         })
-        .catch(err => {
-          throw err
-        })
-      }
-      return Message.create(message).then(createdMessage => {
-        sails.log.verbose('Message created id:', createdMessage.id)
-        sails.log.silly(createdMessage)
       })
-      .catch(err => {
-        if (err) {
-          if (err.code == 'E_VALIDATION') {
-            throw {message: 'UUID already exists', error: err}
+      .then(message => {
+        const authorPromise = getUserDetails(feedId) // feedId force author to be page
+        const metaPromise = getMeta(status.post_id)
+        const videoPromise = getVideoEmbed(status)
+        return Promise.all([authorPromise, metaPromise, videoPromise]).then(values => {
+          const author = values[0]
+          const meta = values[1]
+          const video = values[2]
+          if (meta.from !== feedId) {
+            return Promise.reject('Post from fan, not page')
           }
-        }
-        sails.log.verbose('Creating message failed', err)
+          message.author = author
+          message.metadata.media = meta.metadata
+          message.metadata.video = video
+          message.link = meta.link
+          message.mediaType = meta.mediaType
+          message.message = meta.message || '',
+          message.published = (meta.is_published && published)
+          return message
+        })
       })
-    })
-    .catch(sails.log.warn)
+      .then(message => {
+        if (exists) {
+          return Message.update({uuid: message.uuid}, message).then(messages => {
+            if (messages.length > 0) {
+              sails.log.verbose('Message updated id:', messages[0].id)
+            } else {
+              sails.log.warn('Message not found during update:', message.uuid)
+            }
+          })
+            .catch(err => {
+              throw err
+            })
+        }
+        return Message.create(message).then(createdMessage => {
+          sails.log.verbose('Message created id:', createdMessage.id)
+          sails.log.silly(createdMessage)
+        })
+          .catch(err => {
+            if (err) {
+              if (err.code == 'E_VALIDATION') {
+                throw {message: 'UUID already exists', error: err}
+              }
+            }
+            sails.log.verbose('Creating message failed', err)
+          })
+      })
+      .catch(sails.log.warn)
   }
 }
 
@@ -145,11 +145,11 @@ const reaction = (status, feedId) =>
     }
     return Promise.resolve(message)
   })
-  .then(message => {
-    Message.update({where: {uuid: {endsWith: status.post_id}}, limit: 1}, message).then(updatedMessages => {
-      sails.log.verbose('Messages updated:', updatedMessages)
+    .then(message => {
+      Message.update({where: {uuid: {endsWith: status.post_id}}, limit: 1}, message).then(updatedMessages => {
+        sails.log.verbose('Messages updated:', updatedMessages)
+      })
     })
-  })
 
 const comment = (status, feedId) =>
   Message.findOne({uuid: {endsWith: status.post_id}}).then(message => {
@@ -168,11 +168,11 @@ const comment = (status, feedId) =>
     }
     return Promise.resolve(message)
   })
-  .then(message => {
-    Message.update({where: {uuid: {endsWith: status.post_id}}, limit: 1}, message).then(updatedMessages => {
-      sails.log.verbose('Messages updated:', updatedMessages)
+    .then(message => {
+      Message.update({where: {uuid: {endsWith: status.post_id}}, limit: 1}, message).then(updatedMessages => {
+        sails.log.verbose('Messages updated:', updatedMessages)
+      })
     })
-  })
 
 const getReactions = id => {
   fb.setAccessToken(`${sails.config.auth.facebook_app_id}|${sails.config.auth.facebook_app_secret}`)

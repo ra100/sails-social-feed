@@ -18,11 +18,5 @@
     "indent": ["error", 2, {"SwitchCase": 1}],
     "quotes": ["error", "single"],
     "no-labels": "error"
-  },
-  "ecmaFeatures": {
-    "blockBindings": true,
-    "forOf": true,
-    "jsx": true,
-    "modules": true
   }
 }

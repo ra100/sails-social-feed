@@ -104,47 +104,47 @@ module.exports = {
     if (values.feed) {
       // @FIXME sometimes message gets not published
       return Feed.findOne(values.feed)
-      .populate('stream')
-      .populate('groups')
-      .then(feed => {
-        values.stream = feed.stream.id
-        values.feedType = feed.type
-        values.published = feed.display
-        if (feed.type.includes('facebook')) {
-          if (!values.reviewed) {
-            values.published = feed.display
-          }
-          if (!values.published) {
-            values.published = false
-          }
-        }
-        sails.log.verbose('Message values to save', {...values, image: undefined, imageLog: values.image && 'image present'})
-        if (feed.type === 'form') {
-          const uid = (typeof values.author === 'object')
-            ? values.author.id
-            : values.author
-          return User.findOne({id: uid}).populate('groups').then(user => {
-            values.feedType = (feed.groups.find(g =>
-              user.groups.find(ug => g.id === ug.id)
-            )) ? 'admin' : 'form'
-            values.published = values.feedType === 'admin'
-              ? true
-              : feed.display
-            values.reviewed = values.feedType === 'admin'
-            values.author = {
-              name: user.displayname,
-              picture: user.picture,
-              id: user.id
+        .populate('stream')
+        .populate('groups')
+        .then(feed => {
+          values.stream = feed.stream.id
+          values.feedType = feed.type
+          values.published = feed.display
+          if (feed.type.includes('facebook')) {
+            if (!values.reviewed) {
+              values.published = feed.display
             }
-            sails.log.verbose('Transformed message values', JSON.stringify(values))
-            return next()
-          })
-        }
-        return next()
-      })
-      .catch(function (err) {
-        return next(err)
-      })
+            if (!values.published) {
+              values.published = false
+            }
+          }
+          sails.log.verbose('Message values to save', {...values, image: undefined, imageLog: values.image && 'image present'})
+          if (feed.type === 'form') {
+            const uid = (typeof values.author === 'object')
+              ? values.author.id
+              : values.author
+            return User.findOne({id: uid}).populate('groups').then(user => {
+              values.feedType = (feed.groups.find(g =>
+                user.groups.find(ug => g.id === ug.id)
+              )) ? 'admin' : 'form'
+              values.published = values.feedType === 'admin'
+                ? true
+                : feed.display
+              values.reviewed = values.feedType === 'admin'
+              values.author = {
+                name: user.displayname,
+                picture: user.picture,
+                id: user.id
+              }
+              sails.log.verbose('Transformed message values', JSON.stringify(values))
+              return next()
+            })
+          }
+          return next()
+        })
+        .catch(function (err) {
+          return next(err)
+        })
     } else {
       return next()
     }

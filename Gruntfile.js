@@ -13,8 +13,8 @@
  */
 
 module.exports = function(grunt) {
-	// Load the include-all library in order to require all of our grunt
-	// configurations and task registrations dynamically.
+  // Load the include-all library in order to require all of our grunt
+  // configurations and task registrations dynamically.
   let includeAll
   try {
     includeAll = require('include-all')
@@ -35,7 +35,7 @@ module.exports = function(grunt) {
   }
 
 
-	/**
+  /**
 	 * Loads Grunt configuration modules from the specified
 	 * relative path. These modules should export a function
 	 * that, when run, should either load/configure or register
@@ -48,7 +48,7 @@ module.exports = function(grunt) {
     }) || {}
   }
 
-	/**
+  /**
 	 * Invokes the function from a Grunt configuration module with
 	 * a single argument - the `grunt` object.
 	 */
@@ -63,16 +63,16 @@ module.exports = function(grunt) {
 
 
 
-	// Load task functions
+  // Load task functions
   const taskConfigurations = loadTasks('./tasks/config'),
     registerDefinitions = loadTasks('./tasks/register')
 
-	// (ensure that a default task exists)
+  // (ensure that a default task exists)
   if (!registerDefinitions.default) {
     registerDefinitions.default = function (grunt) { grunt.registerTask('default', []) }
   }
 
-	// Run task functions to configure Grunt.
+  // Run task functions to configure Grunt.
   invokeConfigFn(taskConfigurations)
   invokeConfigFn(registerDefinitions)
 }

@@ -3,9 +3,9 @@ var path = require('path'),
   passport = require('passport'),
   FB = require('fb')
 var {
-  Facebook,
-  FacebookApiException
-} = require('fb'),
+    Facebook,
+    FacebookApiException
+  } = require('fb'),
   fb = new Facebook({
     version: sails.config.auth.facebook_api_version,
     appId: sails.config.auth.facebook_app_id,

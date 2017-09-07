@@ -16,7 +16,7 @@ const update = data => {
   return Passport.find({provider: 'instagram'}).then(users => {
     tryMedia(mediaId, users, 0)
   })
-  .catch(sails.log.error)
+    .catch(sails.log.error)
 }
 
 const tryMedia = (mediaId, users, index) => {
@@ -84,7 +84,7 @@ const tryMedia = (mediaId, users, index) => {
         })
       }
     })
-    .catch(sails.log.error)
+      .catch(sails.log.error)
   })
 }
 
