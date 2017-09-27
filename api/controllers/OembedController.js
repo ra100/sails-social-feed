@@ -147,8 +147,11 @@ const fetchFacebook = (url, type) =>
           postId = m[1]
         }
       }
+      let data
       try {
-        const data = JSON.parse(res.text)
+        sails.log.verbose('FB oembed try', url, type, res.text)
+        data = JSON.parse(res.text)
+        sails.log.verbose('Oembed data', data)
       } catch (e) {
         return Promise.reject({
           status: 404,

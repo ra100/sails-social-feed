@@ -76,6 +76,7 @@ module.exports.policies = {
   MessageController: {
     '*': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'submit': ['localize', 'passport', 'sessionAuth', 'rateLimit'],
+    'update': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'unsubscribe': ['localize', true],
   },
 
