@@ -501,20 +501,19 @@ module.exports = {
       return res.badRequest()
     }
     Oembed.findOne({
-      where: {
-        url: url
-      }
+      where: { url }
     }).then(oembed => {
       if (oembed) {
         return res.json(oembed.json)
       }
       return request.get('https://www.youtube.com/oembed?format=json&url=' + url)
-    }).then(result => {
-      if (!result.body) {
-        throw new Error(result)
-      }
-      saveOembed(url, result.body)
-      return res.json(result.body)
+        .then(result => {
+          if (!result.body) {
+            throw new Error(JSON.stringify(result))
+          }
+          saveOembed(url, result.body)
+          return res.json(result.body)
+        })
     }).catch(err => {
       return res.serverError(err)
     })
