@@ -80,7 +80,7 @@
     "sails-mongo": "^0.12.2",
     "sails.io.js": "^1.1.4",
     "skipper-s3": "^0.5.8",
-    "snyk": "^1.40.1",
+    "snyk": "^1.46.0",
     "socket.io-client": "^2.0.3",
     "socket.io-redis": "^5.2.0",
     "striptags": "^3.0.1",
@@ -97,7 +97,8 @@
     "docs": "node ./node_modules/sails-apidocs/gendocs.js",
     "snyk-protect": "snyk protect",
     "lint": "eslint --ext=js --ext=jsx api/ assets/ config/ tasks/",
-    "lint:fix": "eslint --fix --ext=js --ext=jsx api/ assets/ config/ tasks/"
+    "lint:fix": "eslint --fix --ext=js --ext=jsx api/ assets/ config/ tasks/",
+    "prepare": "npm run snyk-protect"
   },
   "main": "app.js",
   "repository": {
