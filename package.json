@@ -88,7 +88,7 @@
     "twitter": "^1.7.1",
     "typescript": "^2.4.2",
     "url-embed": "^1.0.2",
-    "validator": "^8.1.0"
+    "validator": "^9.4.1"
   },
   "scripts": {
     "debug": "node debug app.js",
