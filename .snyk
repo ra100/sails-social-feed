@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.8.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:minimatch:20160620':
@@ -316,3 +316,6 @@ patch:
         patched: '2017-05-26T03:43:21.949Z'
     - sails > @sailshq/express > @sailshq/connect > serve-favicon > ms:
         patched: '2017-05-26T03:43:21.949Z'
+  'npm:marked:20170907':
+    - doxx > dox > marked:
+        patched: '2017-10-27T03:43:22.951Z'

@@ -89,7 +89,7 @@
     "twitter": "^1.7.1",
     "typescript": "^2.6.1",
     "url-embed": "^1.0.2",
-    "validator": "^9.1.2"
+    "validator": "^9.4.1"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -98,7 +98,8 @@
     "docs": "node ./node_modules/sails-apidocs/gendocs.js",
     "snyk-protect": "snyk protect",
     "lint": "eslint --ext=js --ext=jsx api/ assets/ config/ tasks/",
-    "lint:fix": "eslint --fix --ext=js --ext=jsx api/ assets/ config/ tasks/"
+    "lint:fix": "eslint --fix --ext=js --ext=jsx api/ assets/ config/ tasks/",
+    "prepare": "npm run snyk-protect"
   },
   "main": "app.js",
   "repository": {
