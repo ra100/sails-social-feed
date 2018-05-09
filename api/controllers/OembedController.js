@@ -361,7 +361,8 @@ const getFBdetails = (type, id) => {
         sails.log.verbose(JSON.stringify(result))
         let html = ''
         // facebook video
-        if (result.source.includes('fbcdn')) {
+        if (result.source && result.source.includes('fbcdn')) {
+
           const image = result.attachments && result.attachments.data && result.attachments.data[0] && result.attachments.data[0].media && result.attachments.data[0].media.image || {}
           return resolve({
             provider_name: 'Facebook',
@@ -380,7 +381,8 @@ const getFBdetails = (type, id) => {
           })
         }
         // link to youtube video
-        if (result.source.includes('youtube')) {
+        if (result.source && result.source.includes('youtube')) {
+
           const embed = new Embed(result.link, EMBED_OPTONS)
           engine.getEmbed(embed, res => {
             sails.log.verbose(JSON.stringify(res))
