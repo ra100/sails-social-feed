@@ -26,5 +26,5 @@ module.exports = {
 
   appname: process.env.APP_NAME,
   baseurl: process.env.BASE_URL,
-  streams: (process.env.STREAMS && process.env.process.env.INSTANCE_ID === 0) || false
+  streams: (process.env.STREAMS && process.env.INSTANCE_ID === 0) || false
 }
