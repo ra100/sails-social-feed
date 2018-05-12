@@ -35,6 +35,7 @@ module.exports = {
   },
 
   public(req, res) {
+    sails.log.silly('streams public', req.params, req.body)
     let where = {
       id: req.param('id'),
       published: true

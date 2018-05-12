@@ -83,6 +83,9 @@ module.exports.routes = {
   'post /instagram/callback': 'InstagramController.update',
 
   'GET /streams/messagecount/:id': 'StreamController.messageCount',
-  'GET /streams/:id': 'StreamController.findOne'
+  'GET /streams/public': 'StreamController.public',
+  'GET /streams/public/:id': 'StreamController.public',
+  'GET /streams/adminMessages': 'StreamController.adminMessages',
+  // 'GET /streams/:id': 'StreamController.findOne',
 
 }
