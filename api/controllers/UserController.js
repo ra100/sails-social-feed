@@ -119,7 +119,7 @@ module.exports = {
     }
     User.findOne({id: user.id}).populate('roles').populate('groups').populate('passports').exec(function (e, r) {
       user = r
-      return res.jsonx({
+      return res.json({
         username: user.username,
         roles: user.roles,
         id: user.id,

@@ -254,7 +254,7 @@ var AuthController = {
     }
 
     if (req.session.authenticated) {
-      return res.jsonx({
+      return res.json({
         'status': 'error',
         'message': req.__('Error.Passport.Already.Authenticated'),
         error: 'Error.Passport.Already.Authenticated'

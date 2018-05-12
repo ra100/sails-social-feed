@@ -1,5 +1,13 @@
 var perms = require('../../assets/app/permissions.js')
 
+const joinPermissions = (o, e) => ({
+  c: e.c || o.c,
+  r: e.r || o.r,
+  u: e.u || o.u,
+  d: e.d || o.d
+})
+
+
 /**
  * Add permissions to object based on user role, group and ownership.
  */
@@ -17,13 +25,13 @@ module.exports = {
         const p = perms[role][model]
         if ((model == 'user' && obj.id == user.id) || (model != 'user' && obj.owner && obj.owner.id == user.id)) {
           sails.log.verbose('Permissions IS OWNER')
-          result = this.joinPermissions(result, p.own)
+          result = joinPermissions(result, p.own)
         } else if (this.hasGroups(obj, user)) {
           sails.log.verbose('Permissions HAS GROUP')
-          result = this.joinPermissions(result, p.group)
+          result = joinPermissions(result, p.group)
         } else {
           sails.log.verbose('Permissions IS NOTHING')
-          result = this.joinPermissions(result, p.all)
+          result = joinPermissions(result, p.all)
         }
       }
     }
@@ -42,14 +50,6 @@ module.exports = {
       }
     }
     return false
-  },
-  joinPermissions(o, e) {
-    return {
-      c: e.c || o.c,
-      r: e.r || o.r,
-      u: e.u || o.u,
-      d: e.d || o.d
-    }
   },
   setPermissions(objects, model, user) {
     for (var i in objects) {

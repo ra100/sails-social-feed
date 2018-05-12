@@ -24,9 +24,10 @@ module.exports = function serverError (data, options) {
 
   // Log error to console
   if (data !== undefined) {
-    sails.log.error('Sending 500 ("Server Error") response: \n',data)
+    sails.log.error('Sending 500 ("Server Error") response: ', req.originalUrl, '\n', data)
+  } else {
+    sails.log.error('Sending empty 500 ("Server Error") response', req.originalUrl)
   }
-  else sails.log.error('Sending empty 500 ("Server Error") response')
 
   // Only include errors in response if application environment
   // is not set to 'production'.  In production, we shouldn't
@@ -37,7 +38,7 @@ module.exports = function serverError (data, options) {
 
   // If the user-agent wants JSON, always respond with JSON
   if (req.wantsJSON) {
-    return res.jsonx(data)
+    return res.json(data)
   }
 
   // If second argument is a string, we take that to mean it refers to a view.
@@ -67,7 +68,7 @@ module.exports = function serverError (data, options) {
       else {
         sails.log.warn('res.serverError() :: When attempting to render error page view, an error occured (sending JSON instead).  Details: ', err)
       }
-      return res.jsonx(data)
+      return res.json(data)
     }
 
     return res.send(html)

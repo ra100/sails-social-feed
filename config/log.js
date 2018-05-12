@@ -15,13 +15,13 @@ var customLogger = new winston.Logger()
 
 // A console transport logging debug and above.
 customLogger.add(winston.transports.Console, {
-  level: 'debug',
+  level: 'silly',
   colorize: true
 })
 
 // A file based transport logging only errors formatted as json.
 customLogger.add(winston.transports.File, {
-  level: 'debug',
+  level: 'silly',
   filename: 'app.log',
   json: true
 })

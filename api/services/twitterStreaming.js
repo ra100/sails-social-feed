@@ -26,6 +26,8 @@ const twitterStreamingClass = function() {
   this.timer = null
 
   this.init = () => {
+    sails.log.verbose('Streams status', sails.config.streams)
+    if (!sails.config.streams) return
     clearTimeout(this.timer)
     Feed.find({
       where: {
@@ -50,6 +52,7 @@ const twitterStreamingClass = function() {
    * run after new authentication
    */
   this.reconnect = (access_token_key, access_token_secret) => {
+    if (!sails.config.streams) return
     this.access_token_key = access_token_key
     this.access_token_secret = access_token_secret
     return Feed.find({
@@ -156,6 +159,7 @@ const twitterStreamingClass = function() {
   }
 
   this.restart = () => {
+    if (!sails.config.streams) return
     this.reload = true
     this.calm = 1
     clearTimeout(this.timer)

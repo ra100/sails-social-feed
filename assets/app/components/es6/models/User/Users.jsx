@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
@@ -11,7 +11,7 @@ import {
   ControlLabel,
   FormControl
 } from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
 import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
 import Loading from './../../Loading'
@@ -57,9 +57,8 @@ const messages = defineMessages({
 })
 
 class Users extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -73,7 +72,14 @@ class Users extends Component {
       count: 0,
       filter: ''
     }
-    this._bind('_loadData', 'handleResponse', 'handleCountResponse', '_filterData', '_handleFilterChange')
+    this._bind(
+      '_loadData',
+      'handleResponse',
+      'handleCountResponse',
+      '_filterData',
+      '_handleFilterChange',
+      '_handlePagination'
+    )
   }
 
   componentDidMount() {
@@ -93,18 +99,18 @@ class Users extends Component {
       return
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, users: null})
+      this.setState({ status: res.statusCode, error: res.body, users: null })
     } else {
-      this.setState({status: res.statusCode, error: null, users: data})
+      this.setState({ status: res.statusCode, error: null, users: data })
     }
   }
 
-  handleCountResponse(data,res) {
+  handleCountResponse(data, res) {
     if (!this._isMounted) {
       return
     }
     if (!res.error) {
-      this.setState({count: res.body.count})
+      this.setState({ count: res.body.count })
     }
   }
 
@@ -112,17 +118,24 @@ class Users extends Component {
     if (!this._isMounted) {
       return
     }
-    const {socket} = this.context
+    const { socket } = this.context
     const query = {
-      skip: this.state.page * this.state.perPage,
+      skip: this.state.page * this.state.per_page,
       populate: 'roles,groups'
     }
     socket.get('/users', query, this.handleResponse)
     socket.get('/users/count', this.handleCountResponse)
   }
 
+  _handlePagination(page) {
+    this.setState({ page })
+    const { socket } = this.context
+    const query = { skip: page * this.state.per_page, populate: 'roles,groups' }
+    socket.get('/users', query, this.handleResponse)
+  }
+
   _handleFilterChange(event) {
-    this.setState({filter: event.target.value})
+    this.setState({ filter: event.target.value })
     this._filterData(event.target.value)
   }
 
@@ -138,30 +151,71 @@ class Users extends Component {
       populate: 'roles,groups',
       fulltext: filterValue
     }
-    const {socket} = this.context
+    const { socket } = this.context
     socket.get('/users', query, this.handleResponse)
   }
 
   render() {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
 
-    const pager = <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.state.count / this.state.per_page)} maxButtons={5} activePage={this.state.page + 1} onSelect={this._handlePagination}/>
-
-    const filter = <FormGroup controlId="filter" className="col-xs-12">
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.filter)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl type="text" value={this.state.filter} onChange={this._handleFilterChange} ref="filter"/>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    const pager = (
+      <Pagination>
+        <Pagination.First onClick={() => this._handlePagination(1)} />
+        <Pagination.Prev
+          onClick={() => this._handlePagination(this.state.page)}
+        />
+        {this.state.page > 0 && (
+          <Pagination.Item
+            onClick={() => this._handlePagination(this.state.page)}
+          >
+            {this.state.page}
+          </Pagination.Item>
+        )}
+        <Pagination.Item active>{this.state.page + 1}</Pagination.Item>
+        {this.state.page + 1 <=
+          Math.ceil(this.state.count / this.state.per_page) && (
+          <Pagination.Item
+            onClick={() => this._handlePagination(this.state.page + 2)}
+          >
+            {this.state.page + 2}
+          </Pagination.Item>
+        )}
+        <Pagination.Next
+          onClick={() => this._handlePagination(this.state.page + 2)}
+        />
+        <Pagination.Last
+          onClick={() =>
+            this._handlePagination(
+              Math.ceil(this.state.count / this.state.per_page)
+            )
+          }
+        />
+      </Pagination>
+    )
+    const filter = (
+      <FormGroup controlId="filter" className="col-xs-12">
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.filter)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            type="text"
+            value={this.state.filter}
+            onChange={this._handleFilterChange}
+            ref="filter"
+          />
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
     switch (this.state.status) {
       case 403:
-        return (<Forbidden/>)
+        return <Forbidden />
         break
 
       case 404:
-        return (<NotFound/>)
+        return <NotFound />
         break
 
       case 200:
@@ -169,7 +223,7 @@ class Users extends Component {
           return (
             <Row>
               <PageHeader>
-                <FormattedMessage {...messages.usersTitle}/>
+                <FormattedMessage {...messages.usersTitle} />
               </PageHeader>
               <Col xs={12}>
                 {filter}
@@ -177,16 +231,26 @@ class Users extends Component {
                 <Table striped hover condensed responsive>
                   <thead>
                     <tr>
-                      <th><FormattedMessage {...messages.name}/></th>
-                      <th><FormattedMessage {...messages.email}/></th>
-                      <th><FormattedMessage {...messages.roles}/></th>
-                      <th><FormattedMessage {...messages.groups}/></th>
-                      <th><FormattedMessage {...messages.action}/></th>
+                      <th>
+                        <FormattedMessage {...messages.name} />
+                      </th>
+                      <th>
+                        <FormattedMessage {...messages.email} />
+                      </th>
+                      <th>
+                        <FormattedMessage {...messages.roles} />
+                      </th>
+                      <th>
+                        <FormattedMessage {...messages.groups} />
+                      </th>
+                      <th>
+                        <FormattedMessage {...messages.action} />
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.users.map(function (user, i) {
-                      return <UserRow user={user} key={i}/>
+                    {this.state.users.map(function(user, i) {
+                      return <UserRow user={user} key={i} />
                     })}
                   </tbody>
                 </Table>
@@ -198,11 +262,11 @@ class Users extends Component {
         break
 
       case 0:
-        return (<Loading/>)
+        return <Loading />
         break
 
       default:
-        return (<Error error={this.state.error}/>)
+        return <Error error={this.state.error} />
     }
   }
 }

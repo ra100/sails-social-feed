@@ -1,9 +1,15 @@
-import {Component} from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Row, Button, PageHeader, Checkbox, Label} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl, FormattedDate, FormattedTime} from 'react-intl'
-import {notify} from 'react-notify-toast'
+import { Row, Button, PageHeader, Checkbox, Label } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import {
+  FormattedMessage,
+  defineMessages,
+  injectIntl,
+  FormattedDate,
+  FormattedTime
+} from 'react-intl'
+import { notify } from 'react-notify-toast'
 import _ from 'lodash/core'
 import EditToolbar from './../../EditToolbar'
 import MessageAuthor from './MessageAuthor'
@@ -17,26 +23,25 @@ const messages = defineMessages({
     defaultMessage: 'Changes have been saved'
   },
   replyButton: {
-    'id': 'message.button.reply',
-    'description': 'Open reply popup button',
-    'defaultMessage': 'Reply'
+    id: 'message.button.reply',
+    description: 'Open reply popup button',
+    defaultMessage: 'Reply'
   },
   replyto: {
-    'id': 'message.replyto.text',
-    'description': 'Label for parent message',
-    'defaultMessage': 'Is reply to'
+    id: 'message.replyto.text',
+    description: 'Label for parent message',
+    defaultMessage: 'Is reply to'
   },
   replies: {
-    'id': 'message.replies.text',
-    'description': 'Label for parent message',
-    'defaultMessage': 'Replies'
+    id: 'message.replies.text',
+    description: 'Label for parent message',
+    defaultMessage: 'Replies'
   }
 })
 
 class MessageRow extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -48,7 +53,19 @@ class MessageRow extends Component {
       edit: false,
       editable: false
     }
-    this._bind('_update', '_handlePublishedChange', '_handleReviewedChange', 'handleUpdateResponse', '_handleMessageChange', '_handleEdit', '_remove', '_update', '_cancel', '_getType', 'reply')
+    this._bind(
+      '_update',
+      '_handlePublishedChange',
+      '_handleReviewedChange',
+      'handleUpdateResponse',
+      '_handleMessageChange',
+      '_handleEdit',
+      '_remove',
+      '_update',
+      '_cancel',
+      '_getType',
+      'reply'
+    )
   }
 
   componentDidMount() {
@@ -57,7 +74,12 @@ class MessageRow extends Component {
     if (typeof this.props.message.author.id == 'undefined') {
       editable = true
     }
-    this.setState({published: this.props.message.published, reviewed: this.props.message.reviewed, message: this.props.message.message, editable: editable})
+    this.setState({
+      published: this.props.message.published,
+      reviewed: this.props.message.reviewed,
+      message: this.props.message.message,
+      editable: editable
+    })
   }
 
   componentWillUnmount() {
@@ -65,13 +87,21 @@ class MessageRow extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.published !== nextProps.message.published || this.state.reviewed !== nextProps.message.reviewed || this.props.message.message !== nextProps.message.message) {
-      this.setState({published: nextProps.message.published, reviewed: nextProps.message.reviewed, message: nextProps.message.message})
+    if (
+      this.state.published !== nextProps.message.published ||
+      this.state.reviewed !== nextProps.message.reviewed ||
+      this.props.message.message !== nextProps.message.message
+    ) {
+      this.setState({
+        published: nextProps.message.published,
+        reviewed: nextProps.message.reviewed,
+        message: nextProps.message.message
+      })
     }
   }
 
   handleUpdateResponse(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     switch (res.statusCode) {
       case 500:
         notify.show('Error 500', 'error')
@@ -90,8 +120,8 @@ class MessageRow extends Component {
   }
 
   _update() {
-    let {socket} = this.context
-    let {message} = this.props
+    let { socket } = this.context
+    let { message } = this.props
     let payload = {
       id: message.id,
       published: this.state.published,
@@ -102,45 +132,55 @@ class MessageRow extends Component {
       payload.message = this.state.message
     }
     socket.put('/messages/' + message.id, payload, this.handleUpdateResponse)
-    this.setState({edit: false})
+    this.setState({ edit: false })
   }
 
   _handlePublishedChange(event) {
-    this.setState({
-      published: this.published.checked,
-      reviewed: true
-    }, this._update)
+    this.setState(
+      {
+        published: this.published.checked,
+        reviewed: true
+      },
+      this._update
+    )
   }
 
   _handleReviewedChange(event) {
-    this.setState({
-      reviewed: this.reviewed.checked
-    }, this._update)
+    this.setState(
+      {
+        reviewed: this.reviewed.checked
+      },
+      this._update
+    )
   }
 
   _handleEdit(event) {
-    this.setState({edit: true})
+    this.setState({ edit: true })
   }
 
   _handleMessageChange(event) {
-    this.setState({message: event.target.value})
+    this.setState({ message: event.target.value })
   }
 
   _remove() {
-    let {socket} = this.context
-    socket.delete('/messages/' + this.props.message.id, {
-      _csrf: _csrf
-    }, this.handleUpdateResponse)
-    this.setState({edit: false})
+    let { socket } = this.context
+    socket.delete(
+      '/messages/' + this.props.message.id,
+      {
+        _csrf: _csrf
+      },
+      this.handleUpdateResponse
+    )
+    this.setState({ edit: false })
   }
 
   _cancel() {
-    this.setState({edit: false})
+    this.setState({ edit: false })
   }
 
   _getType(m) {
     let message = m || this.props.message
-    switch(message.feedType) {
+    switch (message.feedType) {
       case 'twitter_hashtag':
       case 'twitter_user':
         return 'twitter'
@@ -155,54 +195,84 @@ class MessageRow extends Component {
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-    let {message} = this.props
-    let published = <Checkbox checked={this.state.published} inputRef={ref => {this.published = ref}} onChange={this._handlePublishedChange}/>
-    let reviewed = <Checkbox type="checkbox" checked={this.state.reviewed} inputRef={ref => {this.reviewed = ref}} onChange={this._handleReviewedChange}/>
-    let type = this._getType()
+    const { formatMessage } = this.props.intl
+    const { message } = this.props
+    const type = this._getType()
     let reply = null
     if (this.props.replyCallback !== null && !message.isResponse) {
-      reply = <Button onClick={this.reply} bsStyle="default">{formatMessage(messages.replyButton)}</Button>
+      reply = (
+        <Button onClick={this.reply} bsStyle="default">
+          {formatMessage(messages.replyButton)}
+        </Button>
+      )
     }
     let related = null
     if (typeof message.parentMessage == 'object') {
-      related = <span className="parent-message"><FormattedMessage {...messages.replyto}/>:
-        <MessageBody type={this._getType(message.parentMessage)} message={message.parentMessage} meta={message.parentMessage.message.metadata}/></span>
+      related = (
+        <span className="parent-message">
+          <FormattedMessage {...messages.replyto} />:
+          <MessageBody
+            type={this._getType(message.parentMessage)}
+            message={message.parentMessage}
+            meta={message.parentMessage.message.metadata}
+          />
+        </span>
+      )
     }
     let replies = null
     if (message.relatedMessage && message.relatedMessage.length > 0) {
-      replies = <span className="reply-count"><FormattedMessage {...messages.replies}/>: {message.relatedMessage.length}</span>
+      replies = (
+        <span className="reply-count">
+          <FormattedMessage {...messages.replies} />:{' '}
+          {message.relatedMessage.length}
+        </span>
+      )
     }
     return (
       <tr key={message.id}>
         <td>
-          {published}
+          <Checkbox
+            checked={this.state.published}
+            inputRef={ref => {
+              this.published = ref
+            }}
+            onChange={this._handlePublishedChange}
+          />
         </td>
 
         <td>
-          {reviewed}
+          <Checkbox
+            checked={this.state.reviewed}
+            inputRef={ref => {
+              this.reviewed = ref
+            }}
+            onChange={this._handleReviewedChange}
+          />
         </td>
 
         <td>
-          <FormattedTime value={new Date(message.created)}/>
-          <br/>
-          <FormattedDate value={new Date(message.created)}/>
+          <FormattedTime value={new Date(message.created)} />
+          <br />
+          <FormattedDate value={new Date(message.created)} />
         </td>
 
         <td>
-          <MessageAuthor type={type} author={message.author}/>
+          <MessageAuthor type={type} author={message.author} />
         </td>
 
         <td>
-          <MessageBody type={type} message={message} meta={message.metadata} editable={this.state.editable}/>
+          <MessageBody
+            type={type}
+            message={message}
+            meta={message.metadata}
+            editable={this.state.editable}
+          />
           {reply}
           {related}
           {replies}
         </td>
 
-        <td>
-          {message.feedType}
-        </td>
+        <td>{message.feedType}</td>
       </tr>
     )
   }

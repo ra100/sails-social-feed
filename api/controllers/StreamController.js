@@ -22,16 +22,16 @@ module.exports = {
   },
 
   messageCount(req, res) {
-    var id = req.param('id')
-    Message.count({
+    const id = req.param('id')
+    sails.log.silly('Getting message count', id)
+    return Message.count({
       where: {
         stream: id
       }
-    }).then(function (count) {
-      res.json({id: id, count: count})
-    }).catch(function (err) {
-      res.serverError(err)
-    })
+    }).then(count => res.status(200).json({
+      id: id,
+      count: count
+    }), err => res.serverError(err))
   },
 
   public(req, res) {
@@ -244,22 +244,25 @@ module.exports = {
 
     var Model = actionUtil.parseModel(req)
     var pk = actionUtil.requirePk(req)
+    sails.log.silly('FindingOne Stream', pk)
 
     var query = Model.findOne(pk)
     query = actionUtil.populateRequest(query, req)
     query.exec(function found(err, matchingRecord) {
       if (err) {
-        return res.serverError(err)
+        res.serverError(err)
+        return
       }
       if (!matchingRecord) {
-        return res.notFound('No record found with the specified `id`.')
+        res.notFound('No record found with the specified `id`.')
+        return
       }
       if (req._sails.hooks.pubsub && req.isSocket) {
         Model.subscribe(req, matchingRecord)
         actionUtil.subscribeDeep(req, matchingRecord)
       }
       permissions.addPermissions(matchingRecord, 'stream', req.user)
-      res.ok(matchingRecord)
+      return res.ok(matchingRecord)
     })
   }
 }

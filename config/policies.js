@@ -39,7 +39,7 @@ module.exports.policies = {
   //   // 'CriteriaPolicy',
   // ],
 
-  '/login': ['localize', true],
+  '/login': ['localize'],
   '/register': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
 
   AuthController: {
@@ -67,17 +67,19 @@ module.exports.policies = {
     'create': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'update': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'destroy': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'public': ['localize', true],
-    'unsubscribe': ['localize', true],
-    'messages': ['localize', true],
-    'adminMessages': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner']
+    'public': ['localize'],
+    'unsubscribe': ['localize'],
+    'messagecount': ['localize'],
+    'messages': ['localize'],
+    'adminMessages': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
+    'findOne': ['localize', 'passport', 'sessionAuth', 'isEditor']
   },
 
   MessageController: {
     '*': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'submit': ['localize', 'passport', 'sessionAuth', 'rateLimit'],
     'update': ['localize', 'passport', 'sessionAuth', 'isEditor'],
-    'unsubscribe': ['localize', true],
+    'unsubscribe': ['localize'],
   },
 
   FeedController: {
@@ -88,7 +90,7 @@ module.exports.policies = {
     'create': ['localize', 'passport', 'sessionAuth', 'isEditor'],
     'update': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
     'destroy': ['localize', 'passport', 'sessionAuth', 'isEditor', 'isOwner'],
-    'unsubscribe': ['localize', true]
+    'unsubscribe': ['localize']
   },
 
   GroupController: {
@@ -98,7 +100,7 @@ module.exports.policies = {
     'cancreate': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'canmodify': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'candestroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
-    'unsubscribe': ['localize', true]
+    'unsubscribe': ['localize']
   },
 
   RoleController: {
@@ -108,11 +110,11 @@ module.exports.policies = {
     'cancreate': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'canmodify': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
     'candestroy': ['localize', 'passport', 'sessionAuth', 'isAdmin'],
-    'unsubscribe': ['localize', true]
+    'unsubscribe': ['localize']
   },
 
   OembedController: {
-    '*': ['localize', true]
+    '*': ['localize']
   },
 
   FacebookController: {
