@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.8.0
+version: v1.12.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:minimatch:20160620':
@@ -213,6 +213,10 @@ patch:
         patched: '2016-10-21T15:48:47.707Z'
     - sails > express > connect > compression > accepts > negotiator:
         patched: '2016-10-21T15:48:47.707Z'
+    - sails > @sailshq/express > @sailshq/connect > serve-index > accepts > negotiator:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > compression > accepts > negotiator:
+        patched: '2018-06-08T20:47:28.585Z'
   'npm:ws:20160104':
     - core-monitor > monitor > socket.io-client > ws:
         patched: '2016-10-21T15:48:47.707Z'
@@ -319,3 +323,30 @@ patch:
   'npm:marked:20170907':
     - doxx > dox > marked:
         patched: '2017-10-27T03:43:22.951Z'
+  'npm:debug:20170905':
+    - sails > @sailshq/express > @sailshq/connect > finalhandler > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > connect-timeout > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > compression > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > @sailshq/body-parser > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > express-session > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > morgan > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > serve-index > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > @sailshq/connect > serve-static > send > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > grunt-contrib-watch > tiny-lr > body-parser > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > sails-hook-sockets > socket.io > socket.io-adapter > socket.io-parser > debug:
+        patched: '2018-06-08T20:47:28.585Z'
+    - sails > @sailshq/express > send > debug:
+        patched: '2018-06-08T20:47:28.585Z'
