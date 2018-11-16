@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.8.0
+version: v1.13.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:minimatch:20160620':
@@ -319,3 +319,6 @@ patch:
   'npm:marked:20170907':
     - doxx > dox > marked:
         patched: '2017-10-27T03:43:22.951Z'
+  'npm:tunnel-agent:20170305':
+    - node-metainspector > request > tunnel-agent:
+        patched: '2018-11-16T01:45:43.619Z'
