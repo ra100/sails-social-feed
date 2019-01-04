@@ -31,7 +31,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^2.2.1",
     "grunt-contrib-jst": "^1.0.0",
-    "grunt-contrib-less": "^1.4.0",
+    "grunt-contrib-less": "^1.4.1",
     "grunt-contrib-uglify": "^3.3.0",
     "grunt-contrib-watch": "^1.0.1",
     "grunt-sails-linker": "^1.0.4",
