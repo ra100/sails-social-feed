@@ -14,7 +14,7 @@
     "asn1": "^0.2.3",
     "babel-core": "^6.26.3",
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.0",
     "concat-map": "0.0.1",
     "connect-mongo": "^2.0.1",
     "connect-redis": "^3.3.3",
