@@ -24,6 +24,22 @@ module.exports = {
     level: 'verbose'
   },
 
+  session: {
+    adapter: 'connect-redis',
+    host: 'localhost',
+    port: 6379,
+    db: 0,
+    prefix: 'sess:',
+  },
+
+  sockets: {
+    adapter: 'socket.io-redis',
+    host: 'localhost',
+    port: 6379,
+    db: 1,
+    prefix: 'socket:',
+  },
+
   appname: process.env.APP_NAME,
   baseurl: process.env.BASE_URL,
   streams: process.env.NODE_APP_INSTANCE === '0'

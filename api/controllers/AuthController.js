@@ -253,7 +253,7 @@ var AuthController = {
       }
     }
 
-    if (req.session.authenticated) {
+    if (req.session && req.session.authenticated) {
       return res.json({
         'status': 'error',
         'message': req.__('Error.Passport.Already.Authenticated'),

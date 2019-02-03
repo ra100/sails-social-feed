@@ -1,7 +1,7 @@
 var CONST_ES6_BUILD_PATH = './build/'
 
 import React from 'react'
-import {render} from 'react-dom'
+import ReactDOM from 'react-dom'
 import {createHashHistory} from 'history'
 import {IntlProvider} from 'react-intl'
 import socketIOClient from 'socket.io-client'
@@ -64,14 +64,15 @@ socket.get('/users/me', function (data, jwr) {
       user.permissions = $.extend(true, user.permissions, perm)
     })
   }
-  render(
-    <IntlProvider locale={language} messages={langs[language].messages}>
-      <App history={history} user={user} socket={io.socket}/>
-    </IntlProvider>, document.getElementById('app'))
   if (jwr.statusCode == 403) {
     history.push('/login')
   }
 })
+
+ReactDOM.render(
+  <IntlProvider locale={language} messages={langs[language].messages}>
+    <App history={history} user={user} socket={io.socket} />
+  </IntlProvider>, document.getElementById('app'))
 
 /**
 * Read cookie value
