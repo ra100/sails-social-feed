@@ -1,42 +1,38 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Button, PageHeader, Checkbox, Label } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import { Button, Checkbox } from 'react-bootstrap'
 import {
   FormattedMessage,
   defineMessages,
   injectIntl,
   FormattedDate,
-  FormattedTime
+  FormattedTime,
 } from 'react-intl'
 import { notify } from 'react-notify-toast'
-import _ from 'lodash/core'
-import EditToolbar from './../../EditToolbar'
 import MessageAuthor from './MessageAuthor'
 import MessageBody from './MessageBody'
-import MessageRelated from './MessageRelated'
 
 const messages = defineMessages({
   saved: {
     id: 'message.message.saved',
     description: 'Saved message',
-    defaultMessage: 'Changes have been saved'
+    defaultMessage: 'Changes have been saved',
   },
   replyButton: {
     id: 'message.button.reply',
     description: 'Open reply popup button',
-    defaultMessage: 'Reply'
+    defaultMessage: 'Reply',
   },
   replyto: {
     id: 'message.replyto.text',
     description: 'Label for parent message',
-    defaultMessage: 'Is reply to'
+    defaultMessage: 'Is reply to',
   },
   replies: {
     id: 'message.replies.text',
     description: 'Label for parent message',
-    defaultMessage: 'Replies'
-  }
+    defaultMessage: 'Replies',
+  },
 })
 
 class MessageRow extends Component {
@@ -51,7 +47,7 @@ class MessageRow extends Component {
       reviewed: null,
       message: null,
       edit: false,
-      editable: false
+      editable: false,
     }
     this._bind(
       '_update',
@@ -78,7 +74,7 @@ class MessageRow extends Component {
       published: this.props.message.published,
       reviewed: this.props.message.reviewed,
       message: this.props.message.message,
-      editable: editable
+      editable: editable,
     })
   }
 
@@ -95,7 +91,7 @@ class MessageRow extends Component {
       this.setState({
         published: nextProps.message.published,
         reviewed: nextProps.message.reviewed,
-        message: nextProps.message.message
+        message: nextProps.message.message,
       })
     }
   }
@@ -126,7 +122,7 @@ class MessageRow extends Component {
       id: message.id,
       published: this.state.published,
       reviewed: this.state.reviewed,
-      _csrf: _csrf
+      _csrf: _csrf,
     }
     if (this.state.edit) {
       payload.message = this.state.message
@@ -139,7 +135,7 @@ class MessageRow extends Component {
     this.setState(
       {
         published: this.published.checked,
-        reviewed: true
+        reviewed: true,
       },
       this._update
     )
@@ -148,7 +144,7 @@ class MessageRow extends Component {
   _handleReviewedChange(event) {
     this.setState(
       {
-        reviewed: this.reviewed.checked
+        reviewed: this.reviewed.checked,
       },
       this._update
     )
@@ -167,7 +163,7 @@ class MessageRow extends Component {
     socket.delete(
       '/messages/' + this.props.message.id,
       {
-        _csrf: _csrf
+        _csrf: _csrf,
       },
       this.handleUpdateResponse
     )
@@ -281,16 +277,16 @@ class MessageRow extends Component {
 MessageRow.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  socket: PropTypes.object.isRequired
+  socket: PropTypes.object.isRequired,
 }
 
 MessageRow.propTypes = {
   message: PropTypes.object.isRequired,
-  replyCallback: PropTypes.func
+  replyCallback: PropTypes.func,
 }
 
 MessageRow.defaultTypes = {
-  replyCallback: null
+  replyCallback: null,
 }
 
 export default injectIntl(MessageRow)

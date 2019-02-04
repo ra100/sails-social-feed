@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   td,
@@ -9,13 +9,8 @@ import {
   Label
 } from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
-import Forbidden from './../../Forbidden'
-import NotFound from './../../NotFound'
-import Error from './../../Error'
-import Loading from './../../Loading'
+import {defineMessages, injectIntl} from 'react-intl'
 import EditToolbar from './../../EditToolbar'
-import _ from 'lodash/core'
 
 const messages = defineMessages({
   streamFieldUniqueNameLabel: {

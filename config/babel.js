@@ -1,6 +1,6 @@
-module.exports.babel ={
-  presets: ['es2015'],
-  plugins: [
-    'transform-object-rest-spread'
+module.exports.babel = {
+  'presets': ['@babel/env'],
+  'plugins': [
+    '@babel/plugin-proposal-object-rest-spread'
   ]
 }

@@ -23,14 +23,14 @@
 module.exports.routes = {
 
   /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+   *                                                                          *
+   * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
+   * etc. depending on your default view engine) your home page.              *
+   *                                                                          *
+   * (Alternatively, remove this and add an `index.html` file in your         *
+   * `assets` directory)                                                      *
+   *                                                                          *
+   ***************************************************************************/
 
   '/': {
     view: 'default'
@@ -40,47 +40,78 @@ module.exports.routes = {
   // }
 
   /***************************************************************************
-  *                                                                          *
-  * Custom routes here...                                                    *
-  *                                                                          *
-  * If a request to a URL doesn't match any of the custom routes above, it   *
-  * is matched against Sails route blueprints. See `config/blueprints.js`    *
-  * for configuration options and examples.                                  *
-  *                                                                          *
-  ***************************************************************************/
-  'get /login': 'AuthController.login',
-  '/logout': {
+   *                                                                          *
+   * Custom routes here...                                                    *
+   *                                                                          *
+   * If a request to a URL doesn't match any of the custom routes above, it   *
+   * is matched against Sails route blueprints. See `config/blueprints.js`    *
+   * for configuration options and examples.                                  *
+   *                                                                          *
+   ***************************************************************************/
+  'GET /csrfToken': {
+    action: 'security/grant-csrf-token'
+  },
+
+  'GET /login': 'AuthController.login',
+  'GET /logout': {
     target: 'AuthController.logout',
-    cors: {
-      origin: '*',
-      methods: 'GET, POST',
-      securityLevel: 1,
-      headers: ['content-type', 'X-CSRF-Token', 'X-Requested-With'],
+    security: {
+      cors: {
+        allowOrigins: process.env.ORIGIN.split(','),
+        allowMethods: 'GET, POST',
+        securityLevel: 1,
+        allowHeaders: ['content-type', 'X-CSRF-Token', 'X-Requested-With'],
+      }
     }
   },
-  // 'get /register': 'AuthController.register',
+  // 'GET /register': 'AuthController.register',
 
-  'post /auth/local': 'AuthController.ajaxCallback',
-  'post /auth/local/:action': 'AuthController.ajaxCallback',
-  'post /auth/emaillogin' : {
+  'POST /auth/local': {
+    controller: 'AuthController',
+    action: 'ajaxCallback',
+    csrf: false,
+  },
+  'POST /auth/local/:action': 'AuthController.ajaxCallback',
+  'POST /auth/emaillogin': {
     controller: 'AuthController',
     action: 'emaillogin',
-    cors: {
-      origin: '*'
+    security: {
+      cors: {
+        allowOrigins: process.env.ORIGIN.split(',')
+      }
     }
   },
-  'get /auth/:provider': 'AuthController.callback',
-  'get /auth/:provider/callback': 'AuthController.callback',
-  'get /auth/:provider/:action': 'AuthController.callback',
+  'GET /auth/:provider': {
+    controller: 'AuthController',
+    action: 'callback'
+  },
+  'GET /auth/:provider/callback': {
+    controller: 'AuthController',
+    action: 'callback'
+  },
+  'GET /auth/:provider/:action': {
+    controller: 'AuthController',
+    action: 'callback'
+  },
 
-  'get /oembed/youtube': 'OembedController.youtube',
-  'get /oembed/embed': 'OembedController.embed',
+  'GET /oembed/youtube': 'OembedController.youtube',
+  'GET /oembed/embed': 'OembedController.embed',
 
-  'get /facebook/callback' : 'FacebookController.callback',
-  'post /facebook/callback': 'FacebookController.update',
+  'GET /facebook/callback': {
+    controller: 'FacebookController',
+    action: 'callback'
+  },
+  'POST /facebook/callback': {
+    controller: 'FacebookController',
+    action: 'update',
+    csrf: false
+  },
 
-  'get /instagram/callback' : 'InstagramController.callback',
-  'post /instagram/callback': 'InstagramController.update',
+  'GET /instagram/callback': {
+    controller: 'InstagramController',
+    action: 'callback'
+  },
+  'POST /instagram/callback': 'InstagramController.update',
 
   'GET /streams/messagecount/:id': 'StreamController.messageCount',
   'GET /streams/public': 'StreamController.public',
@@ -88,4 +119,14 @@ module.exports.routes = {
   'GET /streams/adminMessages': 'StreamController.adminMessages',
   // 'GET /streams/:id': 'StreamController.findOne',
 
+  'POST /users/updateme': {
+    controller: 'UserController',
+    action: 'updateme',
+    csrf: false
+  },
+  'POST /messages/submit': {
+    controller: 'MessageController',
+    action: 'submit',
+    csrf: false
+  }
 }

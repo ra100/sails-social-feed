@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import {Alert, Row, PageHeader} from 'react-bootstrap'
 import {FormattedMessage, defineMessages,} from 'react-intl'
 

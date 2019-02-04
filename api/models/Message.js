@@ -19,11 +19,11 @@ module.exports = {
       model: 'Feed'
     },
     message: {
-      type: 'mediumtext',
+      type: 'string',
       required: false
     },
     uuid: {
-      type: 'text',
+      type: 'string',
       required: false,
       unique: true
     },
@@ -36,7 +36,8 @@ module.exports = {
       defaultsTo: false
     },
     created: {
-      type: 'datetime'
+      type: 'string',
+      columnType: 'datetime'
     },
     link: {
       type: 'string',
@@ -193,7 +194,11 @@ module.exports = {
     sails.log.verbose('Original values', values)
     delete values._csrf
     if (values.published) {
-      Stream.publishAdd(values.stream, 'messages', values)
+      Stream.publish(values.stream, {
+        verb: 'add',
+        id: values.stream,
+        data: values
+      }, 'messages', values)
     } else {
       // @TODO @FIXME
       Stream.publishAdd(values.stream, 'messages', values)

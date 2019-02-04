@@ -1,5 +1,5 @@
 import {Router, Route, Switch, Redirect} from 'react-router'
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Grid} from 'react-bootstrap'
 import Navigation from './Navigation'
@@ -34,7 +34,8 @@ class Root extends Component {
           <Navigation history={history}/>
           <Grid>
             <Switch>
-              <Route exact path="/" render={() => <Redirect to="/home"/>} component={Home}/>
+              <Route exact path="/" component={Home}/>
+              <Route path="/home" component={Home}/>
               <Route path="/login" component={Login}/>
               <Route path="/create/stream" component={StreamEdit}/>
               <Route path="/create/feed" component={FeedEdit}/>

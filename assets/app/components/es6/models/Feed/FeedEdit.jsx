@@ -1,24 +1,21 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   Alert,
   Col,
   Row,
-  Grid,
   Button,
   FormControl,
   FormGroup,
   ControlLabel,
   Checkbox,
   PageHeader,
-  ButtonToolbar
 } from 'react-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
 import Forbidden from './../../Forbidden'
 import EditToolbar from './../../EditToolbar'
 import {notify} from 'react-notify-toast'
 import Multiselect from 'react-bootstrap-multiselect'
-import Dropdown from 'react-input-enhancements'
 import _ from 'lodash/core'
 import array from 'lodash/array'
 

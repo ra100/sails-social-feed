@@ -1,0 +1,20 @@
+╔═╗┬ ┬┌┐ ╔═╗┬ ┬┌┐   ┌┬┐┌─┐┌┬┐┬ ┬┌─┐┌┬┐┌─┐
+╠═╝│ │├┴┐╚═╗│ │├┴┐  │││├┤  │ ├─┤│ │ ││└─┐
+╩  └─┘└─┘╚═╝└─┘└─┘  ┴ ┴└─┘ ┴ ┴ ┴└─┘─┴┘└─┘
+
+In Sails 1.0, many Resourceful PubSub methods have been removed, and replaced by `.publish()`.
+In addition, the `.watch()` and `.unwatch()` methods have been removed (use `autoWatch` instead).
+Found the following references to unsupported RPS methods:
+
+* .publishAdd() in api/models/Message.js:196
+* .publishAdd() in api/models/Message.js:199
+* .publishAdd() in api/models/Message.js:204
+* .publishRemove() in api/models/Message.js:217
+* .publishRemove() in api/models/Message.js:220
+* .publishAdd() in api/models/Message.js:235
+* .publishRemove() in api/models/Message.js:237
+* .message() in api/models/Message.js:246
+
+See the following for more info:
+http://sailsjs.com/docs/upgrading/to-v-1-0#?resourceful-pubsub
+http://sailsjs.com/config/blueprints#?actionrelated-settings

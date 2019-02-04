@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Alert, PageHeader, Row} from 'react-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'

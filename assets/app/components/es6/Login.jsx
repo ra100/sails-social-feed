@@ -1,6 +1,5 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {findDOMNode} from 'react-dom'
 import {
   Modal,
   Button,
@@ -11,7 +10,6 @@ import {
 } from 'react-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
 import 'jquery-browserify'
-import _ from 'lodash/core'
 import fp from 'lodash/fp'
 import permissions from '../permissions'
 
@@ -124,24 +122,23 @@ class Login extends Component {
   }
 
   _processResponse(data) {
-    let _self = this
     if (data.status == 'ok') {
-      socket.get('/users/me', function (data, jwr) {
-        let user = {}
+      socket.get('/users/me', (data, jwr) => {
+        const user = {}
         if (jwr.statusCode == 200) {
           user = data
           user.permissions = {}
-          _.forEach(user.roles, function (v, k) {
-            let perm = permissions[v.name]
+          user.roles.forEach((v) => {
+            const perm = permissions[v.name]
             user.permissions = fp.merge(user.permissions, perm)
           })
-          _self.context.user.setUser(user)
-          _self.context.history.push('/')
+          this.context.user.setUser(user)
+          this.context.history.push('/')
         }
       })
     } else {
       if (data.error == 'Error.Passport.Already.Authenticated') {
-        _self.context.history.push('/')
+        this.context.history.push('/')
       } else {
         this.setState({alert: data.message, alertVisible: true})
       }
@@ -163,7 +160,7 @@ class Login extends Component {
     let passwordButton = <FormGroup controlId="password">
       <ControlLabel>{formatMessage(messages.fieldPassword)}</ControlLabel>
       <FormControl type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} ref="password" onChange={this._handlePasswordChange} onKeyDown={this._handlePasswordKeyDown}/>
-      </FormGroup>
+    </FormGroup>
 
     let alert = null
     if (this.state.alertVisible) {

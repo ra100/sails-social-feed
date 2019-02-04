@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 const actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil')
+const {validatePassword} = require('../models/Passport')
 
 module.exports = {
   cancreate: function (req, res) {
@@ -172,7 +173,7 @@ module.exports = {
           }).then(passport => {
             sails.log.verbose('Passport found', passport)
             return new Promise((resolve1, reject1) => {
-              passport.validatePassword(oldPassword, (err, result) => {
+              validatePassword(oldPassword, passport.password, (err, result) => {
                 if (err) {
                   sails.log.error('Password validation error', err)
                   return reject1(err)

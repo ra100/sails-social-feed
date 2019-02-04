@@ -1,4 +1,4 @@
-var crypto = require('crypto')
+const crypto = require('crypto')
 
 module.exports = {
 
@@ -15,10 +15,10 @@ module.exports = {
     },
     blocked: {
       type: 'boolean',
-      default: false
+      defaultsTo: false
     },
     email: {
-      type: 'email',
+      type: 'string',
       unique: true
     },
     picture: {
@@ -30,7 +30,8 @@ module.exports = {
     },
     locale: {
       type: 'string',
-      enum: sails.config.i18n.locales
+      // enum: ['en', 'cz']
+      isIn: sails.config.i18n.locales
     },
     roles: {
       collection: 'Role',

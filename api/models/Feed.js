@@ -13,7 +13,7 @@ module.exports = {
     },
     type: {
       type: 'string',
-      enum: [
+      isIn: [
         'facebook_page',
         // 'facebook_user',
         'twitter_user',

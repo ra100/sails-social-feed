@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
@@ -243,7 +243,7 @@ class GroupEdit extends Component {
       </Alert>
     }
 
-    let fieldName = 
+    let fieldName =
     <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle.name}>
       <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.groupFieldNameLabel)}</ControlLabel>
       <Col xs={12} sm={5}>

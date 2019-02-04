@@ -1,10 +1,8 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {findDOMNode} from 'react-dom'
 import {
   Button,
   Modal,
-  Row,
   FormGroup,
   ControlLabel,
   FormControl,

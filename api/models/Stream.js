@@ -28,7 +28,6 @@ module.exports = {
     groups: {
       collection: 'Group',
       via: 'streams',
-      required: true
     },
     feeds: {
       collection: 'Feed',
@@ -43,8 +42,8 @@ module.exports = {
      * inactive - don't refresh, close socket feeds
      */
     state: {
-      type: 'text',
-      enum: [
+      type: 'string',
+      isIn: [
         'active', 'sleep', 'inactive'
       ],
       defaultsTo: 'inactive'
@@ -54,8 +53,8 @@ module.exports = {
      * Refresh rate in seconds
      */
     refresh: {
-      type: 'integer',
-      enum: [
+      type: 'number',
+      isIn: [
         60, 300, 900, 1800
       ],
       defaultsTo: 300

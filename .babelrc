@@ -1,11 +1,12 @@
 {
-  "presets": ["react", "es2015"],
+  "presets": ["@babel/react", "@babel/env"],
   "plugins": [
-    "transform-react-jsx",
-    ["react-intl", {
+    "@babel/plugin-transform-react-jsx",
+    ["@babel/plugin-transform-react-constant-elements", {
       "messagesDir": "./assets/app/locales/",
-      "enforceDescriptions": false
+      "enforceDescriptions": false,
+      "allowMutablePropsOnTags": ["FormattedMessage"]
     }],
-    "transform-object-rest-spread"
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }

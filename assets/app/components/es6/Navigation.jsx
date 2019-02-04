@@ -1,8 +1,7 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {LinkContainer} from 'react-router-bootstrap'
 import {
-  Button,
   Navbar,
   Nav,
   NavItem,
@@ -10,7 +9,6 @@ import {
   MenuItem
 } from 'react-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
-import _ from 'lodash/core'
 
 /**
  * App navbar

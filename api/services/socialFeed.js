@@ -1,7 +1,9 @@
 const _ = require('lodash')
 const oauth = require('oauth')
 const request = require('superagent')
-const { Facebook } = require('fb')
+const {
+  Facebook
+} = require('fb')
 
 /**
  * socialFeed service, to provide functions used in different parts of code
@@ -12,69 +14,106 @@ module.exports = {
    */
   firstRun: function (next) {
     var adminName = process.env.ADMIN_NAME || 'admin'
-    return User.findOne({username: adminName}).then(function (adminUser) {
-      // If an admin user exists, skip the bootstrap data
-      sails.log.verbose('adminUser', adminUser)
-      if (adminUser != undefined) {
-        return next()
-      }
-      sails.log.info('Creating roles and admin...')
-      return Role.create({name: 'admin'}).then(function (adminRole) {
-        sails.log.info(adminRole)
-        return User.create({
-          username: adminName,
-          displayname: 'Administrator',
-          email: process.env.ADMIN_EMAIL || 'admin@example.com',
-          'roles': [adminRole.id]
-        }).then(function (user) {
-          sails.log.info(user)
-          var crypto = require('crypto')
-          var token = crypto.randomBytes(48).toString('base64')
-
-          return Passport.create({
-            protocol: 'local',
-            password: process.env.ADMIN_PASSWORD || 'admin123',
-            user: user.id,
-            accessToken: token
-          }).then(sails.log.info).catch(function (err, passport) {
-            if (err) {
-              if (err.code === 'E_VALIDATION') {
-                req.flash('error', 'Error.Passport.Password.Invalid')
-              }
-            }
-          })
-        }).catch(sails.log.error)
-      }).catch(sails.log.error).then(function () {
-        return Role.findOrCreate({
-          name: 'editor'
-        }, {name: 'editor'}).then(sails.log.info).catch(sails.log.error).then(function () {
-          return Role.findOrCreate({
-            name: 'user'
-          }, {name: 'user'}).then(sails.log.info).catch(sails.log.error).then(next)
-        })
-      })
-    }).catch(function (err) {
-      sails.log.error(err)
-      next()
+    return User.findOne({
+      username: adminName
     })
+      .then(adminUser => {
+        // If an admin user exists, skip the bootstrap data
+        sails.log.verbose('adminUser', adminUser)
+        if (adminUser !== undefined) {
+          return next()
+        }
+        sails.log.info('Creating roles and admin...')
+        return Role.findOne({
+          name: 'admin'
+        })
+          .then(role => {
+            if (!role) {
+              return Role.create({
+                name: 'admin'
+              })
+            }
+            return role
+          })
+          .then((adminRole) => {
+            sails.log.info(adminRole)
+            return User.create({
+              username: adminName,
+              displayname: 'Administrator',
+              email: process.env.ADMIN_EMAIL || 'admin@example.com',
+              'roles': [adminRole.id]
+            })
+          })
+          .then(function (user) {
+            sails.log.info(user)
+            var crypto = require('crypto')
+            var token = crypto.randomBytes(48).toString('base64')
+
+            return Passport.create({
+              protocol: 'local',
+              password: process.env.ADMIN_PASSWORD || 'admin123',
+              user: user.id,
+              accessToken: token
+            })
+              .catch((err, passport) => {
+                if (err) {
+                  if (err.code === 'E_VALIDATION') {
+                    req.flash('error', 'Error.Passport.Password.Invalid')
+                  }
+                }
+              })
+          })
+          .then(sails.log.info)
+          .then(() =>
+            Role.findOrCreate({
+              name: 'editor'
+            }, {
+              name: 'editor'
+            }))
+          .then(sails.log.info)
+          .then(() =>
+            Role.findOrCreate({
+              name: 'user'
+            }, {
+              name: 'user'
+            }))
+          .then(sails.log.info)
+          .then(next)
+          .catch(function (err) {
+            sails.log.error(err)
+            next()
+          })
+      })
   },
 
   isAdmin: function (uid, req, next) {
-    User.find({id: uid}).populate('roles', {name: 'admin'}).exec(function (e, r) {
+    User.find({
+      id: uid
+    }).populate('roles', {
+      name: 'admin'
+    }).exec(function (e, r) {
       if (r && r[0].roles.length > 0) {
         return next(null, r[0])
       } else {
-        return next({error: req.__('Error.Not.Admin')}, r[0])
+        return next({
+          error: req.__('Error.Not.Admin')
+        }, r[0])
       }
     })
   },
 
   isEditor: function (uid, req, next) {
-    User.find({id: uid}).populate('roles', {name: 'editor'}).exec(function (e, r) {
+    User.find({
+      id: uid
+    }).populate('roles', {
+      name: 'editor'
+    }).exec(function (e, r) {
       if (r[0].roles.length > 0) {
         return next(null, r)
       } else {
-        return next({error: req.__('Error.Not.Editor')}, r)
+        return next({
+          error: req.__('Error.Not.Editor')
+        }, r)
       }
     })
   },
@@ -83,7 +122,9 @@ module.exports = {
     var uid = data.uid
     var type = data.type
     var id = data.id
-    sails.models[type].findOne({id: id}).populate('owner').populate('groups').exec(function (err, obj) {
+    sails.models[type].findOne({
+      id: id
+    }).populate('owner').populate('groups').exec(function (err, obj) {
       if (err) {
         return next(req.__('Error.Unexpected'), obj)
       }
@@ -93,15 +134,21 @@ module.exports = {
       if (obj.owner.id == uid) {
         return next(null, obj)
       }
-      User.findOne({id: uid}).populate('groups').exec(function (err, user) {
+      User.findOne({
+        id: uid
+      }).populate('groups').exec(function (err, user) {
         if (err) {
-          return next({error: req.__('Error.Unexpected')}, obj)
+          return next({
+            error: req.__('Error.Unexpected')
+          }, obj)
         }
         var intersection = _.intersectionBy(obj.groups, user.groups, 'id')
         if (intersection.length > 0) {
           return next(null, obj)
         } else {
-          return next({error: req.__('Error.Not.InGroup')}, obj)
+          return next({
+            error: req.__('Error.Not.InGroup')
+          }, obj)
         }
       })
     })
@@ -116,12 +163,14 @@ module.exports = {
         sails.log.silly('Socket ' + req.socket.id + ' left room ' + room)
       }
     })
-    res.json({message: 'ok'})
+    res.json({
+      message: 'ok'
+    })
   },
 
   authTwitter: function (req, res) {
     var id = req.param('id')
-    var oa = new oauth.OAuth('https://api.twitter.com/oauth/request_token', 'https://api.twitter.com/oauth/access_token', sails.config.auth.twitter_consumer_key, sails.config.auth.twitter_consumer_secret, '1.0',  sails.config.baseurl + '/feeds/twitter/' + id, 'HMAC-SHA1')
+    var oa = new oauth.OAuth('https://api.twitter.com/oauth/request_token', 'https://api.twitter.com/oauth/access_token', sails.config.auth.twitter_consumer_key, sails.config.auth.twitter_consumer_secret, '1.0', sails.config.baseurl + '/feeds/twitter/' + id, 'HMAC-SHA1')
 
     oa.getOAuthRequestToken(function (err, oAuthToken, oAuthTokenSecret, results) {
       if (err || !results.oauth_callback_confirmed) {
@@ -167,7 +216,9 @@ module.exports = {
           auth.oauth_access_token = oAuthAccessToken
           auth.oauth_access_token_secret = oAuthAccessTokenSecret
           auth.valid = true
-          return Feed.update(id, {auth: auth}).then(function (feed) {
+          return Feed.update(id, {
+            auth: auth
+          }).then(function (feed) {
             return twitterStreaming.reconnect(auth.oauth_access_token, auth.oauth_access_token_secret)
           }).then(() => {
             return res.redirect('/#/feed/' + id)
@@ -185,18 +236,20 @@ module.exports = {
     const id = req.param('id')
     sails.log.verbose('Redirecting to FB auth page')
     return res.ok({
-      redirect: `https://www.facebook.com/v${sails.config.auth.facebook_api_version}/dialog/oauth?client_id=${sails.config.auth.facebook_app_id}&redirect_uri=${sails.config.baseurl}/feeds/facebook?feed=${id}&scope=manage_pages`})
+      redirect: `https://www.facebook.com/v${sails.config.auth.facebook_api_version}/dialog/oauth?client_id=${sails.config.auth.facebook_app_id}&redirect_uri=${sails.config.baseurl}/feeds/facebook?feed=${id}&scope=manage_pages`
+    })
   },
 
   authFacebookTokens: (req, res, next) => {
     const id = req.param('feed')
     const code = req.param('code')
-    request.get( `https://graph.facebook.com/v${sails.config.auth.facebook_api_version}/oauth/access_token`)
+    request.get(`https://graph.facebook.com/v${sails.config.auth.facebook_api_version}/oauth/access_token`)
       .query({
         client_id: sails.config.auth.facebook_app_id,
         redirect_uri: `${sails.config.baseurl}/feeds/facebook?feed=${id}`,
         client_secret: sails.config.auth.facebook_app_secret,
-        code: code})
+        code: code
+      })
       .end((err, response) => {
         if (err || !response.ok) {
           return next(err)
@@ -228,7 +281,11 @@ module.exports = {
             fb.api(`/${pageId}/subscribed_apps`, 'post', {}, result => {
               sails.log.verbose('Facebook webhook subscribe', result)
               if (!result.success) {
-                return Feed.update(id, {auth: {valid: false}}).then(f => {
+                return Feed.update(id, {
+                  auth: {
+                    valid: false
+                  }
+                }).then(f => {
                   sails.log.verbose('Feed saved', JSON.stringify(f))
                 })
               }
@@ -236,7 +293,9 @@ module.exports = {
                 valid: true,
                 access_token: page && page.access_token
               }
-              return Feed.update(id, {auth: auth}).then(f => {
+              return Feed.update(id, {
+                auth: auth
+              }).then(f => {
                 sails.log.verbose('Feed saved', f)
               })
             })

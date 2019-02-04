@@ -219,7 +219,7 @@ passport.connect = function (req, query, profile, next) {
             passport.tokens = query.tokens
           }
           // Save any updates to the Passport before moving on
-          passport.save(function (err) {
+          passport.update(function (err) {
             if (err) {
               return next(err)
             }

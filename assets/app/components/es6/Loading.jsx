@@ -1,7 +1,6 @@
-import {Component} from 'react'
-import PropTypes from 'prop-types'
+import React, {Component} from 'react'
 import {Panel, ProgressBar} from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import {defineMessages, injectIntl} from 'react-intl'
 
 const messages = defineMessages({
   loading: {

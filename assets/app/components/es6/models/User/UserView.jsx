@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
@@ -14,7 +14,6 @@ import NotFound from './../../NotFound'
 import Error from './../../Error'
 import Loading from './../../Loading'
 import EditToolbar from './../../EditToolbar'
-import _ from 'lodash/core'
 
 const messages = defineMessages({
   userFieldEmailLabel: {

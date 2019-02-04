@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Col, Row, Grid, PageHeader, Table} from 'react-bootstrap'
 import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
@@ -6,7 +6,6 @@ import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
 import Loading from './../../Loading'
 import StreamRow from './StreamRow'
-import _ from 'lodash/core'
 
 const messages = defineMessages({
   streamsTitle: {

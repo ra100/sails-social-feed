@@ -1,41 +1,44 @@
-var CONST_ES6_BUILD_PATH = './build/'
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {createHashHistory} from 'history'
-import {IntlProvider} from 'react-intl'
+import { createHashHistory } from 'history'
+import { IntlProvider } from 'react-intl'
 import socketIOClient from 'socket.io-client'
 import sailsIOClient from 'sails.io.js'
-import _ from 'lodash/core'
-import App from './build/App'
-import permissions from './permissions'
+import axios from 'axios'
+import extend from 'lodash/extend'
 import 'jquery-browserify'
 import 'arrive'
 import 'bootstrap_material_design'
 import 'ripples'
 
-$(function () {
+import App from './build/App'
+import permissions from './permissions'
+
+const request = axios.create({withCredentials: true})
+
+$(function() {
   $.material.init()
 })
 
 // load csrf token
 window._csrf = $('meta[name="csrf-token"]').attr('content')
 // prepare sails socket
-let io = sailsIOClient(socketIOClient)
+const io = sailsIOClient(socketIOClient)
 window.socket = io.socket
 // _csrf token refresh
-socket.on('connect', function() {
-  $.get('/csrfToken').success(function(data) {
-    _csrf = data._csrf
-  })
+socket.on('connect', () => {
+  request
+    .get('/csrfToken')
+    .then(response => {
+      _csrf = response.data._csrf
+    })
+    .catch(console.error)
 })
-// debug
-window.React = React
 
 let language = readCookie('language')
 let langs = {
   en: require('./locales/en'),
-  cs: require('./locales/cs')
+  cs: require('./locales/cs'),
 }
 if (language == '' || langs[language] == undefined) {
   language = 'en'
@@ -43,25 +46,24 @@ if (language == '' || langs[language] == undefined) {
 
 const history = createHashHistory()
 
-var user = {
-  setUser: function (u) {
-    _.extend(this, u)
+const user = {
+  setUser: function(u) {
+    extend(this, u)
   },
-  clearUser: function () {
+  clearUser: function() {
     delete this.username
     delete this.roles
     delete this.permissions
-  }
+  },
 }
 
 // check login status
-socket.get('/users/me', function (data, jwr) {
+socket.get('/users/me', function(data, jwr) {
   if (jwr.statusCode == 200) {
     user.setUser(data)
     user.permissions = {}
-    _.forEach(user.roles, function (v, k) {
-      let perm = permissions[v.name]
-      user.permissions = $.extend(true, user.permissions, perm)
+    user.roles.forEach(v => {
+      user.permissions = $.extend(true, user.permissions, permissions[v.name])
     })
   }
   if (jwr.statusCode == 403) {
@@ -72,15 +74,23 @@ socket.get('/users/me', function (data, jwr) {
 ReactDOM.render(
   <IntlProvider locale={language} messages={langs[language].messages}>
     <App history={history} user={user} socket={io.socket} />
-  </IntlProvider>, document.getElementById('app'))
+  </IntlProvider>,
+  document.getElementById('app')
+)
 
 /**
-* Read cookie value
-* @param  {string} name cookie name
-* @return {string}      cookie value
-*/
+ * Read cookie value
+ * @param  {string} name cookie name
+ * @return {string}      cookie value
+ */
 function readCookie(name) {
-  name = name.replace(/([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, /([.*+?^=!:${}()|[\]\/\\])/g, '\\$1')
+  name = name.replace(
+    /([.*+?^=!:${}()|[\]\/\\])/g,
+    /([.*+?^=!:${}()|[\]\/\\])/g,
+    /([.*+?^=!:${}()|[\]\/\\])/g,
+    /([.*+?^=!:${}()|[\]\/\\])/g,
+    '\\$1'
+  )
   var regex = new RegExp('(?:^|;)\\s?' + name + '=(.*?)(?:;|$)', 'i'),
     match = document.cookie.match(regex)
   return match && unescape(match[1])

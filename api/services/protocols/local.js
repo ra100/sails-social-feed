@@ -1,5 +1,6 @@
-var validator = require('validator')
-var crypto = require('crypto')
+const validator = require('validator')
+const crypto = require('crypto')
+const validatePassword = require('../../models/Passport')
 
 /**
  * Local Authentication Protocol
@@ -171,7 +172,7 @@ exports.login = function (req, identifier, password, next) {
       user: user.id
     }, function (err, passport) {
       if (passport) {
-        passport.validatePassword(password, function (err, res) {
+        validatePassword(password, passport.password, (err, res) => {
           if (err) {
             return next(err)
           }

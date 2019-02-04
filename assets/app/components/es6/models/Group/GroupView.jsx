@@ -1,22 +1,16 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
   Row,
-  Grid,
-  Button,
-  Input,
-  PageHeader,
-  ButtonToolbar,
-  Alert
+  PageHeader
 } from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import {defineMessages, injectIntl} from 'react-intl'
 import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
 import Error from './../../Error'
 import Loading from './../../Loading'
 import EditToolbar from './../../EditToolbar'
-import _ from 'lodash/core'
 
 const messages = defineMessages({})
 

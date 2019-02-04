@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {FormControl} from 'react-bootstrap'
 import EditToolbar from './../../EditToolbar'

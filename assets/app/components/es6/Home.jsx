@@ -1,8 +1,5 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'react-bootstrap'
-import {FormattedMessage, defineMessages,} from 'react-intl'
-import Navigation from './Navigation'
 
 class Home extends Component {
 

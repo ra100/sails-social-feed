@@ -36,16 +36,12 @@ module.exports.http = {
       'cookieParser',
       'session',
       'bodyParser',
-      'handleBodyParserError',
       'compress',
-      'methodOverride',
       'poweredBy',
       '$custom',
       'router',
       'www',
-      'favicon',
-      '404',
-      '500'
+      'favicon'
     ],
 
     /****************************************************************************
