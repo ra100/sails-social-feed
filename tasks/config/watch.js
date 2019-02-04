@@ -12,20 +12,15 @@
  * 		https://github.com/gruntjs/grunt-contrib-watch
  *
  */
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   grunt.config.set('watch', {
     api: {
-
       // API files to watch:
       files: ['api/**/*']
     },
     assets: {
-
       // Assets to watch:
-      files: [
-        'assets/**/*', 'tasks/pipeline.js',
-      ],
+      files: ['assets/**/*', 'tasks/pipeline.js'],
 
       // When assets are changed:
       tasks: [
@@ -33,12 +28,12 @@ module.exports = function (grunt) {
         'linkAssets',
         'babelBuild',
         'browserify:dev',
-        'copy:dev',
+        'copy:dev'
       ]
     },
     options: {
       livereload: {
-        port: 35731,
+        port: 35731
       }
     }
   })

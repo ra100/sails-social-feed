@@ -10,26 +10,25 @@
  */
 
 module.exports.http = {
-
   /****************************************************************************
-  *                                                                           *
-  * Express middleware to use for every Sails request. To add custom          *
-  * middleware to the mix, add a function to the middleware config object and *
-  * add its key to the "order" array. The $custom key is reserved for         *
-  * backwards-compatibility with Sails v0.9.x apps that use the               *
-  * `customMiddleware` config option.                                         *
-  *                                                                           *
-  ****************************************************************************/
+   *                                                                           *
+   * Express middleware to use for every Sails request. To add custom          *
+   * middleware to the mix, add a function to the middleware config object and *
+   * add its key to the "order" array. The $custom key is reserved for         *
+   * backwards-compatibility with Sails v0.9.x apps that use the               *
+   * `customMiddleware` config option.                                         *
+   *                                                                           *
+   ****************************************************************************/
 
   middleware: {
     compress: require('compression')(),
 
     /***************************************************************************
-  *                                                                          *
-  * The order in which middleware should be run for HTTP request. (the Sails *
-  * router is invoked by the "router" middleware below.)                     *
-  *                                                                          *
-  ***************************************************************************/
+     *                                                                          *
+     * The order in which middleware should be run for HTTP request. (the Sails *
+     * router is invoked by the "router" middleware below.)                     *
+     *                                                                          *
+     ***************************************************************************/
 
     order: [
       // 'startRequestTimer',
@@ -42,27 +41,27 @@ module.exports.http = {
       'router',
       'www',
       'favicon'
-    ],
+    ]
 
     /****************************************************************************
-    * Example custom middleware; logs each request to the console.              *
-    ***************************************************************************/
+     * Example custom middleware; logs each request to the console.              *
+     ***************************************************************************/
 
     // myRequestLogger: function (req, res, next) {
     //     console.log("Requested :: ", req.method, req.url);
     //     return next();
     // }
-  },
+  }
 
   /***************************************************************************
-  *                                                                          *
-  * The number of seconds to cache flat files on disk being served by        *
-  * Express static middleware (by default, these files are in `.tmp/public`) *
-  *                                                                          *
-  * The HTTP static cache is only active in a 'production' environment,      *
-  * since that's the only time Express will cache flat-files.                *
-  *                                                                          *
-  ***************************************************************************/
+   *                                                                          *
+   * The number of seconds to cache flat files on disk being served by        *
+   * Express static middleware (by default, these files are in `.tmp/public`) *
+   *                                                                          *
+   * The HTTP static cache is only active in a 'production' environment,      *
+   * since that's the only time Express will cache flat-files.                *
+   *                                                                          *
+   ***************************************************************************/
 
   // cache: 31557600000
 }

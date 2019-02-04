@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs')
  * @param {Object}   password
  * @param {Function} next
  */
-function hashPassword (passport, next) {
+function hashPassword(passport, next) {
   if (passport.password) {
     bcrypt.hash(passport.password, sails.config.auth.salt, (err, hash) => {
       passport.password = hash
@@ -58,8 +58,8 @@ var Passport = {
     //
     // accessToken is used to authenticate API requests. it is generated when a
     // passport (with protocol 'local') is created for a user.
-    password    : { type: 'string', minLength: 8 },
-    accessToken : { type: 'string' },
+    password: { type: 'string', minLength: 8 },
+    accessToken: { type: 'string' },
 
     // Provider fields: Provider, identifer and tokens
     //
@@ -72,9 +72,9 @@ var Passport = {
     // dards. When using OAuth 1.0, a `token` as well as a `tokenSecret` will
     // be issued by the provider. In the case of OAuth 2.0, an `accessToken`
     // and a `refreshToken` will be issued.
-    provider   : { type: 'string' },
-    identifier : { type: 'string' },
-    tokens     : { type: 'json' },
+    provider: { type: 'string' },
+    identifier: { type: 'string' },
+    tokens: { type: 'json' },
 
     // Associations
     //
@@ -92,7 +92,7 @@ var Passport = {
    * @param {Object}   passport The soon-to-be-created Passport
    * @param {Function} next
    */
-  beforeCreate: function (passport, next) {
+  beforeCreate: function(passport, next) {
     hashPassword(passport, next)
   },
 
@@ -102,7 +102,7 @@ var Passport = {
    * @param {Object}   passport Values to be updated
    * @param {Function} next
    */
-  beforeUpdate: function (passport, next) {
+  beforeUpdate: function(passport, next) {
     hashPassword(passport, next)
   }
 }

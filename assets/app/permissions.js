@@ -223,15 +223,6 @@ module.exports = {
       own: {
         r: true
       }
-    },
-    message: {
-      all: {},
-      group: {
-        r: false
-      },
-      own: {
-        r: false
-      }
     }
   }
 }

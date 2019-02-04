@@ -37,7 +37,10 @@ module.exports.passport = {
     options: {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      scope: ['email', 'public_profile'], /* email is necessary for login behavior */
+      scope: [
+        'email',
+        'public_profile'
+      ] /* email is necessary for login behavior */,
       callbackURL: process.env.BASE_URL + '/auth/facebook/callback',
       enableProof: true
     }
@@ -75,6 +78,5 @@ module.exports.passport = {
       clientSecret: process.env.SOUNDCLOUD_CLIENT_SECRET,
       callbackURL: process.env.BASE_URL + '/auth/soundcloud/callback'
     }
-  },
-
+  }
 }

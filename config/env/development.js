@@ -11,7 +11,6 @@
  */
 
 module.exports = {
-
   /***************************************************************************
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
@@ -29,7 +28,7 @@ module.exports = {
     host: 'localhost',
     port: 6379,
     db: 0,
-    prefix: 'sess:',
+    prefix: 'sess:'
   },
 
   sockets: {
@@ -37,11 +36,10 @@ module.exports = {
     host: 'localhost',
     port: 6379,
     db: 1,
-    prefix: 'socket:',
+    prefix: 'socket:'
   },
 
   appname: process.env.APP_NAME,
   baseurl: process.env.BASE_URL,
   streams: process.env.NODE_APP_INSTANCE === '0'
-
 }

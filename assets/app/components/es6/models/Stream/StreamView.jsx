@@ -1,11 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
   Row,
   Button,
   PageHeader,
-  Alert,
   Label,
   Table,
   Pagination
@@ -184,7 +183,7 @@ class StreamView extends Component {
     )
   }
 
-  load(nextProps) {
+  load() {
     if (!this._isMounted) {
       return
     }
@@ -228,7 +227,7 @@ class StreamView extends Component {
     this.context.socket.get('/messages/unsubscribe')
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.streamId !== this.props.match.params.streamId) {
       this.setState(
         {
@@ -253,7 +252,7 @@ class StreamView extends Component {
     }
   }
 
-  handleCountLoad(data, res) {
+  handleCountLoad(data) {
     if (!this._isMounted) {
       return
     }
@@ -275,7 +274,7 @@ class StreamView extends Component {
     this.context.history.push('/stream/' + this.state.stream.id + '/edit')
   }
 
-  _handlePagination(page, event) {
+  _handlePagination(page) {
     this.setState(
       {
         page: page - 1
@@ -288,7 +287,7 @@ class StreamView extends Component {
     this.setState({ newMessageShow: false })
   }
 
-  addMessage(event) {
+  addMessage() {
     let rpl = this.state.reply_id
     this.setState({ newMessageShow: true, reply_id: rpl })
   }
@@ -328,12 +327,12 @@ class StreamView extends Component {
         break
       case 'removedFrom':
       default:
-        console.debug(event)
+        console.debug(event) // eslint-disable-line no-console
         break
     }
   }
 
-  processMessage(data, res) {
+  processMessage(data) {
     let m = data
     let ms = this.state.messages
     if (ms.length === 0) {
@@ -393,16 +392,12 @@ class StreamView extends Component {
   }
 
   render() {
-    const { formatMessage } = this.props.intl
-
     switch (this.state.status) {
       case 403:
         return <Forbidden />
-        break
 
       case 404:
         return <NotFound />
-        break
 
       case 200:
         if (this.state.stream !== null) {
@@ -438,9 +433,10 @@ class StreamView extends Component {
                 </Pagination.Item>
               )}
               <Pagination.Item active>{this.state.page + 1}</Pagination.Item>
-              {this.state.page + 1 <= Math.ceil(
-                this.state.messages_count / this.state.items_per_page
-              ) && (
+              {this.state.page + 1 <=
+                Math.ceil(
+                  this.state.messages_count / this.state.items_per_page
+                ) && (
                 <Pagination.Item
                   onClick={() => this._handlePagination(this.state.page + 2)}
                 >
@@ -466,7 +462,7 @@ class StreamView extends Component {
           let msgs = null
 
           if (this.state.messages.length > 0) {
-            msgs = this.state.messages.map(function(message, i) {
+            msgs = this.state.messages.map(function(message) {
               return (
                 <MessageRow
                   message={message}
@@ -492,8 +488,7 @@ class StreamView extends Component {
                 <FormattedMessage {...messages.streamFieldRefreshLabel} />
               </Col>
               <Col xs={9}>
-                <strong>{stream.refresh}</strong>
-                s
+                <strong>{stream.refresh}</strong>s
               </Col>
 
               <Col xs={3}>
@@ -542,7 +537,6 @@ class StreamView extends Component {
                 </h3>
                 {newMessageButton}
                 <MessageNewModal
-                  ref="newModal"
                   streamId={this.props.match.params.streamId}
                   show={this.state.newMessageShow}
                   onHide={this.hideMessageModal}
@@ -593,16 +587,18 @@ class StreamView extends Component {
         } else {
           return null
         }
-        break
 
       case 0:
         return <Loading />
-        break
 
       default:
         return <Error error={this.state.error} />
     }
   }
+}
+
+StreamView.propTypes = {
+  match: PropTypes.object.isRequired
 }
 
 StreamView.contextTypes = {

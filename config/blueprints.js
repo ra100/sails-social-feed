@@ -14,8 +14,6 @@
  */
 
 module.exports.blueprints = {
-
-
   /**
    * NOTE:
    * A lot of the configuration options below affect so-called "CRUD methods",
@@ -25,8 +23,6 @@ module.exports.blueprints = {
    * a model exists with the same name as the controller, Sails will respond with built-in CRUD
    * logic in the form of a JSON API, including support for sort, pagination, and filtering.
    */
-
-
 
   // Action blueprints speed up the backend development workflow by eliminating the need
   // to manually bind routes. When enabled, GET, POST, PUT, and DELETE routes will be
@@ -59,8 +55,6 @@ module.exports.blueprints = {
   // to GET requests.
   actions: true,
 
-
-
   // RESTful Blueprints
   // (`sails.config.blueprints.rest`)
   //
@@ -80,15 +74,12 @@ module.exports.blueprints = {
   // (combine w/ policies, etc.)
   rest: true,
 
-
   // Shortcut blueprints are simple helpers to provide access to a controller's CRUD methods
   // from your browser's URL bar.  When enabled, GET, POST, PUT, and DELETE routes will be generated
   // for the controller's`find`, `create`, `update`, and `destroy` actions.
   //
   // `shortcuts` are enabled by default, but should be disabled in production.
   shortcuts: true,
-
-
 
   // An optional mount path for all blueprint routes on a controller, including `rest`,
   // `actions`, and `shortcuts`.  This allows you to take advantage of blueprint routing,
@@ -107,8 +98,6 @@ module.exports.blueprints = {
   // By default, no prefix is used.
   prefix: process.env.BASE_PATH || '',
 
-
-
   // Whether to pluralize controller names in blueprint routes.
   //
   // (NOTE: This only applies to blueprint autoroutes, not manual routes from `sails.config.routes`)
@@ -119,5 +108,4 @@ module.exports.blueprints = {
   // PUT    /foos/:id?
   // DELETE /foos/:id?
   pluralize: true
-
 }

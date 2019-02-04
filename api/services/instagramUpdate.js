@@ -13,9 +13,10 @@ const update = data => {
   }
   const userId = data.object_id
   const mediaId = data.data.media_id
-  return Passport.find({provider: 'instagram'}).then(users => {
-    tryMedia(mediaId, users, 0)
-  })
+  return Passport.find({ provider: 'instagram' })
+    .then(users => {
+      tryMedia(mediaId, users, 0)
+    })
     .catch(sails.log.error)
 }
 
@@ -23,11 +24,14 @@ const tryMedia = (mediaId, users, index) => {
   sails.log.verbose('User with token found:', users[index])
   const access_token = users[index].tokens.accessToken
   sails.log.verbose('Instagram getting media id', mediaId)
-  ig.media(mediaId, {access_token}, (err, media, remaining, limit) => {
-    if (err)  {
+  ig.media(mediaId, { access_token }, (err, media, remaining, limit) => {
+    if (err) {
       sails.log.error('Instagram media error', err)
-      if (err.error_type === 'OAuthAccessTokenException' || err.error_type === 'OAuthPermissionsException') {
-        if (users.length > index -1) {
+      if (
+        err.error_type === 'OAuthAccessTokenException' ||
+        err.error_type === 'OAuthPermissionsException'
+      ) {
+        if (users.length > index - 1) {
           // Try another token if current is invalid
           const i = index + 1
           return tryMedia(mediaId, users, i)
@@ -49,7 +53,7 @@ const tryMedia = (mediaId, users, index) => {
       created: new Date(media.created_time * 1000) || Date.now(),
       mediaType: media.type,
       link: media.link,
-      message: media.caption && media.caption.text || '',
+      message: (media.caption && media.caption.text) || '',
       metadata: {
         likes: media.likes.count,
         comments: media.comments.count,
@@ -57,33 +61,45 @@ const tryMedia = (mediaId, users, index) => {
         media: {
           images: media.images,
           carousel_media: media.carousel_media,
-          videos: media.videos,
+          videos: media.videos
         }
       }
     }
     sails.log.verbose('Instagram message to save', JSON.stringify(newMessage))
-    Message.findOne({uuid: {endsWith: media.id}}).then(msg => {
-      if (msg) {
-        return Message.update({uuid: msg.uuid}, newMessage).then(messages => {
-          if (messages.length > 0) {
-            sails.log.verbose('Message updated id:', messages[0].id)
-          }
-        })
-      } else {
-        Feed.findOne({config: user.username, type: 'instagram_user', enabled: true}).populate('stream').then(feed => {
-          if (!feed) {
-            return sails.log.error('No instagram feeds found')
-          }
-          newMessage.uuid = `${feed.stream.id}_${media.id}`
-          newMessage.feed = feed.id,
-          sails.log.verbose('Instagram message to save', JSON.stringify(newMessage))
-          Message.create(newMessage).then(createdMessage => {
-            sails.log.verbose('Message created id:', createdMessage.id)
-            sails.log.silly(createdMessage)
+    Message.findOne({ uuid: { endsWith: media.id } })
+      .then(msg => {
+        if (msg) {
+          return Message.update({ uuid: msg.uuid }, newMessage).then(
+            messages => {
+              if (messages.length > 0) {
+                sails.log.verbose('Message updated id:', messages[0].id)
+              }
+            }
+          )
+        } else {
+          Feed.findOne({
+            config: user.username,
+            type: 'instagram_user',
+            enabled: true
           })
-        })
-      }
-    })
+            .populate('stream')
+            .then(feed => {
+              if (!feed) {
+                return sails.log.error('No instagram feeds found')
+              }
+              newMessage.uuid = `${feed.stream.id}_${media.id}`
+              ;(newMessage.feed = feed.id),
+              sails.log.verbose(
+                'Instagram message to save',
+                JSON.stringify(newMessage)
+              )
+              Message.create(newMessage).then(createdMessage => {
+                sails.log.verbose('Message created id:', createdMessage.id)
+                sails.log.silly(createdMessage)
+              })
+            })
+        }
+      })
       .catch(sails.log.error)
   })
 }
@@ -107,11 +123,17 @@ const subscribe = (feed, values, next) => {
   const type = values.type.replace('instagram_', '')
   sails.log.verbose('Instragram feed subscribe', feed, 'values', values)
   sails.log.verbose('Subscribe to ', type)
-  sails.log.verbose('Instagram callback URL', `${sails.config.baseurl}/instagram/callback`)
-  sails.log.verbose('Instagram verify token', sails.config.auth.instagram_webhook_token)
+  sails.log.verbose(
+    'Instagram callback URL',
+    `${sails.config.baseurl}/instagram/callback`
+  )
+  sails.log.verbose(
+    'Instagram verify token',
+    sails.config.auth.instagram_webhook_token
+  )
   ig.add_user_subscription(
     `${sails.config.baseurl}/instagram/callback`,
-    {verify_token: sails.config.auth.instagram_webhook_token},
+    { verify_token: sails.config.auth.instagram_webhook_token },
     (err, result, remaining, limit) => {
       if (err) {
         sails.log.error(err)
@@ -119,9 +141,10 @@ const subscribe = (feed, values, next) => {
       }
       sails.log.verbose(result)
       // subscription ID
-      values.meta = {id: result.id}
+      values.meta = { id: result.id }
       return next()
-    })
+    }
+  )
 }
 
 module.exports = {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import MessageRow from './MessageRow'
-import { formatMessage, defineMessages, injectIntl } from 'react-intl'
 
 class MessageRelated extends Component {
   _bind(...methods) {
@@ -16,7 +15,7 @@ class MessageRelated extends Component {
     let { related } = this.props
     return (
       <table>
-        {related.map(function(m, i) {
+        {related.map(function(m) {
           return <MessageRow message={m} key={m.id} />
         })}
       </table>
@@ -25,7 +24,7 @@ class MessageRelated extends Component {
 }
 
 MessageRelated.propTypes = {
-  related: PropTypes.array.isRequired,
+  related: PropTypes.array.isRequired
 }
 
 export default MessageRelated

@@ -1,11 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Col,
-  Row,
-  PageHeader
-} from 'react-bootstrap'
-import {defineMessages, injectIntl} from 'react-intl'
+import { Col, Row, PageHeader } from 'react-bootstrap'
+import { defineMessages, injectIntl } from 'react-intl'
 import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
 import Error from './../../Error'
@@ -15,9 +11,8 @@ import EditToolbar from './../../EditToolbar'
 const messages = defineMessages({})
 
 class GroupView extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -27,7 +22,13 @@ class GroupView extends Component {
       status: 0,
       error: null
     }
-    this._bind('_remove', '_edit', 'handleDestroyResponse', 'handleLoad', 'load')
+    this._bind(
+      '_remove',
+      '_edit',
+      'handleDestroyResponse',
+      'handleLoad',
+      'load'
+    )
   }
 
   componentDidMount() {
@@ -39,7 +40,7 @@ class GroupView extends Component {
     if (!this._isMounted) {
       return
     }
-    let {socket} = this.context
+    let { socket } = this.context
     let groupId = this.props.match.params.groupId
     if (nextProps) {
       groupId = nextProps.match.params.groupId
@@ -52,19 +53,23 @@ class GroupView extends Component {
     this.context.socket.get('/groups/unsubscribe')
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.groupId !== this.props.match.params.groupId) {
-      this.setState({group: null, status: 0, error: null})
+      this.setState({ group: null, status: 0, error: null })
       this.load(nextProps)
     }
   }
 
   _remove() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (!this.state.deleted) {
-      socket.post('/groups/destroy/' + this.props.match.params.groupId, {
-        _csrf: _csrf
-      }, this.handleDestroyResponse)
+      socket.post(
+        '/groups/destroy/' + this.props.match.params.groupId,
+        {
+          _csrf: window._csrf
+        },
+        this.handleDestroyResponse
+      )
     }
   }
 
@@ -73,16 +78,16 @@ class GroupView extends Component {
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (!this._isMounted) {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true})
-      notify.show(formatMessage(messages.deletedSuccess), 'success')
+      this.setState({ deleted: true })
+      window.notify.show(formatMessage(messages.deletedSuccess), 'success')
       this.context.history.goBack()
     } else {
-      notify.show(res.body, 'error')
+      window.notify.show(res.body, 'error')
     }
   }
 
@@ -91,47 +96,45 @@ class GroupView extends Component {
       return
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, group: null})
+      this.setState({ status: res.statusCode, error: res.body, group: null })
     } else {
-      this.setState({status: res.statusCode, group: data, error: null})
+      this.setState({ status: res.statusCode, group: data, error: null })
     }
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-
     switch (this.state.status) {
       case 403:
-        return (<Forbidden/>)
-        break
+        return <Forbidden />
 
       case 404:
-        return (<NotFound/>)
-        break
+        return <NotFound />
 
       case 200:
         if (this.state.group !== null) {
-          let {group} = this.state
+          let { group } = this.state
           return (
             <Row>
-              <PageHeader>
-                {group.name}
-              </PageHeader>
-              <Col xs={12}></Col>
-              <EditToolbar edit={this._edit} remove={this._remove}/>
+              <PageHeader>{group.name}</PageHeader>
+              <Col xs={12} />
+              <EditToolbar edit={this._edit} remove={this._remove} />
             </Row>
           )
         }
         break
 
       case 0:
-        return (<Loading/>)
-        break
+        return <Loading />
 
       default:
-        return (<Error error={this.state.error}/>)
+        return <Error error={this.state.error} />
     }
   }
+}
+
+GroupView.propTypes = {
+  match: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired
 }
 
 GroupView.contextTypes = {

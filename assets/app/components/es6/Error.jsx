@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Alert, Row, PageHeader} from 'react-bootstrap'
-import {FormattedMessage, defineMessages} from 'react-intl'
+import { Alert, Row, PageHeader } from 'react-bootstrap'
+import { FormattedMessage, defineMessages } from 'react-intl'
 
 const messages = defineMessages({
   errorTitle: {
@@ -12,7 +12,6 @@ const messages = defineMessages({
 })
 
 class Error extends Component {
-
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -23,7 +22,9 @@ class Error extends Component {
   render() {
     return (
       <Row>
-        <PageHeader><FormattedMessage {...messages.errorTitle}/></PageHeader>
+        <PageHeader>
+          <FormattedMessage {...messages.errorTitle} />
+        </PageHeader>
         <Alert bsStyle="danger">
           <p>{this.state.error}</p>
         </Alert>

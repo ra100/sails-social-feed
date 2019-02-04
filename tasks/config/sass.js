@@ -8,8 +8,7 @@
  * dependencies, mixins, variables, resets, etc. before other stylesheets)
  */
 
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   grunt.config.set('sass', {
     dev: {
       files: [

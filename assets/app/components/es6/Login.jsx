@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   Modal,
@@ -8,7 +8,7 @@ import {
   ControlLabel,
   FormGroup
 } from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
 import 'jquery-browserify'
 import fp from 'lodash/fp'
 import permissions from '../permissions'
@@ -57,9 +57,8 @@ const messages = defineMessages({
 })
 
 class Login extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -71,17 +70,24 @@ class Login extends Component {
       alert: '',
       alertVisible: false
     }
-    this._bind('_login', '_handleLoginChange', '_handlePasswordChange', '_handleLoginKeyDown', '_handlePasswordKeyDown', '_processResponse')
+    this._bind(
+      '_login',
+      '_handleLoginChange',
+      '_handlePasswordChange',
+      '_handleLoginKeyDown',
+      '_handlePasswordKeyDown',
+      '_processResponse'
+    )
   }
 
   _handleLoginChange(event) {
     let login = event.target.value
-    this.setState({login: login})
+    this.setState({ login: login })
   }
 
   _handlePasswordChange(event) {
     let password = event.target.value
-    this.setState({password: password})
+    this.setState({ password: password })
   }
 
   _handleLoginKeyDown(event) {
@@ -97,7 +103,7 @@ class Login extends Component {
   }
 
   _login() {
-    this.setState({alertVisible: false})
+    this.setState({ alertVisible: false })
     if (this.state.login != null && this.state.password != null) {
       let _this = this
       let login = this.state.login
@@ -107,15 +113,16 @@ class Login extends Component {
         type: 'local',
         identifier: login
       }
-      $.ajax({
+      window.$.ajax({
         type: 'POST',
         url: '/auth/local',
         data: payload,
-        success: function (data, status, xhr) {
+        success: function(data) {
           _this._processResponse(data)
         },
-        error: function (data, status, xhr) {
-          let message = JSON.parse(data.response)
+        error: function(data) {
+          const message = JSON.parse(data.response)
+          console.error(message) // eslint-disable-line no-console
         }
       })
     }
@@ -123,12 +130,12 @@ class Login extends Component {
 
   _processResponse(data) {
     if (data.status == 'ok') {
-      socket.get('/users/me', (data, jwr) => {
-        const user = {}
+      window.socket.get('/users/me', (data, jwr) => {
+        let user = {}
         if (jwr.statusCode == 200) {
           user = data
           user.permissions = {}
-          user.roles.forEach((v) => {
+          user.roles.forEach(v => {
             const perm = permissions[v.name]
             user.permissions = fp.merge(user.permissions, perm)
           })
@@ -140,7 +147,7 @@ class Login extends Component {
       if (data.error == 'Error.Passport.Already.Authenticated') {
         this.context.history.push('/')
       } else {
-        this.setState({alert: data.message, alertVisible: true})
+        this.setState({ alert: data.message, alertVisible: true })
       }
     }
   }
@@ -150,17 +157,33 @@ class Login extends Component {
   }
 
   render() {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
 
-    let loginButton = <FormGroup controlId="login">
-      <ControlLabel>{formatMessage(messages.fieldLogin)}</ControlLabel>
-      <FormControl type='text' value={this.state.login} placeholder={formatMessage(messages.hintLogin)} ref="login" onChange={this._handleLoginChange} onKeyDown={this._handleLoginKeyDown}/>
-    </FormGroup>
+    let loginButton = (
+      <FormGroup controlId="login">
+        <ControlLabel>{formatMessage(messages.fieldLogin)}</ControlLabel>
+        <FormControl
+          type="text"
+          value={this.state.login}
+          placeholder={formatMessage(messages.hintLogin)}
+          onChange={this._handleLoginChange}
+          onKeyDown={this._handleLoginKeyDown}
+        />
+      </FormGroup>
+    )
 
-    let passwordButton = <FormGroup controlId="password">
-      <ControlLabel>{formatMessage(messages.fieldPassword)}</ControlLabel>
-      <FormControl type='password' value={this.state.password} placeholder={formatMessage(messages.hintPassword)} ref="password" onChange={this._handlePasswordChange} onKeyDown={this._handlePasswordKeyDown}/>
-    </FormGroup>
+    let passwordButton = (
+      <FormGroup controlId="password">
+        <ControlLabel>{formatMessage(messages.fieldPassword)}</ControlLabel>
+        <FormControl
+          type="password"
+          value={this.state.password}
+          placeholder={formatMessage(messages.hintPassword)}
+          onChange={this._handlePasswordChange}
+          onKeyDown={this._handlePasswordKeyDown}
+        />
+      </FormGroup>
+    )
 
     let alert = null
     if (this.state.alertVisible) {
@@ -171,20 +194,32 @@ class Login extends Component {
       <div className="static-modal">
         <Modal.Dialog>
           <Modal.Header>
-            <Modal.Title><FormattedMessage {...messages.loginTitle}/></Modal.Title>
+            <Modal.Title>
+              <FormattedMessage {...messages.loginTitle} />
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {loginButton}
-            <br/> {passwordButton}
+            <br /> {passwordButton}
             {alert}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this._login} bsStyle='success' disabled={this.state.password.length === 0}><FormattedMessage {...messages.buttonLogin}/></Button>
+            <Button
+              onClick={this._login}
+              bsStyle="success"
+              disabled={this.state.password.length === 0}
+            >
+              <FormattedMessage {...messages.buttonLogin} />
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>
     )
   }
+}
+
+Login.propTypes = {
+  intl: PropTypes.object.isRequired
 }
 
 Login.contextTypes = {

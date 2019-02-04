@@ -10,8 +10,7 @@
  * For usage docs see:
  *    https://github.com/gruntjs/grunt-browserify
  */
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   var version = grunt.file.readJSON('package.json').version
   var pipeline = require('../pipeline')
   var external = [
@@ -42,10 +41,7 @@ module.exports = function (grunt) {
         basedir: pipeline.appRootDir,
         watch: true,
         external: external,
-        plugin: [
-          ['browserify-resolutions', external],
-          'dedupify'
-        ],
+        plugin: [['browserify-resolutions', external], 'dedupify'],
         browserifyOptions: {
           fast: true,
           debug: true
@@ -70,8 +66,9 @@ module.exports = function (grunt) {
         external: external,
         plugin: [
           [
-            'minifyify', {
-              'map': null
+            'minifyify',
+            {
+              map: null
             }
           ]
         ],
@@ -90,8 +87,9 @@ module.exports = function (grunt) {
         alias: external,
         plugin: [
           [
-            'minifyify', {
-              'map': null
+            'minifyify',
+            {
+              map: null
             }
           ],
           ['browserify-resolutions', [external]],
@@ -103,7 +101,7 @@ module.exports = function (grunt) {
           pack: true
         }
       }
-    },
+    }
   })
 
   grunt.loadNpmTasks('grunt-browserify')

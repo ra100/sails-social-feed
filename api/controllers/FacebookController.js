@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 module.exports = {
-  callback: function (req, res) {
+  callback: function(req, res) {
     var mode = req.param('hub.mode')
     var challenge = req.param('hub.challenge')
     var verify_token = req.param('hub.verify_token')
@@ -18,7 +18,7 @@ module.exports = {
     return res.ok(challenge)
   },
 
-  update: function (req, res) {
+  update: function(req, res) {
     facebookUpdate.update(req.body)
     return res.ok()
   }

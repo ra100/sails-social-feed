@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
   attributes: {
     url: {
       type: 'string',
@@ -18,4 +17,3 @@ module.exports = {
     }
   }
 }
-

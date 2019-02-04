@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Col, Row, Grid, PageHeader, Table} from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { Col, Row, PageHeader, Table } from 'react-bootstrap'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
+import Error from '../../Error'
 import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
 import Loading from './../../Loading'
@@ -51,9 +52,8 @@ const messages = defineMessages({
 })
 
 class Streams extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -83,9 +83,9 @@ class Streams extends Component {
       return
     }
     if (res.error) {
-      this.setState({status: res.statusCode, error: res.body, streams: null})
+      this.setState({ status: res.statusCode, error: res.body, streams: null })
     } else {
-      this.setState({status: res.statusCode, streams: data, error: null})
+      this.setState({ status: res.statusCode, streams: data, error: null })
     }
   }
 
@@ -93,7 +93,7 @@ class Streams extends Component {
     if (!this._isMounted) {
       return
     }
-    let {socket} = this.context
+    let { socket } = this.context
     let query = {
       skip: this.state.page * this.state.perPage,
       populate: 'groups,owner'
@@ -102,41 +102,57 @@ class Streams extends Component {
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-
     switch (this.state.status) {
       case 403:
-        return (<Forbidden/>)
-        break
+        return <Forbidden />
 
       case 404:
-        return (<NotFound/>)
-        break
+        return <NotFound />
 
       case 200:
         if (this.state.streams !== null) {
           return (
             <Row>
               <PageHeader>
-                <FormattedMessage {...messages.streamsTitle}/>
+                <FormattedMessage {...messages.streamsTitle} />
               </PageHeader>
               <Col xs={12}>
                 <Table striped hover condensed responsive>
                   <thead>
                     <tr>
-                      <th><FormattedMessage {...messages.streamFieldNameLabel}/></th>
-                      <th><FormattedMessage {...messages.streamFieldUniqueNameLabel}/></th>
-                      <th><FormattedMessage {...messages.streamFieldRefreshLabel}/></th>
-                      <th><FormattedMessage {...messages.streamFieldStateLabel}/></th>
-                      <th><FormattedMessage {...messages.streamFieldOwnerLabel}/></th>
-                      <th><FormattedMessage {...messages.streamFieldGroupsLabel}/></th>
-                      <th><FormattedMessage {...messages.action}/></th>
+                      <th>
+                        <FormattedMessage {...messages.streamFieldNameLabel} />
+                      </th>
+                      <th>
+                        <FormattedMessage
+                          {...messages.streamFieldUniqueNameLabel}
+                        />
+                      </th>
+                      <th>
+                        <FormattedMessage
+                          {...messages.streamFieldRefreshLabel}
+                        />
+                      </th>
+                      <th>
+                        <FormattedMessage {...messages.streamFieldStateLabel} />
+                      </th>
+                      <th>
+                        <FormattedMessage {...messages.streamFieldOwnerLabel} />
+                      </th>
+                      <th>
+                        <FormattedMessage
+                          {...messages.streamFieldGroupsLabel}
+                        />
+                      </th>
+                      <th>
+                        <FormattedMessage {...messages.action} />
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.streams.map(function (stream, i) {
+                    {this.state.streams.map(function(stream, i) {
                       if (stream.permissions.r) {
-                        return <StreamRow stream={stream} key={i}/>
+                        return <StreamRow stream={stream} key={i} />
                       } else {
                         return null
                       }
@@ -150,11 +166,10 @@ class Streams extends Component {
         break
 
       case 0:
-        return (<Loading/>)
-        break
+        return <Loading />
 
       default:
-        return (<Error error={this.state.error}/>)
+        return <Error error={this.state.error} />
     }
   }
 }

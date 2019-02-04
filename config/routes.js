@@ -21,7 +21,6 @@
  */
 
 module.exports.routes = {
-
   /***************************************************************************
    *                                                                          *
    * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
@@ -60,7 +59,7 @@ module.exports.routes = {
         allowOrigins: process.env.ORIGIN.split(','),
         allowMethods: 'GET, POST',
         securityLevel: 1,
-        allowHeaders: ['content-type', 'X-CSRF-Token', 'X-Requested-With'],
+        allowHeaders: ['content-type', 'X-CSRF-Token', 'X-Requested-With']
       }
     }
   },
@@ -69,7 +68,7 @@ module.exports.routes = {
   'POST /auth/local': {
     controller: 'AuthController',
     action: 'ajaxCallback',
-    csrf: false,
+    csrf: false
   },
   'POST /auth/local/:action': 'AuthController.ajaxCallback',
   'POST /auth/emaillogin': {

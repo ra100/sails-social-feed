@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   Alert,
@@ -9,15 +9,15 @@ import {
   FormGroup,
   ControlLabel,
   Checkbox,
-  PageHeader,
+  PageHeader
 } from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
 import Forbidden from './../../Forbidden'
 import EditToolbar from './../../EditToolbar'
-import {notify} from 'react-notify-toast'
+import { notify } from 'react-notify-toast'
 import Multiselect from 'react-bootstrap-multiselect'
-import _ from 'lodash/core'
-import array from 'lodash/array'
+import unionBy from 'lodash/unionBy'
+import uniqBy from 'lodash/uniqBy'
 
 const messages = defineMessages({
   feedTitle: {
@@ -112,7 +112,7 @@ const messages = defineMessages({
   }
 })
 
-const getSelected = function (data) {
+const getSelected = function(data) {
   let i
   let selected = []
   for (i in data) {
@@ -124,9 +124,8 @@ const getSelected = function (data) {
 }
 
 class FeedCreate extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -162,7 +161,38 @@ class FeedCreate extends Component {
       allow: true,
       view: false
     }
-    this._bind('_save', '_remove', '_update', '_handleTypeChange', '_handleNameChange', '_handleGroupsChange', '_handleOwnerChange', '_handleConfigChange', '_handleStreamChange', '_handleEnabledChange', '_handleDisplayChange', 'handleCanCreate', '_handleAuth', 'handleDefinition', 'handleGroups', 'handleStreams', 'handleUsers', 'handleSaveResponse', 'handleLoad', 'handleDestroyResponse', 'handleAuthResponse', 'load', 'handleGroupStreams')
+
+    this.name = React.createRef()
+    this.stream = React.createRef()
+    this.groups = React.createRef()
+    this.owner = React.createRef()
+    this.config = React.createRef()
+
+    this._bind(
+      '_save',
+      '_remove',
+      '_update',
+      '_handleTypeChange',
+      '_handleNameChange',
+      '_handleGroupsChange',
+      '_handleOwnerChange',
+      '_handleConfigChange',
+      '_handleStreamChange',
+      '_handleEnabledChange',
+      '_handleDisplayChange',
+      'handleCanCreate',
+      '_handleAuth',
+      'handleDefinition',
+      'handleGroups',
+      'handleStreams',
+      'handleUsers',
+      'handleSaveResponse',
+      'handleLoad',
+      'handleDestroyResponse',
+      'handleAuthResponse',
+      'load',
+      'handleGroupStreams'
+    )
   }
 
   componentDidMount() {
@@ -174,7 +204,7 @@ class FeedCreate extends Component {
     if (!this._isMounted) {
       return
     }
-    let {socket} = this.context
+    let { socket } = this.context
     let roles = this.context.user.roles
     let feedId = this.props.match.params.feedId
     if (nextProps) {
@@ -185,35 +215,55 @@ class FeedCreate extends Component {
       for (i in roles) {
         if (roles[i].name == 'admin') {
           return true
-        };
-      };
+        }
+      }
       return false
     }
     if (isAdmin()) {
-      socket.get('/groups', {
-        sort: 'name'
-      }, this.handleGroups)
-      socket.get('/streams', {
-        sort: 'name'
-      }, this.handleStreams)
-    } else {
-      socket.get('/users/' + this.context.user.id + '/groups', {
-        sort: 'name'
-      }, this.handleGroups)
-      socket.get('/groups', {
-        sort: 'name',
-        where: {
-          name: this.context.user.groups
+      socket.get(
+        '/groups',
+        {
+          sort: 'name'
         },
-        populate: 'streams'
-      }, this.handleGroupStreams)
+        this.handleGroups
+      )
+      socket.get(
+        '/streams',
+        {
+          sort: 'name'
+        },
+        this.handleStreams
+      )
+    } else {
+      socket.get(
+        '/users/' + this.context.user.id + '/groups',
+        {
+          sort: 'name'
+        },
+        this.handleGroups
+      )
+      socket.get(
+        '/groups',
+        {
+          sort: 'name',
+          where: {
+            name: this.context.user.groups
+          },
+          populate: 'streams'
+        },
+        this.handleGroupStreams
+      )
     }
     socket.get('/feeds/definition', this.handleDefinition)
     if (typeof feedId !== 'undefined') {
       let query = {
         populate: 'owner,groups,stream'
       }
-      socket.get('/feeds/' + this.props.match.params.feedId, query, this.handleLoad)
+      socket.get(
+        '/feeds/' + this.props.match.params.feedId,
+        query,
+        this.handleLoad
+      )
     } else {
       socket.get('/feeds/cancreate', this.handleCanCreate)
     }
@@ -229,9 +279,9 @@ class FeedCreate extends Component {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true})
+      this.setState({ allow: true })
     } else {
-      this.setState({allow: false})
+      this.setState({ allow: false })
     }
   }
 
@@ -241,9 +291,9 @@ class FeedCreate extends Component {
     }
     if (res.statusCode == 200) {
       if (data.permissions.c) {
-        this.setState({edit: true, allow: true})
+        this.setState({ edit: true, allow: true })
       } else {
-        this.setState({edit: false, allow: true})
+        this.setState({ edit: false, allow: true })
         return
       }
       if (!data.permissions.r) {
@@ -254,7 +304,11 @@ class FeedCreate extends Component {
       let stream = []
       let groups = []
       if (this.state.owner.length == 0 && data.owner) {
-        owner.push({value: data.owner.id, label: data.owner.username, selected: true})
+        owner.push({
+          value: data.owner.id,
+          label: data.owner.username,
+          selected: true
+        })
       } else {
         owner = this.state.owner
         let j
@@ -268,7 +322,11 @@ class FeedCreate extends Component {
       }
 
       if (this.state.stream.length == 0 && data.stream) {
-        stream.push({value: data.stream.id, label: data.stream.name, selected: true})
+        stream.push({
+          value: data.stream.id,
+          label: data.stream.name,
+          selected: true
+        })
       } else {
         stream = this.state.stream
         let j
@@ -282,17 +340,21 @@ class FeedCreate extends Component {
       }
 
       for (i in data.groups) {
-        groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true})
+        groups.push({
+          value: data.groups[i].id,
+          label: data.groups[i].name,
+          selected: true
+        })
       }
       if (this.state.groups) {
-        groups = array.unionBy(this.state.groups, groups, 'value')
+        groups = unionBy(this.state.groups, groups, 'value')
       }
       for (i in data.groups) {
         let j
         for (j in groups) {
           if (groups[j].value == data.groups[i].id) {
             groups[j].selected = true
-          };
+          }
         }
       }
 
@@ -319,20 +381,20 @@ class FeedCreate extends Component {
         edit: true,
         auth: auth
       })
-      this.refs.stream.syncData()
-      this.refs.owner.syncData()
-      this.refs.groups.syncData()
+      this.stream.syncData()
+      this.owner.syncData()
+      this.groups.syncData()
     } else {
-      this.setState({status: res.statusCode, error: res.body, feed: null})
+      this.setState({ status: res.statusCode, error: res.body, feed: null })
     }
   }
 
-  handleDefinition(data, res) {
+  handleDefinition(data) {
     if (!this._isMounted) {
       return
     }
     if (data.type !== undefined) {
-      this.setState({definition: data})
+      this.setState({ definition: data })
     }
   }
 
@@ -345,18 +407,22 @@ class FeedCreate extends Component {
     let i
     for (i in data) {
       let group = data[i]
-      socket.get('/groups/' + group.id + '/users', {
-        sort: 'name'
-      }, this.handleUsers)
+      window.socket.get(
+        '/groups/' + group.id + '/users',
+        {
+          sort: 'name'
+        },
+        this.handleUsers
+      )
       groups.push({
         value: group.id,
         label: group.name,
-        selected: (_.indexOf(selected, group.id) > -1)
+        selected: selected.indexOf(group.id) > -1
       })
     }
-    this.setState({groups: groups})
-    if (this.refs.groups) {
-      this.refs.groups.syncData()
+    this.setState({ groups: groups })
+    if (this.groups) {
+      this.groups.syncData()
     }
   }
 
@@ -375,13 +441,13 @@ class FeedCreate extends Component {
       streams.push({
         value: stream.id,
         label: [stream.name, ' ', '[', stream.uniqueName, ']'].join(''),
-        selected: (selected.indexOf(stream.id) > -1)
+        selected: selected.indexOf(stream.id) > -1
       })
     }
-    const s = array.unionBy(this.state.stream, streams, 'value')
-    this.setState({stream: s})
-    if (this.refs.stream) {
-      this.refs.stream.syncData()
+    const s = unionBy(this.state.stream, streams, 'value')
+    this.setState({ stream: s })
+    if (this.stream) {
+      this.stream.syncData()
     }
   }
 
@@ -390,18 +456,26 @@ class FeedCreate extends Component {
       return
     }
     const selected = getSelected(this.state.stream)
-    const streams = array.uniqBy(data.reduce((acc, val) =>
-      acc.concat(val.streams.map(stream => ({
-        value: stream.id,
-        label: [stream.name, ' ', '[', stream.uniqueName, ']'].join(''),
-        selected: (selected.indexOf(stream.id) > -1)
-      }))), []), 'value')
+    const streams = uniqBy(
+      data.reduce(
+        (acc, val) =>
+          acc.concat(
+            val.streams.map(stream => ({
+              value: stream.id,
+              label: [stream.name, ' ', '[', stream.uniqueName, ']'].join(''),
+              selected: selected.indexOf(stream.id) > -1
+            }))
+          ),
+        []
+      ),
+      'value'
+    )
     if (streams.length === 1) {
       streams[0].selected = true
     }
-    this.setState({stream: streams})
-    if (this.refs.stream) {
-      this.refs.stream.syncData()
+    this.setState({ stream: streams })
+    if (this.stream) {
+      this.stream.syncData()
     }
   }
 
@@ -420,35 +494,39 @@ class FeedCreate extends Component {
       users.push({
         value: user.id,
         label: user.username,
-        selected: (selected.indexOf(user.id) > -1)
+        selected: selected.indexOf(user.id) > -1
       })
     }
-    let u = array.unionBy(this.state.owner, users, 'value')
-    this.setState({owner: u})
-    if (this.refs.owner) {
-      this.refs.owner.syncData()
+    let u = unionBy(this.state.owner, users, 'value')
+    this.setState({ owner: u })
+    if (this.owner) {
+      this.owner.syncData()
     }
   }
 
   _save() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (this._validateAll()) {
-      socket.post('/feeds/create', {
-        name: this.state.name,
-        type: this.state.type,
-        config: this.state.config,
-        enabled: this.state.enabled,
-        display: this.state.display,
-        stream: getSelected(this.state.stream)[0],
-        groups: getSelected(this.state.groups),
-        owner: getSelected(this.state.owner)[0],
-        _csrf: _csrf
-      }, this.handleSaveResponse)
+      socket.post(
+        '/feeds/create',
+        {
+          name: this.state.name,
+          type: this.state.type,
+          config: this.state.config,
+          enabled: this.state.enabled,
+          display: this.state.display,
+          stream: getSelected(this.state.stream)[0],
+          groups: getSelected(this.state.groups),
+          owner: getSelected(this.state.owner)[0],
+          _csrf: window._csrf
+        },
+        this.handleSaveResponse
+      )
     }
   }
 
   _update() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (this._validateAll()) {
       let payload = {
         name: this.state.name,
@@ -456,7 +534,7 @@ class FeedCreate extends Component {
         config: this.state.config,
         enabled: this.state.enabled,
         display: this.state.display,
-        _csrf: _csrf
+        _csrf: window._csrf
       }
       if (this.context.user.permissions.feed.group.u) {
         payload.owner = getSelected(this.state.owner)[0]
@@ -467,48 +545,56 @@ class FeedCreate extends Component {
       if (this.context.user.permissions.feed.group.u) {
         payload.stream = getSelected(this.state.stream)[0]
       }
-      socket.post('/feeds/update/' + this.props.match.params.feedId, payload, this.handleSaveResponse)
+      socket.post(
+        '/feeds/update/' + this.props.match.params.feedId,
+        payload,
+        this.handleSaveResponse
+      )
     }
   }
 
   _remove() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (!this.state.deleted) {
-      socket.post('/feeds/destroy/' + this.props.match.params.feedId, {
-        _csrf: _csrf
-      }, this.handleDestroyResponse)
+      socket.post(
+        '/feeds/destroy/' + this.props.match.params.feedId,
+        {
+          _csrf: window._csrf
+        },
+        this.handleDestroyResponse
+      )
     }
   }
 
   _validateAll() {
     let ok = true
     let bs = this.state.bsStyle
-    _.forEach([
-      'name', 'type', 'config'
-    ], function (field, key) {
-      if (this.state[field] == null || this.state[field].length == 0) {
-        bs[field] = 'error'
-        ok = false
-      } else {
-        bs[field] = 'success'
+    ;['name', 'type', 'config'].forEach(
+      (field) => {
+        if (this.state[field] == null || this.state[field].length == 0) {
+          bs[field] = 'error'
+          ok = false
+        } else {
+          bs[field] = 'success'
+        }
       }
-    }.bind(this))
-    _.forEach([
-      'stream', 'owner', 'groups'
-    ], function (field, key) {
-      if (this.state[field] == null || getSelected(this.state[field]) == 0) {
-        bs[field] = 'has-error'
-        ok = false
-      } else {
-        bs[field] = 'has-success'
+    )
+    ;['stream', 'owner', 'groups'].forEach(
+      (field) => {
+        if (this.state[field] == null || getSelected(this.state[field]) == 0) {
+          bs[field] = 'has-error'
+          ok = false
+        } else {
+          bs[field] = 'has-success'
+        }
       }
-    }.bind(this))
-    this.setState({bsStyle: bs})
+    )
+    this.setState({ bsStyle: bs })
     return ok
   }
 
   handleSaveResponse(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (res.statusCode == 500) {
       notify.show('Error 500', 'error')
       return
@@ -519,22 +605,21 @@ class FeedCreate extends Component {
     }
 
     if (data.code == 'E_VALIDATION') {
-      this.setState({error: data.details})
+      this.setState({ error: data.details })
     } else if (data.id != undefined) {
       notify.show(formatMessage(messages.saved), 'success')
-      this.setState({error: null})
-      let id = data.id
+      this.setState({ error: null })
       this.context.history.push('/stream/' + getSelected(this.state.stream)[0])
     }
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (!this._isMounted) {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true})
+      this.setState({ deleted: true })
       notify.show(formatMessage(messages.deletedSuccess), 'success')
       this.context.history.goBack()
     } else {
@@ -543,15 +628,15 @@ class FeedCreate extends Component {
   }
 
   _handleTypeChange(event) {
-    this.setState({type: event.target.value})
+    this.setState({ type: event.target.value })
   }
 
   _handleConfigChange(event) {
-    this.setState({config: event.target.value})
+    this.setState({ config: event.target.value })
   }
 
   _handleNameChange(event) {
-    this.setState({name: event.target.value})
+    this.setState({ name: event.target.value })
   }
 
   _handleStreamChange(event) {
@@ -567,7 +652,7 @@ class FeedCreate extends Component {
         stream[i].selected = false
       }
     }
-    this.setState({stream: stream})
+    this.setState({ stream: stream })
   }
 
   _handleGroupsChange(event) {
@@ -581,7 +666,7 @@ class FeedCreate extends Component {
         groups[i].selected = sel
       }
     }
-    this.setState({groups: groups})
+    this.setState({ groups: groups })
   }
 
   _handleOwnerChange(event) {
@@ -597,20 +682,23 @@ class FeedCreate extends Component {
         owner[i].selected = false
       }
     }
-    this.setState({owner: owner})
+    this.setState({ owner: owner })
   }
 
-  _handleEnabledChange(event) {
-    this.setState({enabled: this.enabled.checked})
+  _handleEnabledChange() {
+    this.setState({ enabled: this.enabled.checked })
   }
 
-  _handleDisplayChange(event) {
-    this.setState({display: this.display.checked})
+  _handleDisplayChange() {
+    this.setState({ display: this.display.checked })
   }
 
-  _handleAuth(event) {
-    let {socket} = this.context
-    socket.get('/feeds/authorize/' + this.state.feed.id, this.handleAuthResponse)
+  _handleAuth() {
+    let { socket } = this.context
+    socket.get(
+      '/feeds/authorize/' + this.state.feed.id,
+      this.handleAuthResponse
+    )
   }
 
   handleAuthResponse(data, res) {
@@ -619,109 +707,215 @@ class FeedCreate extends Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.load(nextProps)
     }
   }
 
   render() {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
 
     if (!this.state.allow) {
-      return (<Forbidden/>)
+      return <Forbidden />
     }
 
     let errorMessage = null
     if (this.state.error != null) {
-      errorMessage = <Alert bsStyle="danger">
-        <p>{this.state.error}</p>
-      </Alert>
+      errorMessage = (
+        <Alert bsStyle="danger">
+          <p>{this.state.error}</p>
+        </Alert>
+      )
     }
 
-    let fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle.name}>
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldNameLabel)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl type="text" value={this.state.name} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.feedFieldNamePlaceholder)}/>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    let fieldName = (
+      <FormGroup
+        controlId="name"
+        className="col-xs-12"
+        validationState={this.state.bsStyle.name}
+      >
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.feedFieldNameLabel)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            type="text"
+            value={this.state.name}
+            onChange={this._handleNameChange}
+            ref={this.name}
+            placeholder={formatMessage(messages.feedFieldNamePlaceholder)}
+          />
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
-    let fieldConfig = <FormGroup controlId="config" className="col-xs-12" validationState={this.state.bsStyle.config}>
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldConfigLabel)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl type="text" value={this.state.config} onChange={this._handleConfigChange} ref="config" placeholder={formatMessage(messages.feedFieldConfigPlaceholder)}/>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    let fieldConfig = (
+      <FormGroup
+        controlId="config"
+        className="col-xs-12"
+        validationState={this.state.bsStyle.config}
+      >
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.feedFieldConfigLabel)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            type="text"
+            value={this.state.config}
+            onChange={this._handleConfigChange}
+            ref={this.config}
+            placeholder={formatMessage(messages.feedFieldConfigPlaceholder)}
+          />
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
-    let fieldType = <FormGroup controlId="config" className="col-xs-12" validationState={this.state.bsStyle.type}>
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.feedFieldTypeLabel)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl componentClass="select" value={this.state.type} onChange={this._handleTypeChange}>
-          <option value="">{formatMessage(messages.feedFieldTypePlaceholder)}</option>
-          {this.state.definition.type.enum.map(function (val, i) {
-            return <option value={val} key={i}>{val}</option>
-          })}
-        </FormControl>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    let fieldType = (
+      <FormGroup
+        controlId="config"
+        className="col-xs-12"
+        validationState={this.state.bsStyle.type}
+      >
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.feedFieldTypeLabel)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            componentClass="select"
+            value={this.state.type}
+            onChange={this._handleTypeChange}
+          >
+            <option value="">
+              {formatMessage(messages.feedFieldTypePlaceholder)}
+            </option>
+            {this.state.definition.type.enum.map(function(val, i) {
+              return (
+                <option value={val} key={i}>
+                  {val}
+                </option>
+              )
+            })}
+          </FormControl>
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
-    let streamClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.stream
-    let fieldStream = <div className={streamClass}>
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.feedFieldStreamLabel}/>
-      </label>
-      <div className="col-xs-12 col-sm-5">
-        <Multiselect onChange={this._handleStreamChange} data={this.state.stream} ref="stream"/>
+    let streamClass =
+      'col-xs-12 form-group has-feedback ' + this.state.bsStyle.stream
+    let fieldStream = (
+      <div className={streamClass}>
+        <label className="control-label col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.feedFieldStreamLabel} />
+        </label>
+        <div className="col-xs-12 col-sm-5">
+          <Multiselect
+            onChange={this._handleStreamChange}
+            data={this.state.stream}
+            ref={this.stream}
+          />
+        </div>
       </div>
-    </div>
+    )
 
-    let groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.groups
-    let fieldGroups = <div className={groupsClass}>
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.feedFieldGroupsLabel}/>
-      </label>
-      <div className="col-xs-12 col-sm-5">
-        <Multiselect onChange={this._handleGroupsChange} data={this.state.groups} multiple ref="groups"/>
+    let groupsClass =
+      'col-xs-12 form-group has-feedback ' + this.state.bsStyle.groups
+    let fieldGroups = (
+      <div className={groupsClass}>
+        <label className="control-label col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.feedFieldGroupsLabel} />
+        </label>
+        <div className="col-xs-12 col-sm-5">
+          <Multiselect
+            onChange={this._handleGroupsChange}
+            data={this.state.groups}
+            multiple
+            ref={this.groups}
+          />
+        </div>
       </div>
-    </div>
+    )
 
-    let ownerClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle.owner
-    let fieldOwner = <div className={ownerClass}>
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.feedFieldOwnerLabel}/>
-      </label>
-      <div className="col-xs-12 col-sm-5">
-        <Multiselect onChange={this._handleOwnerChange} data={this.state.owner} ref="owner"/>
+    let ownerClass =
+      'col-xs-12 form-group has-feedback ' + this.state.bsStyle.owner
+    let fieldOwner = (
+      <div className={ownerClass}>
+        <label className="control-label col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.feedFieldOwnerLabel} />
+        </label>
+        <div className="col-xs-12 col-sm-5">
+          <Multiselect
+            onChange={this._handleOwnerChange}
+            data={this.state.owner}
+            ref={this.owner}
+          />
+        </div>
       </div>
-    </div>
+    )
 
-    let authButton = <Button
-      className={(this.state.auth !== null && this.state.auth === false)
-        ? 'btn-danger' : ''}
-      onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldAuthLabel}/></Button>
+    let authButton = (
+      <Button
+        className={
+          this.state.auth !== null && this.state.auth === false
+            ? 'btn-danger'
+            : ''
+        }
+        onClick={this._handleAuth}
+      >
+        <FormattedMessage {...messages.feedFieldAuthLabel} />
+      </Button>
+    )
     if (this.state.auth !== null && this.state.auth) {
-      authButton = <Button onClick={this._handleAuth}><FormattedMessage {...messages.feedFieldReAuthLabel}/></Button>
+      authButton = (
+        <Button onClick={this._handleAuth}>
+          <FormattedMessage {...messages.feedFieldReAuthLabel} />
+        </Button>
+      )
     }
-    if (!this.state.edit || !['twitter_user', 'twitter_hashtag', 'facebook_user', 'facebook_page'].includes(this.state.type)) {
+    if (
+      !this.state.edit ||
+      ![
+        'twitter_user',
+        'twitter_hashtag',
+        'facebook_user',
+        'facebook_page'
+      ].includes(this.state.type)
+    ) {
       authButton = null
     }
 
-    let fieldEnabled = <FormGroup controlId="enabled" className="col-xs-12">
-      <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.feedFieldEnabledLabel}/></ControlLabel>
-      <Checkbox onChange={this._handleEnabledChange} checked={this.state.enabled} inputRef={(ref) => {
-        this.enabled = ref
-      }}></Checkbox>
-    </FormGroup>
+    let fieldEnabled = (
+      <FormGroup controlId="enabled" className="col-xs-12">
+        <ControlLabel className="col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.feedFieldEnabledLabel} />
+        </ControlLabel>
+        <Checkbox
+          onChange={this._handleEnabledChange}
+          checked={this.state.enabled}
+          inputRef={ref => {
+            this.enabled = ref
+          }}
+        />
+      </FormGroup>
+    )
 
-    let fieldDisplay = <FormGroup controlId="enabled" className="col-xs-12">
-      <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.feedFieldDisplayLabel}/></ControlLabel>
-      <Checkbox onChange={this._handleDisplayChange} checked={this.state.display} inputRef={(ref) => {
-        this.display = ref
-      }}></Checkbox>
-    </FormGroup>
+    let fieldDisplay = (
+      <FormGroup controlId="enabled" className="col-xs-12">
+        <ControlLabel className="col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.feedFieldDisplayLabel} />
+        </ControlLabel>
+        <Checkbox
+          onChange={this._handleDisplayChange}
+          checked={this.state.display}
+          inputRef={ref => {
+            this.display = ref
+          }}
+        />
+      </FormGroup>
+    )
 
     let create = null
     let update = null
@@ -731,10 +925,10 @@ class FeedCreate extends Component {
     if (this.state.edit) {
       update = this._update
       remove = this._remove
-      title = <FormattedMessage {...messages.feedEditTitle}/>
+      title = <FormattedMessage {...messages.feedEditTitle} />
     } else {
       create = this._save
-      title = <FormattedMessage {...messages.feedTitle}/>
+      title = <FormattedMessage {...messages.feedTitle} />
     }
 
     if (this.state.view) {
@@ -745,9 +939,7 @@ class FeedCreate extends Component {
 
     return (
       <Row>
-        <PageHeader>
-          {title}
-        </PageHeader>
+        <PageHeader>{title}</PageHeader>
         <Col xs={12}>
           {errorMessage}
           <form className="form-horizontal">
@@ -761,11 +953,17 @@ class FeedCreate extends Component {
             {fieldDisplay}
             {authButton}
           </form>
-          <EditToolbar create={create} update={update} remove={remove}/>
+          <EditToolbar create={create} update={update} remove={remove} />
         </Col>
       </Row>
     )
   }
+}
+
+FeedCreate.propTypes = {
+  match: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 }
 
 FeedCreate.contextTypes = {

@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
   attributes: {
     name: {
       type: 'string',
@@ -27,7 +26,7 @@ module.exports = {
     },
     groups: {
       collection: 'Group',
-      via: 'streams',
+      via: 'streams'
     },
     feeds: {
       collection: 'Feed',
@@ -43,9 +42,7 @@ module.exports = {
      */
     state: {
       type: 'string',
-      isIn: [
-        'active', 'sleep', 'inactive'
-      ],
+      isIn: ['active', 'sleep', 'inactive'],
       defaultsTo: 'inactive'
     },
 
@@ -54,9 +51,7 @@ module.exports = {
      */
     refresh: {
       type: 'number',
-      isIn: [
-        60, 300, 900, 1800
-      ],
+      isIn: [60, 300, 900, 1800],
       defaultsTo: 300
     },
 
@@ -97,25 +92,29 @@ module.exports = {
     }
   },
 
-  beforeCreate: function (values, next) {
+  beforeCreate: function(values, next) {
     delete values._csrf
     if (!values.groups || values.groups.length == 0) {
-      User.find(values.owner).then((user) => {
-        values.groups = user.groups
-        next()
-      }).catch(next)
+      User.find(values.owner)
+        .then(user => {
+          values.groups = user.groups
+          next()
+        })
+        .catch(next)
     } else {
       next()
     }
   },
 
-  beforeUpdate: function (values, next) {
+  beforeUpdate: function(values, next) {
     delete values._csrf
     if (!values.groups || values.groups.length == 0) {
-      User.find(values.owner).then((user) => {
-        values.groups = user.groups
-        next()
-      }).catch(next)
+      User.find(values.owner)
+        .then(user => {
+          values.groups = user.groups
+          next()
+        })
+        .catch(next)
     } else {
       next()
     }

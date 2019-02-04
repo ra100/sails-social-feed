@@ -28,7 +28,6 @@
 
 module.exports.security = {
   cors: {
-
     /***************************************************************************
      *                                                                          *
      * Allow CORS on all routes by default? If not, you must enable CORS on a   *
@@ -74,7 +73,7 @@ module.exports.security = {
      *                                                                          *
      ***************************************************************************/
 
-    allowHeaders: ['content-type', 'X-CSRF-Token', 'X-Requested-With'],
+    allowHeaders: ['content-type', 'X-CSRF-Token', 'X-Requested-With']
 
     // securityLevel: 1
 
@@ -93,7 +92,6 @@ module.exports.security = {
     //     methods: 'POST'
     //   }
     // },
-
   },
   csrf: true
 }

@@ -5,24 +5,27 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 const actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil')
-const {validatePassword} = require('../models/Passport')
+const { validatePassword } = require('../models/Passport')
 
 module.exports = {
-  cancreate: function (req, res) {
-    res.ok({status: 'ok'})
+  cancreate: function(req, res) {
+    res.ok({ status: 'ok' })
   },
-  canmodify: function (req, res) {
-    res.ok({status: 'ok'})
+  canmodify: function(req, res) {
+    res.ok({ status: 'ok' })
   },
-  candestroy: function (req, res) {
-    res.ok({status: 'ok'})
+  candestroy: function(req, res) {
+    res.ok({ status: 'ok' })
   },
 
   /**
    * @override
    */
-  create: function (req, res, next) {
-    sails.services.passport.protocols.local.register(req, res, function (err, user) {
+  create: function(req, res, next) {
+    sails.services.passport.protocols.local.register(req, res, function(
+      err,
+      user
+    ) {
       if (err) {
         return res.serverError(err)
       }
@@ -34,7 +37,7 @@ module.exports = {
   /**
    * @override
    */
-  update: function (req, res, next) {
+  update: function(req, res, next) {
     var uid = req.param('id'),
       username = req.param('username'),
       displayname = req.param('displayname'),
@@ -68,22 +71,28 @@ module.exports = {
       updated.blocked = blocked
     }
 
-    socialFeed.isAdmin(req.user.id, req, function (err, u) {
+    socialFeed.isAdmin(req.user.id, req, function(err, u) {
       if (err && updated.roles) {
         return res.forbidden(err)
       }
 
-      User.update({
-        id: uid
-      }, updated).exec(function (err, user) {
+      User.update(
+        {
+          id: uid
+        },
+        updated
+      ).exec(function(err, user) {
         if (err) {
           return res.negotiate(err)
         }
         if (password != undefined && password.length > 6) {
-          Passport.update({
-            user: uid,
-            protocol: 'local'
-          }, {password: password}).exec(function (err, passport) {
+          Passport.update(
+            {
+              user: uid,
+              protocol: 'local'
+            },
+            { password: password }
+          ).exec(function(err, passport) {
             if (err) {
               return res.serverError(err)
             }
@@ -99,12 +108,12 @@ module.exports = {
   /**
    * @override
    */
-  destroy: function (req, res, next) {
+  destroy: function(req, res, next) {
     var uid = req.params.id
     if (uid == 1) {
       return res.forbidden()
     } else {
-      User.destroy({id: uid}).exec(function (err) {
+      User.destroy({ id: uid }).exec(function(err) {
         if (err) {
           return res.negotiate(err)
         }
@@ -113,23 +122,28 @@ module.exports = {
     }
   },
 
-  me: function (req, res) {
+  me: function(req, res) {
     var user = req.user
     if (user == undefined) {
       return res.json()
     }
-    User.findOne({id: user.id}).populate('roles').populate('groups').populate('passports').exec(function (e, r) {
-      user = r
-      return res.json({
-        username: user.username,
-        roles: user.roles,
-        id: user.id,
-        displayname: user.displayname,
-        picture: user.picture,
-        meta: user.meta,
-        protocol: user.passports[0].protocol,
-        email: user.email})
-    })
+    User.findOne({ id: user.id })
+      .populate('roles')
+      .populate('groups')
+      .populate('passports')
+      .exec(function(e, r) {
+        user = r
+        return res.json({
+          username: user.username,
+          roles: user.roles,
+          id: user.id,
+          displayname: user.displayname,
+          picture: user.picture,
+          meta: user.meta,
+          protocol: user.passports[0].protocol,
+          email: user.email
+        })
+      })
   },
 
   updateme: (req, res) => {
@@ -151,13 +165,20 @@ module.exports = {
       updated.email = email
     }
 
-    sails.log.verbose({...updated, image: undefined, imageLog: updated.image ? 'image present' : null})
+    sails.log.verbose({
+      ...updated,
+      image: undefined,
+      imageLog: updated.image ? 'image present' : null
+    })
 
     return Promise.all([
       new Promise((resolve, reject) => {
-        User.update({
-          id: uid
-        }, updated).exec((err, user) => {
+        User.update(
+          {
+            id: uid
+          },
+          updated
+        ).exec((err, user) => {
           if (err) {
             return reject(err)
           }
@@ -173,37 +194,45 @@ module.exports = {
           }).then(passport => {
             sails.log.verbose('Passport found', passport)
             return new Promise((resolve1, reject1) => {
-              validatePassword(oldPassword, passport.password, (err, result) => {
-                if (err) {
-                  sails.log.error('Password validation error', err)
-                  return reject1(err)
-                }
-                if (!result) {
-                  sails.log.verbose('Passport check', result)
-                  return reject1(req.__('Error.Passport.Password.Wrong'))
-                }
-                sails.log.verbose('Passport check passed')
-                Passport.update({
-                  user: uid,
-                  protocol: 'local'
-                }, {password: password}).exec((err, result) => {
+              validatePassword(
+                oldPassword,
+                passport.password,
+                (err, result) => {
                   if (err) {
+                    sails.log.error('Password validation error', err)
                     return reject1(err)
                   }
-                  return resolve1()
-                })
-              })
+                  if (!result) {
+                    sails.log.verbose('Passport check', result)
+                    return reject1(req.__('Error.Passport.Password.Wrong'))
+                  }
+                  sails.log.verbose('Passport check passed')
+                  Passport.update(
+                    {
+                      user: uid,
+                      protocol: 'local'
+                    },
+                    { password: password }
+                  ).exec((err, result) => {
+                    if (err) {
+                      return reject1(err)
+                    }
+                    return resolve1()
+                  })
+                }
+              )
             }).catch(reject)
           })
         }
         return resolve()
       })
-    ]
-    ).then(results => {
-      return res.ok()
-    }).catch(err => {
-      return res.negotiate(err)
-    })
+    ])
+      .then(results => {
+        return res.ok()
+      })
+      .catch(err => {
+        return res.negotiate(err)
+      })
   },
 
   /**
@@ -239,25 +268,29 @@ module.exports = {
       criteria = {
         or: [
           {
-            'username': {
-              'contains': fulltext
+            username: {
+              contains: fulltext
             }
           },
           {
-            'email': {
-              'contains': fulltext
+            email: {
+              contains: fulltext
             }
           },
           {
-            'displayname': {
-              'contains': fulltext
+            displayname: {
+              contains: fulltext
             }
           }
         ]
       }
     }
     // Lookup for records that match the specified criteria
-    let query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req))
+    let query = Model.find()
+      .where(criteria)
+      .limit(actionUtil.parseLimit(req))
+      .skip(actionUtil.parseSkip(req))
+      .sort(actionUtil.parseSort(req))
     query = actionUtil.populateRequest(query, req)
     query.exec(function found(err, matchingRecords) {
       if (err) {
@@ -267,9 +300,11 @@ module.exports = {
       // `autoWatch` is enabled.
       permissions.setPermissions(matchingRecords, 'user', req.user)
 
-      res.ok(matchingRecords.filter((value) => {
-        return value.permissions.r
-      }))
+      res.ok(
+        matchingRecords.filter(value => {
+          return value.permissions.r
+        })
+      )
     })
   },
 
@@ -278,7 +313,6 @@ module.exports = {
    * Add permissions info.
    */
   findOne(req, res) {
-
     var Model = actionUtil.parseModel(req)
     var pk = actionUtil.requirePk(req)
 
@@ -301,10 +335,12 @@ module.exports = {
    * Return total count of users
    */
   count(req, res) {
-    User.count().then((count) => {
-      return res.json({count: count})
-    }).catch((err) => {
-      res.negotiate(err)
-    })
+    User.count()
+      .then(count => {
+        return res.json({ count: count })
+      })
+      .catch(err => {
+        res.negotiate(err)
+      })
   }
 }

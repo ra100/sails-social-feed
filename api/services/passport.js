@@ -2,14 +2,11 @@ var path = require('path'),
   url = require('url'),
   passport = require('passport'),
   FB = require('fb')
-var {
-    Facebook,
-    FacebookApiException
-  } = require('fb'),
+var { Facebook, FacebookApiException } = require('fb'),
   fb = new Facebook({
     version: sails.config.auth.facebook_api_version,
     appId: sails.config.auth.facebook_app_id,
-    appSecret: sails.config.auth.facebook_app_secret,
+    appSecret: sails.config.auth.facebook_app_secret
   })
 
 /**
@@ -72,7 +69,7 @@ passport.protocols = require('./protocols')
  * @param {Object}   profile
  * @param {Function} next
  */
-passport.connect = function (req, query, profile, next) {
+passport.connect = function(req, query, profile, next) {
   var user = {},
     provider
 
@@ -159,110 +156,123 @@ passport.connect = function (req, query, profile, next) {
       fb = FB.withAccessToken(query.tokens.accessToken)
       fb.api(
         '/me',
-        'GET', {
-          'fields': 'picture{url}'
+        'GET',
+        {
+          fields: 'picture{url}'
         },
-        (res) => {
+        res => {
           if (res.picture) {
             user.picture = res.picture.data.url
           }
           return resolve(user)
-        })
+        }
+      )
     } else {
       return resolve(user)
     }
-  }).then((user) => {
+  }).then(user => {
+    Passport.findOne(
+      {
+        provider: provider,
+        identifier: query.identifier.toString()
+      },
+      function(err, passport) {
+        if (err) {
+          return next(err)
+        }
 
-    Passport.findOne({
-      provider: provider,
-      identifier: query.identifier.toString()
-    }, function (err, passport) {
-      if (err) {
-        return next(err)
-      }
-
-      if (!req.user) {
-        // Scenario: A new user is attempting to sign up using a third-party
-        //           authentication provider.
-        // Action:   Create a new user and assign them a passport.
-        if (!passport) {
-          User.create(user, function (err, user) {
-            if (err) {
-              if (err.code === 'E_VALIDATION') {
-                if (err.invalidAttributes.email) {
-                  req.flash('error', 'Error.Passport.Email.Exists')
-                } else {
-                  req.flash('error', 'Error.Passport.User.Exists')
+        if (!req.user) {
+          // Scenario: A new user is attempting to sign up using a third-party
+          //           authentication provider.
+          // Action:   Create a new user and assign them a passport.
+          if (!passport) {
+            User.create(user, function(err, user) {
+              if (err) {
+                if (err.code === 'E_VALIDATION') {
+                  if (err.invalidAttributes.email) {
+                    req.flash('error', 'Error.Passport.Email.Exists')
+                  } else {
+                    req.flash('error', 'Error.Passport.User.Exists')
+                  }
                 }
+
+                return next(err)
               }
 
-              return next(err)
+              query.user = user.id
+
+              Passport.create(query, function(err, passport) {
+                // If a passport wasn't created, bail out
+                if (err) {
+                  return next(err)
+                }
+
+                next(err, user)
+              })
+            })
+            // Scenario: An existing user is trying to log in using an already
+            //           connected passport.
+            // Action:   Get the user associated with the passport.
+          } else {
+            // If the tokens have changed since the last session, update them
+            if (
+              query.hasOwnProperty('tokens') &&
+              query.tokens !== passport.tokens
+            ) {
+              passport.tokens = query.tokens
             }
+            // Save any updates to the Passport before moving on
+            passport.update(function(err) {
+              if (err) {
+                return next(err)
+              }
 
-            query.user = user.id
+              // Fetch the user associated with the Passport
+              User.update(
+                {
+                  where: {
+                    id: passport.user
+                  }
+                },
+                user
+              )
+                .then(u => {
+                  return User.findOne({
+                    where: {
+                      id: passport.user
+                    },
+                    populate: ['groups', 'roles']
+                  })
+                })
+                .then(u => {
+                  sails.log.debug(u)
+                  next(null, u)
+                })
+                .catch(next)
+            })
+          }
+        } else {
+          // Scenario: A user is currently logged in and trying to connect a new
+          //           passport.
+          // Action:   Create and assign a new passport to the user.
+          if (!passport) {
+            query.user = req.user.id
 
-            Passport.create(query, function (err, passport) {
+            Passport.create(query, function(err, passport) {
               // If a passport wasn't created, bail out
               if (err) {
                 return next(err)
               }
 
-              next(err, user)
-            })
-          })
-          // Scenario: An existing user is trying to log in using an already
-          //           connected passport.
-          // Action:   Get the user associated with the passport.
-        } else {
-          // If the tokens have changed since the last session, update them
-          if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
-            passport.tokens = query.tokens
+              next(err, req.user)
+            }) // Scenario: The user is a nutjob or spammed the back-button.
+            // Action:   Simply pass along the already established session.;
+          } else {
+            next(null, req.user)
           }
-          // Save any updates to the Passport before moving on
-          passport.update(function (err) {
-            if (err) {
-              return next(err)
-            }
-
-            // Fetch the user associated with the Passport
-            User.update({
-              where: {
-                id: passport.user
-              }
-            }, user).then((u) => {
-              return User.findOne({
-                where: {
-                  id: passport.user
-                },
-                populate: ['groups', 'roles']
-              })
-            }).then((u) => {
-              sails.log.debug(u)
-              next(null, u)
-            }).catch(next)
-          })
-        }
-      } else {
-        // Scenario: A user is currently logged in and trying to connect a new
-        //           passport.
-        // Action:   Create and assign a new passport to the user.
-        if (!passport) {
-          query.user = req.user.id
-
-          Passport.create(query, function (err, passport) {
-            // If a passport wasn't created, bail out
-            if (err) {
-              return next(err)
-            }
-
-            next(err, req.user)
-          }) // Scenario: The user is a nutjob or spammed the back-button.
-          // Action:   Simply pass along the already established session.;
-        } else {
-          next(null, req.user)
         }
       }
-    })
+    )
   })
 }
 
@@ -275,7 +285,7 @@ passport.connect = function (req, query, profile, next) {
  * @param  {Object} req
  * @param  {Object} res
  */
-passport.endpoint = function (req, res) {
+passport.endpoint = function(req, res) {
   var strategies = sails.config.passport,
     provider = req.param('provider'),
     options = {}
@@ -307,7 +317,7 @@ passport.endpoint = function (req, res) {
  * @param {Object}   res
  * @param {Function} next
  */
-passport.callback = function (req, res, next) {
+passport.callback = function(req, res, next) {
   var provider = req.param('provider', 'local'),
     action = req.param('action')
 
@@ -358,11 +368,11 @@ passport.callback = function (req, res, next) {
  * http://passportjs.org/guide/providers/
  *
  */
-passport.loadStrategies = function () {
+passport.loadStrategies = function() {
   var self = this,
     strategies = sails.config.passport
 
-  Object.keys(strategies).forEach(function (key) {
+  Object.keys(strategies).forEach(function(key) {
     var options = {
         passReqToCallback: true
       },
@@ -385,12 +395,10 @@ passport.loadStrategies = function () {
         self.use(new Strategy(options, self.protocols.local.login))
       }
     } else if (key === 'bearer') {
-
       if (strategies.bearer) {
         Strategy = strategies[key].strategy
         self.use(new Strategy(self.protocols.bearer.authorize))
       }
-
     } else {
       var protocol = strategies[key].protocol,
         callback = strategies[key].callback
@@ -432,7 +440,7 @@ passport.loadStrategies = function () {
  * @param  {Object} req
  * @param  {Object} res
  */
-passport.disconnect = function (req, res, next) {
+passport.disconnect = function(req, res, next) {
   var user = req.user,
     provider = req.param('provider', 'local'),
     query = {}
@@ -440,12 +448,12 @@ passport.disconnect = function (req, res, next) {
   query.user = user.id
   query[provider === 'local' ? 'protocol' : 'provider'] = provider
 
-  Passport.findOne(query, function (err, passport) {
+  Passport.findOne(query, function(err, passport) {
     if (err) {
       return next(err)
     }
 
-    Passport.destroy(passport.id, function (error) {
+    Passport.destroy(passport.id, function(error) {
       if (err) {
         return next(err)
       }
@@ -455,14 +463,16 @@ passport.disconnect = function (req, res, next) {
   })
 }
 
-passport.serializeUser(function (user, next) {
+passport.serializeUser(function(user, next) {
   next(null, user.id)
 })
 
-passport.deserializeUser(function (id, next) {
-  User.findOne(id).populate(['groups', 'roles']).exec(function (err, data) {
-    next(err, data)
-  })
+passport.deserializeUser(function(id, next) {
+  User.findOne(id)
+    .populate(['groups', 'roles'])
+    .exec(function(err, data) {
+      next(err, data)
+    })
 })
 
 module.exports = passport

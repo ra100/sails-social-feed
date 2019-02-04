@@ -30,12 +30,12 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  login: function (req, res) {
+  login: function(req, res) {
     var strategies = sails.config.passport,
       providers = {}
 
     // Get a list of available providers for use in your templates.
-    Object.keys(strategies).forEach(function (key) {
+    Object.keys(strategies).forEach(function(key) {
       if (key === 'local') {
         return
       }
@@ -79,7 +79,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  logout: function (req, res) {
+  logout: function(req, res) {
     if (req.logout) {
       req.logout()
     }
@@ -112,7 +112,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  register: function (req, res) {
+  register: function(req, res) {
     res.view({
       errors: req.flash('error')
     })
@@ -124,7 +124,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  provider: function (req, res) {
+  provider: function(req, res) {
     passport.endpoint(req, res)
   },
 
@@ -144,7 +144,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  callback: function (req, res) {
+  callback: function(req, res) {
     if (req.user && req.user.blocked) {
       req.session.authenticated = false
       return res.forbidden({ error: req.__('Error.User.Blocked') })
@@ -159,7 +159,6 @@ var AuthController = {
     }
 
     function tryAgain(err) {
-
       // Only certain error messages are returned via req.flash('error', someError)
       // because we shouldn't expose internal authorization errors to the user.
       // We do return a generic error and the original request body.
@@ -189,12 +188,12 @@ var AuthController = {
       }
     }
 
-    passport.callback(req, res, function (err, user, challenges, statuses) {
+    passport.callback(req, res, function(err, user, challenges, statuses) {
       if (err || !user) {
         return tryAgain(challenges)
       }
 
-      req.login(user, function (err) {
+      req.login(user, function(err) {
         if (err) {
           return tryAgain(err)
         }
@@ -230,9 +229,8 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  ajaxCallback: function (req, res) {
+  ajaxCallback: function(req, res) {
     function returnError(err) {
-
       // Only certain error messages are returned via req.flash('error', someError)
       // because we shouldn't expose internal authorization errors to the user.
       // We do return a generic error and the original request body.
@@ -240,34 +238,34 @@ var AuthController = {
 
       if (err && !flashError) {
         res.json({
-          'status': 'error',
-          'message': req.__('Error.Passport.Generic'),
+          status: 'error',
+          message: req.__('Error.Passport.Generic'),
           error: 'Error.Passport.Generic'
         })
       } else if (flashError) {
         res.json({
-          'status': 'error',
-          'message': req.__(flashError),
-          'error': flashError
+          status: 'error',
+          message: req.__(flashError),
+          error: flashError
         })
       }
     }
 
     if (req.session && req.session.authenticated) {
       return res.json({
-        'status': 'error',
-        'message': req.__('Error.Passport.Already.Authenticated'),
+        status: 'error',
+        message: req.__('Error.Passport.Already.Authenticated'),
         error: 'Error.Passport.Already.Authenticated'
       })
     }
 
-    passport.callback(req, res, function (err, user, challenges, statuses) {
+    passport.callback(req, res, function(err, user, challenges, statuses) {
       sails.log.silly(err, user, challenges, statuses)
       if (err || !user) {
         return returnError(challenges)
       }
 
-      req.login(user, function (err) {
+      req.login(user, function(err) {
         if (err) {
           return returnError(err)
         }
@@ -283,8 +281,8 @@ var AuthController = {
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
         res.json({
-          'status': 'ok',
-          'message': req.__('Status.Passport.Logged')
+          status: 'ok',
+          message: req.__('Status.Passport.Logged')
         })
       })
     })
@@ -296,7 +294,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  disconnect: function (req, res) {
+  disconnect: function(req, res) {
     passport.disconnect(req, res)
   },
 
@@ -316,9 +314,9 @@ var AuthController = {
     req.body.email = email
     req.body.displayname = user.name
     // TODO FIX THIS
-    passport.callback(req, res, function (err, user, challenges, statuses) {
+    passport.callback(req, res, function(err, user, challenges, statuses) {
       if (user !== false) {
-        req.login(user, function (err) {
+        req.login(user, function(err) {
           if (err) {
             return res.negotiate(err)
           }
@@ -326,18 +324,22 @@ var AuthController = {
           return res.json(user)
         })
       } else {
-        sails.services.passport.protocols.local.register(req, res, (err, user) => {
-          if (err) {
-            return res.negotiate(err)
-          }
-          req.login(user, function (err) {
+        sails.services.passport.protocols.local.register(
+          req,
+          res,
+          (err, user) => {
             if (err) {
               return res.negotiate(err)
             }
-            req.session.authenticated = true
-            return res.json(user)
-          })
-        })
+            req.login(user, function(err) {
+              if (err) {
+                return res.negotiate(err)
+              }
+              req.session.authenticated = true
+              return res.json(user)
+            })
+          }
+        )
       }
     })
   }

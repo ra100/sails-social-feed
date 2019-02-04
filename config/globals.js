@@ -4,7 +4,6 @@
  */
 
 module.exports.globals = {
-
   _: require('lodash'),
 
   async: require('async'),
@@ -12,5 +11,4 @@ module.exports.globals = {
   models: true,
 
   sails: true
-
 }

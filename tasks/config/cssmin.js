@@ -8,8 +8,7 @@
  * For usage docs see:
  * 		https://github.com/gruntjs/grunt-contrib-cssmin
  */
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   var version = grunt.file.readJSON('package.json').version
 
   grunt.config.set('cssmin', {

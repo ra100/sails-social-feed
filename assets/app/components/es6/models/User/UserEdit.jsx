@@ -1,25 +1,20 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   Col,
   Row,
-  Grid,
-  Button,
   FormGroup,
   ControlLabel,
-  HelpBlock,
   FormControl,
   Checkbox,
   PageHeader,
-  ButtonToolbar,
   Alert
 } from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
 import Forbidden from './../../Forbidden'
 import EditToolbar from './../../EditToolbar'
-import {notify} from 'react-notify-toast'
+import { notify } from 'react-notify-toast'
 import Multiselect from 'react-bootstrap-multiselect'
-import _ from 'lodash/core'
 
 const messages = defineMessages({
   userTitle: {
@@ -104,7 +99,7 @@ const messages = defineMessages({
   }
 })
 
-const getSelected = function (data) {
+const getSelected = function(data) {
   let i
   let selected = []
   for (i in data) {
@@ -116,9 +111,8 @@ const getSelected = function (data) {
 }
 
 class UserEdit extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -145,7 +139,30 @@ class UserEdit extends Component {
       error: null,
       allow: true
     }
-    this._bind('_save', '_update', '_remove', '_handleNameChange', '_handleDisplaynameChange', '_handleEmailChange', '_handlePasswordChange', '_validateAll', '_handleRolesChange', '_handleGroupsChange', 'handleSaveResponse', 'handleCanCreate', 'handleCanModify', 'handleLoad', 'handleRoles', 'handleGroups', 'handleDestroyResponse', '_handleUploadChange', '_handleBlockedChange')
+    this.roles = React.createRef()
+    this.groups = React.createRef()
+    this.blocked = React.createRef()
+    this._bind(
+      '_save',
+      '_update',
+      '_remove',
+      '_handleNameChange',
+      '_handleDisplaynameChange',
+      '_handleEmailChange',
+      '_handlePasswordChange',
+      '_validateAll',
+      '_handleRolesChange',
+      '_handleGroupsChange',
+      'handleSaveResponse',
+      'handleCanCreate',
+      'handleCanModify',
+      'handleLoad',
+      'handleRoles',
+      'handleGroups',
+      'handleDestroyResponse',
+      '_handleUploadChange',
+      '_handleBlockedChange'
+    )
   }
 
   componentDidMount() {
@@ -160,9 +177,9 @@ class UserEdit extends Component {
     this.context.socket.get('/roles/unsubscribe')
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.userId !== this.props.match.params.userId) {
-      this.setState({user: null, status: 0, error: null})
+      this.setState({ user: null, status: 0, error: null })
       this.load(nextProps)
     }
   }
@@ -172,9 +189,9 @@ class UserEdit extends Component {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true})
+      this.setState({ allow: true })
     } else {
-      this.setState({allow: false})
+      this.setState({ allow: false })
     }
   }
 
@@ -183,27 +200,35 @@ class UserEdit extends Component {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({allow: true, edit: true})
-      let {socket} = this.context
+      this.setState({ allow: true, edit: true })
+      let { socket } = this.context
       socket.get('/users/' + this.props.match.params.userId, this.handleLoad)
     } else {
-      this.setState({allow: false})
+      this.setState({ allow: false })
     }
   }
 
   load(nextProps) {
-    let {socket} = this.context
+    let { socket } = this.context
     let userId = this.props.match.params.userId
     if (nextProps) {
       userId = nextProps.match.params.userId
     }
-    socket.get('/roles', {
-      populate: 'none'
-    }, this.handleRoles)
-    socket.get('/groups', {
-      populate: 'none',
-      sort: 'name'
-    }, this.handleGroups)
+    socket.get(
+      '/roles',
+      {
+        populate: 'none'
+      },
+      this.handleRoles
+    )
+    socket.get(
+      '/groups',
+      {
+        populate: 'none',
+        sort: 'name'
+      },
+      this.handleGroups
+    )
     if (typeof userId !== 'undefined') {
       socket.get('/users/canmodify/' + userId, this.handleCanModify)
     } else {
@@ -221,7 +246,11 @@ class UserEdit extends Component {
       let groups = []
       if (this.state.roles == null) {
         for (i in data.roles) {
-          roles.push({value: data.roles[i].id, label: data.roles[i].name, selected: true})
+          roles.push({
+            value: data.roles[i].id,
+            label: data.roles[i].name,
+            selected: true
+          })
         }
       } else {
         roles = this.state.roles
@@ -230,13 +259,17 @@ class UserEdit extends Component {
           for (j in roles) {
             if (roles[j].value == data.roles[i].id) {
               roles[j].selected = true
-            };
+            }
           }
         }
       }
       if (this.state.groups == null) {
         for (i in data.groups) {
-          groups.push({value: data.groups[i].id, label: data.groups[i].name, selected: true})
+          groups.push({
+            value: data.groups[i].id,
+            label: data.groups[i].name,
+            selected: true
+          })
         }
       } else {
         groups = this.state.groups
@@ -245,7 +278,7 @@ class UserEdit extends Component {
           for (j in groups) {
             if (groups[j].value == data.groups[i].id) {
               groups[j].selected = true
-            };
+            }
           }
         }
       }
@@ -261,10 +294,10 @@ class UserEdit extends Component {
         error: null,
         edit: true
       })
-      this.refs.roles.syncData()
-      this.refs.groups.syncData()
+      this.roles.syncData()
+      this.groups.syncData()
     } else {
-      this.setState({status: res.statusCode, error: res.body, user: null})
+      this.setState({ status: res.statusCode, error: res.body, user: null })
     }
   }
 
@@ -278,8 +311,8 @@ class UserEdit extends Component {
       label: role.name,
       selected: selected.includes(role.id)
     }))
-    this.setState({roles})
-    this.refs.roles.syncData()
+    this.setState({ roles })
+    this.roles.syncData()
   }
 
   handleGroups(data, res) {
@@ -294,11 +327,11 @@ class UserEdit extends Component {
       groups.push({
         value: group.id,
         label: group.name,
-        selected: (_.indexOf(selected, group.id) > -1)
+        selected: selected.indexOf(group.id) > -1
       })
     }
-    this.setState({groups: groups})
-    this.refs.groups.syncData()
+    this.setState({ groups: groups })
+    this.groups.syncData()
   }
 
   _handleUploadChange(event) {
@@ -317,7 +350,7 @@ class UserEdit extends Component {
   }
 
   _save() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (this._validateAll()) {
       let payload = {
         username: this.state.username,
@@ -327,7 +360,7 @@ class UserEdit extends Component {
         blocked: this.state.blocked || false,
         roles: getSelected(this.state.roles),
         groups: getSelected(this.state.groups),
-        _csrf: _csrf
+        _csrf: window._csrf
       }
       if (this.state.upload !== null) {
         payload.image = this.state.upload
@@ -337,7 +370,7 @@ class UserEdit extends Component {
   }
 
   _update() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (this._validateAll()) {
       let payload = {
         username: this.state.username,
@@ -345,7 +378,7 @@ class UserEdit extends Component {
         password: this.state.password,
         email: this.state.email,
         blocked: this.state.blocked || false,
-        _csrf: _csrf
+        _csrf: window._csrf
       }
       if (this.context.user.permissions.user.all.u) {
         payload.roles = getSelected(this.state.roles)
@@ -356,26 +389,34 @@ class UserEdit extends Component {
       if (this.state.upload !== null) {
         payload.image = this.state.upload
       }
-      socket.post('/users/update/' + this.props.match.params.userId, payload, this.handleSaveResponse)
+      socket.post(
+        '/users/update/' + this.props.match.params.userId,
+        payload,
+        this.handleSaveResponse
+      )
     }
   }
 
   _remove() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (!this.state.deleted) {
-      socket.post('/users/destroy/' + this.props.match.params.userId, {
-        _csrf: _csrf
-      }, this.handleDestroyResponse)
+      socket.post(
+        '/users/destroy/' + this.props.match.params.userId,
+        {
+          _csrf: window._csrf
+        },
+        this.handleDestroyResponse
+      )
     }
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (!this._isMounted) {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true})
+      this.setState({ deleted: true })
       notify.show(formatMessage(messages.deletedSuccess), 'success')
       this.context.history.goBack()
     } else {
@@ -384,7 +425,7 @@ class UserEdit extends Component {
   }
 
   handleSaveResponse(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (res.statusCode == 500) {
       notify.show('Error 500', 'error')
       return
@@ -395,10 +436,10 @@ class UserEdit extends Component {
     }
 
     if (data.code == 'E_VALIDATION') {
-      this.setState({error: data.details})
+      this.setState({ error: data.details })
     } else if (data.id != undefined) {
       notify.show(formatMessage(messages.saved), 'success')
-      this.setState({error: null})
+      this.setState({ error: null })
       let id = data.id
       this.context.history.push('/user/' + id)
     }
@@ -406,61 +447,67 @@ class UserEdit extends Component {
 
   _validateAll() {
     let passed = true
-    const social = ['_facebook', '_twitter', '_instagram', '_soundcloud']
-      .filter(soc => this.state.username.indexOf(soc) > -1).length > 0
+    const social =
+      ['_facebook', '_twitter', '_instagram', '_soundcloud'].filter(
+        soc => this.state.username.indexOf(soc) > -1
+      ).length > 0
     if (this.state.username.length == 0) {
-      this.setState({bsStyle_username: 'error'})
+      this.setState({ bsStyle_username: 'error' })
       passed = false
     } else {
-      this.setState({bsStyle_username: 'success'})
+      this.setState({ bsStyle_username: 'success' })
     }
     if (this.state.displayname.length == 0) {
-      this.setState({bsStyle_displayname: 'error'})
+      this.setState({ bsStyle_displayname: 'error' })
       passed = false
     } else {
-      this.setState({bsStyle_displayname: 'success'})
+      this.setState({ bsStyle_displayname: 'success' })
     }
-    if (!social && ((!this.state.edit && this.state.password == '') || (this.state.password != '' && this.state.password.length < 6))) {
-      this.setState({bsStyle_password: 'error'})
+    if (
+      !social &&
+      ((!this.state.edit && this.state.password == '') ||
+        (this.state.password != '' && this.state.password.length < 6))
+    ) {
+      this.setState({ bsStyle_password: 'error' })
       passed = false
     } else {
-      this.setState({bsStyle_password: 'success'})
+      this.setState({ bsStyle_password: 'success' })
     }
     if (!social && (!this.state.email || this.state.email.length < 3)) {
-      this.setState({bsStyle_email: 'error'})
+      this.setState({ bsStyle_email: 'error' })
       passed = false
     } else {
-      this.setState({bsStyle_email: 'success'})
+      this.setState({ bsStyle_email: 'success' })
     }
     let s = getSelected(this.state.roles)
     if (s.length == 0) {
-      this.setState({bsStyle_roles: 'has-error'})
+      this.setState({ bsStyle_roles: 'has-error' })
       passed = false
     } else {
-      this.setState({bsStyle_roles: null})
+      this.setState({ bsStyle_roles: null })
     }
 
     return passed
   }
 
   _handleNameChange(event) {
-    this.setState({username: event.target.value})
+    this.setState({ username: event.target.value })
   }
 
   _handleDisplaynameChange(event) {
-    this.setState({displayname: event.target.value})
+    this.setState({ displayname: event.target.value })
   }
 
   _handlePasswordChange(event) {
-    this.setState({password: event.target.value})
+    this.setState({ password: event.target.value })
   }
 
   _handleEmailChange(event) {
-    this.setState({email: event.target.value})
+    this.setState({ email: event.target.value })
   }
 
-  _handleBlockedChange(event) {
-    this.setState({blocked: this.refs.blocked.checked})
+  _handleBlockedChange() {
+    this.setState({ blocked: this.blocked.checked })
   }
 
   _handleRolesChange(event) {
@@ -474,7 +521,7 @@ class UserEdit extends Component {
         roles[i].selected = sel
       }
     }
-    this.setState({roles: roles})
+    this.setState({ roles: roles })
   }
 
   _handleGroupsChange(event) {
@@ -488,92 +535,188 @@ class UserEdit extends Component {
         groups[i].selected = sel
       }
     }
-    this.setState({groups: groups})
+    this.setState({ groups: groups })
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-    const social = ['_facebook', '_twitter', '_instagram', '_soundcloud']
-      .filter(soc => this.state.username.indexOf(soc) > -1).length > 0
+    const { formatMessage } = this.props.intl
+    const social =
+      ['_facebook', '_twitter', '_instagram', '_soundcloud'].filter(
+        soc => this.state.username.indexOf(soc) > -1
+      ).length > 0
 
     if (!this.state.allow) {
-      return (<Forbidden/>)
+      return <Forbidden />
     }
 
     let errorMessage = null
     if (this.state.error != null) {
-      errorMessage = <Alert bsStyle="danger">
-        <p>{this.state.error}</p>
-      </Alert>
+      errorMessage = (
+        <Alert bsStyle="danger">
+          <p>{this.state.error}</p>
+        </Alert>
+      )
     }
 
-    const fieldName = <FormGroup controlId="name" className="col-xs-12" validationState={this.state.bsStyle_username}>
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldNameLabel)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl type="text" value={this.state.username} onChange={this._handleNameChange} ref="name" placeholder={formatMessage(messages.userFieldNamePlaceholder)} disabled={social}/>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    const fieldName = (
+      <FormGroup
+        controlId="name"
+        className="col-xs-12"
+        validationState={this.state.bsStyle_username}
+      >
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.userFieldNameLabel)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            type="text"
+            value={this.state.username}
+            onChange={this._handleNameChange}
+            placeholder={formatMessage(messages.userFieldNamePlaceholder)}
+            disabled={social}
+          />
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
-    const fieldDisplayname = <FormGroup controlId="displayname" className="col-xs-12" validationState={this.state.bsStyle_displayname}>
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldDisplaynameLabel)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl type="text" value={this.state.displayname} onChange={this._handleDisplaynameChange} ref="displayname" placeholder={formatMessage(messages.userFieldDisplaynamePlaceholder)} disabled={social}/>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    const fieldDisplayname = (
+      <FormGroup
+        controlId="displayname"
+        className="col-xs-12"
+        validationState={this.state.bsStyle_displayname}
+      >
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.userFieldDisplaynameLabel)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            type="text"
+            value={this.state.displayname}
+            onChange={this._handleDisplaynameChange}
+            placeholder={formatMessage(
+              messages.userFieldDisplaynamePlaceholder
+            )}
+            disabled={social}
+          />
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
-    const fieldPassword = <FormGroup controlId="password" className="col-xs-12" validationState={this.state.bsStyle_password}>
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldPasswordLabel)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl type="password" value={this.state.password} onChange={this._handlePasswordChange} ref="password" placeholder={formatMessage(messages.userFieldPasswordPlaceholder)} disabled={social}/>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    const fieldPassword = (
+      <FormGroup
+        controlId="password"
+        className="col-xs-12"
+        validationState={this.state.bsStyle_password}
+      >
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.userFieldPasswordLabel)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            type="password"
+            value={this.state.password}
+            onChange={this._handlePasswordChange}
+            placeholder={formatMessage(messages.userFieldPasswordPlaceholder)}
+            disabled={social}
+          />
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
-    const fieldEmail = <FormGroup controlId="email" className="col-xs-12" validationState={this.state.bsStyle_email}>
-      <ControlLabel className="col-xs-12 col-sm-2">{formatMessage(messages.userFieldEmailLabel)}</ControlLabel>
-      <Col xs={12} sm={5}>
-        <FormControl type="email" value={this.state.email} onChange={this._handleEmailChange} ref="email" placeholder={formatMessage(messages.userFieldEmailPlaceholder)} disabled={social}/>
-        <FormControl.Feedback/>
-      </Col>
-    </FormGroup>
+    const fieldEmail = (
+      <FormGroup
+        controlId="email"
+        className="col-xs-12"
+        validationState={this.state.bsStyle_email}
+      >
+        <ControlLabel className="col-xs-12 col-sm-2">
+          {formatMessage(messages.userFieldEmailLabel)}
+        </ControlLabel>
+        <Col xs={12} sm={5}>
+          <FormControl
+            type="email"
+            value={this.state.email}
+            onChange={this._handleEmailChange}
+            placeholder={formatMessage(messages.userFieldEmailPlaceholder)}
+            disabled={social}
+          />
+          <FormControl.Feedback />
+        </Col>
+      </FormGroup>
+    )
 
-    const rolesClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_roles
-    const fieldRoles = <div className={rolesClass}>
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.userFieldRolesLabel}/>
-      </label>
-      <div className="col-xs-12 col-sm-5">
-        <Multiselect onChange={this._handleRolesChange} data={this.state.roles} multiple ref="roles"/>
+    const rolesClass =
+      'col-xs-12 form-group has-feedback ' + this.state.bsStyle_roles
+    const fieldRoles = (
+      <div className={rolesClass}>
+        <label className="control-label col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.userFieldRolesLabel} />
+        </label>
+        <div className="col-xs-12 col-sm-5">
+          <Multiselect
+            onChange={this._handleRolesChange}
+            data={this.state.roles}
+            multiple
+            ref={this.roles}
+          />
+        </div>
       </div>
-    </div>
+    )
 
-    const groupsClass = 'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups
-    const fieldGroups = <div className={groupsClass}>
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.userFieldGroupsLabel}/>
-      </label>
-      <div className="col-xs-12 col-sm-5">
-        <Multiselect onChange={this._handleGroupsChange} data={this.state.groups} multiple ref="groups"/>
+    const groupsClass =
+      'col-xs-12 form-group has-feedback ' + this.state.bsStyle_groups
+    const fieldGroups = (
+      <div className={groupsClass}>
+        <label className="control-label col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.userFieldGroupsLabel} />
+        </label>
+        <div className="col-xs-12 col-sm-5">
+          <Multiselect
+            onChange={this._handleGroupsChange}
+            data={this.state.groups}
+            multiple
+            ref={this.groups}
+          />
+        </div>
       </div>
-    </div>
+    )
     let picture = null
     if (this.state.user !== null && this.state.user.picture) {
-      picture = <img src={this.state.user.picture}/>
+      picture = <img src={this.state.user.picture} />
     }
-    const fieldUpload = <div className="avatar-upload">
-      <label className="control-label col-xs-12 col-sm-2">
-        <FormattedMessage {...messages.userFieldAvatarLabel}/>
-      </label>
-      {picture}
-      <input type="file" ref="upload" name="upload" accept="image/*" className="col-xs-12 col-sm-4" disabled={social}/>
-    </div>
+    const fieldUpload = (
+      <div className="avatar-upload">
+        <label className="control-label col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.userFieldAvatarLabel} />
+        </label>
+        {picture}
+        <input
+          type="file"
+          name="upload"
+          accept="image/*"
+          className="col-xs-12 col-sm-4"
+          disabled={social}
+        />
+      </div>
+    )
 
-    const fieldBlocked = <FormGroup controlId="blocked" className="col-xs-12">
-      <ControlLabel className="col-xs-12 col-sm-2"><FormattedMessage {...messages.userFieldBlockedLabel}/></ControlLabel>
-      <Checkbox onChange={this._handleBlockedChange} checked={this.state.blocked || false} inputRef={(ref) => {this.refs.blocked = ref}}></Checkbox>
-    </FormGroup>
+    const fieldBlocked = (
+      <FormGroup controlId="blocked" className="col-xs-12">
+        <ControlLabel className="col-xs-12 col-sm-2">
+          <FormattedMessage {...messages.userFieldBlockedLabel} />
+        </ControlLabel>
+        <Checkbox
+          onChange={this._handleBlockedChange}
+          checked={this.state.blocked || false}
+          inputRef={ref => {
+            this.blocked = ref
+          }}
+        />
+      </FormGroup>
+    )
 
     let create = null
     let update = null
@@ -583,10 +726,10 @@ class UserEdit extends Component {
     if (this.state.edit) {
       update = this._update
       remove = this._remove
-      title = <FormattedMessage {...messages.userEditTitle}/>
+      title = <FormattedMessage {...messages.userEditTitle} />
     } else {
       create = this._save
-      title = <FormattedMessage {...messages.userTitle}/>
+      title = <FormattedMessage {...messages.userTitle} />
     }
 
     return (
@@ -604,7 +747,7 @@ class UserEdit extends Component {
             {fieldGroups}
             {fieldBlocked}
           </form>
-          <EditToolbar create={create} update={update} remove={remove}/>
+          <EditToolbar create={create} update={update} remove={remove} />
         </Col>
       </Row>
     )
@@ -618,6 +761,8 @@ UserEdit.contextTypes = {
 }
 
 UserEdit.propTypes = {
+  match: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
   userId: PropTypes.number
 }
 

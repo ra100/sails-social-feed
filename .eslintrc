@@ -1,7 +1,13 @@
 {
   "parser": "babel-eslint",
   "plugins": [
-    "react"
+    "react",
+    "prettier"
+  ],
+  "extends": [
+    "plugin:you-dont-need-lodash-underscore/compatible",
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
   "env": {
     "browser": true,
@@ -10,12 +16,24 @@
   },
   "globals": {
     "__DEV__": true,
-    "__SERVER__": true
+    "__SERVER__": true,
+    "sails": true,
+    "User": true,
+    "Passport": true,
+    "passport": true,
+    "Role": true,
+    "Feed": true,
+    "Stream": true,
+    "socialFeed": true,
+    "twitterStreaming": true,
+    "Message": true
   },
   "rules": {
     "strict": ["warn", "never"],
     "semi": ["warn", "never"],
-    "indent": ["error", 2, {"SwitchCase": 1}],
+    "indent": ["error", 2, {
+      "SwitchCase": 1
+    }],
     "quotes": ["error", "single"],
     "no-labels": "error"
   }

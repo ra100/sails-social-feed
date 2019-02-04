@@ -16,7 +16,6 @@
  */
 
 module.exports = function badRequest(data, options) {
-
   // Get access to `req`, `res`, & `sails`
   var req = this.req
   var res = this.res
@@ -27,9 +26,8 @@ module.exports = function badRequest(data, options) {
 
   // Log error to console
   if (data !== undefined) {
-    sails.log.verbose('Sending 400 ("Bad Request") response: \n',data)
-  }
-  else sails.log.verbose('Sending 400 ("Bad Request") response')
+    sails.log.verbose('Sending 400 ("Bad Request") response: \n', data)
+  } else sails.log.verbose('Sending 400 ("Bad Request") response')
 
   // Only include errors in response if application environment
   // is not set to 'production'.  In production, we shouldn't
@@ -45,7 +43,7 @@ module.exports = function badRequest(data, options) {
 
   // If second argument is a string, we take that to mean it refers to a view.
   // If it was omitted, use an empty object (`{}`)
-  options = (typeof options === 'string') ? { view: options } : options || {}
+  options = typeof options === 'string' ? { view: options } : options || {}
 
   // If a view was provided in options, serve it.
   // Otherwise try to guess an appropriate view, or if that doesn't
@@ -56,9 +54,8 @@ module.exports = function badRequest(data, options) {
 
   // If no second argument provided, try to serve the implied view,
   // but fall back to sending JSON(P) if no view can be inferred.
-  else return res.guessView({ data: data }, function couldNotGuessView () {
-    return res.json(data)
-  })
-
+  else
+    return res.guessView({ data: data }, function couldNotGuessView() {
+      return res.json(data)
+    })
 }
-

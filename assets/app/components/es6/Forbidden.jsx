@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Alert, PageHeader, Row} from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { Alert, PageHeader, Row } from 'react-bootstrap'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
 
 const messages = defineMessages({
   forbidden: {
@@ -22,7 +22,6 @@ const messages = defineMessages({
 })
 
 class Forbidden extends Component {
-
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -31,15 +30,21 @@ class Forbidden extends Component {
   }
 
   render() {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     return (
       <Row>
         <PageHeader>
-          {this.state.title ? this.state.title: formatMessage(messages.permissionDenied)}
+          {this.state.title
+            ? this.state.title
+            : formatMessage(messages.permissionDenied)}
         </PageHeader>
         <Alert bsStyle="danger">
-          <h4><FormattedMessage {...messages.forbiddenTitle}/></h4>
-          <p><FormattedMessage {...messages.forbidden}/></p>
+          <h4>
+            <FormattedMessage {...messages.forbiddenTitle} />
+          </h4>
+          <p>
+            <FormattedMessage {...messages.forbidden} />
+          </p>
         </Alert>
       </Row>
     )
@@ -47,6 +52,7 @@ class Forbidden extends Component {
 }
 
 Forbidden.propTypes = {
+  intl: PropTypes.object.isRequired,
   title: PropTypes.string
 }
 

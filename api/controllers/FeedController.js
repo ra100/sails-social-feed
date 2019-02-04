@@ -8,51 +8,51 @@ var actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUt
  */
 
 module.exports = {
-  definition: function (req, res) {
+  definition: function(req, res) {
     res.ok(sails.models.feed.definition)
   },
-  cancreate: function (req, res) {
-    res.ok({status: 'ok'})
+  cancreate: function(req, res) {
+    res.ok({ status: 'ok' })
   },
-  canmodify: function (req, res) {
-    res.ok({status: 'ok'})
+  canmodify: function(req, res) {
+    res.ok({ status: 'ok' })
   },
-  candestroy: function (req, res) {
-    res.ok({status: 'ok'})
+  candestroy: function(req, res) {
+    res.ok({ status: 'ok' })
   },
 
   /**
    * Unsubscribe from rooms related to this item
    */
-  unsubscribe: function (req, res, next) {
+  unsubscribe: function(req, res, next) {
     if (!req.isSocket) {
       return res.badRequest()
     }
-    var id = req.param('id')
-      ? req.param('id')
-      : ''
+    var id = req.param('id') ? req.param('id') : ''
     socialFeed.unsubscribe(req, res, 'feed', id)
   },
 
-  authorize: function (req, res, next) {
+  authorize: function(req, res, next) {
     var id = req.param('id')
     if (!id) {
       return res.badRequest()
     }
-    Feed.findOne(id).then(function (feed) {
-      switch (feed.type) {
-        case 'twitter_user':
-        case 'twitter_hashtag':
-          socialFeed.authTwitter(req, res, next)
-          break
-        case 'facebook_page':
-        case 'facebook_user':
-          socialFeed.authFacebook(req, res, next)
-          break
-      }
-    }).catch(function (err) {
-      return res.serverError(err)
-    })
+    Feed.findOne(id)
+      .then(function(feed) {
+        switch (feed.type) {
+          case 'twitter_user':
+          case 'twitter_hashtag':
+            socialFeed.authTwitter(req, res, next)
+            break
+          case 'facebook_page':
+          case 'facebook_user':
+            socialFeed.authFacebook(req, res, next)
+            break
+        }
+      })
+      .catch(function(err) {
+        return res.serverError(err)
+      })
   },
 
   /**
@@ -93,7 +93,11 @@ module.exports = {
 
     var criteria = actionUtil.parseCriteria(req)
     // Lookup for records that match the specified criteria
-    var query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req))
+    var query = Model.find()
+      .where(criteria)
+      .limit(actionUtil.parseLimit(req))
+      .skip(actionUtil.parseSkip(req))
+      .sort(actionUtil.parseSort(req))
     query = actionUtil.populateRequest(query, req)
     query.exec(function found(err, matchingRecords) {
       if (err) {

@@ -1,14 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {LinkContainer} from 'react-router-bootstrap'
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem
-} from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
 
 /**
  * App navbar
@@ -77,7 +71,6 @@ const messages = defineMessages({
 })
 
 class Navigation extends Component {
-
   constructor(props, context) {
     super(props, context)
     this._logout = this._logout.bind(this)
@@ -89,21 +82,29 @@ class Navigation extends Component {
         this.context.user.clearUser()
         this.props.history.push('/login')
       } else {
-        console.error(res)
+        console.error(res) // eslint-disable-line no-console
       }
     })
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-    const {permissions} = this.context.user
+    const { formatMessage } = this.props.intl
+    const { permissions } = this.context.user
 
-    let logoutButton = <NavItem eventKey={1} onClick={this._logout.bind(this)}><FormattedMessage {...messages.logout}/></NavItem>
+    let logoutButton = (
+      <NavItem eventKey={1} onClick={this._logout.bind(this)}>
+        <FormattedMessage {...messages.logout} />
+      </NavItem>
+    )
 
     if (this.context.user.username == undefined) {
-      logoutButton = <LinkContainer to={'/login'}>
-        <NavItem><FormattedMessage {...messages.login}/></NavItem>
-      </LinkContainer>
+      logoutButton = (
+        <LinkContainer to={'/login'}>
+          <NavItem>
+            <FormattedMessage {...messages.login} />
+          </NavItem>
+        </LinkContainer>
+      )
     }
 
     let createMenu = null
@@ -112,98 +113,120 @@ class Navigation extends Component {
     let viewUsers = null
     if (permissions) {
       if (permissions.stream && permissions.stream.own.c) {
-        let createStream = <LinkContainer to={'/create/stream'}>
-          <MenuItem>
-            <FormattedMessage {...messages.stream}/>
-          </MenuItem>
-        </LinkContainer>
+        let createStream = (
+          <LinkContainer to={'/create/stream'}>
+            <MenuItem>
+              <FormattedMessage {...messages.stream} />
+            </MenuItem>
+          </LinkContainer>
+        )
 
         let createFeed = null
         if (permissions.feed && permissions.feed.own.c) {
-          createFeed = <LinkContainer to={'/create/feed'}>
-            <MenuItem>
-              <FormattedMessage {...messages.feed}/>
-            </MenuItem>
-          </LinkContainer>
-        };
+          createFeed = (
+            <LinkContainer to={'/create/feed'}>
+              <MenuItem>
+                <FormattedMessage {...messages.feed} />
+              </MenuItem>
+            </LinkContainer>
+          )
+        }
 
         let createGroup = null
         if (permissions.group && permissions.group.all.c) {
-          createGroup = <LinkContainer to={'/create/group'}>
-            <MenuItem>
-              <FormattedMessage {...messages.group}/>
-            </MenuItem>
-          </LinkContainer>
-        };
+          createGroup = (
+            <LinkContainer to={'/create/group'}>
+              <MenuItem>
+                <FormattedMessage {...messages.group} />
+              </MenuItem>
+            </LinkContainer>
+          )
+        }
 
         let createUser = null
         if (permissions.user && permissions.user.all.c) {
-          createUser = <LinkContainer to={'/create/user'}>
-            <MenuItem>
-              <FormattedMessage {...messages.user}/>
-            </MenuItem>
-          </LinkContainer>
-        };
+          createUser = (
+            <LinkContainer to={'/create/user'}>
+              <MenuItem>
+                <FormattedMessage {...messages.user} />
+              </MenuItem>
+            </LinkContainer>
+          )
+        }
 
-        createMenu = <NavDropdown id="create-dropdown" title={formatMessage(messages.create)}>
-          {createStream}
-          {createFeed}
-          <MenuItem divider/> {createGroup}
-          {createUser}
-        </NavDropdown>
+        createMenu = (
+          <NavDropdown
+            id="create-dropdown"
+            title={formatMessage(messages.create)}
+          >
+            {createStream}
+            {createFeed}
+            <MenuItem divider /> {createGroup}
+            {createUser}
+          </NavDropdown>
+        )
 
         if (permissions.stream && permissions.stream.own.r) {
-          viewStreams = <LinkContainer to={'/streams'}>
-            <MenuItem>
-              <FormattedMessage {...messages.streams}/>
-            </MenuItem>
-          </LinkContainer>
-        };
+          viewStreams = (
+            <LinkContainer to={'/streams'}>
+              <MenuItem>
+                <FormattedMessage {...messages.streams} />
+              </MenuItem>
+            </LinkContainer>
+          )
+        }
 
         if (permissions.group && permissions.group.own.r) {
-          viewGroups = <LinkContainer to={'/groups'}>
-            <MenuItem>
-              <FormattedMessage {...messages.groups}/>
-            </MenuItem>
-          </LinkContainer>
-        };
+          viewGroups = (
+            <LinkContainer to={'/groups'}>
+              <MenuItem>
+                <FormattedMessage {...messages.groups} />
+              </MenuItem>
+            </LinkContainer>
+          )
+        }
 
         if (permissions.user && permissions.user.own.r) {
-          viewUsers = <LinkContainer to={'/users'}>
-            <MenuItem>
-              <FormattedMessage {...messages.users}/>
-            </MenuItem>
-          </LinkContainer>
-        };
+          viewUsers = (
+            <LinkContainer to={'/users'}>
+              <MenuItem>
+                <FormattedMessage {...messages.users} />
+              </MenuItem>
+            </LinkContainer>
+          )
+        }
       }
     }
 
-    let navbar = <Navbar inverse>
-      <Navbar.Header>
-        <Navbar.Brand>
-          <a href="#"><FormattedMessage {...messages.appTitle}/></a>
-        </Navbar.Brand>
-        <Navbar.Toggle/>
-      </Navbar.Header>
-      <Navbar.Collapse>
-        <Nav pullLeft>
-          {createMenu}
-          {viewStreams}
-          {viewUsers}
-          {viewGroups}
-        </Nav>
-        <Nav pullRight>
-          {logoutButton}
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-
-    return (
-      <div>
-        {navbar}
-      </div>
+    let navbar = (
+      <Navbar inverse>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <a href="#">
+              <FormattedMessage {...messages.appTitle} />
+            </a>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav pullLeft>
+            {createMenu}
+            {viewStreams}
+            {viewUsers}
+            {viewGroups}
+          </Nav>
+          <Nav pullRight>{logoutButton}</Nav>
+        </Navbar.Collapse>
+      </Navbar>
     )
+
+    return <div>{navbar}</div>
   }
+}
+
+Navigation.propTypes = {
+  intl: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 }
 
 Navigation.contextTypes = {

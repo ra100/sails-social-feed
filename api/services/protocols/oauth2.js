@@ -18,11 +18,11 @@
  * @param {Object}   profile
  * @param {Function} next
  */
-module.exports = function (req, accessToken, refreshToken, profile, next) {
-  var query    = {
-    identifier : profile.id
-    , protocol   : 'oauth2'
-    , tokens     : { accessToken: accessToken }
+module.exports = function(req, accessToken, refreshToken, profile, next) {
+  var query = {
+    identifier: profile.id,
+    protocol: 'oauth2',
+    tokens: { accessToken: accessToken }
   }
 
   if (refreshToken !== undefined) {

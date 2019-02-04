@@ -1,12 +1,11 @@
 /**
-* Group.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * Group.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
-
   attributes: {
     name: {
       type: 'string',
@@ -27,12 +26,12 @@ module.exports = {
     }
   },
 
-  beforeCreate: function (values, next) {
+  beforeCreate: function(values, next) {
     delete values._csrf
     next()
   },
 
-  beforeUpdate: function (values, next) {
+  beforeUpdate: function(values, next) {
     delete values._csrf
     next()
   }

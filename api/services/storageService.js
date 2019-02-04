@@ -1,13 +1,19 @@
 var Upload = require('s3-uploader')
 var fs = require('fs')
 var uuid = require('node-uuid')
-var client = new Upload(sails.config.image.s3_bucket, sails.config.image.options)
-var avatarClient = new Upload(sails.config.image.s3_bucket, sails.config.image.avatarOptions)
+var client = new Upload(
+  sails.config.image.s3_bucket,
+  sails.config.image.options
+)
+var avatarClient = new Upload(
+  sails.config.image.s3_bucket,
+  sails.config.image.avatarOptions
+)
 
 module.exports = {
-  uploadImage: function (file) {
+  uploadImage: function(file) {
     return new Promise((resolve, reject) => {
-      storageService.saveTmp(file).then((filename) => {
+      storageService.saveTmp(file).then(filename => {
         client.upload(filename, {}, (err, versions, meta) => {
           if (err) {
             return reject(err)
@@ -18,9 +24,9 @@ module.exports = {
       })
     })
   },
-  uploadAvatar: function (file) {
+  uploadAvatar: function(file) {
     return new Promise((resolve, reject) => {
-      storageService.saveTmp(file).then((filename) => {
+      storageService.saveTmp(file).then(filename => {
         avatarClient.upload(filename, {}, (err, versions, meta) => {
           if (err) {
             return reject(err)
@@ -31,10 +37,10 @@ module.exports = {
       })
     })
   },
-  saveTmp: function (file) {
+  saveTmp: function(file) {
     return new Promise((resolve, reject) => {
       var filename = sails.config.image.tmp + uuid.v4() + file.name
-      fs.writeFile(filename, file.data, (err) => {
+      fs.writeFile(filename, file.data, err => {
         if (err) {
           sails.log.err('Error saving temp file', err)
           return reject(err)

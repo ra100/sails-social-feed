@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Button, ButtonToolbar} from 'react-bootstrap'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
+import { Button, ButtonToolbar } from 'react-bootstrap'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
 import ButtonModal from './ButtonModal'
 
 const messages = defineMessages({
@@ -53,9 +53,8 @@ const messages = defineMessages({
 })
 
 class EditToolbar extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -72,7 +71,7 @@ class EditToolbar extends Component {
   }
 
   render() {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     let edit = null,
       create = null,
       update = null,
@@ -80,23 +79,49 @@ class EditToolbar extends Component {
       cancel = null
 
     if (this.props.cancel != false) {
-      cancel = <Button bsStyle="primary" onClick={this._cancel}><FormattedMessage {...messages.cancelButton}/></Button>
+      cancel = (
+        <Button bsStyle="primary" onClick={this._cancel}>
+          <FormattedMessage {...messages.cancelButton} />
+        </Button>
+      )
     }
 
     if (this.props.update) {
-      update = <Button bsStyle="success" onClick={this.props.update}><FormattedMessage {...messages.saveButton}/></Button>
+      update = (
+        <Button bsStyle="success" onClick={this.props.update}>
+          <FormattedMessage {...messages.saveButton} />
+        </Button>
+      )
     }
 
     if (this.props.create) {
-      create = <Button bsStyle="success" onClick={this.props.create}><FormattedMessage {...messages.createButton}/></Button>
+      create = (
+        <Button bsStyle="success" onClick={this.props.create}>
+          <FormattedMessage {...messages.createButton} />
+        </Button>
+      )
     }
 
     if (this.props.remove) {
-      remove = <ButtonModal title={formatMessage(messages.deleteButton)} modalTitle={formatMessage(messages.deleteTitle)} message={formatMessage(messages.deleteMessage)} confirm={formatMessage(messages.modalConfirm)} cancel={formatMessage(messages.modalCancel)} bsStyle="danger" confirmAction={this.props.remove}/>
+      remove = (
+        <ButtonModal
+          title={formatMessage(messages.deleteButton)}
+          modalTitle={formatMessage(messages.deleteTitle)}
+          message={formatMessage(messages.deleteMessage)}
+          confirm={formatMessage(messages.modalConfirm)}
+          cancel={formatMessage(messages.modalCancel)}
+          bsStyle="danger"
+          confirmAction={this.props.remove}
+        />
+      )
     }
 
     if (this.props.edit) {
-      edit = <Button bsStyle="primary" onClick={this.props.edit}><FormattedMessage {...messages.editButton}/></Button>
+      edit = (
+        <Button bsStyle="primary" onClick={this.props.edit}>
+          <FormattedMessage {...messages.editButton} />
+        </Button>
+      )
     }
 
     return (
@@ -118,6 +143,7 @@ EditToolbar.contextTypes = {
 }
 
 EditToolbar.propTypes = {
+  intl: PropTypes.object.isRequired,
   edit: PropTypes.func,
   create: PropTypes.func,
   update: PropTypes.func,

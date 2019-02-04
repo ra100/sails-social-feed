@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
-import {Button} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
-import {notify} from 'react-notify-toast'
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
+import { Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import { notify } from 'react-notify-toast'
 import EditToolbar from './../../EditToolbar'
 
 const messages = defineMessages({
@@ -50,9 +50,8 @@ const messages = defineMessages({
 })
 
 class GroupRow extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -72,11 +71,15 @@ class GroupRow extends Component {
   }
 
   _remove() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (!this.state.deleted) {
-      socket.post('/groups/destroy/' + this.props.group.id, {
-        _csrf: _csrf
-      }, this.handleDestroyResponse)
+      socket.post(
+        '/groups/destroy/' + this.props.group.id,
+        {
+          _csrf: window._csrf
+        },
+        this.handleDestroyResponse
+      )
     }
   }
 
@@ -85,12 +88,12 @@ class GroupRow extends Component {
   }
 
   handleDestroyResponse(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (!this._isMounted) {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true})
+      this.setState({ deleted: true })
       notify.show(formatMessage(messages.deletedSuccess), 'success')
     } else {
       notify.show(res.body, 'error')
@@ -98,12 +101,13 @@ class GroupRow extends Component {
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-    let {group} = this.props
+    let { group } = this.props
     if (this.state.deleted) {
       return (
         <tr key={group.id}>
-          <td colSpan="2" className="danger"><FormattedMessage {...messages.deleted}/></td>
+          <td colSpan="2" className="danger">
+            <FormattedMessage {...messages.deleted} />
+          </td>
         </tr>
       )
     }
@@ -115,7 +119,7 @@ class GroupRow extends Component {
           </LinkContainer>
         </td>
         <td>
-          <EditToolbar edit={this._edit} remove={this._remove} cancel={false}/>
+          <EditToolbar edit={this._edit} remove={this._remove} cancel={false} />
         </td>
       </tr>
     )
@@ -129,7 +133,10 @@ GroupRow.contextTypes = {
 }
 
 GroupRow.propTypes = {
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired
+  }).isRequired
 }
 
 export default injectIntl(GroupRow)

@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
   attributes: {
     stream: {
       model: 'Stream',
@@ -66,11 +65,11 @@ module.exports = {
     metadata: {
       type: 'json'
       /*
-         * TODO
-         * Different for every feed type
-         *
-         * {likes, shares, comments, media}
-         */
+       * TODO
+       * Different for every feed type
+       *
+       * {likes, shares, comments, media}
+       */
     },
     parentMessage: {
       model: 'Message'
@@ -94,7 +93,7 @@ module.exports = {
   /**
    * Automatically fill some values
    */
-  beforeValidate: function (values, next) {
+  beforeValidate: function(values, next) {
     // sails.log.debug('BeforeValidate message values:', values)
     if (values.id) {
       return next()
@@ -119,31 +118,42 @@ module.exports = {
               values.published = false
             }
           }
-          sails.log.verbose('Message values to save', {...values, image: undefined, imageLog: values.image && 'image present'})
+          sails.log.verbose('Message values to save', {
+            ...values,
+            image: undefined,
+            imageLog: values.image && 'image present'
+          })
           if (feed.type === 'form') {
-            const uid = (typeof values.author === 'object')
-              ? values.author.id
-              : values.author
-            return User.findOne({id: uid}).populate('groups').then(user => {
-              values.feedType = (feed.groups.find(g =>
-                user.groups.find(ug => g.id === ug.id)
-              )) ? 'admin' : 'form'
-              values.published = values.feedType === 'admin'
-                ? true
-                : feed.display
-              values.reviewed = values.feedType === 'admin'
-              values.author = {
-                name: user.displayname,
-                picture: user.picture,
-                id: user.id
-              }
-              sails.log.verbose('Transformed message values', JSON.stringify(values))
-              return next()
-            })
+            const uid =
+              typeof values.author === 'object'
+                ? values.author.id
+                : values.author
+            return User.findOne({ id: uid })
+              .populate('groups')
+              .then(user => {
+                values.feedType = feed.groups.find(g =>
+                  user.groups.find(ug => g.id === ug.id)
+                )
+                  ? 'admin'
+                  : 'form'
+                values.published =
+                  values.feedType === 'admin' ? true : feed.display
+                values.reviewed = values.feedType === 'admin'
+                values.author = {
+                  name: user.displayname,
+                  picture: user.picture,
+                  id: user.id
+                }
+                sails.log.verbose(
+                  'Transformed message values',
+                  JSON.stringify(values)
+                )
+                return next()
+              })
           }
           return next()
         })
-        .catch(function (err) {
+        .catch(function(err) {
           return next(err)
         })
     } else {
@@ -151,36 +161,39 @@ module.exports = {
     }
   },
 
-  beforeCreate: function (values, next) {
+  beforeCreate: function(values, next) {
     if (values.image) {
-      sails.log.verbose({...values, image: ''})
-      storageService.uploadImage(values.image).then((versions) => {
-        var picture = {}
-        picture.original = {
-          path: versions[0].url,
-          height: versions[0].height,
-          width: versions[0].width,
-        }
-        picture.large = {
-          path: versions[1].url,
-          height: versions[1].height,
-          width: versions[1].width
-        }
-        picture.medium = {
-          path: versions[2].url,
-          height: versions[2].height,
-          width: versions[2].width
-        }
-        picture.thumb = {
-          path: versions[3].url,
-          height: versions[3].height,
-          width: versions[3].width
-        }
-        values.picture = picture
-        delete values.image
-        values.mediaType = 'photo'
-        next()
-      }).catch(next)
+      sails.log.verbose({ ...values, image: '' })
+      storageService
+        .uploadImage(values.image)
+        .then(versions => {
+          var picture = {}
+          picture.original = {
+            path: versions[0].url,
+            height: versions[0].height,
+            width: versions[0].width
+          }
+          picture.large = {
+            path: versions[1].url,
+            height: versions[1].height,
+            width: versions[1].width
+          }
+          picture.medium = {
+            path: versions[2].url,
+            height: versions[2].height,
+            width: versions[2].width
+          }
+          picture.thumb = {
+            path: versions[3].url,
+            height: versions[3].height,
+            width: versions[3].width
+          }
+          values.picture = picture
+          delete values.image
+          values.mediaType = 'photo'
+          next()
+        })
+        .catch(next)
     } else {
       next()
     }
@@ -189,16 +202,25 @@ module.exports = {
   /**
    * Send publishAdd message to sockets, when new message is published
    */
-  afterCreate: function (values, next) {
-    sails.log.verbose({...values, image: undefined, imageLog: values.image && 'image present'})
+  afterCreate: function(values, next) {
+    sails.log.verbose({
+      ...values,
+      image: undefined,
+      imageLog: values.image && 'image present'
+    })
     sails.log.verbose('Original values', values)
     delete values._csrf
     if (values.published) {
-      Stream.publish(values.stream, {
-        verb: 'add',
-        id: values.stream,
-        data: values
-      }, 'messages', values)
+      Stream.publish(
+        values.stream,
+        {
+          verb: 'add',
+          id: values.stream,
+          data: values
+        },
+        'messages',
+        values
+      )
     } else {
       // @TODO @FIXME
       Stream.publishAdd(values.stream, 'messages', values)
@@ -215,7 +237,7 @@ module.exports = {
   /**
    * Send remove message to sockets if message has been upublished
    */
-  beforeUpdate: function (values, next) {
+  beforeUpdate: function(values, next) {
     // if (values.published !== undefined && !values.published) {
     //   delete values._csrf
     //   if (values.stream) {
@@ -233,9 +255,9 @@ module.exports = {
    * Send publishAdd message to sockets,
    * when message has been changed and is publushed
    */
-  afterUpdate: function (values, next) {
+  afterUpdate: function(values, next) {
     delete values._csrf
-    Message.findOne(values.id).exec(function (err, message) {
+    Message.findOne(values.id).exec(function(err, message) {
       // if (message.published) {
       Stream.publishAdd(message.stream, 'messages', message)
       // } else {
@@ -245,7 +267,7 @@ module.exports = {
     next()
   },
 
-  afterDestroy: function (destroyedRecords, next) {
+  afterDestroy: function(destroyedRecords, next) {
     for (var i in destroyedRecords) {
       var message = destroyedRecords[i]
       Stream.message(message.stream, {

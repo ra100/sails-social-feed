@@ -24,7 +24,7 @@ const validatePassword = require('../../models/Passport')
  * @param {Object}   res
  * @param {Function} next
  */
-exports.register = function (req, res, next) {
+exports.register = function(req, res, next) {
   var email = req.param('email'),
     username = req.param('username'),
     password = req.param('password'),
@@ -56,7 +56,7 @@ exports.register = function (req, res, next) {
 
   sails.log.silly('New User:', newuser)
 
-  User.create(newuser, function (err, user) {
+  User.create(newuser, function(err, user) {
     if (err) {
       if (err.code === 'E_VALIDATION') {
         if (err.invalidAttributes.email) {
@@ -72,25 +72,28 @@ exports.register = function (req, res, next) {
     // Generating accessToken for API authentication
     var token = crypto.randomBytes(48).toString('base64')
 
-    Passport.create({
-      protocol: 'local',
-      password: password,
-      user: user.id,
-      accessToken: token
-    }, function (err, passport) {
-      if (err) {
-        sails.log.error('Passport creation error', err)
-        if (err.code === 'E_VALIDATION') {
-          req.flash('error', req.__('Error.Passport.Password.Invalid'))
+    Passport.create(
+      {
+        protocol: 'local',
+        password: password,
+        user: user.id,
+        accessToken: token
+      },
+      function(err, passport) {
+        if (err) {
+          sails.log.error('Passport creation error', err)
+          if (err.code === 'E_VALIDATION') {
+            req.flash('error', req.__('Error.Passport.Password.Invalid'))
+          }
+
+          return user.destroy(function(destroyErr) {
+            next(destroyErr || err)
+          })
         }
 
-        return user.destroy(function (destroyErr) {
-          next(destroyErr || err)
-        })
+        next(null, user)
       }
-
-      next(null, user)
-    })
+    )
   })
 }
 
@@ -105,30 +108,36 @@ exports.register = function (req, res, next) {
  * @param {Object}   res
  * @param {Function} next
  */
-exports.connect = function (req, res, next) {
+exports.connect = function(req, res, next) {
   var user = req.user,
     password = req.param('password')
 
-  Passport.findOne({
-    protocol: 'local',
-    user: user.id
-  }, function (err, passport) {
-    if (err) {
-      return next(err)
-    }
+  Passport.findOne(
+    {
+      protocol: 'local',
+      user: user.id
+    },
+    function(err, passport) {
+      if (err) {
+        return next(err)
+      }
 
-    if (!passport) {
-      Passport.create({
-        protocol: 'local',
-        password: password,
-        user: user.id
-      }, function (err, passport) {
-        next(err, user)
-      })
-    } else {
-      next(null, user)
+      if (!passport) {
+        Passport.create(
+          {
+            protocol: 'local',
+            password: password,
+            user: user.id
+          },
+          function(err, passport) {
+            next(err, user)
+          }
+        )
+      } else {
+        next(null, user)
+      }
     }
-  })
+  )
 }
 
 /**
@@ -143,7 +152,7 @@ exports.connect = function (req, res, next) {
  * @param {string}   password
  * @param {Function} next
  */
-exports.login = function (req, identifier, password, next) {
+exports.login = function(req, identifier, password, next) {
   var isEmail = validator.isEmail(identifier),
     query = {}
 
@@ -153,7 +162,7 @@ exports.login = function (req, identifier, password, next) {
     query.username = identifier
   }
 
-  User.findOne(query, function (err, user) {
+  User.findOne(query, function(err, user) {
     if (err) {
       return next(err)
     }
@@ -167,27 +176,30 @@ exports.login = function (req, identifier, password, next) {
       return next(null, false)
     }
 
-    Passport.findOne({
-      protocol: 'local',
-      user: user.id
-    }, function (err, passport) {
-      if (passport) {
-        validatePassword(password, passport.password, (err, res) => {
-          if (err) {
-            return next(err)
-          }
+    Passport.findOne(
+      {
+        protocol: 'local',
+        user: user.id
+      },
+      function(err, passport) {
+        if (passport) {
+          validatePassword(password, passport.password, (err, res) => {
+            if (err) {
+              return next(err)
+            }
 
-          if (!res) {
-            req.flash('error', req.__('Error.Passport.Password.Wrong'))
-            return next(null, false)
-          } else {
-            return next(null, user)
-          }
-        })
-      } else {
-        req.flash('error', req.__('Error.Passport.Password.NotSet'))
-        return next(null, false)
+            if (!res) {
+              req.flash('error', req.__('Error.Passport.Password.Wrong'))
+              return next(null, false)
+            } else {
+              return next(null, user)
+            }
+          })
+        } else {
+          req.flash('error', req.__('Error.Passport.Password.NotSet'))
+          return next(null, false)
+        }
       }
-    })
+    )
   })
 }

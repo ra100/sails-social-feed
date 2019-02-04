@@ -10,8 +10,7 @@
  * For usage docs see:
  * 		https://github.com/gruntjs/grunt-contrib-concat
  */
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   grunt.config.set('concat', {
     // js: {
     //   src: require('../pipeline').jsFilesToInject,

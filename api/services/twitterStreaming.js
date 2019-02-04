@@ -1,4 +1,3 @@
-var socketio = require('socket.io')
 var Twitter = require('twitter')
 var _ = require('lodash')
 
@@ -31,21 +30,21 @@ const twitterStreamingClass = function() {
     clearTimeout(this.timer)
     Feed.find({
       where: {
-        type: [
-          'twitter_user', 'twitter_hashtag'
-        ],
+        type: ['twitter_user', 'twitter_hashtag'],
         enabled: true
       }
-    }).populate('stream').exec((err, feeds) => {
-      if (err) {
-        return sails.log.verbose('Twitter Streaming error', err)
-      }
-      if (this.setTokensFromFeeds(feeds) == null) {
-        return
-      };
-      this.setTrackStrings(feeds)
-      this.initStream()
     })
+      .populate('stream')
+      .exec((err, feeds) => {
+        if (err) {
+          return sails.log.verbose('Twitter Streaming error', err)
+        }
+        if (this.setTokensFromFeeds(feeds) == null) {
+          return
+        }
+        this.setTrackStrings(feeds)
+        this.initStream()
+      })
   }
 
   /**
@@ -59,61 +58,78 @@ const twitterStreamingClass = function() {
       where: {
         type: ['twitter_user', 'twitter_hashtag']
       }
-    }).populate('stream').then((feeds) => {
-      this.setTrackStrings(feeds)
-      this.initStream()
-    }).catch((err) => {
-      sails.log.verbose('Twitter Streaming error', err)
     })
+      .populate('stream')
+      .then(feeds => {
+        this.setTrackStrings(feeds)
+        this.initStream()
+      })
+      .catch(err => {
+        sails.log.verbose('Twitter Streaming error', err)
+      })
   }
 
   this.initStream = () => {
-    sails.log.verbose('Twitter Stream init', this.twitter_user, this.follow, this.twitter_hashtag, this.track)
+    sails.log.verbose(
+      'Twitter Stream init',
+      this.twitter_user,
+      this.follow,
+      this.twitter_hashtag,
+      this.track
+    )
     if (this.twitter == null) {
-      this.twitter = new Twitter({consumer_key: this.twitter_consumer_key, consumer_secret: this.twitter_consumer_secret, access_token_key: this.access_token_key, access_token_secret: this.access_token_secret})
-    };
+      this.twitter = new Twitter({
+        consumer_key: this.twitter_consumer_key,
+        consumer_secret: this.twitter_consumer_secret,
+        access_token_key: this.access_token_key,
+        access_token_secret: this.access_token_secret
+      })
+    }
 
     let createStream = () => {
       if (this.stream == null || !this.stream.active) {
-        this.twitter.stream('statuses/filter', {
-          track: this.track.join(','),
-          follow: this.follow.join(',')
-        }, (stream) => {
-          clearTimeout(this.timer)
-          sails.log.info('Stream created')
-          this.stream = stream
-          stream.active = true
-          stream.on('data', this.processData)
-          stream.on('end', () => {
-            sails.log.info('Stream ended')
-            stream.active = false
+        this.twitter.stream(
+          'statuses/filter',
+          {
+            track: this.track.join(','),
+            follow: this.follow.join(',')
+          },
+          stream => {
             clearTimeout(this.timer)
-            sails.log.debug('Calm: ', this.calm)
-            this.timer = setTimeout(() => {
+            sails.log.info('Stream created')
+            this.stream = stream
+            stream.active = true
+            stream.on('data', this.processData)
+            stream.on('end', () => {
+              sails.log.info('Stream ended')
+              stream.active = false
               clearTimeout(this.timer)
-              if (this.stream.active) {
-                this.stream.destroy()
-              } else {
-                this.init()
+              sails.log.debug('Calm: ', this.calm)
+              this.timer = setTimeout(() => {
+                clearTimeout(this.timer)
+                if (this.stream.active) {
+                  this.stream.destroy()
+                } else {
+                  this.init()
+                }
+              }, 1000 * this.calm * this.calm)
+            })
+            stream.on('error', err => {
+              sails.log.warn(err.message)
+              if (err.message == 'Status Code: 420') {
+                sails.log.info('Stream too many connections')
+                sails.log.silly('stream: ', this.stream)
+                this.calm++
+              } else if (err.code == 'ECONNRESET') {
+                this.reload = false
+                if (this.stream !== null) {
+                  this.stream.destroy()
+                }
+                this.calm++
               }
-            }, 1000 * this.calm * this.calm)
-          })
-          stream.on('error', (err) => {
-            sails.log.warn(err.message)
-            if (err.message == 'Status Code: 420') {
-              sails.log.info('Stream too many connections')
-              sails.log.silly('stream: ', this.stream)
-              this.calm++
-            }
-            else if (err.code == 'ECONNRESET') {
-              this.reload = false
-              if (this.stream !== null) {
-                this.stream.destroy()
-              }
-              this.calm++
-            }
-          })
-        })
+            })
+          }
+        )
       }
     }
 
@@ -130,7 +146,8 @@ const twitterStreamingClass = function() {
         or: [
           {
             feedType: 'twitter_user'
-          }, {
+          },
+          {
             feedType: 'twitter_hashtag'
           }
         ]
@@ -179,12 +196,12 @@ const twitterStreamingClass = function() {
     let m = _.union(this.track, users)
     q = _.chunk(m, 10)
     for (let i in q) {
-      q[i] = _.join(q[i], ' OR ')
+      q[i] = q[i].join(' OR ')
     }
     return q
   }
 
-  this.processGetData = (data) => {
+  this.processGetData = data => {
     if (typeof data == 'undefined') {
       return
     }
@@ -193,7 +210,7 @@ const twitterStreamingClass = function() {
     }
   }
 
-  this.processData = (data) => {
+  this.processData = data => {
     sails.log.silly('Stream data', data)
     // delete message if tweet is deleted
     clearTimeout(this.timer)
@@ -204,12 +221,14 @@ const twitterStreamingClass = function() {
             endsWith: data.delete.status.id
           }
         }
-      }).then((message) => {
-        sails.log.verbose('Message destroyed', message)
-      }).catch((err) => {
-        sails.log.error('Destroying message failed', err)
       })
-    };
+        .then(message => {
+          sails.log.verbose('Message destroyed', message)
+        })
+        .catch(err => {
+          sails.log.error('Destroying message failed', err)
+        })
+    }
     let status = data
 
     let feed = null
@@ -223,14 +242,20 @@ const twitterStreamingClass = function() {
         feed = this.twitter_user[screen_name]
         // we don't follow retweeted user
       } else {
-        let hashtag_feed = this.findHashtag(status.entities.hashtags, this.twitter_hashtag)
+        let hashtag_feed = this.findHashtag(
+          status.entities.hashtags,
+          this.twitter_hashtag
+        )
         // hashtag in retweeted status tracked
         if (hashtag_feed !== null) {
           feed = hashtag_feed
           // we don't track retweeted hashtags
         } else {
           status = data
-          feed = this.findHashtag(status.entities.hashtags, this.twitter_hashtag)
+          feed = this.findHashtag(
+            status.entities.hashtags,
+            this.twitter_hashtag
+          )
         }
       }
       // if tweet doesn't have retweet
@@ -243,9 +268,12 @@ const twitterStreamingClass = function() {
     }
 
     if (feed == null) {
-      sails.log.debug('Status does not match any feed', status_link + status.id_str)
+      sails.log.debug(
+        'Status does not match any feed',
+        status_link + status.id_str
+      )
       return
-    };
+    }
 
     let uuid = status.id + '_' + feed.stream
 
@@ -303,39 +331,48 @@ const twitterStreamingClass = function() {
         uuid: uuid,
         feedType: feed.type
       }
-    }).then((foundMessage) => {
-      if (foundMessage == undefined) {
-        return Message.create(message).then((createdMessage) => {
-          sails.log.verbose('Message created id:', createdMessage.id)
-          sails.log.silly(createdMessage)
-        }).catch((err) => {
-          if (err) {
-            if (err.code == 'E_VALIDATION') {
-              return sails.log.warn('UUID already exists')
-            };
-          };
-          sails.log.verbose('Creating message failed', err)
-        })
-      } else {
-        return Message.update({
-          where: {
-            uuid: uuid,
-            feedType: feed.type
-          }
-        }, message).then((updatedMessage) => {
-          sails.log.verbose('Message updated id:', updatedMessage[0].id)
-          sails.log.silly(updatedMessage)
-        }).catch((err) => {
-          sails.log.warn('Creating message failed', err)
-        })
-      }
-    }).catch((err) => {
-      sails.log.warn('Error finding message with uuid', status.id, err)
     })
+      .then(foundMessage => {
+        if (foundMessage == undefined) {
+          return Message.create(message)
+            .then(createdMessage => {
+              sails.log.verbose('Message created id:', createdMessage.id)
+              sails.log.silly(createdMessage)
+            })
+            .catch(err => {
+              if (err) {
+                if (err.code == 'E_VALIDATION') {
+                  return sails.log.warn('UUID already exists')
+                }
+              }
+              sails.log.verbose('Creating message failed', err)
+            })
+        } else {
+          return Message.update(
+            {
+              where: {
+                uuid: uuid,
+                feedType: feed.type
+              }
+            },
+            message
+          )
+            .then(updatedMessage => {
+              sails.log.verbose('Message updated id:', updatedMessage[0].id)
+              sails.log.silly(updatedMessage)
+            })
+            .catch(err => {
+              sails.log.warn('Creating message failed', err)
+            })
+        }
+      })
+      .catch(err => {
+        sails.log.warn('Error finding message with uuid', status.id, err)
+      })
   }
 
-  this.setTokensFromFeeds = (feeds) => {
-    const feed = _.find(feeds, (f) => {
+  this.setTokensFromFeeds = feeds => {
+    const feed = feeds.find(f => {
       if (typeof f.auth !== 'undefined') {
         sails.log.silly('valid auth:', f.auth.valid)
         return f.auth.valid == true
@@ -351,12 +388,12 @@ const twitterStreamingClass = function() {
     return true
   }
 
-  this.setTrackStrings = (feeds) => {
+  this.setTrackStrings = feeds => {
     const follow = []
     const track = []
     this.twitter_user = {}
     this.twitter_hashtag = {}
-    _.forEach(feeds, (feed) => {
+    feeds.forEach(feed => {
       if (feed.enabled) {
         switch (feed.type) {
           case 'twitter_hashtag':
@@ -364,9 +401,8 @@ const twitterStreamingClass = function() {
             break
           case 'twitter_user':
             sails.log.verbose(feed.meta)
-            const uid = feed.meta.uid
             // number
-            follow.push(uid)
+            follow.push(feed.meta.uid)
             break
         }
       }
@@ -393,38 +429,46 @@ const twitterStreamingClass = function() {
   this.invalidateToken = () => {
     if (this.auth_feed_id == null || this.auth_feed_id == undefined) {
       sails.log.error('No feed id sethis.')
-    };
-    return Feed.findOne(this.auth_feed_id).then((feed) => {
-      if (feed) {
-        feed.auth.valid = false
-        Feed.update(feed.id, {auth: feed.auth}).then((feed) => {
-          sails.log.verbose('Feed auth invalidated id: ', feed.id)
-        }).catch((err) => {
-          sails.log.error('Error while loading feed', err)
-        })
-      }
-    }).catch((err) => {
-      sails.log.error('Error while loading feed', err)
-    })
-  }
-
-  this.findUid = (name) => {
-    return new Promise((res, rej) => {
-      this.twitter.get('/users/lookup.json', {
-        screen_name: name
-      }, (err, data) => {
-        if (err) {
-          sails.log.error(err)
-          if (err[0].code == 89) { // invalid or expired token
-            this.invalidateToken()
-          }
-          return rej(err)
+    }
+    return Feed.findOne(this.auth_feed_id)
+      .then(feed => {
+        if (feed) {
+          feed.auth.valid = false
+          Feed.update(feed.id, { auth: feed.auth })
+            .then(feed => {
+              sails.log.verbose('Feed auth invalidated id: ', feed.id)
+            })
+            .catch(err => {
+              sails.log.error('Error while loading feed', err)
+            })
         }
-        res(data[0].id_str)
       })
-    })
+      .catch(err => {
+        sails.log.error('Error while loading feed', err)
+      })
   }
 
+  this.findUid = name => {
+    return new Promise((res, rej) => {
+      this.twitter.get(
+        '/users/lookup.json',
+        {
+          screen_name: name
+        },
+        (err, data) => {
+          if (err) {
+            sails.log.error(err)
+            if (err[0].code == 89) {
+              // invalid or expired token
+              this.invalidateToken()
+            }
+            return rej(err)
+          }
+          res(data[0].id_str)
+        }
+      )
+    })
+  }
 }
 
 const tsc = new twitterStreamingClass()

@@ -1,7 +1,6 @@
 const crypto = require('crypto')
 
 module.exports = {
-
   attributes: {
     username: {
       type: 'string',
@@ -11,7 +10,7 @@ module.exports = {
       type: 'string'
     },
     meta: {
-      type: 'json',
+      type: 'json'
     },
     blocked: {
       type: 'boolean',
@@ -22,7 +21,7 @@ module.exports = {
       unique: true
     },
     picture: {
-      type: 'string',
+      type: 'string'
     },
     passports: {
       collection: 'Passport',
@@ -53,33 +52,43 @@ module.exports = {
     }
   },
 
-  beforeCreate: function (values, next) {
+  beforeCreate: function(values, next) {
     delete values._csrf
     if (values.image) {
-      storageService.uploadAvatar(values.image).then((versions) => {
-        var picture = {}
-        values.picture = versions[0].url
-        delete values.image
-        next()
-      }).catch(next)
+      storageService
+        .uploadAvatar(values.image)
+        .then(versions => {
+          var picture = {}
+          values.picture = versions[0].url
+          delete values.image
+          next()
+        })
+        .catch(next)
     } else {
       if (values.email) {
-        var hashmd5 = crypto.createHash('md5').update(values.email).digest('hex')
-        values.picture = 'https://www.gravatar.com/avatar/' + hashmd5 + '.jpg?s=48'
+        var hashmd5 = crypto
+          .createHash('md5')
+          .update(values.email)
+          .digest('hex')
+        values.picture =
+          'https://www.gravatar.com/avatar/' + hashmd5 + '.jpg?s=48'
       }
       next()
     }
   },
 
-  beforeUpdate: function (values, next) {
+  beforeUpdate: function(values, next) {
     delete values._csrf
     if (values.image) {
-      storageService.uploadAvatar(values.image).then((versions) => {
-        var picture = {}
-        values.picture = versions[0].url
-        delete values.image
-        next()
-      }).catch(next)
+      storageService
+        .uploadAvatar(values.image)
+        .then(versions => {
+          var picture = {}
+          values.picture = versions[0].url
+          delete values.image
+          next()
+        })
+        .catch(next)
     } else {
       next()
     }
@@ -88,11 +97,15 @@ module.exports = {
   /**
    * Remove Passports after user delete
    */
-  afterDestroy: function (destroyedRecords, next) {
-    Promise.all(destroyedRecords.map((user) => {
-      return Passport.destroy({user: user.id})
-    })).then(() => {
-      next()
-    }).catch(next)
+  afterDestroy: function(destroyedRecords, next) {
+    Promise.all(
+      destroyedRecords.map(user => {
+        return Passport.destroy({ user: user.id })
+      })
+    )
+      .then(() => {
+        next()
+      })
+      .catch(next)
   }
 }

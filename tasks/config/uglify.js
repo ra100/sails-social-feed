@@ -9,10 +9,8 @@
  * 		https://github.com/gruntjs/grunt-contrib-uglify
  *
  */
-module.exports = function (grunt) {
-
-  var version = grunt.file.readJSON('package.json').version
-  var pipeline = require('../pipeline')
+module.exports = function(grunt) {
+  const {version} = grunt.file.readJSON('package.json')
 
   grunt.config.set('uglify', {
     dist: {

@@ -9,8 +9,7 @@
  * For usage docs see:
  * 		https://github.com/gruntjs/grunt-contrib-coffee
  */
-module.exports = function (grunt) {
-
+module.exports = function(grunt) {
   grunt.config.set('coffee', {
     dev: {
       options: {
@@ -25,13 +24,14 @@ module.exports = function (grunt) {
           src: ['**/*.coffee'],
           dest: '.tmp/public/js/',
           ext: '.js'
-        }, {
+        },
+        {
           expand: true,
           cwd: 'assets/js/',
           src: ['**/*.coffee'],
           dest: '.tmp/public/js/',
           ext: '.js'
-        },
+        }
       ]
     }
   })

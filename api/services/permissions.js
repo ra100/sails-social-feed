@@ -7,7 +7,6 @@ const joinPermissions = (o, e) => ({
   d: e.d || o.d
 })
 
-
 /**
  * Add permissions to object based on user role, group and ownership.
  */
@@ -23,7 +22,10 @@ module.exports = {
       if (typeof user.roles[i] == 'object') {
         const role = user.roles[i].name
         const p = perms[role][model]
-        if ((model == 'user' && obj.id == user.id) || (model != 'user' && obj.owner && obj.owner.id == user.id)) {
+        if (
+          (model == 'user' && obj.id == user.id) ||
+          (model != 'user' && obj.owner && obj.owner.id == user.id)
+        ) {
           sails.log.verbose('Permissions IS OWNER')
           result = joinPermissions(result, p.own)
         } else if (this.hasGroups(obj, user)) {

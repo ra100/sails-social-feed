@@ -12,13 +12,9 @@
  *
  */
 
-module.exports = function (grunt) {
-
-  var templateFilesToInject = ['templates/**/*.html']
-
+module.exports = function(grunt) {
   grunt.config.set('jst', {
     dev: {
-
       // To use other sorts of templates, specify a regexp like the example below:
       // options: {
       //   templateSettings: {

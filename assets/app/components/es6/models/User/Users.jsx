@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {
   Col,
   Row,
-  Grid,
   PageHeader,
   Table,
   Pagination,
@@ -12,6 +11,7 @@ import {
   FormControl
 } from 'react-bootstrap'
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
+import Error from '../../Error'
 import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
 import Loading from './../../Loading'
@@ -201,7 +201,6 @@ class Users extends Component {
             type="text"
             value={this.state.filter}
             onChange={this._handleFilterChange}
-            ref="filter"
           />
           <FormControl.Feedback />
         </Col>
@@ -211,11 +210,9 @@ class Users extends Component {
     switch (this.state.status) {
       case 403:
         return <Forbidden />
-        break
 
       case 404:
         return <NotFound />
-        break
 
       case 200:
         if (this.state.users !== null) {
@@ -262,12 +259,15 @@ class Users extends Component {
 
       case 0:
         return <Loading />
-        break
 
       default:
         return <Error error={this.state.error} />
     }
   }
+}
+
+Users.propTypes = {
+  intl: PropTypes.object.isRequired
 }
 
 Users.contextTypes = {

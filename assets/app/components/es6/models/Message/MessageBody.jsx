@@ -1,12 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {FormControl} from 'react-bootstrap'
+import { FormControl } from 'react-bootstrap'
 import EditToolbar from './../../EditToolbar'
-import {notify} from 'react-notify-toast'
-import {formatMessage, defineMessages, injectIntl} from 'react-intl'
-
-const hashLink = 'https://twitter.com/hashtag/HASHTAG'
-const userLink = 'https://twitter.com/USER'
+import { notify } from 'react-notify-toast'
+import { defineMessages, injectIntl } from 'react-intl'
 
 const messages = defineMessages({
   saved: {
@@ -22,9 +19,8 @@ const messages = defineMessages({
 })
 
 class MessageBody extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -33,38 +29,58 @@ class MessageBody extends Component {
       message: '',
       edit: false
     }
-    this._bind('renderMedia', 'renderTwitterMedia', 'renderFacebookMedia', 'renderAdminMedia', 'handleEdit', 'update', 'cancel', 'remove', '_handleMessageChange', 'handleDelete')
+    this.message = React.createRef()
+    this._bind(
+      'renderMedia',
+      'renderTwitterMedia',
+      'renderFacebookMedia',
+      'renderAdminMedia',
+      'handleEdit',
+      'update',
+      'cancel',
+      'remove',
+      '_handleMessageChange',
+      'handleDelete'
+    )
   }
 
   componentDidMount() {
-    this.setState({message: this.props.message.message})
+    this.setState({ message: this.props.message.message })
   }
 
   handleEdit() {
-    this.setState({'edit': true})
+    this.setState({ edit: true })
   }
 
   update() {
-    this.setState({edit: false})
-    socket.put('/messages/' + this.props.message.id, {
-      _csrf: _csrf,
-      message: this.state.message
-    }, this.handleUpdate)
+    this.setState({ edit: false })
+    window.socket.put(
+      '/messages/' + this.props.message.id,
+      {
+        _csrf: window._csrf,
+        message: this.state.message
+      },
+      this.handleUpdate
+    )
   }
 
   cancel() {
-    this.setState({message: this.props.message.message, edit: false})
+    this.setState({ message: this.props.message.message, edit: false })
   }
 
   remove() {
-    socket.delete('/messages', {
-      _csrf: _csrf,
-      id: this.props.message.id
-    }, this.handleDelete)
+    window.socket.delete(
+      '/messages',
+      {
+        _csrf: window._csrf,
+        id: this.props.message.id
+      },
+      this.handleDelete
+    )
   }
 
   handleUpdate(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (res.statusCode == 500) {
       notify.show('Error 500', 'error')
       return
@@ -74,11 +90,11 @@ class MessageBody extends Component {
       return
     }
     notify.show(formatMessage(messages.saved), 'success')
-    this.setState({edit: false})
+    this.setState({ edit: false })
   }
 
   handleDelete(data, res) {
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
     if (res.statusCode == 500) {
       notify.show('Error 500', 'error')
       return
@@ -88,15 +104,15 @@ class MessageBody extends Component {
       return
     }
     notify.show(formatMessage(messages.deleted), 'success')
-    this.setState({message: 'DELETED', edit: false})
+    this.setState({ message: 'DELETED', edit: false })
   }
 
   _handleMessageChange(event) {
-    this.setState({message: event.target.value})
+    this.setState({ message: event.target.value })
   }
 
   renderMedia() {
-    const {type} = this.props
+    const { type } = this.props
     switch (type) {
       case 'twitter':
         return this.renderTwitterMedia()
@@ -110,7 +126,7 @@ class MessageBody extends Component {
   }
 
   renderTwitterMedia() {
-    const {meta} = this.props
+    const { meta } = this.props
     if (meta == null || typeof meta.media == 'undefined') {
       return null
     }
@@ -118,69 +134,110 @@ class MessageBody extends Component {
     if (typeof meta.media_ext !== 'undefined') {
       med = meta.media_ext
     }
-    let m = med.map((media, i) => {
+    let m = med.map((media) => {
       switch (media.type) {
         case 'photo':
-          return <a key={media.id} href={media.expanded_url} target="_blank">
-            <img src={media.media_url_https} width={media.sizes.small.w / 3} height={media.sizes.small.h / 3}/>
-          </a>
+          return (
+            <a key={media.id} href={media.expanded_url} target="_blank" rel="noopener noreferrer">
+              <img
+                src={media.media_url_https}
+                width={media.sizes.small.w / 3}
+                height={media.sizes.small.h / 3}
+              />
+            </a>
+          )
         default:
           return null
       }
     })
-    return <div className="media">
-      {m}
-    </div>
+    return <div className="media">{m}</div>
   }
 
   renderFacebookMedia() {
-    const {meta, message} = this.props
+    const { meta, message } = this.props
     const type = message && message.mediaType
     if (type === 'video') {
-      return <div dangerouslySetInnerHTML={{__html: meta.video.format && meta.video.format[1].embed_html}}></div>
+      return (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: meta.video.format && meta.video.format[1].embed_html
+          }}
+        />
+      )
     }
     let m = null
     if (type === 'album') {
-      m = meta.media[0].subattachments.data.map((photo) => {
-        return <a key={photo.target.id} href={photo.target.url} target="_blank">
-          <img src={photo.media.image.src} width={photo.media.image.width / 4} height={photo.media.image.height / 4}/>
-        </a>
+      m = meta.media[0].subattachments.data.map(photo => {
+        return (
+          <a key={photo.target.id} href={photo.target.url} target="_blank" rel="noopener noreferrer">
+            <img
+              src={photo.media.image.src}
+              width={photo.media.image.width / 4}
+              height={photo.media.image.height / 4}
+            />
+          </a>
+        )
       })
     }
-    return <div className="media">
-      {m}
-    </div>
+    return <div className="media">{m}</div>
   }
 
   renderAdminMedia() {
     if (!this.props.message.picture) {
       return null
     }
-    let {picture} = this.props.message
-    return <a href={picture.original.path} target="_blank">
-      <img src={picture.thumb.path} width={picture.thumb.width} height={picture.thumb.height}/>
-    </a>
+    let { picture } = this.props.message
+    return (
+      <a href={picture.original.path} target="_blank" rel="noopener noreferrer">
+        <img
+          src={picture.thumb.path}
+          width={picture.thumb.width}
+          height={picture.thumb.height}
+        />
+      </a>
+    )
   }
 
   render() {
-    let {editable} = this.props
-    let {edit} = this.state
+    let { editable } = this.props
+    let { edit } = this.state
     let text = null
     let buttons = null
     if (editable) {
       if (edit) {
-        text = <div>
-          <FormControl componentClass="textarea" value={this.state.message} onChange={this._handleMessageChange} ref="message"/>
-        </div>
-        buttons = <EditToolbar update={this.update} remove={this.remove} cancelCallback={this.cancel}/>
+        text = (
+          <div>
+            <FormControl
+              componentClass="textarea"
+              value={this.state.message}
+              onChange={this._handleMessageChange}
+              ref={this.message}
+            />
+          </div>
+        )
+        buttons = (
+          <EditToolbar
+            update={this.update}
+            remove={this.remove}
+            cancelCallback={this.cancel}
+          />
+        )
       } else {
-        text = <span className="text editable" onClick={this.handleEdit}>{this.props.message.message}</span>
+        text = (
+          <span className="text editable" onClick={this.handleEdit}>
+            {this.props.message.message}
+          </span>
+        )
       }
     } else {
       text = <span className="text">{this.props.message.message}</span>
     }
     return (
-      <div>{text}{buttons}{this.renderMedia()}</div>
+      <div>
+        {text}
+        {buttons}
+        {this.renderMedia()}
+      </div>
     )
   }
 }
@@ -192,6 +249,7 @@ MessageBody.contextTypes = {
 }
 
 MessageBody.propTypes = {
+  intl: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   meta: PropTypes.object,

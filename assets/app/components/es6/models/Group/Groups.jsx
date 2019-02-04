@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Col, Row, PageHeader, Table } from 'react-bootstrap'
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl'
+import Error from '../../Error'
 import Forbidden from './../../Forbidden'
 import NotFound from './../../NotFound'
 import Loading from './../../Loading'
@@ -11,18 +12,18 @@ const messages = defineMessages({
   groupsTitle: {
     id: 'groups.all.title',
     description: 'Page title for groups overview',
-    defaultMessage: 'Groups',
+    defaultMessage: 'Groups'
   },
   name: {
     id: 'groups.name',
     description: 'Table header name',
-    defaultMessage: 'Name',
+    defaultMessage: 'Name'
   },
   action: {
     id: 'groups.action',
     description: 'Table header action',
-    defaultMessage: 'Action',
-  },
+    defaultMessage: 'Action'
+  }
 })
 
 class Groups extends Component {
@@ -37,7 +38,7 @@ class Groups extends Component {
       status: 0,
       error: null,
       page: 0,
-      perPage: 30,
+      perPage: 30
     }
     this._bind('_loadData', 'handleResponse')
   }
@@ -70,22 +71,18 @@ class Groups extends Component {
     let { socket } = this.context
     let query = {
       skip: this.state.page * this.state.perPage,
-      populate: 'none',
+      populate: 'none'
     }
     socket.get('/groups', query, this.handleResponse)
   }
 
   render() {
-    const { formatMessage } = this.props.intl
-
     switch (this.state.status) {
       case 403:
         return <Forbidden />
-        break
 
       case 404:
         return <NotFound />
-        break
 
       case 200:
         if (this.state.groups !== null) {
@@ -120,7 +117,6 @@ class Groups extends Component {
 
       case 0:
         return <Loading />
-        break
 
       default:
         return <Error error={this.state.error} />
@@ -131,7 +127,7 @@ class Groups extends Component {
 Groups.contextTypes = {
   history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  socket: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired
 }
 
 export default injectIntl(Groups)

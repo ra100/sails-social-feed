@@ -12,13 +12,13 @@ module.exports = {
     res.ok(sails.models.stream.definition)
   },
   cancreate(req, res) {
-    res.ok({status: 'ok'})
+    res.ok({ status: 'ok' })
   },
   canmodify(req, res) {
-    res.ok({status: 'ok'})
+    res.ok({ status: 'ok' })
   },
   candestroy(req, res) {
-    res.ok({status: 'ok'})
+    res.ok({ status: 'ok' })
   },
 
   messageCount(req, res) {
@@ -28,10 +28,14 @@ module.exports = {
       where: {
         stream: id
       }
-    }).then(count => res.status(200).json({
-      id: id,
-      count: count
-    }), err => res.serverError(err))
+    }).then(
+      count =>
+        res.status(200).json({
+          id: id,
+          count: count
+        }),
+      err => res.serverError(err)
+    )
   },
 
   public(req, res) {
@@ -45,30 +49,33 @@ module.exports = {
         uniqueName: req.param('name'),
         published: true
       }
-    };
+    }
     Stream.findOne({
       where: where,
       select: ['id', 'name', 'display']
-    }).populate('feeds').then((stream) => {
-      if (!stream) {
-        res.json(404, {error: req.__('Error.Stream.Not.Found')})
-      } else {
-        stream.form = stream.feeds
-          .filter(feed => feed.type === 'form' && feed.enabled)
-          .map(feed => feed.id)
-        stream.feeds = undefined
-        if (req.isSocket) {
-          sails.sockets.join(req, 'stream_' + stream.id)
-        }
-        res.json({
-          form: stream.form,
-          id: stream.id,
-          moderated: !stream.display
-        })
-      }
-    }).catch((err) => {
-      res.serverError(err)
     })
+      .populate('feeds')
+      .then(stream => {
+        if (!stream) {
+          res.json(404, { error: req.__('Error.Stream.Not.Found') })
+        } else {
+          stream.form = stream.feeds
+            .filter(feed => feed.type === 'form' && feed.enabled)
+            .map(feed => feed.id)
+          stream.feeds = undefined
+          if (req.isSocket) {
+            sails.sockets.join(req, 'stream_' + stream.id)
+          }
+          res.json({
+            form: stream.form,
+            id: stream.id,
+            moderated: !stream.display
+          })
+        }
+      })
+      .catch(err => {
+        res.serverError(err)
+      })
   },
 
   messages(req, res) {
@@ -76,7 +83,10 @@ module.exports = {
     const skip = req.param('skip') || 0
     const all = req.param('all') || false
     const timestamp = req.param('timestamp') || false
-    const populate = req.param('populate') || ['relatedMessage', 'parentMessage']
+    const populate = req.param('populate') || [
+      'relatedMessage',
+      'parentMessage'
+    ]
     const criteria = {
       where: {
         stream: req.param('id'),
@@ -106,18 +116,21 @@ module.exports = {
     }
     if (all) {
       criteria.where = {
-        stream: req.param('id'),
+        stream: req.param('id')
       }
     }
     if (timestamp) {
-      criteria.where.updatedAt = {'>': timestamp}
+      criteria.where.updatedAt = { '>': timestamp }
     }
-    return Message.find(criteria).populate(populate).then((messages) => {
-      if (req.isSocket) {
-        Stream.subscribe(req, [req.param('id')])
-      }
-      res.json(messages)
-    }).catch(res.serverError)
+    return Message.find(criteria)
+      .populate(populate)
+      .then(messages => {
+        if (req.isSocket) {
+          Stream.subscribe(req, [req.param('id')])
+        }
+        res.json(messages)
+      })
+      .catch(res.serverError)
   },
 
   adminMessages(req, res) {
@@ -125,7 +138,10 @@ module.exports = {
     const skip = req.param('skip') || 0
     const all = req.param('all') || false
     const timestamp = req.param('timestamp') || false
-    const populate = req.param('populate') || ['relatedMessage', 'parentMessage']
+    const populate = req.param('populate') || [
+      'relatedMessage',
+      'parentMessage'
+    ]
     const criteria = {
       where: {
         stream: req.param('id'),
@@ -154,18 +170,21 @@ module.exports = {
     }
     if (all) {
       criteria.where = {
-        stream: req.param('id'),
+        stream: req.param('id')
       }
     }
     if (timestamp) {
-      criteria.where.updatedAt = {'>': timestamp}
+      criteria.where.updatedAt = { '>': timestamp }
     }
-    return Message.find(criteria).populate(populate).then((messages) => {
-      if (req.isSocket) {
-        Stream.subscribe(req, [req.param('id')])
-      }
-      res.json(messages)
-    }).catch(res.serverError)
+    return Message.find(criteria)
+      .populate(populate)
+      .then(messages => {
+        if (req.isSocket) {
+          Stream.subscribe(req, [req.param('id')])
+        }
+        res.json(messages)
+      })
+      .catch(res.serverError)
   },
 
   /**
@@ -173,7 +192,7 @@ module.exports = {
    */
   destroy(req, res, next) {
     var sid = req.param('id')
-    Stream.destroy({id: sid}).exec((err) => {
+    Stream.destroy({ id: sid }).exec(err => {
       if (err) {
         return res.negotiate(err)
       }
@@ -188,9 +207,7 @@ module.exports = {
     if (!req.isSocket) {
       return res.badRequest()
     } else {
-      var id = req.param('id')
-        ? req.param('id')
-        : ''
+      var id = req.param('id') ? req.param('id') : ''
       socialFeed.unsubscribe(req, res, 'stream', id)
     }
   },
@@ -212,7 +229,11 @@ module.exports = {
 
     var criteria = actionUtil.parseCriteria(req)
     // Lookup for records that match the specified criteria
-    var query = Model.find().where(criteria).limit(actionUtil.parseLimit(req)).skip(actionUtil.parseSkip(req)).sort(actionUtil.parseSort(req))
+    var query = Model.find()
+      .where(criteria)
+      .limit(actionUtil.parseLimit(req))
+      .skip(actionUtil.parseSkip(req))
+      .sort(actionUtil.parseSort(req))
     query = actionUtil.populateRequest(query, req)
     query.exec(function found(err, matchingRecords) {
       if (err) {
@@ -231,9 +252,11 @@ module.exports = {
       //   });
       // }
       permissions.setPermissions(matchingRecords, 'stream', req.user)
-      res.ok(matchingRecords.filter((value) => {
-        return value.permissions.r
-      }))
+      res.ok(
+        matchingRecords.filter(value => {
+          return value.permissions.r
+        })
+      )
     })
   },
 
@@ -242,7 +265,6 @@ module.exports = {
    * Add permissions info.
    */
   findOne(req, res) {
-
     var Model = actionUtil.parseModel(req)
     var pk = actionUtil.requirePk(req)
     sails.log.silly('FindingOne Stream', pk)

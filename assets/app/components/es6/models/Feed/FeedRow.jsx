@@ -1,23 +1,15 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {FormattedMessage, defineMessages, injectIntl} from 'react-intl'
-import {Button, Label} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
+import { injectIntl } from 'react-intl'
+import { Button, Label } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import EditToolbar from './../../EditToolbar'
-import {notify} from 'react-notify-toast'
+import { notify } from 'react-notify-toast'
 
-const messages = defineMessages({
-  edit: {
-    id: 'button.edit',
-    description: 'Edit feed button',
-    defaultMessage: 'Edit'
-  }
-})
 
 class FeedRow extends Component {
-
   _bind(...methods) {
-    methods.forEach((method) => this[method] = this[method].bind(this))
+    methods.forEach(method => (this[method] = this[method].bind(this)))
   }
 
   constructor(props, context) {
@@ -37,11 +29,15 @@ class FeedRow extends Component {
   }
 
   _remove() {
-    let {socket} = this.context
+    let { socket } = this.context
     if (!this.state.deleted) {
-      socket.delete('/feeds/' + this.props.feed.id, {
-        _csrf: _csrf
-      }, this.handleDestroyResponse)
+      socket.delete(
+        '/feeds/' + this.props.feed.id,
+        {
+          _csrf: window._csrf
+        },
+        this.handleDestroyResponse
+      )
     }
   }
 
@@ -54,22 +50,21 @@ class FeedRow extends Component {
       return
     }
     if (res.statusCode == 200) {
-      this.setState({deleted: true})
+      this.setState({ deleted: true })
     } else {
       notify.show(res.body, 'error')
     }
   }
 
   render() {
-    const {formatMessage} = this.props.intl
-    let {feed} = this.props
+    let { feed } = this.props
 
     let groups = null
     if (feed.groups) {
-      groups = feed.groups.map(function (group, i) {
-        return <Label key={i}>{group.name}</Label>
+      groups = feed.groups.map(function(group) {
+        return <Label key={group.name}>{group.name}</Label>
       })
-    };
+    }
 
     let en = <i className="material-icons">check_box_outline_blank</i>
     if (feed.enabled) {
@@ -88,17 +83,12 @@ class FeedRow extends Component {
             <Button bsStyle="link">{feed.name}</Button>
           </LinkContainer>
         </td>
+        <td>{show}</td>
+        <td>{feed.type}</td>
+        <td>{feed.config}</td>
+        <td>{groups}</td>
         <td>
-          {show}
-        </td>
-        <td>
-          {feed.type}
-        </td>
-        <td>
-          {feed.config}
-        </td>
-        <td>
-          <EditToolbar edit={this._edit} cancel={false}/>
+          <EditToolbar edit={this._edit} cancel={false} />
         </td>
       </tr>
     )

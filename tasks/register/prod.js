@@ -1,7 +1,7 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   grunt.registerTask('prod', [
     'compileAssetsProd',
-    'linkAssetsBuildProd',
+    'linkAssetsBuildProd'
     // 'clean:build',
     // 'copy:build',
   ])

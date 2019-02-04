@@ -14,31 +14,31 @@ import 'ripples'
 import App from './build/App'
 import permissions from './permissions'
 
-const request = axios.create({withCredentials: true})
+const request = axios.create({ withCredentials: true })
 
-$(function() {
-  $.material.init()
+window.$(function() {
+  window.$.material.init()
 })
 
 // load csrf token
-window._csrf = $('meta[name="csrf-token"]').attr('content')
+window._csrf = window.$('meta[name="csrf-token"]').attr('content')
 // prepare sails socket
 const io = sailsIOClient(socketIOClient)
 window.socket = io.socket
 // _csrf token refresh
-socket.on('connect', () => {
+window.socket.on('connect', () => {
   request
     .get('/csrfToken')
     .then(response => {
-      _csrf = response.data._csrf
+      window._csrf = response.data._csrf
     })
-    .catch(console.error)
+    .catch(console.error) // eslint-disable-line no-console
 })
 
 let language = readCookie('language')
 let langs = {
   en: require('./locales/en'),
-  cs: require('./locales/cs'),
+  cs: require('./locales/cs')
 }
 if (language == '' || langs[language] == undefined) {
   language = 'en'
@@ -54,16 +54,16 @@ const user = {
     delete this.username
     delete this.roles
     delete this.permissions
-  },
+  }
 }
 
 // check login status
-socket.get('/users/me', function(data, jwr) {
+window.socket.get('/users/me', function(data, jwr) {
   if (jwr.statusCode == 200) {
     user.setUser(data)
     user.permissions = {}
     user.roles.forEach(v => {
-      user.permissions = $.extend(true, user.permissions, permissions[v.name])
+      user.permissions = window.$.extend(true, user.permissions, permissions[v.name])
     })
   }
   if (jwr.statusCode == 403) {
@@ -85,10 +85,10 @@ ReactDOM.render(
  */
 function readCookie(name) {
   name = name.replace(
-    /([.*+?^=!:${}()|[\]\/\\])/g,
-    /([.*+?^=!:${}()|[\]\/\\])/g,
-    /([.*+?^=!:${}()|[\]\/\\])/g,
-    /([.*+?^=!:${}()|[\]\/\\])/g,
+    /([.*+?^=!:${}()|[\]/\\])/g,
+    /([.*+?^=!:${}()|[\]/\\])/g,
+    /([.*+?^=!:${}()|[\]/\\])/g,
+    /([.*+?^=!:${}()|[\]/\\])/g,
     '\\$1'
   )
   var regex = new RegExp('(?:^|;)\\s?' + name + '=(.*?)(?:;|$)', 'i'),

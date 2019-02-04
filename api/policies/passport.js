@@ -21,12 +21,11 @@
  * @param {Object}   res
  * @param {Function} next
  */
-module.exports = function (req, res, next) {
+module.exports = function(req, res, next) {
   // Initialize Passport
-  passport.initialize()(req, res, function () {
+  passport.initialize()(req, res, function() {
     // Use the built-in sessions
-    passport.session()(req, res, function () {
-
+    passport.session()(req, res, function() {
       if (req.user && req.user.blocked && req.session.authenticated) {
         req.session.authenticated = false
         return res.forbidden({ error: req.__('Error.User.Blocked') })

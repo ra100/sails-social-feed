@@ -101,7 +101,8 @@
     "snyk-protect": "snyk protect",
     "lint": "eslint --ext=js --ext=jsx api/ assets/ config/ tasks/",
     "lint:fix": "eslint --fix --ext=js --ext=jsx api/ assets/ config/ tasks/",
-    "prepare": "npm run snyk-protect"
+    "prepare": "npm run snyk-protect",
+    "prettier": "prettier --write \"**/*.{js,jsx}\""
   },
   "main": "app.js",
   "repository": {
@@ -117,7 +118,9 @@
     "chai": "^4.2.0",
     "dedupify": "^0.1.0",
     "eslint": "^5.13.0",
+    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-you-dont-need-lodash-underscore": "^6.4.0",
     "grunt-browserify": "^5.3.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-mocha-test": "^0.13.3",
@@ -125,6 +128,7 @@
     "minifyify": "^7.3.4",
     "mocha": "^5.2.0",
     "prettier": "^1.16.4",
+    "prettier-eslint": "^8.8.2",
     "sails-apidocs": "0.0.2",
     "sails-hook-autoreload": "^1.1.0",
     "winston": "^3.2.1"

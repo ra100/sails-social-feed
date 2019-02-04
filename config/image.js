@@ -36,7 +36,7 @@ module.exports.image = {
         maxHeight: 500,
         maxWidth: 500,
         suffix: '-medium',
-        quality: 90,
+        quality: 90
       },
       {
         maxHeight: 150,
@@ -50,20 +50,20 @@ module.exports.image = {
 
   sizes: {
     large: {
-      'fn': 'resize',
-      'config': {
+      fn: 'resize',
+      config: {
         width: 1600
       }
     },
     medium: {
-      'fn': 'resize',
-      'config': {
+      fn: 'resize',
+      config: {
         width: 400
       }
     },
     thumb: {
-      'fn': 'crop',
-      'config': {
+      fn: 'crop',
+      config: {
         width: 150,
         height: 150
       }

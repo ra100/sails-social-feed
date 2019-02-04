@@ -4,7 +4,6 @@
  */
 
 module.exports.models = {
-
   // These settings make the .update(), .create() and .createEach()
   // work like they did in 0.12, by returning records in the callback.
   // This is pretty ineffecient, so if you don't _always_ need this feature, you
@@ -39,11 +38,11 @@ module.exports.models = {
     // we'll define them as strings.
     createdAt: {
       type: 'string',
-      autoCreatedAt: true,
+      autoCreatedAt: true
     },
     updatedAt: {
       type: 'string',
-      autoUpdatedAt: true,
+      autoUpdatedAt: true
     },
     // In Sails 1.0, the primary key field is no longer created for you, and `autoPK` is
     // not a valid model option.  Instead, you define it yourself and tell Sails which
