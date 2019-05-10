@@ -75,7 +75,7 @@
     "react-toolbox": "^2.0.0-beta.12",
     "reactify": "^1.1.1",
     "s3-uploader": "^2.0.3",
-    "sails": "^0.12.13",
+    "sails": "^1.2.1",
     "sails-disk": "^0.10.10",
     "sails-hook-babel": "^6.0.3",
     "sails-mongo": "^0.12.3",
