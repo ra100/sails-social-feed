@@ -16,7 +16,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^3.3.7",
     "concat-map": "0.0.1",
-    "connect-mongo": "^2.0.1",
+    "connect-mongo": "^3.0.0",
     "connect-redis": "^3.3.3",
     "constantinople": "^3.1.2",
     "doxx": "^2.1.1",
