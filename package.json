@@ -81,7 +81,7 @@
     "sails-mongo": "^0.12.3",
     "sails.io.js": "^1.2.1",
     "skipper-s3": "^0.5.11",
-    "snyk": "^1.80.0",
+    "snyk": "^1.316.1",
     "socket.io-adapter": "^1.1.1",
     "socket.io-client": "^2.1.0",
     "socket.io-redis": "^5.2.0",
